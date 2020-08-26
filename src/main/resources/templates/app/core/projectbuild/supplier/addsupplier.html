@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link href='/module/area/chosen.min.css' rel='stylesheet'>
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<link href="/module/bootstrap-select/bootstrap-select.css" rel="stylesheet" />
+<style type="text/css">
+.bootstrap-tagsinput{
+    background-color: #fbfbfb;
+    }
+        .choose-c .item{
+            min-width: 100px;
+            text-align: left;
+            line-height: 30px;
+            cursor: pointer;
+            padding-left: 10px;
+        }
+        .choose-c .item1{
+        	min-width: 50px;
+        	padding-left: 20px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .btn-sty{
+            width: 72px;
+            display: inline-block;
+            background-color: #53a93f;
+            color: #fff;
+            line-height: 32px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+		<div class="page-container">
+			<div class="widget">
+				<div class="widget-header bordered-bottom bordered-palegreen">
+					<span class="widget-caption">供应商录入</span>
+				</div>
+				<div class="widget-body" style="padding-top: 0px">
+					<form class="form-horizontal form-bordered" id="form"
+					data-bv-message="This value is not valid" data-bv-feedbackicons-valid="glyphicon glyphicon-ok" data-bv-feedbackicons-invalid="glyphicon glyphicon-remove" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+					>
+						<div class="form-group" style="padding-top: 15px;">
+							<label class="col-sm-1 control-label no-padding-right">供应商名称：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="companyName" name="companyName" placeholder="供应商名称" data-bv-notempty="true" data-bv-notempty-message="供应商名称不能为空">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">排序号：</label>
+							<div class="col-sm-3">
+								<input type="number" class="form-control" id="sortNo" name="sortNo" placeholder="排序号" data-bv-digits="true" data-bv-digits-message="排序号必须是正整数" data-bv-notempty="true" data-bv-notempty-message="排序号不能为空">
+							</div>
+							<div class="col-sm-2"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">供应商等级：</label>
+							<div class="col-sm-3">
+								<select  class="form-control" id="level" style="border-radius: 0px;" name="level" >
+								<option value="1">优秀供应商</option>
+								<option value="2">一般供应商</option>
+								<option value="3">劣质供应商</option>
+								</select>
+							</div>
+							<div class="col-sm-2"></div>
+							<label class="col-sm-1 control-label no-padding-right">供应商性质：</label>
+							<div class="col-sm-3">
+								<select  class="form-control" id="industry" style="border-radius: 0px;" name="industry" >
+								<option value="1">代理</option>
+								<option value="2">厂家</option>
+								<option value="0">其它</option>
+								</select>
+							</div>
+							<div class="col-sm-2"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">供应商标签：</label>
+							<div class="col-sm-11">
+							<input type="text" class="form-control" id="tags"name="tags" data-role="tagsinput" placeholder="企业标签" value="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">统一信用代码：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="creditCode"name="creditCode" placeholder="统一信用代码">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">注册资本：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="registeredCapital"name="registeredCapital" placeholder="注册资本">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">注册日期：</label>
+							<div class="col-sm-5" style="position: relative;">
+							<input type="text" class="form-control" id="registerDate"name="registerDate" placeholder="注册日期" readonly="readonly">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">营业期限：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="timeOfVaildity"name="timeOfVaildity" placeholder="营业期限" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">企业法人：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="legalPerson"name="legalPerson" placeholder="企业法人">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">经营状态：</label>
+							<div class="col-sm-3">
+							<select class="form-control" id="status" style="border-radius: 0px;" name="status">
+							<option value="1">优</option>
+							<option value="2">良</option>
+							<option value="3">差</option>
+							</select>
+							</div>
+							<div class="col-sm-2">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">客户简介：</label>
+							<div class="col-sm-10">
+								<div id="remark"></div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">注册地址：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="registerAddr"name="registerAddr" placeholder="注册地址">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">营业地址：</label>
+							<div class="col-sm-5">
+							<div class="col-sm-2" style="padding-left: 0px;">
+								<select id="country" class="dept_select form-control"></select>
+							</div>
+							<div class="col-sm-2">
+								<select id="province" class="dept_select form-control"></select>
+							</div>
+							<div class="col-sm-2">
+								<select id="city" class="dept_select form-control"></select>
+							</div>
+							<div class="col-sm-6" style="padding-right: 0px;">
+							<input type="text" class="form-control" id="address"name="address" placeholder="详细地址">
+							</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">联系电话：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="tel"name="tel" placeholder="联系电话">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">联系传真：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="fax"name="fax" placeholder="联系传真">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">联系邮件：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="email"name="email" placeholder="联系邮件">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">联系人：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="linkName"name="linkName" placeholder="联系人">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">开户银行：</label>
+							<div class="col-sm-5" style="position: relative;">
+							<input type="text" class="form-control" id="bankOfDeposit"name="bankOfDeposit" placeholder="开户银行">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">银行账户：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="bankAccount"name="bankAccount" placeholder="银行账户">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">企业税号：</label>
+							<div class="col-sm-5" style="position: relative;">
+							<input type="text" class="form-control" id="dutyParagraph"name="dutyParagraph" placeholder="企业税号">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">资质文件：</label>
+							<div class="col-sm-5">
+							<div style="padding-top: 4px;">
+								<div id="show_projectbuildattach"></div>
+								<a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('projectbuild','projectbuildattach');" hidefocus="true" size="1" id="projectbuildattach"
+									name="projectbuildattach" class="addfile" multiple="multiple"></a>
+							</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-5">
+								<a id="createbtn" href="javascript:void(0);"
+									class="btn btn-primary">新&nbsp;&nbsp;建</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+    </body>
+	<%include("../../../resapi/sysjs.html"){}%>
+	<script src="/module/jeDate/jeDate.js"></script>
+	<!--Bootstrap  wysiwig Scripts-->
+	<script src="/assets/js/editors/summernote/summernote.js"></script>
+	<script src="/assets/js/tagsinput/bootstrap-tagsinput.js"></script>
+	<script type="text/javascript" src="/module/area/chosen.jquery.min.js"></script>
+	<script type="text/javascript" src="/module/area/area_chs.js"></script>
+	<script type="text/javascript">
+		var areaObj = [];
+		function initLocation(e){
+			var a = 0;
+			for (var m in e) {
+				areaObj[a] = e[m];
+				var b = 0;
+				for (var n in e[m]) {
+					areaObj[a][b++] = e[m][n];
+				}
+				a++;
+			}
+		}
+	</script>
+	<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+	<script type="text/javascript" src="/module/area/location_chs.js"></script>
+	<script type="text/javascript" src="/module/bootstrap-select/bootstrap-select.js"></script>
+	<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+	<script src="/gobal/js/page/projectbuild/supplier.js"></script>
+	<script>
+	  	$('#scopeBusiness').summernote({ height: 200 });
+        $('#remark').summernote({ height: 200 });
+    </script>
+     
+</html>

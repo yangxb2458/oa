@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">公文文号维护</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="btn-group" id="toobar">
+							<a href="javascript:void(0);" class="btn btn-purple js-create-rule">创建文号规则</a>
+							</div>
+							<table id="myTable"></table>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade bs-example-modal-lg" id="documentRuleModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">文号规则设置</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" role="form" id="form1">
+					<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">排序号：</label>
+							<div class="col-sm-9">
+								<input type="number" class="form-control" id="sortNo" name="sortNo" placeholder="排序号"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">规则标题：</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="title" name="title" placeholder="规则标题" maxlength="100"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">文号规则：</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="rule" name="rule" placeholder="文号规则" maxlength="100">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">起始文号：</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="startNumber" name="startNumber" placeholder="起始文号">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">当前序号：</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="number" name="number" placeholder="当前序号">
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-save">保存</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/gobal/js/page/document/documentnumber.js"></script>
+</html>

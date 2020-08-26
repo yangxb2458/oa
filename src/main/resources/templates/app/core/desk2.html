@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../resapi/style.html"){}%>
+<link href="/module/calendar/calendar.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto; height: 100%;">
+	<div class="page-body" style="padding: 0px; height: 100%">
+		<div class="page-container" style="height: 100%">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px;padding-top:5px;">
+					<div class="col-md-2 col-sm-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<div class="widget" style="margin-bottom:10px">
+							<div class="widget-header bordered-top bordered-pink" style="-webkit-box-shadow:unset">
+								<span class="widget-caption">日常工作</span>
+							</div>
+							<!--Widget Header-->
+							<div class="portlet-content widget-body" style="height: 175px;">
+									<div class="col-md-4 col-sm-4 col-xs-4" style="height: auto;text-align: center">
+										<img style="height: 52px" src="/gobal/img/desk/work.png" title="流程审批">
+									</div>
+									<div class="col-md-4 col-sm-4 col-xs-4" style="height: auto;text-align: center">
+										<img style="height: 52px" src="/gobal/img/desk/email.png" title="内部邮件">
+									</div>
+									<div class="col-md-4 col-sm-4 col-xs-4" style="height: auto;text-align: center">
+										<img style="height: 52px" src="/gobal/img/desk/diary.png" title="工作日志">
+									</div>
+									<div class="col-md-4 col-sm-4 col-xs-4" style="height: auto;text-align: center">
+										<img style="height: 52px" src="/gobal/img/desk/news.png" title="公司新闻">
+									</div>
+									<div class="col-md-4 col-sm-4 col-xs-4" style="height: auto;text-align: center">
+										<img style="height: 52px" src="/gobal/img/desk/notice.png" title="通知公告">
+									</div>
+									<div class="col-md-4 col-sm-4 col-xs-4" style="height: auto;text-align: center">
+										<img style="height: 52px" src="/gobal/img/desk/calendar.png" title="我的日程">
+									</div>
+									<div class="col-md-4 col-sm-4 col-xs-4" style="height: auto;text-align: center">
+										<img style="height: 52px" src="/gobal/img/desk/meeting.png" title="我的会议">
+									</div>
+									<div class="col-md-4 col-sm-4 col-xs-4" style="height: auto;text-align: center">
+										<img style="height: 52px" src="/gobal/img/desk/myfile.png" title="我的文件">
+									</div>
+									<div class="col-md-4 col-sm-4 col-xs-4" style="height: auto;text-align: center">
+										<img style="height: 52px" src="/gobal/img/desk/knowledge.png" title="知识管理">
+									</div>
+                             </div>
+							<!--Widget Body-->
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<div class="widget"  style="margin-bottom:10px">
+							<div class="widget-header bordered-top bordered-pink" style="-webkit-box-shadow:unset">
+								<span class="widget-caption">日常邮件</span>
+							</div>
+							<!--Widget Header-->
+							<div class="portlet-content widget-body" style="padding:0px;height: 175px;">
+							<table class="table table-hover">
+                                    <tbody id="emailtbody">
+                                        
+                                    </tbody>
+                                </table>
+                             </div>
+							<!--Widget Body-->
+						</div>
+
+					</div>
+					<div class="col-md-4 col-sm-6 col-xs-12" style="padding-left:5px;padding-right:5px;">
+						<div class="widget"  style="margin-bottom:10px">
+							<div class="widget-header bordered-top bordered-pink" style="-webkit-box-shadow:unset">
+								<span class="widget-caption">我的日程</span>
+							</div>
+							<!--Widget Header-->
+							<div class="portlet-content widget-body" style="padding:0px;height: 175px;">
+                            		<div id="calendar" class="calendar"></div>
+                             </div>
+							<!--Widget Body-->
+						</div>
+					</div>
+					
+					
+				<div class="column col-md-6 col-sm-12 col-xs-12" style="height: 100%;padding-right:5px;padding-left:5px;">
+					
+					<div class="portlet widget radius-bordered" style="margin-bottom: 10px">
+						<div class="portlet-header widget-header">
+							<span class="portlet widget-caption">待办工作</span>
+							<div class="portlet-content widget-buttons">
+								<a href="#" data-toggle="maximize"> <i class="fa fa-expand blue"></i>
+								</a> <a href="#" data-toggle="collapse"> <i class="fa fa-minus danger"></i>
+								</a>
+							</div>
+						</div>
+						<div class="portlet-content widget-body" style="padding:0px;height: 175px;">
+							<table class="table table-hover">
+                                    <tbody id="bpmtbody">
+                                        
+                                    </tbody>
+                                </table>
+						</div>
+					</div>
+
+					<div class="portlet widget radius-bordered" style="margin-bottom: 10px">
+						<div class="portlet-header widget-header">
+							<span class="portlet widget-caption">我的任务</span>
+							<div class="portlet-content widget-buttons">
+								<a href="#" data-toggle="maximize"> <i class="fa fa-expand blue"></i>
+								</a> <a href="#" data-toggle="collapse"> <i class="fa fa-minus danger"></i>
+								</a>
+							</div>
+						</div>
+						<div class="portlet-content widget-body" style="padding:0px;height: 175px;">
+								
+						</div>
+					</div>
+
+				</div>
+
+				<div class="column col-md-6 col-sm-12 col-xs-12" style="height: 100%;padding-left:5px;padding-right:5px;">
+					<div class="portlet widget radius-bordered" style="margin-bottom: 10px">
+						<div class="portlet-header widget-header">
+							<span class="portlet widget-caption">公司新闻</span>
+							<div class="portlet-content widget-buttons">
+								<a href="#" data-toggle="maximize"> <i class="fa fa-expand blue"></i>
+								</a> <a href="#" data-toggle="collapse"> <i class="fa fa-minus danger"></i>
+								</a>
+							</div>
+						</div>
+						<div class="portlet-content widget-body" style="padding:0px;height: 175px;">
+							<table class="table table-hover">
+                                    <tbody id="newstbody">
+                                        
+                                    </tbody>
+                                </table>
+						</div>
+					</div>
+
+					<div class="portlet widget radius-bordered" style="margin-bottom: 10px;">
+						<div class="portlet-header widget-header">
+							<span class="portlet widget-caption">通知公告</span>
+							<div class="portlet-content widget-buttons">
+								<a href="#" data-toggle="maximize"> <i class="fa fa-expand blue"></i>
+								</a> <a href="#" data-toggle="collapse"> <i class="fa fa-minus danger"></i>
+								</a>
+							</div>
+						</div>
+						<div class="portlet-content widget-body" style="padding:0px;height: 175px;">
+							<table class="table table-hover">
+                                    <tbody id="noticetbody">
+                                        
+                                    </tbody>
+                                </table>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<%include("../resapi/sysjs.html"){}%>
+<script src="/gobal/js/jquery/jquery-ui-1.9.2-min.js"></script>
+<script type="text/javascript" src="/module/calendar/calendar.js"></script>
+<script type="text/javascript" src="/gobal/js/page/sys/desk.js"></script>
+</html>

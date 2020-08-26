@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME}_智能办公系统-${attachName}</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<head>
+<script type="text/javascript" src="../jquery.min.js"></script>
+<script type="text/javascript">
+		var runId = "${runId}";
+		var attachId = "${attachId}";
+        var openModeType = "${parameter.openModeType}";
+          	function Save() {
+              	document.getElementById("PageOfficeCtrl1").WebSave();
+        	}
+         function AddSeal() {
+			try{
+        		  document.getElementById("PageOfficeCtrl1").ZoomSeal.AddSeal();
+			}catch (e){ };
+        	}
+         
+        function PrintFile()
+        {
+        	document.getElementById("PageOfficeCtrl1").ShowDialog(4);
+        }
+        function IsFullScreen(){
+            document.getElementById("PageOfficeCtrl1").FullScreen = !document.getElementById("PageOfficeCtrl1").FullScreen;
+            
+          }
+       function CloseFile(){
+            window.external.close(); 
+          }
+       function AfterDocumentOpened() {
+    	   if(openModeType=="1")
+    		   {
+	           document.getElementById("PageOfficeCtrl1").SetEnableFileCommand(4, false); //禁止另存
+	           document.getElementById("PageOfficeCtrl1").SetEnableFileCommand(5, false); //禁止打印
+	           document.getElementById("PageOfficeCtrl1").SetEnableFileCommand(6, false); //禁止页面设置
+	           document.getElementById("PageOfficeCtrl1").SetEnableFileCommand(8, false); //禁止打印预览
+    		   }else if(openModeType=="2"||openModeType=="3")
+    		{
+    			 document.getElementById("PageOfficeCtrl1").SetEnableFileCommand(4, true); //禁止另存
+    		}
+       }
+       function InsertHandSign() {
+			try {
+					document.getElementById("PageOfficeCtrl1").ZoomSeal.AddHandSign("","");
+				} catch(e) {};
+		}	
+       function InsertSealPos() {
+			try {
+				document.getElementById("PageOfficeCtrl1").ZoomSeal.AddSealPosition();
+			} catch(e) {};
+		}
+       //加盖印章
+		function InsertSeal() {
+			try {
+				document.getElementById("PageOfficeCtrl1").ZoomSeal.AddSeal();
+			} catch(e) {}
+		}
+       function AddHandSign() {
+			try {
+			        //定位到印章位置
+					document.getElementById("PageOfficeCtrl1").ZoomSeal.LocateSealPosition("Seal1");
+					/**第一个参数，可选项，签字的用户名，为空字符串时，将弹出用户名密+密码框，如果为指定的签章用户名，则直接弹出签字框；
+				    * 第二个参数，可选项，标识是否保护文档，为null时保护文档，为空字符串时不保护文档;
+				    * 第三个参数，可选项，标识盖章指定位置名称，须为英文或数字，不区分大小写。
+				    */
+					document.getElementById("PageOfficeCtrl1").ZoomSeal.AddHandSign("李志",null,"Seal1");
+				} catch(e) {};
+		}		
+  		</script>
+
+</head>
+<body>
+	<div id="officediv" style="display: inline-block; float: left;">${pageoffice}</div>
+	<div id="optdiv" style="display: inline-block; width: 195px;">
+		<div class="well with-header" style="padding-left:0px;padding-right:0px;">
+			<div class="header bordered-pink">文件操作</div>
+			<div class="buttons-preview">
+				<a href="javascript:void(0);" class="btn btn-darkorange js-topdf" style="width: 100%">另存为PDF</a>
+				<a href="javascript:void(0);" class="btn btn-primary" onclick="ShowRevisions();" style="width: 100%">显示痕迹</a>
+				<a href="javascript:void(0);" class="btn btn-darkorange" onclick="HiddenRevisions();" style="width: 100%">隐藏痕迹</a>
+				<div id="taohongdiv" style="display: none;">
+				<select class="form-control" id="templateId" name="templateId" onchange="taohong();">
+				</select>
+				<a href="javascript:void(0);" class="btn btn-maroon js-taohong" style="width: 100%">文件套红</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<form action="">
+		<input type="hidden" name="attachId" id="attachId" value="${attachId}">
+	</form>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript">
+    $(function(){
+    	if(openModeType=="5")
+    	{
+    		$("#taohongdiv").show();
+    	}
+    	setOfficeWH();
+    	$(".js-taohong").unbind("click").click(function(){
+    		taohongdivshow();
+    	})
+    	$(".js-topdf").unbind("click").click(function(){
+    		document.getElementById("PageOfficeCtrl1").WebSaveAsPDF();
+    		$("#optdiv").append("<a class='btn btn-link' style='width:100%' href='/office/openpdf?attachId="+attachId+"&openModeType=2'> 查看 pdf文件<a>");
+    	})
+    	$.ajax({
+		url : "/ret/documentget/getDocumentTemplateListByFlowId",
+		type : "post",
+		dataType : "json",
+		data:{
+			runId:runId
+		},
+		success : function(data) {
+			if(data.status=="200")
+			{
+				var templateList = data.list;
+				var html="<option>请选择</option>";
+				for(var i=0;i<templateList.length;i++)
+					{
+					html+="<option value=\""+templateList[i].attach+"\">"+templateList[i].templateName+"</option>";
+					}
+				$("#templateId").html(html);
+			}else if(data.status=="100")
+			{
+				top.layer.msg(data.msg);
+			}else if(data.status=="500")
+			{
+				console.log(data.msg);
+			}
+		}
+	})
+    });
+    window.onresize=function(){ 
+    	setOfficeWH();
+	    }
+    function setOfficeWH(){
+        $("#officediv").css("height",document.documentElement.clientHeight);
+        $("#officediv").css("width",document.documentElement.clientWidth-200);
+    }
+    
+    function taohongdivshow(){
+    	var status=document.getElementById('"templateId"').style.display;
+		if(status=="none")
+			{
+			document.getElementById('"templateId"').style.display='block';
+			}else if(status=="block")
+				{
+				document.getElementById('"templateId"').style.display='none';
+				}
+    }
+    
+    function taohong()
+    {
+    	var templateId = $("#templateId").val();
+    	if(templateId!="")
+    		{
+    		window.location.href="/office/taohongword?runId="+runId+"&attachId="+attachId+"&openModeType="+openModeType+"&mb="+templateId;
+    		}
+    	}
+    
+
+	function ShowRevisions() {
+        document.getElementById("PageOfficeCtrl1").ShowRevisions = true;
+    }
+    //隐藏痕迹
+    function HiddenRevisions() {
+        document.getElementById("PageOfficeCtrl1").ShowRevisions = false;
+    }
+       
+    //领导圈阅签字
+    function StartHandDraw() {
+        document.getElementById("PageOfficeCtrl1").HandDraw.SetPenWidth(5);
+        document.getElementById("PageOfficeCtrl1").HandDraw.Start();
+    }
+	// 插入键盘批注
+    function StartRemark() {
+        var appObj = document.getElementById("PageOfficeCtrl1").WordInsertComment();
+
+    }	
+    //分层显示手写批注
+    function ShowHandDrawDispBar() {
+        document.getElementById("PageOfficeCtrl1").HandDraw.ShowLayerBar(); ;
+    }
+
+    //全屏/还原
+    function IsFullScreen() {
+        document.getElementById("PageOfficeCtrl1").FullScreen = !document.getElementById("PageOfficeCtrl1").FullScreen;
+    }
+  //接受所有修订
+    function AcceptAllRevisions() {
+        document.getElementById("PageOfficeCtrl1").AcceptAllRevisions();
+    }
+    //显示标题
+    function ShowTitle() {
+        document.getElementById("PageOfficeCtrl1").Alert("该菜单的标题是：" + document.getElementById("PageOfficeCtrl1").Caption);
+    }
+    </script>
+</html>

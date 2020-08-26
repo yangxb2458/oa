@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.file.PersonalFileMapper">
+	<resultMap id="PersonalFile" type="com.core136.bean.file.PersonalFile">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="FILE_ID" property="fileId" jdbcType="VARCHAR" />
+		<result column="FOLDER_ID" property="folderId" jdbcType="VARCHAR" />
+		<result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+		<result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+		<result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+		<result column="VERSION" property="version" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="DOWN_PRIV" property="downPriv" jdbcType="VARCHAR" />
+		<result column="SHARE_PRIV" property="sharePriv" jdbcType="VARCHAR" />
+		<result column="EDIT_PRIV" property="editPriv" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getfilelist" resultType="java.util.HashMap">
+	SELECT P.FILE_ID AS fileId,P.FILE_NAME AS fileName,P.ATTACH AS attach,P.VERSION AS version,'true' AS isFile,A.FILE_SIZE AS fileSize,A.EXT_NAME AS extName
+	FROM 
+	PERSONAL_FILE P,ATTACH A
+	WHERE 
+	P.ORG_ID=A.ORG_ID 
+	AND P.ORG_ID=#{orgId} 
+	AND A.ATTACH_ID=P.ATTACH
+	AND A.DEL_FLAG='0'
+	AND P.FOLDER_ID=#{folderId} 
+	AND P.CREATE_USER=#{createUser} 
+	AND P.ORG_ID=#{orgId} 
+	ORDER BY P.SORT_NO ASC
+	</select>
+
+	<select id="isExistChild" resultType="Integer">
+	SELECT COUNT(1) AS ZS FROM PERSONAL_FILE WHERE FOLDER_ID=#{folderId} AND CREATE_USER=#{createUser} AND ORG_ID=#{orgId}
+	</select>
+	
+	
+	<select id="getFileListForSelect" resultType="java.util.HashMap">
+	SELECT FILE_ID AS folderId,FILE_NAME AS folderName,'false' AS isParent,ATTACH AS attachId,'false' AS isParent
+	 FROM PERSONAL_FILE 
+	WHERE FOLDER_ID=#{folderId} 
+	 AND CREATE_USER=#{createUser} 
+	 AND ORG_ID=#{orgId} 
+	ORDER BY SORT_NO ASC
+	</select>
+	
+</mapper>
+

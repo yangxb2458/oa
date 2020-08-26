@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<table class="table table-hover table-striped table-bordered">
+                                    <thead class="bordered-blueberry">
+                                        <tr>
+                                            <th>收文种</th>
+                                            <th>办理中</th>
+                                            <th>已结束</th>
+                                            <th>已删除</th>
+                                            <th>全部总数</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="summarylist">
+                                    </tbody>
+                                </table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/document/documentsys.js"></script>
+<script type="text/javascript" src="/gobal/js/page/document/summary.js"></script>
+</html>

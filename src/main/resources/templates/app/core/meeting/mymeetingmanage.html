@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){} %>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class=""><a href="/app/core/meeting/mymeeting" aria-expanded="false">待参加会议</a></li>
+							<li class="active"><a href="/app/core/meeting/mymeeting?view=manage" aria-expanded="true">已参加会议</a></li>
+						</ul>
+						<div class="tab-content tabs-flat">
+							<div class="form-title">会议管理</div>
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="buttons-preview" id="toobar">
+										<span style="margin-left: 10px;">会议时间:</span> <span> <input type="text" class="form-control" id="beginTime" readonly="readonly" style="width: 100px; display: inline-block;"
+											name="beginTime" placeholder="开始时间" style="cursor: pointer;">
+										</span> <span> - </span> <span> <input type="text" class="form-control" id="endTime" readonly="readonly" style="width: 100px; display: inline-block;" name="endTime" placeholder="终止时间"
+											style="cursor: pointer;">
+										</span> <span style="margin-left: 10px"><a href="javascript:void(0);" class="btn btn-success js-query-but">查询</a></span>
+
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<%include("../../resapi/sysjs.html"){} %>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/gobal/js/page/meeting/mymeetingmanage.js"></script>
+</html>

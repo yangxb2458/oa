@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px; height: 100%">
+		<div class="main-container container-fluid" style="padding: 0px; height: 100%">
+			<div class="page-container" style="padding: 0px; height: 100%">
+				<div class="col-md-2 col-sm-2 col-xs-12" style="padding: 0px; height: 100%">
+					<div class="widget flat radius-bordered" style="padding: 0px; height: 100%">
+						<div class="widget-header bg-lightred">
+							<span class="widget-caption">文件柜目录</span>
+						</div>
+						<div class="widget-body">
+							<ul id="tree" class="ztree"></ul>
+							<a id="cbut" href="javascript:void(0);" class="btn btn-purple" style="width: 100%;">创建文件夹</a>
+						</div>
+
+					</div>
+				</div>
+				<div class="col-md-10 col-sm-10 col-xs-12" style="height: 100%; background-color: #ccc;padding-left:0px;padding-right:0px;">
+					<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="margin-top: 50px;" id="titdiv">
+						<div class="well bordered-top bordered-bottom bordered-pink">
+							<h4 class="block">消息提示</h4>
+							<p>请选择需要设置权限的文件柜</p>
+						</div>
+					</div>
+					<div class="well with-header" style="display: none;" id="privdiv">
+						<div class="header bordered-blue">
+							权限设置：<span id="folderName">请先选择需设置权限的文件夹</span> <input type="hidden" id="folderId" name="folderId">
+						</div>
+						<div class="widget flat radius-bordered" style="margin: 0px;">
+							<div class="widget-body" style="margin: 0px; padding: 0px;">
+								<div class="widget-main ">
+									<div class="tabbable">
+										<ul class="nav nav-tabs tabs-flat" id="myTab11">
+											<li class="active"><a data-toggle="tab" href="#accesspriv"> 访问权限 </a></li>
+											<li><a data-toggle="tab" href="#createpriv"> 新建权限 </a></li>
+											<li><a data-toggle="tab" href="#downpriv"> 下载权限 </a></li>
+											<li><a data-toggle="tab" href="#managepriv"> 管理权限 </a></li>
+											<li><a data-toggle="tab" href="#allpriv"> 批量设置 </a></li>
+										</ul>
+										<div class="tab-content tabs-flat">
+											<div id="accesspriv" class="tab-pane in active">
+												<form class="form-horizontal form-bordered" id="from1">
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">人员账号：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="accessUser" name="accessUser" placeholder="人员账号" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="accessUser" onclick="selectUser(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">用户部门：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="accessDept" name="accessDept" placeholder="用户部门" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="accessDept" onclick="selectDept(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">行政级别：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="accessLeave" name="accessLeave" placeholder="行政级别" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="accessLeave" onclick="selectUserLevel(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="buttons-preview" align="center">
+														<a href="javascript:void(0);" class="btn btn-success js-setpriv1">设置权限</a>
+													</div>
+												</form>
+											</div>
+											<div id="downpriv" class="tab-pane">
+												<form class="form-horizontal form-bordered" id="from1">
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">人员账号：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="downUser" name="downUser" placeholder="人员账号" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="downUser" onclick="selectUser(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">用户部门：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="downDept" name="downDept" placeholder="用户部门" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="downDept" onclick="selectDept(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">行政级别：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="downLeave" name="downLeave" placeholder="行政级别" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="downLeave" onclick="selectUserLevel(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="buttons-preview" align="center">
+														<a href="javascript:void(0);" class="btn btn-success js-setpriv2">设置权限</a>
+													</div>
+												</form>
+											</div>
+											<div id="managepriv" class="tab-pane">
+												<form class="form-horizontal form-bordered" id="from1">
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">人员账号：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="manageUser" name="manageUser" placeholder="人员账号" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="manageUser" onclick="selectUser(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">用户部门：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="manageDept" name="manageDept" placeholder="用户部门" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="manageDept" onclick="selectDept(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">行政级别：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="manageLeave" name="manageLeave" placeholder="行政级别" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="manageLeave" onclick="selectUserLevel(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="buttons-preview" align="center">
+														<a href="javascript:void(0);" class="btn btn-success js-setpriv3">设置权限</a>
+													</div>
+												</form>
+											</div>
+											<div id="createpriv" class="tab-pane">
+												<form class="form-horizontal form-bordered" id="from1">
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">人员账号：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="createUser" name="createUser" placeholder="人员账号" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="createUser" onclick="selectUser(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">用户部门：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="createDept" name="createDept" placeholder="用户部门" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="createDept" onclick="selectDept(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">行政级别：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="createLeave" name="createLeave" placeholder="行政级别" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="createLeave" onclick="selectUserLevel(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="buttons-preview" align="center">
+														<a href="javascript:void(0);" class="btn btn-success js-setpriv4">设置权限</a>
+													</div>
+												</form>
+											</div>
+											<div id="allpriv" class="tab-pane">
+												<form class="form-horizontal form-bordered" id="from1">
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">人员账号：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="user" name="user" placeholder="人员账号" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="user" onclick="selectUser(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">用户部门：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="dept" name="dept" placeholder="用户部门" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="dept" onclick="selectDept(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">行政级别：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="col-md-10">
+																<textarea id="leave" name="leave" placeholder="行政级别" class="form-control" readonly="readonly"></textarea>
+															</div>
+															<div class="col-md-2">
+																<a class="selectbutton" opt-id="leave" onclick="selectUserLevel(this,'true');">选择</a>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">选择范围：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="checkbox">
+																<label> <input type="checkbox" checked="checked" name="range" value="1"> <span class="text">访问权限</span>
+																</label> <label> <input type="checkbox" checked="checked" name="range" value="2"> <span class="text">下载/打印权限</span>
+																</label> <label> <input type="checkbox" checked="checked" name="range" value="3"> <span class="text">管理权限</span>
+																</label> <label> <input type="checkbox" checked="checked" name="range" value="4"> <span class="text">新建权限</span>
+																</label>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label no-padding-right">操作方式：</label>
+														<div class="col-sm-10" style="padding-left: 0px">
+															<div class="radio">
+																<label> <input name="optType" type="radio" value="1"> <span class="text">添加权限 </span>
+																</label> <label> <input name="optType" type="radio" value="2"> <span class="text">移除权限 </span>
+																</label>
+															</div>
+														</div>
+													</div>
+													<div class="buttons-preview" align="center">
+														<a href="javascript:void(0);" class="btn btn-success js-setpriv5">设置权限</a>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;" id="createPublicFolder">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myLargeModalLabel">新建文件柜</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal form-bordered" role="form" id="form1">
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right">排序号：</label>
+								<div class="col-sm-9">
+									<input type="number" class="form-control" name="sortNo" id="sortNo" placeholder="排序号"> <input type="hidden" class="form-control" name="netDiskId" id="netDiskId"
+										placeholder="排序号">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right">文件柜名称：</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="folderName" name="folderName" placeholder="文件柜名称">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right">硬盘容量：</label>
+								<div class="col-sm-8">
+									<input type="number" class="form-control" id="spaceLimit" name="spaceLimit" placeholder="硬盘容量">
+								</div>
+								<div class="col-sm-1" style="line-height: 34px">GB</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right">拥有者：</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" id="owner" name="owner" placeholder="拥有者">
+								</div>
+								<div class="col-sm-4">
+									<a class="selectbutton" opt-id="owner" onclick="selectUser(this,'false');">选择</a>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary js-save">确定</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/file/setpublicfolder.js"></script>
+<script>
+</script>
+</html>

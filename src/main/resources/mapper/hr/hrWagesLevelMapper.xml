@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrWagesLevelMapper">
+<resultMap id="HrWagesLevel" type="com.core136.bean.hr.HrWagesLevel" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="WAGES_ID" property="wagesId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="WAGES" property="wages" jdbcType="DOUBLE" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+<select id="getWagesLevelList" resultType="java.util.HashMap">
+	SELECT H.ID AS id, H.WAGES_ID AS wagesId,H.TITLE AS title,H.WAGES AS wages,H.REMARK AS remark,H.CREATE_TIME AS createTime,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=H.CREATE_USER) AS createUserName
+	FROM HR_WAGES_LEVEL H
+	WHERE H.ORG_ID=#{orgId}
+	<if test="search!='%%'.toString() and search!=null and search!=''.toString()">
+	AND H.TITLE LIKE #{search}
+	</if>
+</select>
+
+<select id="getWagesLevelListForSelect" resultType="java.util.HashMap">
+	SELECT H.WAGES_ID AS wagesId,H.TITLE AS title
+	FROM HR_WAGES_LEVEL H
+	WHERE H.ORG_ID=#{orgId}
+</select>
+
+</mapper>
+

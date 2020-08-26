@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class=""><a href="/app/core/workplan/planquery" aria-expanded="false">今日计划</a></li>
+							<li class=""><a href="/app/core/workplan/planquery?view=month" aria-expanded="false">本月计划</a></li>
+							<li class="active"><a href="/app/core/workplan/planquery?view=query" aria-expanded="true">计划查询</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding: 0px;">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12" id="planlistdiv">
+									<div class="btn-group" id="toobar"></div>
+									<table id="myTable"></table>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/gobal/js/page/workplan/planquery2.js"></script>
+</body>
+</html>

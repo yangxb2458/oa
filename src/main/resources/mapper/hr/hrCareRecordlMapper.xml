@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrCareRecordMapper">
+<resultMap id="HrCareRecord" type="com.core136.bean.hr.HrCareRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="SUBJECT" property="subject" jdbcType="VARCHAR" />
+    <result column="JOIN_USER" property="joinUser" jdbcType="VARCHAR" />
+    <result column="CARE_TYPE" property="careType" jdbcType="VARCHAR" />
+    <result column="CARE_TIME" property="careTime" jdbcType="VARCHAR" />
+    <result column="CARE_FUNDS" property="careFunds" jdbcType="DOUBLE" />
+    <result column="CARE_RESULT" property="careResult" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getHrCareRecordList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,USER_ID AS userId,SUBJECT AS subject,CARE_TYPE AS careType, CARE_TIME AS careTime,
+	JOIN_USER AS joinUser,CARE_FUNDS AS careFunds
+	FROM HR_CARE_RECORD
+	WHERE ORG_ID=#{orgId}
+	<if test="userId!=null and userId!=''.toString()">
+		AND FUN_INTE_ARRAY(USER_ID,#{userId})>0
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND CARE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND CARE_TIME &lt;=#{endTime}
+	</if>
+	<if test="careType!=null and careType!=''.toString()">
+		AND CARE_TYPE=#{careType}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND SUBJECT LIKE #{search} 
+	</if>
+</select>
+
+</mapper>
+

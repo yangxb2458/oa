@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<%include("../../resapi/style.html"){} %>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+			<div class="row">
+					<div class="col-xs-12 col-md-6">
+						<div class="well with-header  with-footer" style="padding-top: 40px; padding-bottom: 10px;">
+							<div class="header bg-blue">企业近期收款记录(最近10条)</div>
+							<div class="row">
+								<table class="table table-hover table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>合同标题</th>
+											<th>收款人</th>
+											<th>收款时间</th>
+											<th>收款金额</th>
+										</tr>
+									</thead>
+									<tbody id="receivTr">
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="well with-header  with-footer" style="padding-top: 40px; padding-bottom: 10px;">
+							<div class="header bg-darkorange">企业近期付款记录(最近10条)</div>
+							<div class="row">
+								<table class="table table-hover table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>合同标题</th>
+											<th>付款人</th>
+											<th>付款时间</th>
+											<th>付款金额</th>
+										</tr>
+									</thead>
+									<tbody id="payTr">
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-6">
+						<div class="well with-header  with-footer" style="padding-top: 40px; padding-bottom: 10px;">
+							<div class="header bg-blue">企业近期合同(最近10条)</div>
+							<div class="row">
+								<table class="table table-hover table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>合同标题</th>
+											<th>客户名称</th>
+											<th>合同类型</th>
+											<th>签定时间</th>
+											<th>合同金额</th>
+										</tr>
+									</thead>
+									<tbody id="contractTr">
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-xs-12 col-md-6">
+						<div class="well with-header  with-footer" style="padding-top: 40px; padding-bottom: 10px;">
+							<div class="header bg-darkorange">企业近期票据(最近10条)</div>
+							<div class="row">
+								<table class="table table-hover table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>合同标题</th>
+											<th>客户名称</th>
+											<th>票据类型</th>
+											<th>开票时间</th>
+											<th>票面金额</th>
+										</tr>
+									</thead>
+									<tbody id="billTr">
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+</body>
+<%include("../../resapi/sysjs.html"){} %>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/gobal/js/page/contract/contracttotal.js"></script>
+</html>

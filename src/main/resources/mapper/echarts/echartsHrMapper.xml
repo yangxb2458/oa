@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.echarts.EchartsHrMapper">
+
+<select id="getHighsetShoolPie" resultType="java.util.HashMap">
+SELECT C.CODE_NAME AS name, COUNT(1)  AS value
+FROM HR_USER_INFO  U LEFT JOIN HR_CLASS_CODE C 
+ON U.ORG_ID=C.ORG_ID AND C.MODULE='highsetShool' AND C.CODE_VALUE=U.HIGHSET_SHOOL 
+WHERE U.ORG_ID=#{orgId}
+GROUP BY U.HIGHSET_SHOOL
+</select>
+
+<select id="getWorkTypeBar" resultType="java.util.HashMap">
+SELECT C.CODE_NAME AS name, COUNT(1)  AS value
+FROM HR_USER_INFO  U LEFT JOIN HR_CLASS_CODE C 
+ON U.ORG_ID=C.ORG_ID AND C.MODULE='workType' AND C.CODE_VALUE=U.WORK_TYPE 
+WHERE U.ORG_ID=#{orgId}
+GROUP BY U.WORK_TYPE
+</select>
+
+
+<select id="getNativePlacePie" resultType="java.util.HashMap">
+SELECT C.CODE_NAME AS name, COUNT(1)  AS value
+FROM HR_USER_INFO  U LEFT JOIN HR_CLASS_CODE C 
+ON U.ORG_ID=C.ORG_ID AND C.MODULE='nativePlace' AND C.CODE_VALUE=U.NATIVE_PLACE 
+WHERE U.ORG_ID=#{orgId}
+GROUP BY U.NATIVE_PLACE
+</select>
+
+<!-- 人事基本档案分析 -->
+<select id="getBaseInfoAnalysis" resultType="java.util.HashMap">
+<choose>
+	<when test="module!='wagesLevel'.toString()">
+		SELECT C.CODE_NAME AS name, COUNT(1)  AS value
+		FROM HR_USER_INFO  U LEFT JOIN HR_CLASS_CODE C 
+		ON U.ORG_ID=C.ORG_ID AND C.MODULE=#{module} AND C.CODE_VALUE=${groupBy} 
+		WHERE U.ORG_ID=#{orgId} 
+		<if test="deptId!='@all'.toString() and deptId!=null">
+			AND FUN_INTE_ARRAY(U.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+	</when>
+	<otherwise>
+	SELECT C.TITLE AS name, COUNT(1)  AS value
+		FROM HR_USER_INFO  U LEFT JOIN HR_WAGES_LEVEL C 
+		ON U.ORG_ID=C.ORG_ID AND C.WAGES_ID=${groupBy} 
+		WHERE U.ORG_ID=#{orgId} 
+		<if test="deptId!='@all'.toString() and deptId!=null">
+			AND FUN_INTE_ARRAY(U.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+	</otherwise>
+</choose>
+</select>
+
+
+<!-- 人事合同分析 -->
+<select id="getContractAnalysis" resultType="java.util.HashMap">
+<choose>
+	<when test="module!='signType'.toString()">
+		SELECT COUNT(1)  AS value,
+		(SELECT C.CODE_NAME AS name FROM HR_CLASS_CODE C WHERE C.ORG_ID=#{orgId}  AND C.MODULE=#{module} AND C.CODE_VALUE=${groupBy}) AS name
+		 FROM
+		HR_CONTRACT U LEFT JOIN HR_USER_INFO H ON U.ORG_ID=H.ORG_ID AND U.USER_ID=H.USER_ID
+		WHERE
+		U.ORG_ID=#{orgId}
+		<if test="deptId!='@all'.toString() and deptId!=null">
+			AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+	</when>
+	<otherwise>
+		SELECT
+		(CASE WHEN U.SIGN_TYPE='1' THEN '新签' WHEN U.SIGN_TYPE='2' THEN '补签' WHEN U.SIGN_TYPE='2' THEN '改签' WHEN U.SIGN_TYPE='2' THEN '续签' END) AS name, 
+		COUNT(1)  AS value
+		FROM HR_CONTRACT U,HR_USER_INFO H
+		WHERE 
+		U.ORG_ID=H.ORG_ID
+		AND U.ORG_ID=#{orgId} 
+		AND U.USER_ID=H.USER_ID
+		<if test="deptId!='@all'.toString() and deptId!=null">
+		AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+	</otherwise>
+</choose>
+</select>
+
+<!-- 奖惩分析 -->
+<select id="getIncentiveAnalysis" resultType="java.util.HashMap">
+<choose>
+	<when test="module!='incentiveType'.toString()">
+		SELECT COUNT(1)  AS value,
+		(SELECT C.CODE_NAME AS name FROM HR_CLASS_CODE C WHERE C.ORG_ID=#{orgId}  AND C.MODULE=#{module} AND C.CODE_VALUE=${groupBy}) AS name
+		 FROM
+		HR_INCENTIVE U LEFT JOIN HR_USER_INFO H ON U.ORG_ID=H.ORG_ID AND U.USER_ID=H.USER_ID
+		WHERE
+		U.ORG_ID=#{orgId}
+		<if test="deptId!='@all'.toString() and deptId!=null">
+			AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+	</when>
+	<otherwise>
+		SELECT
+		(CASE WHEN U.INCENTIVE_TYPE='1' THEN '奖励' WHEN U.INCENTIVE_TYPE='2' THEN '惩罚' END) AS name, 
+		COUNT(1)  AS value
+		FROM HR_INCENTIVE U,HR_USER_INFO H
+		WHERE 
+		U.ORG_ID=H.ORG_ID
+		AND U.ORG_ID=#{orgId} 
+		AND U.USER_ID=H.USER_ID
+		<if test="deptId!='@all'.toString() and deptId!=null">
+		AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+	</otherwise>
+</choose>
+</select>
+
+<!-- 证照分析 -->
+<select id="getLicenceAnalysis" resultType="java.util.HashMap">
+		SELECT COUNT(1)  AS value,
+		(SELECT C.CODE_NAME AS name FROM HR_CLASS_CODE C WHERE C.ORG_ID=#{orgId}  AND C.MODULE=#{module} AND C.CODE_VALUE=${groupBy}) AS name
+		 FROM
+		HR_LICENCE U LEFT JOIN HR_USER_INFO H ON U.ORG_ID=H.ORG_ID AND U.USER_ID=H.USER_ID
+		WHERE
+		U.ORG_ID=#{orgId}
+		<if test="deptId!='@all'.toString() and deptId!=null">
+			AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+</select>
+
+<!-- 学习经历分析 -->
+<select id="getLearnAnalysis" resultType="java.util.HashMap">
+		SELECT COUNT(1)  AS value,
+		(SELECT C.CODE_NAME AS name FROM HR_CLASS_CODE C WHERE C.ORG_ID=#{orgId}  AND C.MODULE=#{module} AND C.CODE_VALUE=${groupBy}) AS name
+		 FROM
+		HR_LEARN_RECORD U LEFT JOIN HR_USER_INFO H ON U.ORG_ID=H.ORG_ID AND U.USER_ID=H.USER_ID
+		WHERE
+		U.ORG_ID=#{orgId}
+		<if test="deptId!='@all'.toString() and deptId!=null">
+			AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+</select>
+
+<!-- 工作技能分析 -->
+<select id="getSkillsAnalysis" resultType="java.util.HashMap">
+		SELECT COUNT(1)  AS value,
+		(SELECT C.CODE_NAME AS name FROM HR_CLASS_CODE C WHERE C.ORG_ID=#{orgId}  AND C.MODULE=#{module} AND C.CODE_VALUE=${groupBy}) AS name
+		 FROM
+		HR_WORK_SKILLS U LEFT JOIN HR_USER_INFO H ON U.ORG_ID=H.ORG_ID AND U.USER_ID=H.USER_ID
+		WHERE
+		U.ORG_ID=#{orgId}
+		<if test="deptId!='@all'.toString() and deptId!=null">
+			AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+</select>
+
+<!-- 人事调动析 -->
+<select id="getTransferAnalysis" resultType="java.util.HashMap">
+		SELECT COUNT(1)  AS value,
+		(SELECT C.CODE_NAME AS name FROM HR_CLASS_CODE C WHERE C.ORG_ID=#{orgId}  AND C.MODULE=#{module} AND C.CODE_VALUE=${groupBy}) AS name
+		 FROM
+		HR_PERSONNEL_TRANSFER U LEFT JOIN HR_USER_INFO H ON U.ORG_ID=H.ORG_ID AND U.USER_ID=H.USER_ID
+		WHERE
+		U.ORG_ID=#{orgId}
+		<if test="deptId!='@all'.toString() and deptId!=null">
+			AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+</select>
+<!-- 离职分析 -->
+<select id="getLeaveAnalysis" resultType="java.util.HashMap">
+<choose>
+	<when test="module!='deptId'.toString()">
+		SELECT COUNT(1)  AS value,
+		(SELECT C.CODE_NAME AS name FROM HR_CLASS_CODE C WHERE C.ORG_ID=#{orgId}  AND C.MODULE=#{module} AND C.CODE_VALUE=${groupBy}) AS name
+		 FROM
+		HR_LEAVE_RECORD U LEFT JOIN HR_USER_INFO H ON U.ORG_ID=H.ORG_ID AND U.USER_ID=H.USER_ID
+		WHERE
+		U.ORG_ID=#{orgId}
+		<if test="deptId!='@all'.toString() and deptId!=null">
+			AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+	</when>
+	<otherwise>
+		SELECT
+		(SELECT D.DEPT_NAME FROM HR_DEPARTMENT D WHERE D.ORG_ID=#{orgId} AND D.DEPT_ID=U.DEPT_ID) AS name, 
+		COUNT(1)  AS value
+		FROM HR_LEAVE_RECORD U,HR_USER_INFO H
+		WHERE 
+		U.ORG_ID=H.ORG_ID
+		AND U.ORG_ID=#{orgId} 
+		AND U.USER_ID=H.USER_ID
+		<if test="deptId!='@all'.toString() and deptId!=null">
+		AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+	</otherwise>
+</choose>
+</select>
+
+<!-- 复职分析 -->
+<select id="getReinstatAnalysis" resultType="java.util.HashMap">
+<choose>
+	<when test="module!='deptId'.toString() and module!='levelId'.toString()">
+		SELECT COUNT(1)  AS value,
+		(SELECT C.CODE_NAME AS name FROM HR_CLASS_CODE C WHERE C.ORG_ID=#{orgId}  AND C.MODULE=#{module} AND C.CODE_VALUE=${groupBy}) AS name
+		 FROM
+		HR_REINSTATEMENT U LEFT JOIN HR_USER_INFO H ON U.ORG_ID=H.ORG_ID AND U.USER_ID=H.USER_ID
+		WHERE
+		U.ORG_ID=#{orgId}
+		<if test="deptId!='@all'.toString() and deptId!=null">
+			AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+	</when>
+	<otherwise>
+	<choose>
+	<when test="module=='deptId'.toString()">
+		SELECT
+		(SELECT D.DEPT_NAME FROM HR_DEPARTMENT D WHERE D.ORG_ID=#{orgId} AND D.DEPT_ID=U.DEPT_ID) AS name, 
+		COUNT(1)  AS value
+		FROM HR_REINSTATEMENT U,HR_USER_INFO H
+		WHERE 
+		U.ORG_ID=H.ORG_ID
+		AND U.ORG_ID=#{orgId} 
+		AND U.USER_ID=H.USER_ID
+		<if test="deptId!='@all'.toString() and deptId!=null">
+		AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+	</when>
+		<otherwise>
+			SELECT
+				(SELECT D.LEVEL_NAME FROM HR_USER_LEVEL D WHERE D.ORG_ID=#{orgId} AND D.LEVEL_ID=U.LEVEL_ID) AS name, 
+				COUNT(1)  AS value
+				FROM HR_REINSTATEMENT U,HR_USER_INFO H
+				WHERE 
+				U.ORG_ID=H.ORG_ID
+				AND U.ORG_ID=#{orgId} 
+				AND U.USER_ID=H.USER_ID
+				<if test="deptId!='@all'.toString() and deptId!=null">
+				AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+				</if>
+			GROUP BY ${groupBy}
+		</otherwise>
+	</choose>
+	</otherwise>
+</choose>
+</select>
+
+<!-- 职称评定分析 -->
+<select id="getEvaluationAnalysis" resultType="java.util.HashMap">
+<choose>
+	<when test="module!='deptId'.toString() and module!='post'.toString()">
+		SELECT COUNT(1)  AS value,
+		(SELECT C.CODE_NAME AS name FROM HR_CLASS_CODE C WHERE C.ORG_ID=#{orgId}  AND C.MODULE=#{module} AND C.CODE_VALUE=${groupBy}) AS name
+		 FROM
+		HR_TITLE_EVALUATION U LEFT JOIN HR_USER_INFO H ON U.ORG_ID=H.ORG_ID AND U.USER_ID=H.USER_ID
+		WHERE
+		U.ORG_ID=#{orgId}
+		<if test="deptId!='@all'.toString() and deptId!=null">
+			AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+	</when>
+	<otherwise>
+	<choose>
+	<when test="module=='deptId'.toString()">
+		SELECT
+		(SELECT D.DEPT_NAME FROM HR_DEPARTMENT D WHERE D.ORG_ID=#{orgId} AND D.DEPT_ID=U.DEPT_ID) AS name, 
+		COUNT(1)  AS value
+		FROM HR_TITLE_EVALUATION U,HR_USER_INFO H
+		WHERE 
+		U.ORG_ID=H.ORG_ID
+		AND U.ORG_ID=#{orgId} 
+		AND U.USER_ID=H.USER_ID
+		<if test="deptId!='@all'.toString() and deptId!=null">
+		AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+	</when>
+		<otherwise>
+			SELECT
+				(SELECT D.LEVEL_NAME FROM HR_USER_LEVEL D WHERE D.ORG_ID=#{orgId} AND D.LEVEL_ID=U.POST) AS name, 
+				COUNT(1)  AS value
+				FROM HR_TITLE_EVALUATION U,HR_USER_INFO H
+				WHERE 
+				U.ORG_ID=H.ORG_ID
+				AND U.ORG_ID=#{orgId} 
+				AND U.USER_ID=H.USER_ID
+				<if test="deptId!='@all'.toString() and deptId!=null">
+				AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+				</if>
+			GROUP BY ${groupBy}
+		</otherwise>
+	</choose>
+	</otherwise>
+</choose>
+</select>
+
+<!-- 人员关怀 -->
+<select id="getCareAnalysis" resultType="java.util.HashMap">
+		SELECT COUNT(1)  AS value,
+		(SELECT C.CODE_NAME AS name FROM HR_CLASS_CODE C WHERE C.ORG_ID=#{orgId}  AND C.MODULE=#{module} AND C.CODE_VALUE=${groupBy}) AS name
+		 FROM
+		HR_CARE_RECORD U LEFT JOIN HR_USER_INFO H ON U.ORG_ID=H.ORG_ID AND U.USER_ID=H.USER_ID
+		WHERE
+		U.ORG_ID=#{orgId}
+		<if test="deptId!='@all'.toString() and deptId!=null">
+			AND FUN_INTE_ARRAY(H.DEPT_ID,#{deptId})
+		</if>
+		GROUP BY ${groupBy}
+</select>
+
+</mapper>
+

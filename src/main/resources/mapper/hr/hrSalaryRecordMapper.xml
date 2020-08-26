@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrSalaryRecordMapper">
+<resultMap id="HrSalaryRecord" type="com.core136.bean.hr.HrSalaryRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="YEAR" property="year" jdbcType="VARCHAR" />
+    <result column="MONTH" property="month" jdbcType="VARCHAR" />
+    <result column="POST_SALARY" property="postSalary" jdbcType="DOUBLE" />
+    <result column="LEVEL_SALARY" property="levelSalary" jdbcType="DOUBLE" />
+    <result column="FOOD_SALARY" property="foodSalary" jdbcType="DOUBLE" />
+    <result column="POST_SALARY_OTHER" property="postSalaryOther" jdbcType="DOUBLE" />
+    <result column="TRANSPORT_SALARY" property="transportSalary" jdbcType="DOUBLE" />
+    <result column="POST_ALLOWANCE" property="postAllowance" jdbcType="DOUBLE" />
+    <result column="SUM_AMOUNT" property="sumAmount" jdbcType="DOUBLE" />
+    <result column="PENSOIN" property="pensoin" jdbcType="DOUBLE" />
+    <result column="UNEMPLOYMENT" property="unemployment" jdbcType="DOUBLE" />
+    <result column="MEDICAL" property="medical" jdbcType="DOUBLE" />
+    <result column="ACCUMULATION_FUND" property="accumulationFund" jdbcType="DOUBLE" />
+    <result column="TAX" property="tax" jdbcType="DOUBLE" />
+    <result column="COST_OTHER" property="costOther" jdbcType="DOUBLE" />
+    <result column="REAL_COST" property="realCost" jdbcType="DOUBLE" />
+    <result column="REAL_SALARY" property="realSalary" jdbcType="DOUBLE" />
+    <result column="MSG_TYPE" property="msgType" jdbcType="DOUBLE" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getHrSalaryRecordList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,USER_ID AS userId,YEAR AS year,MONTH AS month,SUM_AMOUNT AS sumAmount,REAL_COST AS realCost,REAL_SALARY AS realSalary
+	FROM HR_SALARY_RECORD
+	WHERE ORG_ID=#{orgId}
+	<if test="year!=null and year!=''.toString()">
+		AND YEAR=#{year}
+	</if>
+	<if test="month!=null and month!=''.toString()">
+		AND MONTH=#{month}
+	</if>
+	<if test = "(userId!=''.toString() and userId!=null)">
+		AND USER_ID=#{userId}
+	</if>
+</select>
+
+<select id="getMyHrSalaryRecordList" resultType="java.util.HashMap">
+	SELECT S.RECORD_ID AS recordId,S.USER_ID AS userId,S.YEAR AS year,S.MONTH AS month,S.SUM_AMOUNT AS sumAmount,
+	S.REAL_COST AS realCost,S.REAL_SALARY AS realSalary
+	FROM HR_SALARY_RECORD S
+	WHERE S.ORG_ID=#{orgId}
+	AND S.USER_ID=(SELECT U.USER_ID FROM HR_USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=#{accountId})
+</select>
+
+</mapper>
+

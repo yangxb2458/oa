@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<% include("../../../resapi/style.html"){} %>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div id="orgselectdiv"></div>
+	<div class="page-body" style="padding: 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="col-md-2 col-sm-2 col-xs-12" style="padding: 0px;">
+						<div class="widget flat radius-bordered">
+							<div class="widget-header bg-lightred">
+								<span class="widget-caption">BI分类列表</span>
+							</div>
+							<div class="widget-body">
+								<ul id="tree" class="ztree"></ul>
+								<a id="cbut" href="javascript:void(0);" class="btn btn-purple" style="width: 100%;">创建BI模版</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-10 col-sm-10 col-xs-12" style="padding: 0px">
+						<div class="row" id="datalist" style="display: none;">
+							<div class="col-md-12">
+							<div class="widget-body" style="padding-top: 0px">
+								<div class="btn-group" id="toobar" role="group" aria-label="...">
+									<button type="button" class="btn btn-default" id="batdel">
+										<span class="glyphicon glyphicon-remove"></span>批量删除
+									</button>
+								</div>
+								<table id="myTable"></table>
+								</div>
+							</div>
+						</div>
+						<div class="row" id="creatediv">
+							<div class="widget">
+								<div class="widget-header bordered-bottom bordered-palegreen">
+									<span class="widget-caption">BI模版基本信息</span>
+								</div>
+								<div class="widget-body" style="padding-top: 0px">
+									<form class="form-horizontal form-bordered" id="from">
+										<input type="hidden" id="sortId" name="sortId">
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">排序号 ：</label>
+											<div class="col-sm-2">
+												<input type="text" class="form-control" id="sortNo" name="sortNo" placeholder="排序号"> <input type="hidden" id="templateId" name="templateId">
+
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">模版名称：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="templateName" name="templateName" placeholder="模版名称">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">模版版本 ：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="version" name="version" placeholder="模版版本">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">BI分类 ：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="levelId" name="levelId" placeholder="BI分类 ">
+												<div id="menuContent" class="menuContent">
+													<ul id="menuTree" class="ztree"></ul>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">BI类型：</label>
+											<div class="col-sm-5">
+												<select class="form-control" id="biType" name="biType" style="border-radius: 0px;">
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">数据源：</label>
+											<div class="col-sm-5">
+												<select class="form-control" id="dbSource" name="dbSource" style="border-radius: 0px;">
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">用户权限：</label>
+											<div class="col-sm-5">
+												<textarea rows="5" cols="" class="form-control" id="userPriv" name="userPriv" readonly="readonly"></textarea>
+											</div>
+											<a class="selectbutton" opt-id="userPriv" onclick="selectUser(this,'true');">选择</a>
+											<a style="cursor: pointer;" onclick="clearSelect('userPriv')">清空</a>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">SQL语句：</label>
+											<div class="col-sm-5">
+												<textarea rows="20" cols="" class="form-control" id="sqlConfig" name="sqlConfig"></textarea>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-1 col-sm-5">
+												<a id="createbut" href="javascript:void(0);" class="btn btn-primary">新&nbsp;&nbsp;建</a> <a style="display: none;" id="updatabut" href="javascript:void(0);" class="btn btn-maroon">更&nbsp;&nbsp;改</a>
+												<a style="display: none;" id="delbut" href="javascript:void(0);" class="btn btn-danger shiny">删&nbsp;&nbsp;除</a>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<% include("../../../resapi/sysjs.html"){} %>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+	<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+	<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+	<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/bi/bi.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/bi/createbi.js"></script>
+</body>
+</html>

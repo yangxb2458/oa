@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet"
+	href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css"
+	type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="page-container">
+				<div class="col-md-8 col-sm-8 col-xs-12 col-md-offset-2"align="center" style="padding:0px">
+				<div class="widget">
+					<div class="widget-body">
+						<h3 id="title"></h3>
+						<div style="float: right" id="diaryDay"></div>
+						<p id="content" align="left"></p>
+						<div class="mail-attachments" id="attach" align="left">
+								<i class="fa fa-paperclip"></i> 附件： <span id="attachCount"></span>
+							<div id="show_attach"></div>
+						</div>
+						<div class="row"style="padding-left: 0px;">
+							<div class="col-md-6 col-sm-12 col-xs-12" align="left"><span
+									>日志类型:<span id="diaryType" style="margin-left: 10px"></span></span>
+							</div>
+							<div class="col-md-6 col-sm-12 col-xs-12" align="left">
+								<span >创建时间:<span id="createTime" style="margin-left: 10px"></span></span>
+							</div>
+						</div>
+						<div class="row" align="center">
+							<a href="javascript:void(0);window.close();" class="btn btn-success">关闭</a>
+						</div>
+					</div>
+					</div>
+			</div>
+			</div>
+		</div>
+<%include("../../resapi/sysjs.html"){}%>
+	<script type="text/javascript">
+		var diaryId = "${parameter.diaryId}";
+	</script>
+	<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+	<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/oa/readdiary.js"></script>
+</body>
+</html>

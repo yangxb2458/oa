@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.vehicle.VehicleOilCardMapper">
+<resultMap id="VehicleOilCard" type="com.core136.bean.vehicle.VehicleOilCard" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="CARD_ID" property="cardId" jdbcType="VARCHAR" />
+    <result column="CARD_CODE" property="cardCode" jdbcType="VARCHAR" />
+    <result column="CARD_NO" property="cardNo" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="PASS_WORD" property="passWord" jdbcType="VARCHAR" />
+    <result column="OIL_TYPE" property="oilType" jdbcType="VARCHAR" />
+    <result column="OIL_COMP" property="oilComp" jdbcType="VARCHAR" />
+    <result column="BALANCE" property="balance" jdbcType="DOUBLE" />
+    <result column="CARD_TIME" property="cardTime" jdbcType="VARCHAR" />
+    <result column="CARD_USER" property="cardUser" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+<select id="getVehicleOilCardList" resultType="java.util.HashMap">
+	SELECT CARD_ID AS cardId,OIL_TYPE AS oilType,CARD_USER AS cardUser,CARD_TIME AS cardTime, CARD_CODE AS cardCode,
+	CARD_NO AS cardNo,PASS_WORD AS passWord,BALANCE AS balance,STATUS AS status,OIL_COMP AS oilComp
+	FROM VEHICLE_OIL_CARD
+	WHERE ORG_ID=#{orgId}
+	<if test="oilType!=''.toString() and oilType!=null">
+	AND OIL_TYPE=#{oilType}
+	</if>
+	<if test = "beginTime!=''.toString() and beginTime!=null">
+		AND CARD_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "endTime!=''.toString() and endTime!=null">
+		AND CARD_TIME &lt;=#{endTime} 
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND (CARD_CODE LIKE #{search} OR CARD_NO LIKE  #{search})
+	</if>
+</select>
+
+
+<select id="getCanUsedOilCardList" resultType="java.util.HashMap">
+	SELECT CARD_ID AS cardId,CARD_CODE AS cardCode,CARD_NO AS cardNo
+	FROM VEHICLE_OIL_CARD
+	WHERE ORG_ID=#{orgId}
+	AND STATUS='0'
+</select>
+
+</mapper>
+

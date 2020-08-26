@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<% include("../../resapi/style.html"){}%>
+<% if(view=='mysyslog') { %>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<% }if(view=='userinfo'||view==null||view==''){ %>
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<% } if(view=='desk'){%>
+<link rel="stylesheet" href="/module/selectlist/list-style.css" type="text/css">
+<% } if(view=='usergroup'){%>
+<link rel="stylesheet" type="text/css" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css">
+<% }%>
+
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="col-md-2 col-sm-2 col-xs-12" style="padding: 0px">
+			<div class="well with-header with-footer" style="padding-left: 10px; padding-right: 0px; padding-top: 40px; padding-bottom: 0px; margin-bottom: 5px;">
+				<div class="header bordered-blue" style="text-align: center">设置选项</div>
+				<div class="dd">
+					<ol class="dd-list">
+						<li class="dd-item bordered-palegreen">
+							<div class="dd-handle"><a href="/app/core/personseting?view=shortcut">快捷方式</a></div>
+						</li>
+						<li class="dd-item bordered-palegreen">
+							<div class="dd-handle"><a href="/app/core/personseting?view=desk">桌面设置</a></div>
+						</li>
+					</ol>
+
+				</div>
+			</div>
+			<div class="well with-header with-footer" style="padding-left: 10px; padding-right: 0px; padding-top: 40px; padding-bottom: 0px; margin-bottom: 5px;">
+				<div class="header bordered-blue" style="text-align: center">个人设置</div>
+				<div class="dd">
+					<ol class="dd-list">
+						<li class="dd-item bordered-palegreen">
+							<div class="dd-handle"><a href="/app/core/personseting?view=userinfo">个人信息</a></div>
+						</li>
+						<li class="dd-item bordered-danger">
+							<div class="dd-handle">
+							<a href="/app/core/personseting?view=usergroup">好友分组</a>
+							</div>
+						</li>
+					</ol>
+
+				</div>
+			</div>
+			<div class="well with-header with-footer" style="padding-left: 10px; padding-right: 0px; padding-top: 40px; padding-bottom: 0px; margin-bottom: 5px;">
+				<div class="header bordered-blue" style="text-align: center">账户安全</div>
+				<div class="dd">
+					<ol class="dd-list">
+						<li class="dd-item bordered-danger">
+							<div class="dd-handle">
+								<a href="/app/core/personseting?view=account">修改密码</a>
+							</div>
+						</li>
+						<li class="dd-item bordered-inverse">
+							<div class="dd-handle">
+								<a href="/app/core/personseting?view=mysyslog">登陆日志</a>
+							</div>
+						</li>
+						<li class="dd-item bordered-palegreen">
+							<div class="dd-handle">消息设置</div>
+						</li>
+					</ol>
+
+				</div>
+			</div>
+			<div class="well with-header with-footer" style="padding-left: 10px; padding-right: 0px; padding-top: 40px; padding-bottom: 0px; margin-bottom: 5px;">
+				<div class="header bordered-blue" style="text-align: center">个人邮件设置</div>
+				<div class="dd">
+					<ol class="dd-list">
+						<li class="dd-item bordered-danger">
+							<div class="dd-handle">
+								<a href="/app/core/personseting?view=emialAccount">账户&服务器设置</a>
+							</div>
+						</li>
+						<li class="dd-item bordered-inverse">
+							<div class="dd-handle">
+								<a href="/app/core/personseting?view=emailsign">邮件签名</a>
+							</div>
+						</li>
+						<li class="dd-item bordered-palegreen">
+							<div class="dd-handle">
+								<a href="/app/core/personseting?view=emailSendAndRev">发送接收设置</a>
+							</div>
+						</li>
+					</ol>
+
+				</div>
+			</div>
+		</div>
+		<div class="col-md-10 col-sm-10 col-xs-12" style="padding: 0px;">
+			<div class="tab-content" style="padding:0px;">
+				<div id="shortcut"><% if(view=='shortcut') { include("shortcut.html"){} } %></div>
+				<div id="account"><% if(view=='account') { include("setpassword.html"){} } %></div>
+				<div id="userInfo"><% if(view=='userinfo'||view==null||view=='') { include("userinfo.html"){} } %></div>
+				<div id="log"><% if(view=='mysyslog') { include("mysyslog.html"){} } %></div>
+				<div id="desk"><% if(view=='desk') { include("setdesk.html"){} } %></div>
+				<div id="group"><% if(view=='usergroup') { include("usergroup.html"){} } %></div>
+				<div id="emialAccount"><% if(view=='emialAccount') { include("setemailaccount.html"){} } %></div>
+				<div id="emailsign"><% if(view=='emailsign') { include("emailsign.html"){} } %></div>
+				<div id="emailSendAndRev"><% if(view=='emailSendAndRev') { include("emailsendandreve.html"){} } %></div>
+			</div>
+		</div>
+	</div>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript">
+var passWordStrength = "${sysConfig.passWordStrength}";
+var passWordLength = "${sysConfig.passWordLength}";
+</script>
+<% if(view=='emailsign') { %>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/gobal/js/page/personal/setemailsign.js"></script>
+<% }else if(view=='account') { %>
+<script type="text/javascript" src="/gobal/js/page/personal/resetpassword.js"></script>
+<% }else if(view=='emialAccount') { %>
+<script type="text/javascript" src="/gobal/js/page/personal/setemailaccount.js"></script>
+<% }else if(view=='mysyslog') { %>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script src="/gobal/js/page/personal/mysyslog.js"></script>
+<% } if(view=='userinfo'||view==null||view==''){%>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script src="/gobal/js/page/personal/setuserinfo.js"></script>
+<%} if(view=='desk'){%>
+<script type="text/javascript" src="/gobal/js/jquery/jquery-ui-1.9.2-min.js"></script>
+<script type="text/javascript" src="/module/selectlist/list-script.js"></script>
+<script type="text/javascript" src="/gobal/js/page/personal/setdesk.js"></script>
+<%} if(view=='shortcut'){%>
+<script type="text/javascript" src="/gobal/js/page/personal/shortcut.js"></script>
+<%} if(view=='usergroup'){%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/personal/group.js"></script>
+<%}%>
+
+
+
+</html>

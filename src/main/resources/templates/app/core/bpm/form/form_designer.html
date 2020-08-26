@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<script type="text/javascript" src="/module/ckeditor/ckeditor.js"></script>
+<style>
+.sidebar-menu {
+	scrollbar-width: none; /* firefox */
+	-ms-overflow-style: none; /* IE 10+ */
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+	display: none; /* Chrome Safari */
+}
+</style>
+</head>
+<body>
+	<div class="page-body" style="padding:0px;height: 100%;">
+	<div id="xplugin"></div>
+	<div class="main-container container-fluid" style="height: 100%;">
+		<div class="page-container" style="height: 100%;">
+	<div class="col-md-12 col-sm-12 col-xs-12 widget-body">
+		<div class="row" style="padding-bottom: 5px;">
+		<div style="display: inline-block;float:left;padding-left:20px;" class="col-md-4">
+			<a href="javascript:void(0);" class="btn btn-blue shiny js-javascript">js脚本</a>
+			<a href="javascript:void(0);" class="btn btn-maroon shiny js-style">style脚本</a>
+		</div>
+		<div style="text-align: center;" class="col-md-4"><span style="font-size: 16px;font-weight: 600;line-height: 34px;" id="formName"></span></div>
+		<div style="display: inline-block;float:right;text-align: right;padding-right:20px;" class="col-md-4">
+			<a href="javascript:void(0);" class="btn btn-palegreen js-version">记录版本</a>
+			<a href="javascript:void(0);" class="btn btn-darkorange shiny js-template">表单预览</a>
+			<a href="javascript:void(0);" class="btn btn-purple shiny">表单导入<input
+			id="file" name="file" type="file" onchange="importBpmForm();" hidefocus="true" size="1" class="addfile" accept=".html"></a>
+			<a href="javascript:void(0);" class="btn btn-sky saveform" style="margin-left: 10px;">保存表单</a>
+			</div>
+		</div>
+		</div>
+        <div class="col-md-1 col-sm-1 col-xs-12 widget-body sidebar-menu" style="padding-bottom:60px;padding-top:0px;padding-left:5px;padding-right:5px;height:100%;overflow-y:auto;">
+                                        <div class="widget-header bg-blueberry">
+                                            <span class="widget-caption">表单控件</span>
+                                            <div class="widget-buttons">
+                                            </div><!--Widget Buttons-->
+                                        </div><!--Widget Header-->
+                                        <div class="widget-body" style="padding:0px;">
+                                        <a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xinput').exec();"><i class="glyphicon glyphicon-minus"></i> 单行文本</a>
+                                        <a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xtextarea').exec();"><i class="glyphicon glyphicon-align-center"></i> 多行文本</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xtextuedit').exec();"><i class="glyphicon glyphicon-edit"></i> 富文本框</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xselect').exec();"><i class="glyphicon glyphicon-chevron-down"></i>下拉列表</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xradio').exec();"><i class="glyphicon glyphicon-record"></i> 单选按钮</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xcheckbox').exec();"><i class="glyphicon glyphicon-check"></i> 多选按钮</a>		
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xlist').exec();"><i class="glyphicon glyphicon-list-alt"></i>列表组件</a>	
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xmacro').exec();"><i class="glyphicon glyphicon-star"></i>自动控件</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xfetch').exec();"><i class="glyphicon glyphicon-wrench"></i>选择控件</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xmacrotag').exec();"><i class="glyphicon glyphicon-star-empty"></i>常量标记</a>
+                                        </div><!--Widget Body-->
+                                        <div class="widget-header bg-lightred">
+                                            <span class="widget-caption">高级控件</span>
+                                            <div class="widget-buttons">
+                                            </div><!--Widget Buttons-->
+                                        </div><!--Widget Header-->
+                                        <div class="widget-body" style="padding:0px;">
+                                        <a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xcalculate').exec();"><i class="glyphicon glyphicon-question-sign"></i>计算组件</a>
+                                        <a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xdocnum').exec();"><i class="glyphicon glyphicon-sound-5-1"></i>流程计数</a>
+                                        <a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xsymbol').exec();"><i class="glyphicon glyphicon glyphicon-book"></i>流程文号</a>
+                                        <a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xbpm').exec();"><i class="glyphicon glyphicon-random"></i>流程选择</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xsql').exec();"><i class="glyphicon glyphicon-flash"></i>SQL组件</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xsqlselect').exec();"><i class="glyphicon glyphicon-flash"></i>SQL下拉框</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xiframe').exec();"><i class="glyphicon glyphicon-globe"></i>嵌套窗体</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xupload').exec();"><i class="glyphicon glyphicon-paperclip"></i>文档上传</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xhtml').exec();"><i class="glyphicon glyphicon-file"></i>XHTML文档</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xseal').exec();"><i class="glyphicon glyphicon-pushpin"></i>签章组件</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xbarcode').exec();"><i class="glyphicon glyphicon-barcode"></i>条 形 码</a>
+										<a class="btn btn-default shiny" style="width:100%" href="javascript:void(0);editor.getCommand('xqrcode').exec();"><i class="glyphicon glyphicon-qrcode"></i>二 维 码</a>
+                                        </div>
+		</div>
+		<div class="col-md-11 col-sm-11 col-xs-12 widget-body" style="padding:0px;">
+			<div id="editor1" name="editor1" ></div>
+	</div>
+	</div>
+	</div>
+	</div>
+	
+	<div id="formstyle" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myLargeModalLabel">表单样式</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea rows="10" cols="" class="form-control" id="styletextarea"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">消取</button>
+                    <button type="button" class="btn btn-primary js-stylesave">保存</button>
+               </div>
+            </div>
+        </div>
+    </div>
+	
+	<div id="formjavascript" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myLargeModalLabel">表单JS脚本</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea rows="10" cols="" class="form-control" id="jstextarea"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">消取</button>
+                    <button type="button" class="btn btn-primary js-javascriptsave">保存</button>
+               </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="formversion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">表单版本生成</h4>
+                </div>
+                <div class="modal-body">
+                版本标题
+                <div class="form-group">
+                   <input type="text" class="form-control" id="title" name="title" placeholder="版本标题">
+                </div>
+                备注说明
+                <div class="form-group">
+					<textarea class="form-control" id="remark" name="remark" placeholder="备注说明"></textarea>
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">消取</button>
+                    <button type="button" class="btn btn-primary js-versionsave">保存</button>
+               </div>
+            </div>
+        </div>
+    </div>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+	<script type="text/javascript">
+	var bpmfield = "${bpmfield}";
+	var formId = "${parameter.formId}";
+	</script>
+	<script type="text/javascript" src="/gobal/js/page/bpm/bpmsys.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/bpm/form_design.js"></script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">系统桌面管理</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title">桌面模块列表</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="buttons-preview" id="toobar">
+										<a class="btn btn-azure js-btn">新建桌面模块</a>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="modal fade bs-example-modal-lg" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">新建桌面模块</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" id="form1">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">排序号：</label>
+							<div class="col-sm-10" style="padding-left: 0px">
+								<input type="number" placeholder="排序号" class="form-control" id="sortNo" name="sortNo">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">桌面名称：</label>
+							<div class="col-sm-10" style="padding-left: 0px">
+								<input type="text" placeholder="桌面名称" class="form-control" id="moduleName" name="moduleName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right" >模块标识：</label>
+							<div class="col-sm-10" style="padding-left: 0px">
+								<input type="text" placeholder="模块标识" class="form-control" id="module" name="module">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-createSysDeskConfig">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+
+	<div class="modal fade bs-example-modal-lg" id="setprivmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">可选范围设置</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" id="form2">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">人员权限：</label>
+							<div class="col-sm-10" style="padding-left: 0px">
+								<textarea id="useUserPriv" name="useUserPriv" placeholder="用户" class="form-control" readonly="readonly" opt-id="useUserPriv" onclick="selectUser(this,'true');"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">部门权限：</label>
+							<div class="col-sm-10" style="padding-left: 0px">
+								<textarea id="useDeptPriv" name="useDeptPriv" placeholder="部门" class="form-control" readonly="readonly" opt-id="useDeptPriv" onclick="selectDept(this,'true');"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">级别权限：</label>
+							<div class="col-sm-10" style="padding-left: 0px">
+								<textarea id="useLeavePriv" name="useLeavePriv" placeholder="级别" class="form-control" readonly="readonly" opt-id="useLeavePriv" onclick="selectUserLevel(this,'true');"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-use-priv">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+
+<div class="modal fade bs-example-modal-lg" id="setmustprivmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">必选范围设置</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" id="form3">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">人员权限：</label>
+							<div class="col-sm-10" style="padding-left: 0px">
+								<textarea id="mustUseUserPriv" name="mustUseUserPriv" placeholder="用户" class="form-control" readonly="readonly" opt-id="mustUseUserPriv" onclick="selectUser(this,'true');"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">部门权限：</label>
+							<div class="col-sm-10" style="padding-left: 0px">
+								<textarea id="mustUseDeptPriv" name="mustUseDeptPriv" placeholder="部门" class="form-control" readonly="readonly" opt-id="mustUseDeptPriv" onclick="selectDept(this,'true');"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">级别权限：</label>
+							<div class="col-sm-10" style="padding-left: 0px">
+								<textarea id="mustUseLeavePriv" name="mustUseLeavePriv" placeholder="级别" class="form-control" readonly="readonly" opt-id="mustUseLeavePriv" onclick="selectUserLevel(this,'true');"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-must-priv">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+<div class="modal fade bs-example-modal-lg" id="setunprivmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">禁用范围设置</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" id="form4">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">人员权限：</label>
+							<div class="col-sm-10" style="padding-left: 0px">
+								<textarea id="unUseUserPriv" name="unUseUserPriv" placeholder="用户" class="form-control" readonly="readonly" opt-id="unUseUserPriv" onclick="selectUser(this,'true');"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">部门权限：</label>
+							<div class="col-sm-10" style="padding-left: 0px">
+								<textarea id="unUseDeptPriv" name="unUseDeptPriv" placeholder="部门" class="form-control" readonly="readonly" opt-id="unUseDeptPriv" onclick="selectDept(this,'true');"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">级别权限：</label>
+							<div class="col-sm-10" style="padding-left: 0px">
+								<textarea id="unUseLeavePriv" name="unUseLeavePriv" placeholder="级别" class="form-control" readonly="readonly" opt-id="unUseLeavePriv" onclick="selectUserLevel(this,'true');"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-un-priv">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script src="/gobal/js/page/sys/setdesk.js"></script>
+</html>

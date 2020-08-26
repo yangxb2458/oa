@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.fixedassets.FixedAssetsRepairMapper">
+<resultMap id="FixedAssetsRepair" type="com.core136.bean.fixedassets.FixedAssetsRepair" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="REPAIR_ID" property="repairId" jdbcType="VARCHAR" />
+    <result column="ASSETS_ID" property="assetsId" jdbcType="INTEGER" />
+    <result column="PROBLEM_DESCRIPTION" property="problemDescription" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="FIXED_USER" property="fixedUser" jdbcType="VARCHAR" />
+    <result column="FIXED_TIME" property="fixedTime" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="APPLICANT" property="applicant" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+<select id="getFixedAssetsRepairList" resultType="java.util.HashMap">
+SELECT R.REPAIR_ID AS repairId,R.ASSETS_ID AS assetsId,
+(SELECT F.ASSETS_NAME FROM FIXED_ASSETS F WHERE F.ORG_ID=#{orgId} AND F.ASSETS_ID=R.ASSETS_ID) AS assetsName,
+R.STATUS AS status,R.PROBLEM_DESCRIPTION AS problemDescription,R.CREATE_TIME AS createTime,
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=R.CREATE_USER) AS createUserName
+FROM FIXED_ASSETS_REPAIR R
+WHERE R.ORG_ID=#{orgId}
+<if test="opFlag!='1'">
+	AND R.FIXED_USER=#{accountId}
+</if>
+<if test="status!=''.toString() and status!=null">
+	AND R.STATUS=#{status}
+</if>
+<if test="assetsSortId!=''.toString() and assetsSortId!=null">
+	AND R.ASSETS_ID IN (SELECT ASSETS_ID FROM FIXED_ASSETS WHERE ORG_ID=#{orgId} AND SORT_ID=#{assetsSortId})
+</if>
+<if test="beginTime!=null and beginTime!=''.toString()">
+	AND R.CREATE_TIME &gt;=#{beginTime}
+</if>
+<if test = "endTime!=''.toString() and endTime!=null">
+	AND R.CREATE_TIME &lt;=#{endTime}
+</if>
+<if test="search!='%%'.toString()">
+	AND R.ASSETS_ID IN (SELECT ASSETS_ID FROM FIXED_ASSETS WHERE ORG_ID=#{orgId} AND (ASSETS_NAME LIKE #{search} OR ASSETS_CODE LIKE #{search}))
+</if>
+
+</select>
+
+</mapper>
+

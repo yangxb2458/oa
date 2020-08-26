@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.erp.ErpBomDetailMapper">
+<resultMap id="ErpBomDetail" type="com.core136.bean.erp.ErpBomDetail" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="BOM_DETAIL_ID" property="bomDetailId" jdbcType="VARCHAR" />
+    <result column="BOM_ID" property="bomId" jdbcType="VARCHAR" />
+    <result column="MATERIEL_CODE" property="materielCode" jdbcType="VARCHAR" />
+    <result column="CHILD_BOM_ID" property="childBomId" jdbcType="VARCHAR" />
+    <result column="USE_COUNT" property="useCount" jdbcType="DOUBLE" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<!-- 数据量大的时候会慢，后面再处理 -->
+<select id="getBomDetailList" resultType="java.util.HashMap">
+        SELECT A.BOM_DETAIL_ID AS bomDetailId,A.PARAM AS param,A.MATERIEL_CODE AS materielCode,B.MATERIEL_NAME AS materielName,B.TYPE AS type,A.USE_COUNT AS useCount,B.UNIT AS unit,A.CREATE_TIME as createTime,A.REMARK AS remark 
+        FROM ERP_BOM_DETAIL A LEFT JOIN ERP_MATERIEL B ON A.MATERIEL_CODE=B.MATERIEL_CODE AND A.ORG_ID=B.ORG_ID
+		WHERE A.BOM_ID=#{bomId} AND A.MATERIEL_CODE LIKE #{materielCode} AND A.ORG_ID=#{orgId} AND (A.CHILD_BOM_ID IS NULL OR A.CHILD_BOM_ID='')
+</select>
+
+<select id="isExistMaterielCode" resultType="Integer">
+       SELECT COUNT(1) AS ZS FROM ERP_BOM_DETAIL WHERE BOM_ID=#{bomId} AND MATERIEL_CODE=#{materielCode} AND ORG_ID=#{orgId}
+</select>
+
+
+<select id="isExistChildBomIdCode" resultType="Integer">
+       SELECT COUNT(1) AS ZS FROM ERP_BOM_DETAIL WHERE BOM_ID=#{bomId} AND CHILD_BOM_ID=#{childBomId} AND ORG_ID=#{orgId}
+</select>
+
+
+<select id="getBomDetailByDetailId" resultType="java.util.HashMap">
+        SELECT A.BOM_DETAIL_ID AS bomDetailId,A.MATERIEL_CODE AS materielCode,A.PARAM AS param,B.MATERIEL_NAME AS materielName,B.TYPE AS type,A.USE_COUNT AS useCount,B.UNIT AS unit,A.CREATE_TIME as createTime,A.REMARK AS remark 
+        FROM ERP_BOM_DETAIL A LEFT JOIN ERP_MATERIEL B ON A.MATERIEL_CODE=B.MATERIEL_CODE AND A.ORG_ID=B.ORG_ID
+		WHERE A.BOM_ID=#{bomId} AND A.BOM_DETAIL_ID = #{bomDetailId} AND A.ORG_ID=#{orgId}
+</select>
+
+
+<select id="getErpBomByBomIdList" resultType="java.util.HashMap">
+        SELECT A.BOM_DETAIL_ID AS bomDetailId,A.BOM_ID AS bomId,B.BOM_NAME AS bomName,B.VERSION AS version,B.MAP_NUMBER AS mapNumber,B.PRODUCT_NUMBER AS productNumber,A.USE_COUNT AS useCount,A.REMARK AS remark 
+        FROM ERP_BOM_DETAIL A LEFT JOIN ERP_BOM B ON A.CHILD_BOM_ID=B.BOM_ID AND A.ORG_ID=B.ORG_ID
+		WHERE A.BOM_ID=#{bomId} AND B.BOM_NAME LIKE #{bomName} AND A.ORG_ID=#{orgId}
+</select>
+
+
+
+<select id="getProductMaterielList" resultType="java.util.HashMap">
+(SELECT
+	C.ID AS ID,
+	C.CHILD_BOM_ID AS flagId,
+	D.BOM_NAME AS name,
+	C.USE_COUNT AS useCount,
+	'' AS unit,
+	'' AS price,
+	'b' AS type,
+	C.REMARK AS remark
+FROM
+	erp_bom_detail C
+JOIN erp_bom D ON C.CHILD_BOM_ID = D.BOM_ID
+WHERE
+	C.BOM_ID = #{bomId} AND C.ORG_ID=#{orgId})
+UNION
+(SELECT
+	A.ID AS id,
+	A.MATERIEL_CODE AS flagId,
+	B.MATERIEL_NAME AS name,
+	A.USE_COUNT AS useCont,
+	B.UNIT AS unit,
+	B.PRICE AS price,
+	B.TYPE AS type,
+	A.REMARK AS remark
+FROM
+	erp_bom_detail A
+JOIN erp_materiel B ON A.MATERIEL_CODE = B.MATERIEL_CODE
+WHERE
+	A.BOM_ID = #{bomId} AND A.ORG_ID=#{orgId})
+</select>
+
+
+
+</mapper>

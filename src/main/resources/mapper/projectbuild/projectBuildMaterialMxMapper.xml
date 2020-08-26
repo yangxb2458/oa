@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.projectbuild.ProjectBuildMaterialMxMapper">
+<resultMap id="ProjectBuildMaterialMx" type="com.core136.bean.projectbuild.ProjectBuildMaterialMx" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="MATERIAL_MX_ID" property="materialMxId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="PURCHASE_ID" property="purchaseId" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="STAGE_ID" property="stageId" jdbcType="VARCHAR" />
+    <result column="MATERIAL_ID" property="materialId" jdbcType="VARCHAR" />
+    <result column="QUANTITY" property="quantity" jdbcType="INTEGER" />
+    <result column="PRICE" property="price" jdbcType="DOUBLE" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+<select id="getPurchaseMaterialMxList" resultType="java.util.HashMap">
+	SELECT  P.PURCHASE_ID AS purchaseId,P.PROJECT_ID AS projectId,P.MATERIAL_MX_ID AS materialMxId,P.SORT_NO AS sortNo,P.QUANTITY AS quantity,P.MATERIAL_ID AS materialId,P.PRICE AS price,M.MATERIAL_CODE AS materialCode,
+	M.NAME AS name,M.UNIT AS unit,M.BRAND AS brand,M.MODEL AS model,(SELECT C.SORT_NAME FROM PROJECT_BUILD_MATERIAL_SORT C WHERE C.ORG_ID=M.ORG_ID AND C.SORT_ID=M.SORT_ID) AS sortName,
+	(SELECT IFNULL(SUM(S.QUANTITY), 0) FROM project_build_material_IN S WHERE S.ORG_ID=P.ORG_ID AND S.MATERIAL_ID=P.MATERIAL_ID) AS inQuantity	 
+	FROM PROJECT_BUILD_MATERIAL_MX P LEFT JOIN PROJECT_BUILD_MATERIAL M ON P.ORG_ID=M.ORG_ID AND P.MATERIAL_ID = M.MATERIAL_ID 
+	WHERE 
+	P.ORG_ID=#{orgId} AND
+	P.PURCHASE_ID = #{purchaseId}
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+		AND (M.NAME LIKE #{search} OR M.MATERIAL_CODE LIKE #{search})
+	</if>
+</select>
+
+
+
+</mapper>
+

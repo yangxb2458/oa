@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrDepartmentMapper">
+<resultMap id="HrDepartment" type="com.core136.bean.hr.HrDepartment" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="ORG_LEVEL_ID" property="orgLevelId" jdbcType="VARCHAR" />
+    <result column="DEPT_TEL" property="deptTel" jdbcType="VARCHAR" />
+    <result column="DEPT_EMAIL" property="deptEmail" jdbcType="VARCHAR" />
+    <result column="DEPT_LEAD" property="deptLead" jdbcType="VARCHAR" />
+    <result column="DEPT_FUNCTION" property="deptFunction" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getHrDepartmentTree" resultType="java.util.HashMap">
+SELECT DEPT_ID as deptId, DEPT_NAME as deptName,
+CASE WHEN (SELECT COUNT(1) FROM HR_DEPARTMENT TMP WHERE TMP.ORG_LEVEL_ID=deptId)=0 then 'false' else 'true' END
+AS  isParent,'/gobal/img/org/dept.png' AS icon 
+FROM HR_DEPARTMENT WHERE ORG_LEVEL_ID=#{orgLevelId} AND ORG_ID=#{orgId} ORDER BY SORT_NO ASC
+</select>
+
+
+<select id="getHrUserInfoDepartmentTree" resultType="java.util.HashMap">
+SELECT DEPT_ID as deptId, DEPT_NAME as deptName,'true' AS  isParent,'/gobal/img/org/dept.png' AS icon 
+FROM HR_DEPARTMENT WHERE ORG_LEVEL_ID=#{orgLevelId} AND ORG_ID=#{orgId} ORDER BY SORT_NO ASC
+</select>
+
+<select id="getHrDeptNameByStr" resultType="java.util.HashMap">
+SELECT DEPT_NAME AS deptName
+FROM HR_DEPARTMENT
+WHERE ORG_ID=#{orgId}
+<if test="list!=null">
+	AND DEPT_ID IN
+	<foreach collection="list" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+</if>
+</select>
+
+ <select id="getHrDeptBySearchdept"  resultType="java.util.HashMap">
+ SELECT DEPT_ID AS deptId,DEPT_NAME AS deptName
+ FROM HR_DEPARTMENT
+ WHERE 
+ 	ORG_ID=#{orgId}
+ <if test="searchdept != '%%'">
+	AND	DEPT_NAME LIKE #{searchdept} 
+ </if>
+</select>
+
+</mapper>
+

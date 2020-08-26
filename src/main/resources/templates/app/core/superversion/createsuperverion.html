@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<% include("../../resapi/style.html"){}%>
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px; padding-top: 5px;">
+		<div class="page-container">
+			<div class="tabbable">
+				<ul class="nav nav-tabs tabs-flat" id="myTab" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+					<li class="active"><a href="/app/core/superversion/createsuperverion" aria-expanded="true">发起督查任务</a></li>
+					<li class=""><a href="/app/core/superversion/createsuperverion?view=mysuperverionmanage" aria-expanded="false"> 我创建的任务 </a></li>
+				</ul>
+				<div class="tab-content tabs-flat">
+					<form class="form-horizontal form-bordered" id="form" data-bv-message="This value is not valid" data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+						data-bv-feedbackicons-invalid="glyphicon glyphicon-remove" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">督查标题：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="title" name="title" placeholder="督查标题" 
+								data-bv-notempty="true" data-bv-notempty-message="督查标题不能为空">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">事件类型：</label>
+							<div class="col-sm-2">
+								<select id="configId" name="configId" class="form-control" style="border-radius: 0px;"></select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">督查领导：</label>
+							<div class="col-sm-2" style="position: relative;">
+								<select class="form-control" id="leadId" name="leadId" style="border-radius: 0px;"></select>
+							</div>
+							<span style="color:red;line-height: 34px;">请先设置事件类型对应的督查领导</span>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">开始时间：</label>
+							<div class="col-sm-2" style="position: relative;">
+								<input type="text" class="form-control" id="beginTime" readonly="readonly" name="beginTime" placeholder="开始时间" style="cursor: pointer;"
+								data-bv-notempty="true" data-bv-notempty-message="开始时间不能为空">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">完成时间：</label>
+							<div class="col-sm-2" style="position: relative;">
+								<input type="text" class="form-control" id="endTime" readonly="readonly" name="endTime" placeholder="终止时间" style="cursor: pointer;"
+								data-bv-notempty="true" data-bv-notempty-message="完成时间不能为空">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">牵头人：</label>
+							<div class="col-sm-2" style="position: relative;">
+								<input type="text" class="form-control" id="handedUser" readonly="readonly" name="handedUser" placeholder="牵头人" style="cursor: pointer;">
+							</div>
+							<div class="col-md-2">
+								<a class="selectbutton" opt-id="handedUser" onclick="selectUser(this,'false');">选择</a>
+								<a class="selectbutton" onclick="clearSelect('handedUser');">清空</a>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">参与人员：</label>
+							<div class="col-sm-5" style="padding-left: 0px">
+								<div class="col-md-10">
+									<textarea id="joinUser" name="joinUser" placeholder="用户" class="form-control" readonly="readonly"></textarea>
+								</div>
+								<div class="col-md-2">
+									<a class="selectbutton" opt-id="joinUser" onclick="selectUser(this,'true');">选择</a>
+									<a class="selectbutton" onclick="clearSelect('joinUser');">清空</a>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">任务内容：</label>
+							<div class="col-sm-10">
+								<div id="content" style="height: 300px"></div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">相关附件 ：</label>
+							<div class="col-sm-5">
+								<div style="padding-top: 4px;">
+									<div id="show_superversionattach"></div>
+									<a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('superversion','superversionattach');" hidefocus="true" size="1"
+										id="superversionattach" name="superversionattach" class="addfile" multiple="multiple"></a>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right" style="line-height: 34px;">消息提醒 ：</label>
+							<div class="col-sm-5" style="line-height: 24px;padding-left:0px;" id="msgType">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-5">
+								<a id="createbut" href="javascript:void(0);" class="btn btn-primary">新&nbsp;&nbsp;建</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<% include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/superversion/createsuperversion.js"></script>
+</html>

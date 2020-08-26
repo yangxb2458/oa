@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>${session.SOFT_NAME }_智能办公系统</title>
+	<meta name="description" content="Dashboard" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<%include("../../../resapi/style.html"){} %>
+	<link href='/module/area/chosen.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+	<style type="text/css">
+	.bootstrap-tagsinput{
+		background-color: #fbfbfb;
+	}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px;">
+		<div class="page-container">
+			<div class="widget">
+				<div class="widget-header bordered-bottom bordered-palegreen">
+					<span class="widget-caption">合同管理权限设置</span>
+				</div>
+				<div class="widget-body">
+					<div>
+						<form class="form-horizontal form-bordered" role="form">
+							<div class="form-group">
+								<label  class="col-sm-2 control-label no-padding-right">财务人员：</label>
+								<div class="col-sm-4">
+									<textarea class="form-control" id="financialStaff" name="financialStaff" placeholder="财务人员"></textarea>
+								</div>
+								<div class="col-md-2">
+									<a class="selectbutton" opt-id="financialStaff" onclick="selectUser(this,'true');">选择</a>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label no-padding-right">发货人员：</label>
+								<div class="col-sm-4">
+									<textarea class="form-control" id="shipper" name="shipper" placeholder="发货人员"></textarea>
+								</div>
+								<div class="col-md-2">
+									<a class="selectbutton" opt-id="shipper" onclick="selectUser(this,'true');">选择</a>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label no-padding-right">借阅审批人员：</label>
+								<div class="col-sm-4">
+									<textarea class="form-control" id="lendingExaminer" name="lendingExaminer" placeholder="借阅审批人员"></textarea>
+								</div>
+								<div class="col-md-2">
+									<a class="selectbutton" opt-id="lendingExaminer" onclick="selectUser(this,'true');">选择</a>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label no-padding-right">可借阅人员：</label>
+								<div class="col-sm-4">
+									<textarea class="form-control" id="borrowPerson" name="borrowPerson" placeholder="可借阅人员"></textarea>
+								</div>
+								<div class="col-md-2">
+									<a class="selectbutton" opt-id="borrowPerson" onclick="selectUser(this,'true');">选择</a>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="button" class="btn btn-palegreen js-setbtn">设置</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	<%include("../../../resapi/sysjs.html"){} %>
+	<!--Bootstrap  wysiwig Scripts-->
+    <script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+	<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+	<script src="/gobal/js/page/contract/contractpriv.js"></script>
+</body>
+</html>

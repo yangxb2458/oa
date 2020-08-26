@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.contract.ContractReceivablesRecordMapper">
+<resultMap id="ContractReceivablesRecord" type="com.core136.bean.contract.ContractReceivablesRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECROD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="RECEIVABLES_ID" property="receivablesId" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DOUBLE" />
+    <result column="PAYEE" property="payee" jdbcType="VARCHAR" />
+    <result column="PAYEE_TIME" property="payeeTime" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+<select id="getContractReceivablesRecordList" resultType="java.util.HashMap">
+SELECT RECORD_ID AS recordId, RECEIVABLES_ID AS receivablesId,AMOUNT AS amount,PAYEE AS payee,PAYEE_TIME AS payeeTime,REMARK AS remark
+FROM CONTRACT_RECEIVABLES_RECORD
+WHERE ORG_ID=#{orgId}
+AND RECEIVABLES_ID = #{receivablesId}
+</select>
+
+<select id="getReceivRecordTop" resultType="java.util.HashMap">
+SELECT R.RECORD_ID AS recordId, R.AMOUNT AS amount,R.PAYEE AS payee,R.PAYEE_TIME AS payeeTime,
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=R.PAYEE) AS payeeUserName,
+(SELECT TEMP.TITLE FROM CONTRACT TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.CONTRACT_ID=C.CONTRACT_ID) AS title
+FROM CONTRACT_RECEIVABLES_RECORD R LEFT JOIN CONTRACT_RECEIVABLES C ON R.ORG_ID=C.ORG_ID AND R.RECEIVABLES_ID=C.RECEIVABLES_ID
+WHERE R.ORG_ID=#{orgId}
+ORDER BY R.PAYEE_TIME DESC LIMIT 0,10
+</select>
+
+</mapper>
+

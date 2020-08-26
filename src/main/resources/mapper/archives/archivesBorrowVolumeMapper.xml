@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.archives.ArchivesBorrowVolumeMapper">
+<resultMap id="ArchivesBorrowVolume" type="com.core136.bean.archives.ArchivesBorrowVolume" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR"/>
+    <result column="VOLUME_ID" property="volumeId" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR"/>
+    <result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+    <result column="APPROVAL_STATUS" property="approvalStatus" jdbcType="VARCHAR" />
+    <result column="APPROVAL_USER" property="approvalUser" jdbcType="VARCHAR" />
+    <result column="APPROVAL_TIME" property="approvalTime" jdbcType="VARCHAR"/>
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getArchivesBorrowVolumeList" resultType="java.util.HashMap">
+	SELECT B.RECORD_ID AS recordId, B.VOLUME_ID AS volumeId,V.VOLUME_TITLE AS volumeTitle,V.VOLUME_CODE AS volumeCode,V.CREATE_ORG AS createOrg,B.REMARK AS remark,
+	B.BEGIN_TIME AS beginTime,B.END_TIME AS endTime,B.APPROVAL_STATUS AS approvalStatus,B.APPROVAL_USER AS approvalUser,B.APPROVAL_TIME AS approvalTime
+	FROM ARCHIVES_BORROW_VOLUME B LEFT JOIN ARCHIVES_VOLUME V ON B.ORG_ID=V.ORG_ID AND B.VOLUME_ID=V.VOLUME_ID
+	WHERE B.ORG_ID=#{orgId}
+	<if test="approvalStatus!=''.toString() and approvalStatus!=null">
+		AND B.APPROVAL_TIME = #{approvalStatus}
+	</if>
+	<if test="opFlag!='1'.toString()">
+		AND B.CREATE_USER=#{accountId}
+	</if>
+</select>
+
+<select id="getArchivesBorrowVolumeApprovalList" resultType="java.util.HashMap">
+	SELECT B.RECORD_ID AS recordId, B.VOLUME_ID AS volumeId,V.VOLUME_TITLE AS volumeTitle,V.VOLUME_CODE AS volumeCode,V.CREATE_ORG AS createOrg,
+	B.BEGIN_TIME AS beginTime,B.END_TIME AS endTime,B.APPROVAL_STATUS AS approvalStatus,B.APPROVAL_USER AS approvalUser,B.APPROVAL_TIME AS approvalTime,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=B.CREATE_USER) AS createUserName
+	FROM ARCHIVES_BORROW_VOLUME B LEFT JOIN ARCHIVES_VOLUME V ON B.ORG_ID=V.ORG_ID AND B.VOLUME_ID=V.VOLUME_ID
+	WHERE B.ORG_ID=#{orgId}
+	AND B.APPROVAL_STATUS = '0'
+	<if test="opFlag!='1'.toString()">
+		AND B.APPROVAL_USER=#{accountId}
+	</if>
+</select>
+
+</mapper>
+

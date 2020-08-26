@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">订单基本信息</span> <span class="widget-caption" style="float: right; padding-right: 20px;">订单编号:${erpOrder.orderCode}</span> <input type="hidden" id="orderCode"
+						name="orderCode" value="${erpOrder.orderCode}">
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title">订单基本信息</div>
+
+							<div class="form-group">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<label class="col-sm-1 control-label no-padding-right" style="line-height: 34px">订单标题:</label>
+									<div class="col-sm-8" style="line-height: 34px;">${erpOrder.orderTitle}</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">客户名称:</label>
+									<div class="col-sm-10" style="line-height: 34px;">${erpOrder.customer}</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">支付方式:</label>
+									<div class="col-sm-4" style="line-height: 34px;" id="payType"></div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">联系人:</label>
+									<div class="col-sm-10" style="line-height: 34px;">${erpOrder.linkName}</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">电话:</label>
+									<div class="col-sm-10" style="line-height: 34px;">${erpOrder.tel}</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">交货期:</label>
+									<div class="col-sm-10" style="line-height: 34px;">${erpOrder.delivery}</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">送货地址:</label>
+									<div class="col-sm-10" style="line-height: 34px;">${erpOrder.address}</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">备注:</label>
+									<div class="col-sm-10" style="line-height: 34px;">${erpOrder.remark}</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">附件:</label>
+									<div class="col-sm-10" style="line-height: 34px;">
+										<div id="show_attach"></div>
+										<input data_value="${erpOrder.attach}" id="attach" name="attach" type="hidden" />
+									</div>
+								</div>
+							</div>
+							<div class="form-title">产品清单</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="buttons-preview" id="toobar">
+										<a href="javascript:void(0);" class="btn btn-darkorange">批量删除</a> <a href="javascript:void(0);addRow();" class="btn btn-azure">添加产品</a>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+							<button type="button" class="btn btn-blue" onclick="history.back(-1);">返回</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="modal-warning" class="modal modal-message modal-warning fade" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<i class="fa fa-warning"></i>
+				</div>
+				<div class="modal-title">警告</div>
+
+				<div class="modal-body">请先完成当前添加操作并保存?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+			<!-- / .modal-content -->
+		</div>
+		<!-- / .modal-dialog -->
+	</div>
+
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="editdiv">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="mySmallModalLabel">物料清单变更</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" id="form">
+						<input type="hidden" id="eerpBomDetailId" name="eerpBomDetailId">
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right" style="text-align: left;">物料编码:</label>
+							<div class="col-sm-8 control-label no-padding-left" id="materielCodediv" style="text-align: left;"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right" style="text-align: left;">物料名称:</label>
+							<div class="col-sm-8 control-label no-padding-left" id="materielNamediv" style="text-align: left;"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right" style="text-align: left;">所需数量:</label>
+							<div class="col-sm-8 control-label no-padding-left control-label no-padding-left" id="materielCode" style="text-align: left;">
+								<input type="text" class="form-control" id="euseCount" name="euseCount" placeholder="所需数量">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right" style="text-align: left;">计量单位:</label>
+							<div class="col-sm-8 control-label no-padding-left" id="unitdiv" style="text-align: left;"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right" style="text-align: left;">规格:</label>
+							<div class="col-sm-8 control-label no-padding-left" style="text-align: left;">
+								<input type="text" class="form-control" placeholder="规格" id="eparam" name="eparam">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right" style="text-align: left;">备注:</label>
+							<div class="col-sm-8 control-label no-padding-left" style="text-align: left;">
+								<input type="text" class="form-control" placeholder="备注" id="eremark" name="eremark">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button data-bb-handler="cancel" type="button" class="btn btn-default js-cancel">取消</button>
+					<button type="button" class="btn btn-warning js-save" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+<%include("../../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="/gobal/js/page/erp/erp.js"></script>
+<script src="/assets/js/select2/select2.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/gobal/js/page/erp/erp.js"></script>
+<script src="/gobal/js/page/erp/orderproduct.js"></script>
+<script>
+var orderId ="${erpOrder.orderId}";
+var payType = "${erpOrder.payType}";
+</script>
+</html>

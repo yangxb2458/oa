@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.file.NetDiskMapper">
+<resultMap id="NetDisk" type="com.core136.bean.file.NetDisk" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="NET_DISK_ID" property="netDiskId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="NET_DISK_NAME" property="netDiskName" jdbcType="VARCHAR" />
+    <result column="ROOT_PATH" property="rootPath" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="MANAGE_USER" property="manageUser" jdbcType="VARCHAR" />
+    <result column="ACCESS_USER" property="accessUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DEPT" property="createDept" jdbcType="VARCHAR" />
+    <result column="MANAGE_DEPT" property="manageDept" jdbcType="VARCHAR" />
+    <result column="ACCESS_DEPT" property="accessDept" jdbcType="VARCHAR" />
+    <result column="DOWN_DEPT" property="downDept" jdbcType="VARCHAR" />
+    <result column="CREATE_LEAVE" property="createLeave" jdbcType="VARCHAR" />
+    <result column="MANAGE_LEAVE" property="manangeLeave" jdbcType="VARCHAR" />
+    <result column="DOWN_LEAVE" property="downLeave" jdbcType="VARCHAR" />
+    <result column="ACCESS_LEAVE" property="accessLeave" jdbcType="VARCHAR" />
+    <result column="SPACE_LIMIT" property="spaceLimit" jdbcType="VARCHAR" />
+    <result column="ORDER_BY" property="orderBy" jdbcType="VARCHAR" />
+    <result column="ASC_OR_DESC" property="ascOrDesc" jdbcType="VARCHAR" />
+    <result column="DISK_CREATE_TIME" property="diskCreateTime" jdbcType="VARCHAR" />
+    <result column="DISK_CREATE_USER" property="diskCreateUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+  
+<select id="getNetDiskTree" resultType="java.util.HashMap">
+	SELECT '/' AS rootPath,NET_DISK_NAME AS netDiskName,'true' AS isParent,NET_DISK_ID AS netDiskId
+		FROM NET_DISK 
+	WHERE ORG_ID=#{orgId} 
+	AND(
+		FUN_INTE_ARRAY(ACCESS_USER,#{accountId}) > 0
+		OR FUN_INTE_ARRAY(ACCESS_DEPT,#{deptId}) > 0
+		OR FUN_INTE_ARRAY(ACCESS_LEAVE,#{userLeave}) > 0
+		OR ACCESS_USER = '@all'
+		OR ACCESS_DEPT = '@all'
+		OR ACCESS_LEAVE = '@all'
+		) 
+</select>
+
+
+
+<select id="getCreateFilePriv" resultType="Integer">
+	SELECT COUNT(1) AS ZS
+		FROM NET_DISK 
+	WHERE ORG_ID=#{orgId} 
+	AND NET_DISK_ID = #{netDiskId}
+	AND(
+		FUN_INTE_ARRAY(MANAGE_USER,#{accountId}) > 0
+		OR FUN_INTE_ARRAY(MANAGE_DEPT,#{deptId}) > 0
+		OR FUN_INTE_ARRAY(MANAGE_LEAVE,#{userLeave}) > 0
+		OR MANAGE_USER = '@all'
+		OR MANAGE_DEPT = '@all'
+		OR MANAGE_LEAVE = '@all'
+		OR FUN_INTE_ARRAY(CREATE_USER,#{accountId}) > 0
+		OR FUN_INTE_ARRAY(CREATE_DEPT,#{deptId}) > 0
+		OR FUN_INTE_ARRAY(CREATE_LEAVE,#{userLeave}) > 0
+		OR CREATE_USER = '@all'
+		OR CREATE_DEPT = '@all'
+		OR CREATE_LEAVE = '@all'
+		) 
+</select>
+
+
+
+</mapper>
+

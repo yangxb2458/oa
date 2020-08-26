@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/assets/css/bootstrap.min.css" rel="stylesheet"type="text/css" media="print">
+<link href="/assets/css/beyond.min.css" rel="stylesheet"type="text/css" media="print">
+<link href="/assets/css/style.css" rel="stylesheet"type="text/css" media="print">
+<style type="text/css">
+#bom {
+	position: fixed;
+	left: 0px;
+	bottom: 0;
+	_position: absolute;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px;">
+		<div class="main-container container-fluid">
+		<table class="table table-hover">
+		<thead class="bordered-darkorange"><tr>
+		<%
+		for(map in resFields)
+		{
+		%>
+			<th>${map.title}</th>
+		<%}%>
+		<tr></thead>
+		<tbody>
+		<%
+		for(item in res)
+		{
+		%>
+		<tr>
+			<%
+			for(map in resFields)
+			{
+			%>
+				<td>${item[map.title]}</td>
+			<%
+			}%>
+		</tr>
+		<%
+		}
+		%>
+		</tbody>
+		  </table>
+		</div>
+		<div align="center" style="padding-top: 20px; padding-bottom: 20px" class="widget-body">
+				<a href="/app/core/bpm/search?view=tablesearch&flowId=${flowId}" class="btn btn-sky">返回</a>
+		</div>
+	</div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+</html>

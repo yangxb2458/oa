@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrLicenceMapper">
+<resultMap id="HrLicence" type="com.core136.bean.hr.HrLicence" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="LICENCE_ID" property="licenceId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="LICENCE_CODE" property="licenceCode" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="DOUBLE" />
+    <result column="NOTIFIED_BODY" property="notifiedBody" jdbcType="VARCHAR" />
+    <result column="LICENCE_TYPE" property="licenceType" jdbcType="VARCHAR" />
+    <result column="SEND_TO_USER" property="sendToUser" jdbcType="VARCHAR" />
+    <result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getHrLicenceList" resultType="java.util.HashMap">
+	SELECT LICENCE_ID AS licenceId,USER_ID AS userId,LICENCE_CODE AS licenceCode,NAME AS name, BEGIN_TIME AS beginTime,
+	END_TIME AS endTime,NOTIFIED_BODY AS notifiedBody,LICENCE_TYPE AS licenceType
+	FROM HR_LICENCE
+	WHERE ORG_ID=#{orgId}
+	<if test="userId!=null and userId!=''.toString()">
+		AND USER_ID=#{userId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND (END_TIME &gt;=#{beginTime} OR END_TIME ='')
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND (END_TIME &lt;=#{endTime} OR END_TIME ='')
+	</if>
+	<if test="licenceType!=null and licenceType!=''.toString()">
+		AND LICENCE_TYPE=#{licenceType}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND (NOTIFIED_BODY LIKE #{search} OR NAME LIKE #{search} OR LICENCE_CODE LIKE #{search})
+	</if>
+</select>
+
+
+<select id="getMyHrLicenceList" resultType="java.util.HashMap">
+	SELECT L.LICENCE_ID AS licenceId,L.USER_ID AS userId,L.LICENCE_CODE AS licenceCode,L.NAME AS name, L.BEGIN_TIME AS beginTime,
+	L.END_TIME AS endTime,L.NOTIFIED_BODY AS notifiedBody,L.LICENCE_TYPE AS licenceType
+	FROM HR_LICENCE L
+	WHERE L.ORG_ID=#{orgId}
+	AND L.USER_ID=(SELECT U.USER_ID FROM HR_USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=#{accountId})
+</select>
+
+</mapper>
+

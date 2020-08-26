@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+	<%
+		if (sysInterface.sysTitle =='' || sysInterface.sysTitle == null)
+		{
+	%>
+		<title>${SOFT_NAME}</title>
+	<%
+		}else
+		{
+	%>
+		<title>${sysInterface.sysTitle}</title>
+	<%
+		}
+	%>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<!-- CSS -->
+<link rel="shortcut icon" href="/assets/img/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/gobal/js/assets/css/reset.css">
+<link rel="stylesheet" href="/gobal/js/assets/css/supersized.css">
+<link rel="stylesheet" href="/gobal/js/assets/css/style.css">
+<style type="text/css">
+.footer{
+ position:absolute;
+ left:0;
+ bottom:0;
+ width:100%;
+ height:40px;
+ font-size: 14px;
+ color: #111;
+ }
+</style>
+</head>
+<body>
+	<div class="page-container">
+	<%
+		if (sysInterface.sysTitle =='' || sysInterface.sysTitle == null)
+		{
+	%>
+		<h1>${SOFT_NAME}</h1>
+	<%
+		}else
+		{
+	%>
+		<h1>${sysInterface.sysTitle}</h1>
+	<%
+		}
+	%>
+		
+		<form action="">
+			<input type="text" name="accountId" class="username" placeholder="系统账号" value="admin"> <input type="password" name="passWord" class="password" placeholder="密码"
+				value="123456">
+			<button type="button" onclick="login();" id="loginbtn">登&nbsp;&nbsp;录</button>
+		</form>
+			 <div class="connect">
+			 ${sysInterface.idea}
+            </div>
+	</div>
+            <footer class="footer">
+            	<div>${sysInterface.recordNumber}</div>
+            	<div style="margin-top: 5px;">${sysInterface.tecSupport}</div>
+            </footer>
+	<!-- Javascript -->
+	<script src="/gobal/js/jquery/jquery-2.0.3.min.js"></script>
+	<script src="/gobal/js/assets/js/supersized.3.2.7.min.js"></script>
+	<script src="/gobal/js/assets/js/scripts.js"></script>
+	<script src="/module/layer/layer.js"></script>
+	<script type="text/javascript">
+	var dimg=[ 
+        {image : '/gobal/js/assets/img/backgrounds/1.jpg'},
+        {image : '/gobal/js/assets/img/backgrounds/2.jpg'},
+        {image : '/gobal/js/assets/img/backgrounds/3.jpg'},
+        {image : '/gobal/js/assets/img/backgrounds/4.jpg'},
+        {image : '/gobal/js/assets/img/backgrounds/5.jpg'}
+    ];
+	jQuery(function($){
+	    $.supersized({
+	        // Functionality
+	        slide_interval     : 4000,    // Length between transitions
+	        transition         : 1,    // 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
+	        transition_speed   : 1000,    // Speed of transition
+	        performance        : 1,    // 0-Normal, 1-Hybrid speed/quality, 2-Optimizes image quality, 3-Optimizes transition speed // (Only works for Firefox/IE, not Webkit)
+
+	        // Size & Position
+	        min_width          : 0,    // Min width allowed (in pixels)
+	        min_height         : 0,    // Min height allowed (in pixels)
+	        vertical_center    : 1,    // Vertically center background
+	        horizontal_center  : 1,    // Horizontally center background
+	        fit_always         : 0,    // Image will never exceed browser width or height (Ignores min. dimensions)
+	        fit_portrait       : 1,    // Portrait images will not exceed browser height
+	        fit_landscape      : 0,    // Landscape images will not exceed browser width
+
+	        // Components
+	        slide_links        : 'blank',    // Individual links for each slide (Options: false, 'num', 'name', 'blank')
+	        <% 
+	        	if(imgArr=='')
+	        	{
+	        %>
+	        slides: dimg
+	        <%		
+	        	}else
+	        	{
+	       %>
+	       		slides:${imgArr}
+	       <%
+	        	}
+	        %>
+	        
+
+	    });
+
+	});
+	
+        $(document).keyup(function(event){
+        	  if(event.keyCode ==13){
+        	    $("#loginbtn").trigger("click");
+        	  }
+        	});
+        function login()
+        {
+        $.ajax({
+            url:"/account/login",
+            type:"post",
+            dataType:"json",
+            data:{
+            	accountId:$(".username").val(),
+            	passWord:$(".password").val()
+            },
+            success:function(data){
+ 				if(data.status=="200"&&data.redirect!=null)
+ 					{
+ 					window.location.href=data.redirect;
+ 					}else if(data.status=="300")
+ 					{
+ 						window.location.href=data.redirect;
+ 					}else
+ 					{
+ 						layer.msg(data.msg);
+ 					}
+            },
+            error:function() {
+            	layer.msg(data.msg);
+            }
+        });
+        }
+        </script>
+</body>
+</html>
+
+
+

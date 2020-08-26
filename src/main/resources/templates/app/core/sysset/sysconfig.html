@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="well with-header">
+			<div class="header bordered-pink">系统配置设置</div>
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">密码最小长度：</label>
+					<div class="col-sm-5">
+						<input type="number" class="form-control" id="passWordLength" name="passWordLength" placeholder="密码长度" value="${sysConfig.passWordLength}">
+					</div>
+					<div class="col-sm-6" style="line-height: 34px">密码长度不能大于16位！</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">密码强度：</label>
+					<div class="col-sm-5">
+						<div class="radio">
+							<label style="padding-left: 0px;"> <% if(sysConfig.passWordStrength==0) { %> <input name="passWordStrength" type="radio" checked="checked" value="0"> <% }else { %> <input name="passWordStrength" type="radio" value="0"> <% } %> <span class="text">字母数字任意</span>
+							</label> <label> <% if(sysConfig.passWordStrength==1) { %> <input name="passWordStrength" type="radio" class="inverted" checked="checked" value="1"> <% }else { %> <input name="passWordStrength" type="radio" class="inverted" value="1"> <% } %> <span class="text">数字与字母混合</span>
+							</label>
+						</div>
+					</div>
+					<div class="col-sm-6" style="line-height: 34px">为了账户的安全系统可以设置密码组合方式！</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">系统EMAIL账户：</label>
+					<div class="col-sm-5">
+						<input type="email" class="form-control" id="email" name="email" placeholder="系统EMAIL账户" value="${sysConfig.email}">
+					</div>
+					<div class="col-sm-6" style="line-height: 34px">用于系统对外放发送Web邮件。</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">SMTP服务器：</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="smtp" name="smtp" placeholder="SMTP服务器" value="${sysConfig.smtp}">
+					</div>
+					<div class="col-sm-6" style="line-height: 34px">想了解SMTP服务的地址信息请与邮件服务器提供商联系。</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">POP3服务器：</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="pop3" name="pop3" placeholder="POP3服务器" value="${sysConfig.pop3}">
+					</div>
+					<div class="col-sm-6" style="line-height: 34px">想了解POP3服务的地址信息请与邮件服务器提供商联系。</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">邮件端口：</label>
+					<div class="col-sm-5">
+						<input type="number" class="form-control" id="port" name="port" placeholder="邮件端口" value="${sysConfig.port}">
+					</div>
+					<div class="col-sm-6" style="line-height: 34px">想了解端口服务的地址信息请与邮件服务器提供商联系，一般是25、456等。</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">邮件密码：</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="passWord" name="passWord" placeholder="邮件密码" value="${sysConfig.passWord}">
+					</div>
+					<div class="col-sm-6" style="line-height: 34px">想了解端口服务的地址信息请与邮件服务器提供商联系，一般是25、456等。</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">即时通服务器地址：</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="imHost" name="imHost" placeholder="即时通服务器地址" value="${sysConfig.imHost}">
+					</div>
+					<div class="col-sm-6" style="line-height: 34px">想了解即时通服务器地址信息请服务提供商联系。</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">即时通服务器端口：</label>
+					<div class="col-sm-5">
+						<input type="number" class="form-control" id="imPort" name="imPort" placeholder="时通服务器端口" value="${sysConfig.imPort}">
+					</div>
+					<div class="col-sm-6" style="line-height: 34px">想了解即时通服务器端口信息请服务提供商联系。</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-1 col-sm-11">
+						<button type="button" class="btn btn-purple js-setbtn">设置</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	</body>
+	<%include("../../resapi/sysjs.html"){}%>
+	<script type="text/javascript" src="/gobal/js/page/sys/sysConfig.js"></script>
+</html>

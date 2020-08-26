@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrTrainRecordMapper">
+<resultMap id="HrTrainRecord" type="com.core136.bean.hr.HrTrainRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="TRAIN_CODE" property="trainCode" jdbcType="VARCHAR" />
+    <result column="CHANNEL" property="channel" jdbcType="VARCHAR" />
+    <result column="COURSE_TYPE" property="courseType" jdbcType="VARCHAR" />
+    <result column="HOLD_DEPT" property="holdDept" jdbcType="VARCHAR" />
+    <result column="CHARGE_PERSON" property="chargePerson" jdbcType="VARCHAR" />
+    <result column="USER_COUNT" property="userCount" jdbcType="INTEGER" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="INSTITUTION_NAME" property="institutionName" jdbcType="VARCHAR" />
+    <result column="INSTITUTION_USER" property="institutionUser" jdbcType="VARCHAR" />
+    <result column="INSTITUTION_CONTACT" property="institutionContact" jdbcType="VARCHAR" />
+    <result column="COURSE_NAME" property="courseName" jdbcType="VARCHAR" />
+    <result column="COURSE_TIME" property="courseTime" jdbcType="VARCHAR" />
+    <result column="FOUNDS" property="founds" jdbcType="DOUBLE" />
+    <result column="APPROVED_USER" property="approvedUser" jdbcType="VARCHAR" />
+    <result column="JOIN_DEPT" property="joinDept" jdbcType="VARCHAR" />
+    <result column="JOIN_USER" property="joinUser" jdbcType="VARCHAR" />
+    <result column="JOIN_USER_LEVEL" property="joinUserLevel" jdbcType="VARCHAR" />
+    <result column="TRAIN_REQUIRES" property="trainRequires" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="APPROVED_TIME" property="approvedTime" jdbcType="VARCHAR" />
+    <result column="IDEA_TEXT" property="ideaText" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="DOUBLE" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getHrTrainRecordList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,TITLE AS title,TRAIN_CODE AS trainCode,CHANNEL AS channel, COURSE_TYPE AS courseType,STATUS AS status,
+	BEGIN_TIME AS beginTime,END_TIME AS endTime,INSTITUTION_NAME AS institutionName,COURSE_NAME AS courseName,COURSE_TIME AS courseTime
+	FROM HR_TRAIN_RECORD
+	WHERE ORG_ID=#{orgId}
+	AND CREATE_USER=#{createUser}
+	<if test="channel!=null and channel!=''.toString()">
+		AND CHANNEL=#{channel}
+	</if>
+	<if test="courseType!=null and courseType!=''.toString()">
+		AND COURSE_TYPE=#{courseType}
+	</if>
+	<if test="status!=null and status!=''.toString()">
+		AND STATUS=#{status}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND BEGIN_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND BEGIN_TIME &lt;=#{endTime}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND TITLE LIKE #{search}
+	</if>
+</select>
+
+
+<select id="getHrTrainRecordApprovedList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,TITLE AS title,TRAIN_CODE AS trainCode,CHANNEL AS channel, COURSE_TYPE AS courseType,STATUS AS status,
+	BEGIN_TIME AS beginTime,END_TIME AS endTime,INSTITUTION_NAME AS institutionName,COURSE_NAME AS courseName,COURSE_TIME AS courseTime
+	FROM HR_TRAIN_RECORD
+	WHERE ORG_ID=#{orgId}
+	AND STATUS='0'
+	AND APPROVED_USER=#{accountId}
+	<if test="channel!=null and channel!=''.toString()">
+		AND CHANNEL=#{channel}
+	</if>
+	<if test="courseType!=null and courseType!=''.toString()">
+		AND COURSE_TYPE=#{courseType}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND BEGIN_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND BEGIN_TIME &lt;=#{endTime}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND TITLE LIKE #{search}
+	</if>
+</select>
+
+<select id="getHrTrainRecordApprovedOldList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,TITLE AS title,TRAIN_CODE AS trainCode,CHANNEL AS channel, COURSE_TYPE AS courseType,STATUS AS status,
+	BEGIN_TIME AS beginTime,END_TIME AS endTime,INSTITUTION_NAME AS institutionName,COURSE_NAME AS courseName,COURSE_TIME AS courseTime
+	FROM HR_TRAIN_RECORD
+	WHERE ORG_ID=#{orgId}
+	<if test="status!=null and status!=''.toString()">
+		AND STATUS=#{status}
+	</if>
+	<if test="status==null or status==''.toString()">
+		AND (STATUS='1' OR STATUS='2')
+	</if>
+	AND APPROVED_USER=#{accountId}
+	<if test="channel!=null and channel!=''.toString()">
+		AND CHANNEL=#{channel}
+	</if>
+	<if test="courseType!=null and courseType!=''.toString()">
+		AND COURSE_TYPE=#{courseType}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND BEGIN_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND BEGIN_TIME &lt;=#{endTime}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND TITLE LIKE #{search}
+	</if>
+</select>
+
+
+</mapper>
+

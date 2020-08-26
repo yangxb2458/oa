@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.projectbuild.ProjectBuildMaterialPurchaseMapper">
+<resultMap id="ProjectBuildMaterialPurchase" type="com.core136.bean.projectbuild.ProjectBuildMaterialPurchase" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="PURCHASE_ID" property="purchaseId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="STAGE_ID" property="stageId" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="INTEGER" />
+    <result column="APPLY_USER" property="applyUser" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="IDEA_TEXT" property="ideaText" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getMaterialPurchaseList" resultType="java.util.HashMap">
+	SELECT A.PURCHASE_ID AS purchaseId,A.TITLE AS title,A.PROJECT_ID AS projectId,A.STAGE_ID AS stageId,
+	(SELECT B.PROJECT_TITLE FROM PROJECT_BUILD_DETAILS B WHERE B.ORG_ID=A.ORG_ID AND B.PROJECT_ID= A.PROJECT_ID) AS projectTitle,
+	(SELECT C.STAGE_NAME FROM PROJECT_BUILD_STAGE C WHERE C.ORG_ID=A.ORG_ID AND C.STAGE_ID=A.STAGE_ID)AS stageName
+	FROM PROJECT_BUILD_MATERIAL_PURCHASE A
+	WHERE 
+	A.ORG_ID=#{orgId}
+	AND A.STATUS='1'
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND A.TITLE LIKE #{search}
+	</if>
+</select>
+
+<select id="getQueryPurchaseList" resultType="java.util.HashMap">
+SELECT TMP.PURCHASE_ID AS purchaseId,D.PROJECT_TITLE AS projectTitle,TMP.SUPPLIER_ID AS supplierId,TMP.COMPANY_NAME AS companyName,TMP.AMOUNT AS amount,
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=TMP.CREATE_USER) AS createUserName,TMP.CREATE_TIME AS createTime,
+(SELECT T.STAGE_NAME FROM PROJECT_BUILD_STAGE T WHERE T.ORG_ID=#{orgId} AND T.STAGE_ID = TMP.STAGE_ID) AS stageName,TMP.TITLE AS title
+FROM 
+(
+SELECT P.PURCHASE_ID AS PURCHASE_ID,S.COMPANY_NAME AS COMPANY_NAME,S.SUPPLIER_ID AS SUPPLIER_ID ,P.PROJECT_ID AS PROJECT_ID,P.TITLE AS TITLE,P.CREATE_USER AS CREATE_USER,P.AMOUNT AS AMOUNT,P.CREATE_TIME AS CREATE_TIME,
+P.STAGE_ID AS STAGE_ID
+FROM PROJECT_BUILD_MATERIAL_PURCHASE P LEFT JOIN PROJECT_BUILD_SUPPLIER S ON P.ORG_ID=S.ORG_ID AND P.SUPPLIER_ID=S.SUPPLIER_ID 
+WHERE P.ORG_ID= #{orgId}
+<if test="companyName!= '%%'">
+AND S.COMPANY_NAME LIKE #{companyName}
+</if>
+) TMP LEFT JOIN PROJECT_BUILD_DETAILS D ON TMP.PROJECT_ID=D.PROJECT_ID
+<if test="projectTitle!= '%%'">
+AND TMP.PROJECT_ID IN(SELECT PROJECT_ID FROM PROJECT_BUILD_DETAILS WHERE PROJECT_TITLE LIKE #{projectTitle} )
+</if>
+<if test="beginTime!=''.toString() and beginTime!=null">
+AND TMP.CREATE_TIME&gt;=#{beginTime}
+</if>
+<if test="endTime!= ''.toString() and endTime!=null">
+AND TMP.CREATE_TIME&lt;= #{endTime}
+</if>
+<if test="createUser!= ''.toString() and createUser!=null">
+AND TMP.CREATE_USER= #{createUser}
+</if>
+WHERE D.ORG_ID=#{orgId}
+
+</select>
+
+</mapper>
+

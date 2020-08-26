@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="../internal.js"></script>
+    <style type="text/css">
+        .section {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .section input {
+            margin-left: 5px;
+            width: 70px;
+        }
+        .section .align-left{
+            margin-left: -20px;
+        }
+        .section .align-center{
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="section">
+    <span class="align-left"><var id="lang_tdBkColor"></var></span>
+    <input type="text" id="J_tone"/>
+</div>
+<div class="section">
+    <span class="align-left"><var id="lang_tdBorderColor">边框颜色：</var></span>
+    <input type="text" id="J_bdColor"/>
+</div>
+<div class="section">
+    <span class="align-center"><var id="lang_tdWidth">宽度：</var></span>
+    <input type="text" id="J_width"/> px
+</div>
+<div class="section">
+    <span class="align-center"><var id="lang_tdHeight">高度：</var></span>
+    <input type="text" id="J_height"/> px
+</div>
+<script type="text/javascript">
+    var width = $G("J_width"), 
+        height = $G("J_height");
+    var tone = $G("J_tone"),
+            colorPiker = new UE.ui.ColorPicker({
+                editor:editor
+            }),
+            colorPop = new UE.ui.Popup({
+                editor:editor,
+                content:colorPiker
+            });
+    domUtils.on(tone, "click", function () {
+        colorPop.showAnchor(tone);
+    });
+    domUtils.on(document, 'mousedown', function () {
+        colorPop.hide();
+    });
+    colorPiker.addListener("pickcolor", function () {
+        tone.value = arguments[1];
+        colorPop.hide();
+    });
+    colorPiker.addListener("picknocolor", function () {
+        tone.value="";
+        colorPop.hide();
+    });
+    var bdColor = $G("J_bdColor"),
+            colorPiker2 = new UE.ui.ColorPicker({
+                editor:editor
+            }),
+            colorPop2 = new UE.ui.Popup({
+                editor:editor,
+                content:colorPiker2
+            });
+    domUtils.on(bdColor, "click", function () {
+        colorPop2.showAnchor(bdColor);
+    });
+    domUtils.on(document, 'mousedown', function () {
+        colorPop2.hide();
+    });
+    colorPiker2.addListener("pickcolor", function () {
+        bdColor.value = arguments[1];
+        colorPop2.hide();
+    });
+    colorPiker2.addListener("picknocolor", function () {
+        bdColor.value="";
+        colorPop2.hide();
+    });
+    dialog.onok=function(){
+        editor.execCommand("edittd",tone.value);
+        if(bdColor.value){
+            domUtils.setStyle(cell,'border-color',bdColor.value);
+        }
+        if(height.value){
+            domUtils.setStyle(cell,'height',height.value+"px");
+        }
+        if(width.value){
+            if(table.firstChild.tagName.toLowerCase() === "colgroup"){
+                domUtils.setStyle(table.firstChild.childNodes[cell.cellIndex],'width', width.value+'px');
+            }
+            else{
+                cell.removeAttribute('width');
+                domUtils.setStyle(cell,'width',width.value+"px");
+            }
+        }
+    };
+
+    var start = editor.selection.getStart(),
+        cell = start && domUtils.findParentByTagName(start, ["td", "th"], true),
+        UT = UE.UETable.getUETable(cell),
+        table = UT.table;
+    if(cell){
+        var color = domUtils.getComputedStyle(cell,'background-color');
+        if(/^#/.test(color)){
+            tone.value = color
+        }
+
+        var color2 = domUtils.getStyle(cell,'border-color');
+        if(/^#/.test(color2)){
+            bdColor.value = color2
+        }
+        var tdWidth = domUtils.getComputedStyle(cell,'width');
+        var tdHeight = domUtils.getStyle(cell,'height');
+        if(!tdWidth){
+            tdWidth = domUtils.getStyle(table.firstChild.childNodes[cell.cellIndex],'width');
+        }
+        width.value = tdWidth.replace(/px$/,'');
+        height.value = tdHeight.replace(/px$/,'');
+    }
+
+</script>
+</body>
+</html>

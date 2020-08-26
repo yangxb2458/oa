@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.projectbuild.ProjectBuildMaterialOutMapper">
+<resultMap id="ProjectBuildMaterialOut" type="com.core136.bean.projectbuild.ProjectBuildMaterialOut" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="OUT_ID" property="inId" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="MATERIAL_ID" property="materialId" jdbcType="VARCHAR" />
+    <result column="STAGE_ID" property="stageId" jdbcType="VARCHAR" />
+    <result column="QUANTITY" property="quantity" jdbcType="INTEGER" />
+    <result column="OUT_USER" property="inUser" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+<select id="sumMaterialById" resultType="Integer">
+	SELECT IFNULL(SUM(QUANTITY), 0) 
+	FROM PROJECT_BUILD_MATERIAL_IN
+	WHERE ORG_ID=#{orgId} AND PROJECT_ID=#{projectId} AND MATERIAL_ID=#{materialId}
+</select>
+
+<select id="getMaterialOutList" resultType="java.util.HashMap">
+SELECT * 
+FROM PROJECT_BUILD_MATERIAL_OUT
+WHERE 
+ORG_ID=#{orgId} AND PROJECT_ID=#{projectId} AND MATERIAL_ID=#{materialId}
+</select>
+
+
+<select id="getQueryMaterialOutList" resultType="java.util.HashMap">
+	SELECT P.PROJECT_ID AS projectId,M.MATERIAL_ID AS materialId,M.MATERIAL_CODE AS materialCode,M.BRAND AS brand,M.MODEL AS model,M.NAME AS materialName,
+P.OUT_USER AS outUser,P.CREATE_TIME AS createTime,
+(SELECT USER_NAME FROM USER_INFO U WHERE U.ORG_ID=P.ORG_ID AND U.ACCOUNT_ID=P.OUT_USER) AS outUserName,
+	M.UNIT AS unit,P.QUANTITY AS quantity,(SELECT PROJECT_TITLE FROM PROJECT_BUILD_DETAILS D WHERE D.PROJECT_ID=P.PROJECT_ID) AS projectTitle
+	FROM PROJECT_BUILD_MATERIAL_OUT P LEFT JOIN PROJECT_BUILD_MATERIAL M ON P.ORG_ID=M.ORG_ID AND P.MATERIAL_ID=M.MATERIAL_ID
+	WHERE 
+	P.ORG_ID = #{orgId}
+	<if test="beginTime!=''.toString() and beginTime!=null">
+	AND P.CREATE_TIME&gt;=#{beginTime}
+	</if>
+	<if test="endTime!= ''.toString() and endTime!=null">
+	AND P.CREATE_TIME&lt;= #{endTime}
+	</if>
+	<if test="materialName!= '%%'.toString() and materialName!=null">
+	AND (M.NAME LIKE #{materialName} OR M.MATERIAL_CODE LIKE #{materialName})
+	</if>
+	<if test="outUser!=''.toString() and outUser!=null">
+	AND P.OUT_USER= #{outUser}
+	</if>
+	<if test="projectTitle!='%%'.toString() and projectTitle!=null">
+	AND P.PROJECT_ID IN(SELECT TMP.PROJECT_ID FROM PROJECT_BUILD_DETAILS TMP WHERE TMP.ORG_ID=P.ORG_ID AND TMP.PROJECT_TITLE LIKE #{projectTitle} AND PROJECT_ID IS NOT NULL)
+	</if>
+</select>
+
+
+</mapper>
+

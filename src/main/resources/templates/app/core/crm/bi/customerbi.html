@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="row form-group">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="widget" style="height: 450px;" class="col-sm-12">
+					<div class="widget-header">
+						<span class="widget-caption">按地区分析</span>
+						<div class="widget-buttons">
+							<a href="#" data-toggle="collapse"> <i class="fa fa-minus"></i>
+							</a>
+						</div>
+						<!--Widget Buttons-->
+					</div>
+					<!--Widget Header-->
+					<div class="widget-body" style="height: 450px;">
+						<div id="main1" style="height: 400px;" class="col-sm-12"></div>
+					</div>
+					<!--Widget Body-->
+				</div>
+				<!--Widget-->
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="widget" style="height: 450px;" class="col-sm-12">
+					<div class="widget-header">
+						<span class="widget-caption">按行业分析</span>
+						<div class="widget-buttons">
+							<a href="#" data-toggle="collapse"> <i class="fa fa-minus"></i>
+							</a>
+						</div>
+						<!--Widget Buttons-->
+					</div>
+					<!--Widget Header-->
+					<div class="widget-body" style="height: 450px;">
+						<div id="main2" style="height: 400px;" class="col-sm-12"></div>
+					</div>
+					<!--Widget Body-->
+				</div>
+				<!--Widget-->
+			</div>
+		</div>
+		<div class="row form-group">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="widget" style="height: 450px;" class="col-sm-12">
+					<div class="widget-header">
+						<span class="widget-caption">按业务员分析</span>
+						<div class="widget-buttons">
+							<a href="#" data-toggle="collapse"> <i class="fa fa-minus"></i>
+							</a>
+						</div>
+						<!--Widget Buttons-->
+					</div>
+					<!--Widget Header-->
+					<div class="widget-body" style="height: 450px;">
+						<div id="main3" style="height: 400px;" class="col-sm-12"></div>
+					</div>
+					<!--Widget Body-->
+				</div>
+				<!--Widget-->
+			</div>
+			
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="widget" style="height: 450px;" class="col-sm-12">
+					<div class="widget-header">
+						<span class="widget-caption">客户等级分析</span>
+						<div class="widget-buttons">
+							<a href="#" data-toggle="collapse"> <i class="fa fa-minus"></i>
+							</a>
+						</div>
+						<!--Widget Buttons-->
+					</div>
+					<!--Widget Header-->
+					<div class="widget-body" style="height: 450px;">
+						<div id="main4" style="height: 400px;" class="col-sm-12"></div>
+					</div>
+					<!--Widget Body-->
+				</div>
+				<!--Widget-->
+			</div>
+		</div>
+
+	</div>
+	<%include("../../../resapi/sysjs.html"){}%>
+	<script type="text/javascript" src="/module/echart/echarts.min.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/crm/customerbi.js"></script>
+</body>
+</html>

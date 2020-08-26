@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrIncentiveMapper">
+<resultMap id="HrIncentive" type="com.core136.bean.hr.HrIncentive" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="INCENTIVE_ID" property="incentiveId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="INCENTIVE_TYPE" property="incentiveType" jdbcType="VARCHAR" />
+    <result column="INCENTIVE_ITEM" property="incentiveItem" jdbcType="VARCHAR" />
+    <result column="SALARY_MONTH" property="salaryMonth" jdbcType="VARCHAR" />
+    <result column="INCENTIVE_AMOUNT" property="incentiveAmount" jdbcType="DOUBLE" />
+    <result column="INCENTIVE_TIME" property="incentiveTime" jdbcType="VARCHAR" />
+    <result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getHrIncentiveList" resultType="java.util.HashMap">
+	SELECT INCENTIVE_ID AS incentiveId,USER_ID AS userId,INCENTIVE_TYPE AS incentiveType,INCENTIVE_ITEM AS incentiveItem, INCENTIVE_TIME AS incentiveTime,
+	INCENTIVE_AMOUNT AS incentiveAmount,SALARY_MONTH AS salaryMonth
+	FROM HR_INCENTIVE
+	WHERE ORG_ID=#{orgId}
+	<if test="userId!=null and userId!=''.toString()">
+		AND USER_ID=#{userId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND INCENTIVE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND INCENTIVE_TIME &lt;=#{endTime}
+	</if>
+	<if test="incentiveType!=null and incentiveType!=''.toString()">
+		AND INCENTIVE_TYPE=#{incentiveType}
+	</if>
+	<if test="incentiveItem!=null and incentiveItem!=''.toString()">
+		AND INCENTIVE_ITEM=#{incentiveItem}
+	</if>
+</select>
+
+<select id="getMyHrIncentiveList" resultType="java.util.HashMap">
+	SELECT I.INCENTIVE_ID AS incentiveId,I.USER_ID AS userId,I.INCENTIVE_TYPE AS incentiveType,I.INCENTIVE_ITEM AS incentiveItem, I.INCENTIVE_TIME AS incentiveTime,
+	I.INCENTIVE_AMOUNT AS incentiveAmount,I.SALARY_MONTH AS salaryMonth
+	FROM HR_INCENTIVE I
+	WHERE I.ORG_ID=#{orgId}
+	AND I.USER_ID=(SELECT U.USER_ID FROM HR_USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=#{accountId})
+</select>
+
+
+</mapper>
+

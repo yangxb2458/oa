@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="page-container">
+			<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px;">
+				<div class="profile-container">
+					<div class="profile-header row" style="margin: 0px">
+						<div class="widget" style="margin-bottom: 0px">
+							<div class="widget-header bordered-bottom bordered-blue">
+								<span class="widget-caption">企业信息详情</span>
+							</div>
+							<div class="widget-body no-padding">
+								<div class="widget-main ">
+									<div class="panel-group accordion" id="accordion" style="margin-bottom: 0px;">
+										<div class="panel panel-default">
+											<div class="panel-heading ">
+												<h4 class="panel-title">
+													<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> 企业基本信息 </a>
+												</h4>
+											</div>
+											<div id="collapseOne" class="panel-collapse collapse in">
+												<div class="panel-body border-red">
+													<form class="form-horizontal form-bordered">
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">客户中文名称：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="cnName" name="cnName"></div>
+															<label class="col-sm-2 control-label no-padding-right">客户英文名称：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="enName" name="enName"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">客户等级：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="level" name="level"></div>
+															<label class="col-sm-2 control-label no-padding-right">客户来源：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="source" name="source"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">企业类型：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="model" name="model"></div>
+															<label class="col-sm-2 control-label no-padding-right">客户角色：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="roles" name="roles"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">企业性质：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="nature" name="nature"></div>
+															<label class="col-sm-2 control-label no-padding-right">当前阶段：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="selStage" name="selStage"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">所属行业：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="industry" name="industry"></div>
+															<label class="col-sm-2 control-label no-padding-right">客户产品：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="customerProduct" name="customerProduct"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">企业标签：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="tags" name="tags"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">客户画像：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="follow" name="follow"></div>
+															<label class="col-sm-2 control-label no-padding-right">需求产品：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="focusProduct" name="focusProduct"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">合作意向：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="intention" name="intention"></div>
+															<label class="col-sm-2 control-label no-padding-right">现有对手：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="opponent" name="opponent"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">客户简介：</label>
+															<div class="col-sm-20 control-label" style="text-align: left" id="remark" name="remark"></div>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> 工商信息 </a>
+												</h4>
+											</div>
+											<div id="collapseTwo" class="panel-collapse collapse">
+												<div class="panel-body border-palegreen">
+													<form class="form-horizontal form-bordered">
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">统一信用代码：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="creditCode" name="creditCode"></div>
+															<label class="col-sm-2 control-label no-padding-right">注册资本：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="registerCapital" name="registerCapital"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">注册日期：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="registerDate" name="registerDate"></div>
+															<label class="col-sm-2 control-label no-padding-right">营业期限：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="timeOfVaildity" name="timeOfVaildity"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">企业法人：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="legalPerson" name="legalPerson"></div>
+															<label class="col-sm-2 control-label no-padding-right">经营状态：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="status" name="status"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">营业范围：</label>
+															<div class="col-sm-20 control-label" style="text-align: left" id="scopeBusiness" name="scopeBusiness"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">注册地址：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="registerAddr" name="registerAddr"></div>
+														</div>
+
+													</form>
+
+												</div>
+											</div>
+										</div>
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree"> 通讯地址 </a>
+												</h4>
+											</div>
+											<div id="collapseThree" class="panel-collapse collapse">
+												<div class="panel-body border-magenta">
+													<form class="form-horizontal form-bordered">
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">注册地址：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="registerAddr" name="registerAddr"></div>
+															<label class="col-sm-2 control-label no-padding-right">营业地址：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="businessAddr" name="businessAddr"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">企业电话：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="tel" name="tel"></div>
+															<label class="col-sm-2 control-label no-padding-right">企业传真：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="fax" name="fax"></div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label no-padding-right">企业邮件：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="eMail" name="eMail"></div>
+															<label class="col-sm-2 control-label no-padding-right">企业网站：</label>
+															<div class="col-sm-4 control-label" style="text-align: left" id="webSite" name="webSite"></div>
+														</div>
+
+													</form>
+
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="profile-body">
+						<div class="col-md-12" style="padding: 0px">
+							<div class="tabbable">
+								<ul class="nav nav-tabs tabs-flat  nav-justified" id="myTab11">
+									<li class="active"><a data-toggle="tab" href="#overview"> <b>联系人</b>
+									</a></li>
+									<li class="tab-red"><a data-toggle="tab" href="#timeline"> <b>联系记录</b>
+									</a></li>
+									<li class="tab-palegreen"><a data-toggle="tab" id="contacttab" href="#contacts"> <b>合同</b>
+									</a></li>
+									<li class="tab-yellow"><a data-toggle="tab" href="#settings"> <b>应收应付</b>
+									</a></li>
+								</ul>
+								<div class="tab-content tabs-flat" style="margin-top: 0px;">
+									<div id="overview" class="tab-pane active">
+										<div class="row profile-overview">
+											<form class="form-horizontal form-bordered" id="linkmanlist">
+												<div class="form-group">
+													<label class="col-sm-1 control-label" style="text-align: center;">联系人姓名</label> 
+													<label class="col-sm-1 control-label" style="text-align: center;">部门</label>
+													<label class="col-sm-1 control-label" style="text-align: center;">性别</label> 
+													<label class="col-sm-1 control-label" style="text-align: center;">职务</label> <label
+														class="col-sm-1 control-label" style="text-align: center;">决策人</label> <label class="col-sm-1 control-label" style="text-align: center;">移动电话</label> <label
+														class="col-sm-1 control-label" style="text-align: center;">电子邮件</label> <label class="col-sm-1 control-label" style="text-align: center;">固定电话</label> <label
+														class="col-sm-1 control-label" style="text-align: center;">传真</label> <label class="col-sm-3 control-label" style="text-align: center;">爱好</label>
+												</div>
+											</form>
+										</div>
+									</div>
+									<div id="timeline" class="tab-pane">
+										<form class="form-horizontal form-bordered">
+											<div class="form-group" id="reocrdConent"></div>
+											<div id="callBackPager" style="text-align: right;"></div>
+										</form>
+									</div>
+									<div id="contacts" class="tab-pane">3333333</div>
+									<div id="settings" class="tab-pane"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-12" align="center" style="margin-top: 10px; margin-bottom: 10px">
+			<a href="javascript:void(0);history.go(-1);" class="btn btn-palegreen">返回</a>
+		</div>
+	</div>
+	<%include("../../../resapi/sysjs.html"){}%>
+	<script type="text/javascript">
+		var customerId = "${customerId}";
+	</script>
+	<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+	<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+	<script src="/module/bootstrappager/extendPagination.js"></script>
+	<script src="/gobal/js/page/crm/customerdetails.js"></script>
+</body>
+</html>

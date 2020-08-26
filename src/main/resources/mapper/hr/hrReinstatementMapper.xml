@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrReinstatementMapper">
+<resultMap id="HrReinstatement" type="com.core136.bean.hr.HrReinstatement" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="LEVEL_ID" property="levelId" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="REINSTATEMENT_TYPE" property="reinstatementType" jdbcType="DOUBLE" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="VARCHAR" />
+    <result column="PLAN_TIME" property="planTime" jdbcType="VARCHAR" />
+    <result column="SALARY_TIME" property="salaryTime" jdbcType="VARCHAR" />
+    <result column="REINSTATEMENT_CONDITION" property="reinstatementCondition" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getHrReinstatementList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,USER_ID AS userId,LEVEL_ID AS levelId,DEPT_ID AS deptId, REINSTATEMENT_TYPE AS reinstatementType,
+	APPLY_TIME AS applyTime,SALARY_TIME AS salaryTime,PLAN_TIME AS planTime
+	FROM HR_REINSTATEMENT
+	WHERE ORG_ID=#{orgId}
+	<if test="userId!=null and userId!=''.toString()">
+		AND USER_ID=#{userId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND (APPLY_TIME &gt;=#{beginTime} OR END_TIME ='')
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND (APPLY_TIME &lt;=#{endTime} OR END_TIME ='')
+	</if>
+	<if test="reinstatementType!=null and reinstatementType!=''.toString()">
+		AND REINSTATEMENT_TYPE=#{reinstatementType}
+	</if>
+</select>
+
+</mapper>
+

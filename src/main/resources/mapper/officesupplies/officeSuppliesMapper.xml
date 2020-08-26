@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.officesupplies.OfficeSuppliesMapper">
+<resultMap id="OfficeSupplies" type="com.core136.bean.officesupplies.OfficeSupplies" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="SUPPLIES_ID" property="suppliesId" jdbcType="VARCHAR" />
+    <result column="SUPPLIES_NAME" property="suppliesName" jdbcType="VARCHAR" />
+    <result column="SUPPLIES_CODE" property="suppliesCode" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="SORT_ID" property="sortId" jdbcType="VARCHAR" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+    <result column="MODEL" property="model" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="OWN_DEPT" property="ownDept" jdbcType="VARCHAR" />
+	<result column="QUANTITY" property="quantity" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+	<select id="getOfficeSupplieslistBySortId" resultType="java.util.HashMap">
+		SELECT P.SUPPLIES_ID AS suppliesId,P.SUPPLIES_NAME AS suppliesName,P.SORT_ID AS sortId,P.SUPPLIES_CODE AS suppliesCode,
+		(SELECT S.SORT_NAME FROM OFFICE_SUPPLIES_SORT S WHERE S.ORG_ID=P.ORG_ID AND S.SORT_ID=P.SORT_ID) AS sortName,
+		P.BRAND AS brand,P.MODEL AS model,P.UNIT AS unit,P.QUANTITY AS quantity
+		FROM OFFICE_SUPPLIES P
+		WHERE P.ORG_ID = #{orgId}
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND (P.SUPPLIES_NAME LIKE #{search} OR P.SUPPLIES_CODE LIKE #{search})
+		</if>
+		<if test="sortId !=''.toString() and sortId!= null ">
+			AND P.SORT_ID = #{sortId}
+		</if>
+	</select>
+	
+	<select id="getApplyOfficeSupplieslist" resultType="java.util.HashMap">
+		SELECT P.SUPPLIES_ID AS suppliesId,P.SUPPLIES_NAME AS suppliesName,P.SORT_ID AS sortId,P.SUPPLIES_CODE AS suppliesCode,
+		(SELECT S.SORT_NAME FROM OFFICE_SUPPLIES_SORT S WHERE S.ORG_ID=P.ORG_ID AND S.SORT_ID=P.SORT_ID) AS sortName,
+		P.BRAND AS brand,P.MODEL AS model,P.UNIT AS unit,P.QUANTITY AS quantity
+		FROM OFFICE_SUPPLIES P
+		WHERE P.ORG_ID = #{orgId}
+		AND P.STATUS='0'
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND (P.SUPPLIES_NAME LIKE #{search} OR P.SUPPLIES_CODE LIKE #{search})
+		</if>
+		<if test="sortId !=''.toString() and sortId!= null ">
+			AND P.SORT_ID = #{sortId}
+		</if>
+			AND P.QUANTITY&gt;0
+		<if test="deptId!=''.toString() and deptId!=null">
+			AND (FUN_INTE_ARRAY(P.OWN_DEPT,#{deptId}) > 0
+				OR P.OWN_DEPT='@all')
+		</if>
+	</select>	
+	
+</mapper>

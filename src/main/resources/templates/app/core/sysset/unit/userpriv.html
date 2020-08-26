@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+			<div class="alert alert-info fade in" style="margin-bottom: 0px;">
+						<button class="close" data-dismiss="alert">×</button>
+						<i class="fa-fw fa fa-info"></i> <strong>提示!</strong> 权限设置需要有系统管理员权限才可以操作。
+					</div>
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+				<div class="widget-body">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="buttons-preview" id="toobar">
+<!-- 								<a href="javascript:void(0);" class="btn btn-darkorange">批量删除</a>  -->
+								<a href="javascript:void(0);createUserPriv();" class="btn btn-azure">创建权限</a>
+							</div>
+							<table id="myTable"></table>
+						</div>
+					</div>
+</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade bs-example-modal-lg" id="createmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">创建权限</h4>
+				</div>
+				<div class="modal-body">
+					<form id="form" class="form-horizontal form-bordered" data-bv-message="This value is not valid" data-bv-feedbackicons-valid="glyphicon glyphicon-ok" data-bv-feedbackicons-invalid="glyphicon glyphicon-remove" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">排序号：</label>
+							<div class="col-sm-10">
+								<input type="hidden" id="userPrivId"> <input type="number" class="form-control" id="sortNo" placeholder="排序号" data-bv-digits="true" data-bv-digits-message="排序号必须是正整数" data-bv-notempty="true" data-bv-notempty-message="排序号不能为空">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">权限组名称：</label>
+							<div class="col-sm-10">
+								<input size="50" type="text" class="form-control" id="userPrivName" placeholder="权限组名称" data-bv-notempty="true" data-bv-notempty-message="权限组名称">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">备注：</label>
+							<div class="col-sm-10">
+								<textarea rows="5" cols="" class="form-control" id="remark"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-warning" data-dismiss="modal">取消</a> <a class="btn btn-primary js-savebtn">保存</a>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="/gobal/js/page/sys/userpriv.js"></script>
+</html>

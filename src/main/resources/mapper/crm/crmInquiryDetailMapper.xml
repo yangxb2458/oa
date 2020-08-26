@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.crm.CrmInquiryDetailMapper">
+<resultMap id="CrmInquiryDetail" type="com.core136.bean.crm.CrmInquiryDetail" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="DETAIL_ID" property="detailId" jdbcType="VARCHAR" />
+    <result column="INQUIRY_ID" property="inquiryId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
+    <result column="COUNT" property="count" jdbcType="DOUBLE" />
+    <result column="DELIVERY" property="delivery" jdbcType="INTEGER" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getCrmInquiryDetailList" resultType="java.util.HashMap">
+SELECT  (@i:=@i+1) AS num, D.DETAIL_ID AS detailId,D.INQUIRY_ID AS inquiryId,D.PRODUCT_ID AS productId,D.COUNT AS count,D.DELIVERY AS delivery,D.REMARK AS remark,
+(SELECT B.MATERIEL_CODE FROM ERP_BOM B WHERE B.ORG_ID=#{orgId} AND P.BOM_ID=B.BOM_ID) AS materielCode,P.PRODUCT_NAME AS productName,P.MODEL AS model,
+(SELECT U.CN_NAME FROM ERP_UNIT U WHERE U.ORG_ID=#{orgId} AND U.TYPE=P.UNIT) AS unit
+FROM CRM_INQUIRY_DETAIL D LEFT JOIN ERP_PRODUCT P ON D.ORG_ID=P.ORG_ID AND D.PRODUCT_ID=P.PRODUCT_ID,(SELECT @i := -1) AS it
+WHERE D.ORG_ID=#{orgId}
+AND D.INQUIRY_ID=#{inquiryId}
+</select>
+
+</mapper>
+

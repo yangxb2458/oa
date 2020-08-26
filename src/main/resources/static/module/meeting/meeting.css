@@ -1,0 +1,94 @@
+.filedl{
+	width:60px;
+	height:50px;
+	text-align:center;
+	line-height:50px;
+	font-size:12px;
+	border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+	margin-bottom:10px;
+	 float: left;
+} 
+
+.seled{
+	background-color:#D6DFF7;
+} 
+h3{
+	text-align: center;
+}
+.timeitem
+{
+	width:2042px;
+	display: inherit;
+}
+.meetingitem
+{
+	text-align: center;
+	height: 50px;
+	width: 152px;
+	text-align: center;
+	margin-bottom: 12px;
+	line-height: 50px;
+	border: 1px solid #ccc;
+	list-style-type:none;
+}
+.headdiv{
+	height:80px;
+	background: rgb(247, 247, 247);
+	line-height: 80px;
+}
+.listdiv{
+	background: white;
+    height: 100%;
+    padding-top: 20px;
+}
+.divleft
+{
+width:200px;
+display:inline-block;
+position: absolute;
+}
+.divright{
+	display:inline-block;
+	width:1200px;
+	overflow-x: auto;
+	margin-left: 200px;
+	border: 1px solid #ccc;
+}
+
+
+.meetingroom_li {
+    width: 152px;
+    margin-bottom: 20px;
+    text-align: center;
+    height: 62px !important;
+    line-height: 62px !important;
+    border-radius: 6px;
+    background: url(/gobal/img/mr.png);
+    list-style-type:none;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+}
+.axis-x {
+    height: 62px;
+    width: 1081px;
+    float: none;
+    margin-bottom: 20px;
+}
+.time_interval {
+    display: block;
+    height: 31px;
+    line-height: 31px;
+}
+.axis-x div {
+    color: white;
+    float: left;
+    height: 62px;
+    line-height: 14px;
+    text-align: center;
+    width: 60px;
+    font-family: 微软雅黑;
+    font-size: 12px;
+    background: url(/gobal/img/axis_x_new.png) left top repeat-x scroll transparent;
+}

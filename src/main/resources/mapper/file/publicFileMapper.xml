@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.file.PublicFileMapper">
+	<resultMap id="PublicFile"
+		type="com.core136.bean.file.PublicFile">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="FILE_ID" property="fileId" jdbcType="VARCHAR" />
+		<result column="FOLDER_ID" property="folderId"
+			jdbcType="VARCHAR" />
+		<result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+		<result column="FILE_NAME" property="fileName"
+			jdbcType="VARCHAR" />
+		<result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+		<result column="VERSION" property="version" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser"
+			jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="READ_COUNT" property="readCount"
+			jdbcType="INTEGER" />
+		<result column="READ_USER" property="readUser"
+			jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getPublicFilelist" resultType="java.util.HashMap">
+		SELECT P.FILE_ID AS fileId,P.FILE_NAME AS fileName,P.ATTACH AS attach,P.VERSION AS version,'true' AS isFile,
+		A.FILE_SIZE AS fileSize,A.EXT_NAME AS extName
+		FROM PUBLIC_FILE P,ATTACH A 
+		WHERE
+		A.ORG_ID=#{orgId} AND A.ATTACH_ID=P.ATTACH 
+		AND P.ORG_ID=#{orgId}
+		AND A.DEL_FLAG='0'
+		AND P.FOLDER_ID=#{folderId} 
+		ORDER BY P.SORT_NO ASC
+	</select>
+	
+	<select id="getPublicFileByFolderId" resultType="java.util.HashMap">
+		SELECT FILE_ID AS folderId,FILE_NAME AS folderName,ATTACH AS attachId,'false' AS isParent
+		FROM PUBLIC_FILE 
+		WHERE 
+		FOLDER_ID=#{folderId} 
+		AND ORG_ID=#{orgId}
+	</select>
+
+</mapper>
+

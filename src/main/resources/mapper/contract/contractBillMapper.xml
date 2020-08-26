@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.contract.ContractBillMapper">
+<resultMap id="ContractBill" type="com.core136.bean.contract.ContractBill" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="BILL_ID" property="billId" jdbcType="VARCHAR" />
+    <result column="BILL_CODE" property="billCode" jdbcType="VARCHAR" />
+    <result column="CONTRACT_ID" property="contractId" jdbcType="DOUBLE" />
+    <result column="CUSTOMER_NAME" property="customerName" jdbcType="VARCHAR" />
+    <result column="BILL_TYPE" property="billType" jdbcType="VARCHAR" />
+    <result column="IS_OPEN" property="isOpen" jdbcType="VARCHAR" />
+    <result column="TOTAL" property="total" jdbcType="DOUBLE" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="BILL_TIME" property="billTime" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+<select id="getDeskBillList" resultType="java.util.HashMap">
+SELECT B.BILL_CODE AS billCode,B.CUSTOMER_NAME AS customerName,B.BILL_TYPE AS billType,B.TOTAL AS total,
+B.IS_OPEN AS isOpen,B.BILL_TIME AS billTime,C.TITLE AS title
+FROM CONTRACT_BILL B LEFT JOIN CONTRACT C ON B.ORG_ID=C.ORG_ID AND B.CONTRACT_ID=C.CONTRACT_ID
+WHERE B.ORG_ID=#{orgId}
+ORDER BY B.CREATE_TIME ASC LIMIT 0,10
+</select>
+
+<select id="getContractBillTop" resultType="java.util.HashMap">
+SELECT C.TITLE AS title,B.BILL_CODE AS billCode,B.CUSTOMER_NAME AS customerName,B.TOTAL AS total,B.BILL_TYPE AS billType,B.IS_OPEN AS isOpen,B.BILL_TIME AS billTime
+FROM CONTRACT_BILL B LEFT JOIN CONTRACT C ON B.ORG_ID=C.ORG_ID AND B.CONTRACT_ID=C.CONTRACT_ID
+WHERE B.ORG_ID=#{orgId}
+ORDER BY B.BILL_TIME DESC LIMIT 0,10
+</select>
+
+<select id="getContractBillList" resultType="java.util.HashMap">
+	SELECT B.BILL_ID AS billId,B.BILL_CODE AS billCode,B.CUSTOMER_NAME AS customerName,B.CONTRACT_ID AS contractId,B.IS_OPEN AS isOpen,B.TOTAL AS total,
+	B.BILL_TIME AS billTime,B.BILL_TYPE AS billType,C.TITLE AS title,C.CONTRACT_TYPE AS contractType
+	FROM
+	CONTRACT_BILL B LEFT JOIN CONTRACT C ON B.ORG_ID=C.ORG_ID AND B.CONTRACT_ID=C.CONTRACT_ID
+	WHERE
+	B.ORG_ID=#{orgId}
+	<if test="opFlag!='1'.toString()">
+		AND B.CREATE_USER=#{accountId}
+	</if>
+	<if test = "beginTime!=''.toString() and beginTime!=null">
+		AND B.CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "endTime!=''.toString() and endTime!=null">
+		AND B.CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="search!='%%'.toString()">
+		AND(B.BILL_CODE LIKE #{search} OR B.CUSTOMER_NAME LIKE #{search} OR B.TOTAL LIKE #{search})
+	</if>
+	<if test="isOpen!=''.toString() and isOpen!=null">
+		AND B.IS_OPEN = #{isOpen}
+	</if>
+	<if test="billType!=''.toString() and billType!=null">
+		AND B.BILL_TYPE=#{billType}
+	</if>
+	<if test="status!=''.toString() and status!=null">
+		AND B.STATUS=#{status}
+	</if>
+</select>
+
+</mapper>
+

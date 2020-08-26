@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<% include("../../resapi/style.html"){}%>
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px; padding-top: 5px;">
+		<div class="page-container">
+			<div class="tabbable">
+				<ul class="nav nav-tabs tabs-flat" id="myTab" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+					<li class=><a href="/app/core/superversion/query" aria-expanded="false">督查汇总(部门)</a></li>
+					<li class=""><a href="/app/core/superversion/query?view=type" aria-expanded="false"> 督查汇总(类型) </a></li>
+					<li class="active"><a href="/app/core/superversion/query?view=bi" aria-expanded="true"> 督查汇总(图表) </a></li>
+				</ul>
+				<div class="tab-content tabs-flat">
+					<div class="page-body" style="padding: 0px">
+		<div class="row form-group">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="widget" style="height: 450px;" class="col-sm-12">
+					<div class="widget-header">
+						<span class="widget-caption">按事件类型分析</span>
+						<div class="widget-buttons">
+							<a href="#" data-toggle="collapse"> <i class="fa fa-minus"></i>
+							</a>
+						</div>
+						<!--Widget Buttons-->
+					</div>
+					<!--Widget Header-->
+					<div class="widget-body" style="height: 450px;">
+						<div id="main1" style="height: 400px;" class="col-sm-12"></div>
+					</div>
+					<!--Widget Body-->
+				</div>
+				<!--Widget-->
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="widget" style="height: 450px;" class="col-sm-12">
+					<div class="widget-header">
+						<span class="widget-caption">按督查领导分析</span>
+						<div class="widget-buttons">
+							<a href="#" data-toggle="collapse"> <i class="fa fa-minus"></i>
+							</a>
+						</div>
+						<!--Widget Buttons-->
+					</div>
+					<!--Widget Header-->
+					<div class="widget-body" style="height: 450px;">
+						<div id="main2" style="height: 400px;" class="col-sm-12"></div>
+					</div>
+					<!--Widget Body-->
+				</div>
+				<!--Widget-->
+			</div>
+		</div>
+		<div class="row form-group">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="widget" style="height: 450px;" class="col-sm-12">
+					<div class="widget-header">
+						<span class="widget-caption">按事件状态分析</span>
+						<div class="widget-buttons">
+							<a href="#" data-toggle="collapse"> <i class="fa fa-minus"></i>
+							</a>
+						</div>
+						<!--Widget Buttons-->
+					</div>
+					<!--Widget Header-->
+					<div class="widget-body" style="height: 450px;">
+						<div id="main3" style="height: 400px;" class="col-sm-12"></div>
+					</div>
+					<!--Widget Body-->
+				</div>
+				<!--Widget-->
+			</div>
+			
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="widget" style="height: 450px;" class="col-sm-12">
+					<div class="widget-header">
+						<span class="widget-caption">按月份工作量趋势分析</span>
+						<div class="widget-buttons">
+							<a href="#" data-toggle="collapse"> <i class="fa fa-minus"></i>
+							</a>
+						</div>
+						<!--Widget Buttons-->
+					</div>
+					<!--Widget Header-->
+					<div class="widget-body" style="height: 450px;">
+						<div id="main4" style="height: 400px;" class="col-sm-12"></div>
+					</div>
+					<!--Widget Body-->
+				</div>
+				<!--Widget-->
+			</div>
+		</div>
+
+	</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<% include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/echart/echarts.min.js"></script>
+<script type="text/javascript" src="/gobal/js/page/superversion/querybi.js"></script>
+</html>

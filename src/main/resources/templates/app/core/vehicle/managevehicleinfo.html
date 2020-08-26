@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/module/jeDate/jedate.css" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class="active"><a href="/app/core/vehicle/vehicleinfo" aria-expanded="true">车辆信息管理</a></li>
+							<li class=""><a href="/app/core/vehicle/vehicleinfo?view=input" aria-expanded="false">车辆信息录入</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding: 0px;">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12" id="vehiclelistdiv">
+									<div class="btn-group" id="toobar">
+									<span style="margin-left: 10px;">车辆类型:</span> <span> <select id="typeQuery" style="width: 100px; display: inline-block; border-radius: 0px;" class="form-control">
+									<option value="">全部</option>
+									<option value="1">轿车</option>
+													<option value="2">SUV</option>
+													<option value="3">MPV</option>
+													<option value="4">面包车</option>
+													<option value="5">皮卡</option>
+													<option value="6">轻卡</option>
+													<option value="7">重卡</option>
+									</select>
+										</span>
+										<span style="margin-left: 10px;">车辆性质:</span> <span> <select id="natureQuery" style="width: 100px; display: inline-block; border-radius: 0px;" class="form-control"></select>
+										</span> 
+										<span style="margin-left: 10px;">年检日期:</span> <span> <input readonly="readonly" placeholder="年检日期" style="width: 100px; display: inline-block;" id="beginTimeQuery"class="form-control">
+										</span> <span style="margin-left: 10px;">-</span> 
+										<span> <input readonly="readonly" placeholder="年检日期" style="width: 100px; display: inline-block;" id="endTimeQuery" class="form-control"></span>
+										<span style="margin-left: 10px;">保险日期:</span> <span> <input readonly="readonly" placeholder="保险日期" style="width: 100px; display: inline-block;" id="beginTime1Query"
+											class="form-control">
+										</span> <span style="margin-left: 10px;">-</span> <span> <input readonly="readonly" placeholder="保险日期" style="width: 100px; display: inline-block;" id="endTime1Query" class="form-control">
+										</span> 
+										<span style="margin-left: 10px;">所有者:</span> <span> <input type="text" class="form-control" id="onwerQuery" name="onwerQuery" style="width: 100px; display: inline-block;"
+												opt-id="onwerQuery" onclick="selectUser(this,'false');" readonly="readonly">
+										</span>
+										<span style="margin-left: 20px"> <a href="javascript:void(0);" class="btn btn-magenta js-simple-query">查询</a>
+										</span>
+									</div>
+									<table id="myTable"></table>
+								</div>
+								<div class="col-md-12 col-sm-12 col-xs-12" id="vehiclediv" style="display: none;">
+									<div class="row">
+										<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+											<form class="form-horizontal">
+										<table class="table table-hover table-striped table-bordered">
+											<tr>
+												<td width="20%">排序号：</td>
+												<td width="30%"><input placeholder="排序号" type="number" name="sortNo" id="sortNo" maxlength="50" value="" class="form-control"></td>
+												<td rowspan="6" colspan="2" style="text-align: center;">
+												<div>
+													<div>
+														<img id="file_img" style="width: 350px; height: 275px;" src="" onerror="this.onerror=null;this.src='/gobal/img/other/car.jpg'" class="avatar">
+													</div>
+													<div>
+														<a style="margin: 20px; cursor: pointer;"  onclick='delPhotos();'>删除</a> <a style="margin: 20px; position: relative; text-decoration: none; cursor: pointer;" onclick='delPhotos();'>更换 <input type="file"
+															onchange="uploadimg('file','vechiclephotos');" hidefocus="true" maxlength="1" id="file" name="file" class="addfile" accept="image/*">
+														</a>
+													</div>
+												</div>
+												</td>
+											<tr>
+												<td width="20%">车牌号：</td>
+												<td width="30%"><input placeholder="车牌号" type="text" name="vechicleNumber" id="vechicleNumber" class="form-control" maxlength="10"></td>
+											<tr>
+												<td width="20%">品牌：</td>
+												<td width="30%"><input placeholder="品牌" type="text" name="brand" id="brand" class="form-control" maxlength="50"></td>
+											<tr>
+												<td width="20%">型号：</td>
+												<td width="30%"><input placeholder="型号" type="text" name="model" id="model" class="form-control" maxlength="50"></td>
+											<tr>
+												<td width="20%">排量：</td>
+												<td width="30%"><input placeholder="排量" type="number" name="displacement" id="displacement" class="form-control" maxlength="10"></td>
+											</tr>
+											<tr>
+												<td width="20%">发动机编号：</td>
+												<td width="30%"><input placeholder="发动机编号" type="text" name="engineNo" id="engineNo" class="form-control" maxlength="50"></td>
+											</tr>
+											<tr>
+												<td width="20%">颜色：</td>
+												<td width="30%"><input placeholder="颜色" type="text" name="color" id="color" class="form-control" maxlength="10"></td>
+												<td width="20%">座位数：</td>
+												<td width="30%"><input placeholder="座位数" type="number" name="seats" id="seats" class="form-control" maxlength="10"></td>
+											</tr>
+											<tr>
+												<td width="20%">车架号：</td>
+												<td width="30%"><input placeholder="车架号" type="text" name="frameNo" id="frameNo" class="form-control" maxlength="10"></td>
+												<td width="20%">证书编号：</td>
+												<td width="30%"><input placeholder="证书编号" type="text" name="certification" id="certification" class="form-control" maxlength="50"></td>
+											</tr>
+											<tr>
+												<td width="20%">车辆性质：</td>
+												<td width="30%">
+													<select id="nature" name="nature" style="border-radius: 0px;" class="form-control"></select>
+												</td>
+												<td width="20%">车辆类型：</td>
+												<td width="30%">
+												<select id="type" name="type" style="border-radius: 0px;" class="form-control">
+													<option value="1">轿车</option>
+													<option value="2">SUV</option>
+													<option value="3">MPV</option>
+													<option value="4">面包车</option>
+													<option value="5">皮卡</option>
+													<option value="6">轻卡</option>
+													<option value="7">重卡</option>
+												</select>
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">管理部门：</td>
+												<td width="30%"><input placeholder="管理部门" opt-id="manageDept" type="text" name="manageDept" id="manageDept" class="form-control" onclick="selectDept(this,'false');"></td>
+												<td width="20%">联系电话：</td>
+												<td width="30%"><input placeholder="联系电话" type="text" name="managePhone" id="managePhone" class="form-control"></td>
+											</tr>
+											<tr>
+												<td width="20%">车辆所有者：</td>
+												<td width="30%"><input placeholder="车辆所有者" opt-id="onwer" type="text" name="onwer" id="onwer" class="form-control" onclick="selectUser(this,'false');"></td>
+												<td width="20%">联系电话：</td>
+												<td width="30%"><input placeholder="联系电话" type="text" name="onwerPhone" id="onwerPhone" class="form-control"></td>
+										</tr>
+										<tr>
+												<td width="20%">长期使用者：</td>
+												<td width="30%"><input placeholder="长期使用者" opt-id="caruser" type="text" name="caruser" id="caruser" class="form-control" onclick="selectUser(this,'false');"></td>
+												<td width="20%">联系电话：</td>
+												<td width="30%"><input placeholder="联系电话" type="text" name="caruserPhone" id="caruserPhone" class="form-control"></td>
+										</tr>
+											<tr>
+												<td width="20%"> 购买价格：</td>
+												<td width="30%"><input placeholder="购买价格" type="number" name="price" id="price" maxlength="10" class="form-control"></td>
+												<td width="20%">购置税：</td>
+												<td width="30%"><input placeholder="购置税" type="number" name="tax" id="tax" maxlength="10" value="" class="form-control"></td>
+											</tr>
+											<tr>
+												<td width="20%">购买日期：</td>
+												<td width="30%"><input placeholder="购买日期" type="text" name="buyTime" id="buyTime" maxlength="20" class="form-control"></td>
+												<td width="20%">起始里程：</td>
+												<td width="30%"><input placeholder="起始里程" type="number" name="mileage" id="mileage" maxlength="10" class="form-control"></td>
+											</tr>
+											<tr>
+												<td width="20%">年检日期：</td>
+												<td width="30%"><input placeholder="年检日期" type="text" name="yearlyTime" id="yearlyTime" maxlength="20" class="form-control"></td>
+												<td width="20%">保险到期：</td>
+												<td width="30%"><input placeholder="年检日期" type="text" name="insureTime" id="insureTime" maxlength="20" class="form-control"></td>
+											</tr>
+											<tr>
+												<td width="20%">授权人员：</td>
+												<td width="30%" colspan="2">
+												<textarea rows="5" cols="" placeholder="授权人员" id="userPriv" name="userPriv" class="form-control" readonly="readonly"></textarea>
+												</td>
+												<td width="30%"><a style="cursor: pointer;" opt-id="userPriv" onclick="selectUser(this,'true');">选择</a><a style="cursor: pointer;margin-left: 10px" onclick="clearSelect('userPriv');">清空</a></td>
+											</tr>
+											<tr>
+												<td width="20%">授权部门：</td>
+												<td width="30%" colspan="2">
+												<textarea rows="5" cols="" placeholder="授权部门" id="deptPriv" name="deptPriv" class="form-control" readonly="readonly"></textarea>
+												</td>
+												<td width="30%"><a style="cursor: pointer;" opt-id="deptPriv" onclick="selectDept(this,'true');">选择</a><a style="cursor: pointer;margin-left: 10px" onclick="clearSelect('deptPriv');">清空</a></td>
+											</tr>
+											<tr>
+												<td width="20%">授权职务：</td>
+												<td width="30%" colspan="2">
+												<textarea rows="5" cols="" placeholder="授权职务" id="levelPriv" name="levelPriv" class="form-control" readonly="readonly"></textarea>
+												</td>
+												<td width="30%"><a style="cursor: pointer;" opt-id="levelPriv" onclick="selectUserLevel(this,'true');">选择</a><a style="cursor: pointer;margin-left: 10px" onclick="clearSelect('levelPriv');">清空</a></td>
+											</tr>
+												<tr>
+												<td width="20%">相关附件：</td>
+												<td width="80%" colspan="3">
+													<div id="show_vechicleattach"></div> <a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('vechicle','vechicleattach');" hidefocus="true"
+														maxlength="1" id="vechicleattach" name="vechicleattach" class="addfile" multiple="multiple"></a> <a class="addfile" style="width: 200px;" href="#" op_id="vechicleattach"
+													onclick="selectattach(this,'true')">选择网络文件</a>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">备注</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<div id="remark" name="remark"></div>
+												</td>
+											</tr>
+													<tr>
+														<td colspan="4" align="center">
+														<a id="createbut" href="javascript:void(0);" class="btn btn-primary js-update-save">更&nbsp;&nbsp;新</a>
+														<a href="javascript:void(0);" class="btn btn-purple js-back-btn" style="margin-left: 20px;">返&nbsp;&nbsp;回</a>
+														</td>
+													</tr>
+												</table>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	<div id="attachselect"></div>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/attachselect.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/vechicle/managevehicleinfo.js"></script>
+</body>
+</html>

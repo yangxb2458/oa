@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){} %>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="widget-header bordered-bottom bordered-sky">
+						<i class="widget-icon fa fa-calendar sky"></i> <span class="widget-caption">发货详情</span>
+					</div>
+					<div class="widget-body">
+						<div class="row">
+							<div class="col-md-12" style="padding-top: 0px">
+								<form class="form-horizontal form-bordered" id="from">
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">相关合同：</label>
+										<div class="col-sm-5" style="line-height: 34px" id="contractId">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">发货日期：</label>
+										<div class="col-sm-5" style="line-height: 34px" id="sendDate">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">送货单位：</label>
+										<div class="col-sm-5" style="line-height: 34px" id="trackingComp">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">送货单号：</label>
+										<div class="col-sm-5" style="line-height: 34px" id="trackingNumber">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">收货人：</label>
+										<div class="col-sm-5" style="line-height: 34px" id="consignee">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">收货地址：</label>
+										<div class="col-sm-5" style="line-height: 34px" id="address">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">收货人电话：</label>
+										<div class="col-sm-5" style="line-height: 34px" id="iphone">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">备注：</label>
+										<div class="col-sm-10" style="line-height: 34px" id="remark">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">相关附件 ：</label>
+										<div class="col-sm-5" id="contractattach">
+											<div style="padding-top: 4px;">
+												<div id="show_contractattach"></div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-12" align="center">
+											<a href="javascript:void(0);window.close();" class="btn btn-maroon">关&nbsp;&nbsp;闭</a>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var recordId = "${parameter.recordId}";
+	</script>
+	<%include("../../resapi/sysjs.html"){} %>
+	<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+	<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/contract/sendgoodsdetails.js"></script>
+</body>
+</html>

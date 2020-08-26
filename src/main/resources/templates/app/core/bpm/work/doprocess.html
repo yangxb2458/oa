@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class="active"><a href="/app/core/bpm/doprocess" aria-expanded="true"> 待办理 </a></li>
+							<li class=""><a href="/app/core/bpm/doprocess?view=inprocess"  aria-expanded="false"> 过程中 </a></li>
+							<li class=""><a href="/app/core/bpm/doprocess?view=endprocess" aria-expanded="false"> 已结束 </a></li>
+							<li class=""><a href="/app/core/bpm/doprocess?view=sendtome" aria-expanded="false"> 抄送 </a></li>
+						</ul>
+						<div class="tab-content tabs-flat">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="buttons-preview" id="toobar">
+										<span style="margin-left: 10px;">流水号:</span> <span> <input type="text" class="form-control" id="bpmRunNo" name="bpmRunNo" style="width: 100px; display: inline-block;" placeholder="流水号"> <span style="margin-left: 10px">流程分类:</span> <span> <select id="flows" style="width: 150px"></select></span> 
+										<span style="margin-left: 10px;">发起人:</span> <span> <input type="text" class="form-control" id="createUser" name="createUser" style="width: 150px; display: inline-block;"
+												opt-id="createUser" onclick="selectUser(this,'false');" readonly="readonly">
+										</span> <span style="margin-left: 10px"> <span style="margin-left: 10px"><a href="javascript:void(0);" class="btn btn-success js-d-query-but">查询</a></span>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;" id="entrustmodal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myLargeModalLabel">委托设置</h4>
+					</div>
+					<div class="modal-body" style="padding-bottom: 0px;">
+						<form class="form-horizontal" id="form1">
+							<div class="form-group">
+								<label class="col-sm-2 control-label no-padding-right">受委人：</label>
+								<div class="col-sm-10">
+									<select class="form-control" id="entrustUser" name="entrustUser" style="border-radius: 0px;">
+									</select>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary js-entrust">确定</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+</div>
+		<div id="orgselectdiv"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/gobal/js/page/bpm/bpmsys.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/bpm/goprocess.js"></script>
+</html>

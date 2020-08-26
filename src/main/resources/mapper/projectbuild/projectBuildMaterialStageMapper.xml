@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.projectbuild.ProjectBuildMaterialStageMapper">
+<resultMap id="ProjectBuildMaterialStage" type="com.core136.bean.projectbuild.ProjectBuildMaterialStage" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="MATERIAL_STAGE_ID" property="materialStageId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="STAGE_ID" property="stageId" jdbcType="VARCHAR" />
+    <result column="projectId" property="projectId" jdbcType="VARCHAR" />
+    <result column="MATERIAL" property="materialId" jdbcType="VARCHAR" />
+    <result column="USE_QUANTITY" property="useQuantity" jdbcType="INTEGER" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+	<select id="getMaterialStageList" resultType="java.util.HashMap">
+	SELECT P.STAGE_ID AS stageId,P.MATERIAL_STAGE_ID AS materialStageId, M.MATERIAL_CODE AS materialCode,M.NAME AS name,M.BRAND AS brand,M.MODEL AS model,M.UNIT AS unit,M.PRICE AS price,
+	p.USE_QUANTITY AS useQuantity,(SELECT S.STAGE_NAME FROM PROJECT_BUILD_STAGE S WHERE S.ORG_ID=P.ORG_ID AND S.STAGE_ID=P.STAGE_ID) AS stageName 
+	FROM
+	PROJECT_BUILD_MATERIAL_STAGE P,PROJECT_BUILD_MATERIAL M
+	WHERE 
+	P.ORG_ID=M.ORG_ID
+	AND P.MATERIAL_ID = M.MATERIAL_ID
+	AND P.STAGE_ID = #{stageId}
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND (M.NAME LIKE #{search} OR M.MATERIAL_CODE LIKE #{search})
+		</if>
+	</select>
+
+<select id="isExistChild" resultType="Integer">
+	SELECT COUNT(1) AS ZS FROM PROJECT_BUILD_MATERIAL_STAGE 
+	WHERE ORG_ID=#{orgId} AND STAGE_ID=#{stageId} AND MATERIAL_ID=#{materialId}
+</select>
+
+<select id="getMaterialListInStage" resultType="java.util.HashMap">
+		SELECT MATERIAL_ID AS materialId,NAME as name,MATERIAL_CODE AS materialCode,BRAND AS brand,UNIT AS unit,MODEL AS model,PRICE AS price 
+		FROM PROJECT_BUILD_MATERIAL
+		WHERE ORG_ID=#{orgId} AND
+		MATERIAL_ID IN(SELECT P.MATERIAL_ID FROM PROJECT_BUILD_MATERIAL_STAGE P WHERE P.ORG_ID=ORG_ID AND P.STAGE_ID=#{stageId})
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND (NAME LIKE #{search} OR MATERIAL_CODE LIKE #{search})
+		</if>
+</select>
+
+</mapper>
+

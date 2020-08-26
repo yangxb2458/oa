@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.erp.ErpMaterielMapper">
+<resultMap id="ErpMateriel" type="com.core136.bean.erp.ErpMateriel" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="MATERIEL_ID" property="materielId" jdbcType="VARCHAR" />
+    <result column="MATERIEL_CODE" property="materielCode" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="MATERIEL_NAME" property="materielName" jdbcType="VARCHAR" />
+    <result column="SOURCE" property="source" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="SORT_LEAVE" property="sortLeave" jdbcType="VARCHAR" />
+    <result column="MATERIEL_IMG" property="materielImg" jdbcType="VARCHAR" />
+    <result column="PARAM" property="param" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="DOUBLE" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+	<select id="isExistMaterielById" resultType="Integer">
+	SELECT COUNT(1) AS ZS FROM ERP_MATERIEL WHERE MATERIEL_ID=#{materielId} AND ORG_ID=#{orgId}
+	</select>
+
+<select id="selectMateriel2ById" resultMap="ErpMateriel">
+	SELECT ID, MATERIEL_ID, MATERIEL_CODE, SORT_NO, MATERIEL_NAME, SOURCE, UNIT, SORT_LEAVE, MATERIEL_IMG, PARAM, PRICE, REMARK, CREATE_USER, CREATE_TIME,TYPE, ORG_ID 
+	FROM ERP_MATERIEL WHERE MATERIEL_CODE LIKE #{materielCode} AND ORG_ID=#{orgId}
+</select>
+<select id="selectOneByCode" resultMap="ErpMateriel">
+	SELECT ID, MATERIEL_ID, MATERIEL_CODE, SORT_NO, MATERIEL_NAME, SOURCE, UNIT, SORT_LEAVE, MATERIEL_IMG, PARAM, PRICE, REMARK, CREATE_USER, CREATE_TIME,TYPE, ORG_ID 
+	FROM ERP_MATERIEL WHERE MATERIEL_CODE = #{materielCode} AND ORG_ID=#{orgId}
+</select>
+</mapper>
+

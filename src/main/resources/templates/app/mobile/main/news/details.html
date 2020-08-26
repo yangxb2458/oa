@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title id="newsTitle"></title>
+    <%include("../../../resapi/mobilestyle.html"){}%>
+</head>
+<body style="overflow-y: auto;">
+			<ul class="m-grids-2"> 
+			<li class="grids-item">
+                <div class="grids-txt" style="text-align: left">点击次数:<span id="onclickCount"></span></div>
+            </li>
+            <li class="grids-item">
+                <div class="grids-txt" style="text-align: right">新闻类型:<span id="newsType"></span></div>
+            </li>
+			</ul>
+			<div style="background: #FFFFFF;padding: 10px;font-size: 14px;min-height: 200px;">
+					<p id="content" align="left"></p>
+			</div>
+			<div class="mail-attachments" id="attach" style="margin-bottom: 50px;margin-top: 5px;margin-left: 5px;" align="left">
+						<h4>
+							<i class="fa fa-paperclip"></i> 附件： <span id="attachCount"></span>
+						</h4>
+						<div id="show_attach"></div>
+					</div>
+		<ul class="m-grids-2"> 
+			<li class="grids-item">
+                <div class="grids-txt" style="text-align: left">发布时间:<span id="sendTime"></span></div>
+            </li>
+            <li class="grids-item">
+                <div class="grids-txt" style="text-align: right">发布人:<span id="createUser"></span></div>
+            </li>
+		</ul>
+	<%include("../../../resapi/mobilejs.html"){}%>
+	<script type="text/javascript">
+		var newsId = "${parameter.newsId}";
+	</script>
+	<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="/module/fileupload/mobilefileupload.js"></script>
+	<script type="text/javascript">
+	$(function () {
+		bindData();		
+	});
+	
+function bindData()
+{
+	$.ajax({
+			url : "/ret/oaget/getMobileNewsInfo",
+			type : "post",
+			dataType : "json",
+			data:{
+				newsId:newsId
+				},
+			success : function(data) {
+				if(data.status=="500")
+				{
+				console.log(data.msg);
+				}else if(data.status=="100")
+				{
+					top.layer.msg(data.msg);
+				}else
+					{
+					for(var name in data.list)
+					{
+					if(name=="attach")
+						{
+						$("#attach").attr("data_value",data.list.attach);
+						createAttach("attach",data.list.attachPriv);
+						}else if(name=="newsType")
+						{
+							$("#"+name).html(data.list.newsType);
+						}else if(name=="createUser")
+						{
+							$("#"+name).html(data.list.createUser);
+						}else if(name=="newsTitle")
+						{
+							$("#newsTitle").html(data.list.newsTitle);
+						}else{
+							$("#"+name).html(data.list[name]);
+							}
+					}
+					}
+			}
+		}) 
+}
+	</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<% include("../../resapi/style.html"){} %>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="well with-header">
+			<div class="header bordered-pink">工作日志设置</div>
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">日志时间段锁定：</label>
+					<div class="col-sm-5">
+						<input type="number" class="form-control" id="lockDay" name="lockDay" placeholder="日志时间段锁定" value="7">
+					</div>
+					<div class="col-sm-6" style="line-height: 34px">最多能补前几天的工作日志!</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">是否默认共享：</label>
+					<div class="col-sm-5">
+						<div class="radio">
+							<label style="padding-left: 0px;"> <input name="shareStatus" type="radio" checked="checked" value="0"> 
+							<span class="text">默认全体分享</span>
+							</label>
+							<label> <input name="shareStatus" type="radio" value="1"> <span class="text">默认本部门分享</span>
+							</label>
+							<label> <input name="shareStatus" type="radio" value="2"> <span class="text">指定分享</span>
+							</label>  
+							<label> <input name="shareStatus" type="radio" value="3"> <span class="text">默认不分享</span>
+							</label>
+						</div>
+					</div>
+					<div class="col-sm-6" style="line-height: 34px">设置日志是否可分享或者是分享范围！</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">是否允许评论：</label>
+					<div class="col-sm-5">
+						<div class="radio">
+							<label style="padding-left: 0px;"> <input name="commStatus" type="radio" checked="checked" value="0"> <span class="text">不允许评论</span>
+							</label>
+							<label> <input name="commStatus" type="radio" value="1"> <span class="text">允许评论</span>
+							</label>
+						</div>
+					</div>
+					<div class="col-sm-6" style="line-height: 34px">设置日志是否可分享或者是分享范围！</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">工作日志模版设置：</label>
+					<div class="col-sm-7">
+						<div id="template"></div>
+					</div>
+					<div class="col-sm-4" style="line-height: 34px"></div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-1 col-sm-11">
+						<button type="button" class="btn btn-purple js-setbtn">设置</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+<% include("../../resapi/sysjs.html"){} %>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script src="/gobal/js/page/oa/diraypriv.js"></script>
+</html>

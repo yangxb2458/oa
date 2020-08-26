@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/module/raty-2.8.0/jquery.raty.css" rel="stylesheet" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto; height: 100%;">
+	<div class="page-body" style="padding: 0px; height: 100%;">
+		<div class="main-container container-fluid" style="height: 100%;">
+			<div class="page-container" style="height: 100%;">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px; height: 100%;">
+					<div class="col-md-2 col-sm-2 col-xs-12" style="padding: 0px; height: 100%;">
+						<div class="widget flat radius-bordered" style="height: 100%;">
+							<div class="widget-header bg-lightred">
+								<span class="widget-caption">部门列表</span>
+							</div>
+							<div class="widget-body" style="height: 100%; overflow-y: auto;padding-bottom: 50px">
+								<ul id="tree" class="ztree"></ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-10 col-sm-10 col-xs-12" style="padding: 0px">
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="widget-body">
+							<div>
+										<div id="userEvaluate" style="display:inline-block;margin-right: 20px;font-size: 18px;">全部评价</div>
+										<a style="float: right;display:inline-block;" href="javascript:void(0);" class="btn btn-magenta js-evaluate">评价</a>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade bs-example-modal-lg" id="evaluatemodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">人员评价</h4>
+				</div>
+				<div class="modal-body" style="padding: 0px;">
+					<form class="form-horizontal">
+						<table class="table table-hover table-striped table-bordered">
+							<tr>
+								<td width="20%">综合评价：</td>
+								<td width="30%">
+									<input type="hidden" id="userId" name="userId"/>
+									<select id="status" name="status" class="form-control">
+										<option value="1">优秀</option>
+										<option value="2">一般</option>
+										<option value="3">较差</option>
+									</select>
+								</td>
+								<td width="20%">工作技能：</td>
+								<td width="30%"><div id="skillLevel"></div></td>
+							</tr>
+							<tr>
+								<td width="20%">学习能力：</td>
+								<td width="30%">
+								<div id="learnLevel"></div>
+								</td>
+								<td width="20%">工作态度：</td>
+								<td width="30%">
+								<div id="attitudeLevel"></div>
+								</td>
+							</tr>
+							<tr>
+								<td width="20%">综合评价：</td>
+								<td width="30%" colspan="3">
+									<textarea rows="5" cols="" class="form-control" id="remark" name="remark"></textarea>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-save">保存</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	
+	
+		<div class="modal fade bs-example-modal-lg" id="evaluatemodalD" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">人员评价详情</h4>
+				</div>
+				<div class="modal-body" style="padding: 0px;">
+					<form class="form-horizontal">
+						<table class="table table-hover table-striped table-bordered">
+							<tr>
+								<td width="20%">综合评价：</td>
+								<td width="30%" id="statusD">
+								</td>
+								<td width="20%">工作技能：</td>
+								<td width="30%"><div id="skillLevelD"></div></td>
+							</tr>
+							<tr>
+								<td width="20%">学习能力：</td>
+								<td width="30%">
+								<div id="learnLevelD"></div>
+								</td>
+								<td width="20%">工作态度：</td>
+								<td width="30%">
+								<div id="attitudeLevelD"></div>
+								</td>
+							</tr>
+							<tr>
+								<td width="20%">综合评价：</td>
+								<td width="30%" colspan="3" id="remarkD">
+								</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/hrapi.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/module/raty-2.8.0/jquery.raty.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/evaluate/evaluate.js"></script>
+</html>

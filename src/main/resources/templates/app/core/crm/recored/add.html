@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<%include("../../../resapi/style.html"){}%>
+<link href='/module/area/chosen.min.css' rel='stylesheet'>
+<style type="text/css">
+.bootstrap-tagsinput{
+    background-color: #fbfbfb;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body">
+		<div class="page-container">
+			<div class="widget">
+				<div class="widget-header bordered-bottom bordered-palegreen">
+					<span class="widget-caption">新建联系记录</span>
+				</div>
+				<div class="widget-body">
+					<form class="form-horizontal form-bordered" id="from">
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">联系人：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="linkName" name="linkName" placeholder="联系人">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">关联客户：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="customerId" name="customerId" placeholder="客户名称">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">下次回访时间：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="sex" name="sex" placeholder="性别">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">是否提醒：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="birthday" name="birthday" placeholder="生日">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">回访类型：</label>
+							<div class="col-sm-5">
+								<select class="form-control" id="mobile" name="mobile" >
+									<option value="0">日常联系</option>
+									<option value="1">营销事宜</option>
+									<option value="2">意见反馈</option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">联系类型：</label>
+							<div class="col-sm-5">
+								<select class="form-control" id="recordType" name="recordType" >
+									<option value="0">我方主动联系</option>
+									<option value="1">对方主动联系</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-5">
+								<a id="createbut" href="javascript:void(0);"
+									class="btn btn-primary">新&nbsp;&nbsp;建</a> <a
+									style="display: none;" id="updatabut"
+									href="javascript:void(0);" class="btn btn-maroon">更&nbsp;&nbsp;改</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+		<%include("../../../resapi/sysjs.html"){}%>
+	<!--Bootstrap  wysiwig Scripts-->
+	<script src="/assets/js/tagsinput/bootstrap-tagsinput.js"></script>
+	<script src="/gobal/js/page/crm/linkman.js"></script>
+</body>
+</html>

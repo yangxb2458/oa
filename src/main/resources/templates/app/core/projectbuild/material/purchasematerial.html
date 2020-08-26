@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<%include("../../../resapi/style.html"){} %>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="widget">
+						<div class="widget-header bordered-bottom bordered-palegreen">
+							<span class="widget-caption">工程材料采购申请</span>
+						</div>
+						<div class="widget-body">
+							<form class="form-horizontal form-bordered" id="form"  data-bv-message="This value is not valid" data-bv-feedbackicons-valid="glyphicon glyphicon-ok" data-bv-feedbackicons-invalid="glyphicon glyphicon-remove" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">申请标题：</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" id="title" name="title" placeholder="申请标题"  data-bv-notempty="true" data-bv-notempty-message="申请标题不能为空">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">关联项目：</label>
+									<div class="col-sm-5">
+										<input type="text" style="width: 400px" id="projectId" name="projectId" placeholder="关联项目">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">项目阶段：</label>
+									<div class="col-sm-5">
+										<select class="form-control" style="width: 400px; border-bottom-right-radius: 0px" id="stageId" name="stageId" placeholder="项目阶段"></select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">供商应：</label>
+									<div class="col-sm-5">
+										<input type="text" style="width: 400px" id="supplierId" name="supplierId" placeholder="供商应">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">采购明细：</label>
+									<div class="col-sm-10">
+										<div class="form-title">材料清单</div>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="buttons-preview" id="toobar">
+													<a href="javascript:void(0);addRow();" class="btn btn-azure">添加材料</a>
+												</div>
+												<table id="myTable"></table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">采购总金额：</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control" id="amount" name="amount" placeholder="采购总金额"
+												data-bv-notempty="true" data-bv-notempty-message="采购总金额不能为空"
+												data-bv-regexp="true"
+                                                data-bv-regexp-regexp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$"
+                                                data-bv-regexp-message="必须为数字,小数点两位,如:(1.23)">
+									</div>
+									<div class="col-sm-2" style="line-height: 34px;">元(RMB)</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">备注：</label>
+									<div class="col-sm-5">
+										<textarea rows="5" cols="" class="form-control" id="remark" name="remark"></textarea>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">相关文件：</label>
+									<div class="col-sm-5">
+										<div style="padding-top: 4px;">
+											<div id="show_projectbuildattach"></div>
+											<a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('projectbuild','projectbuildattach');" hidefocus="true" size="1"
+												id="projectbuildattach" name="projectbuildattach" class="addfile" multiple="multiple"></a>
+										</div>
+									</div>
+
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-1 col-sm-5">
+										<a id="createbut" href="javascript:void(0);" class="btn btn-primary">创&nbsp;&nbsp;建</a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<div class="modal fade bs-example-modal-lg" tabindex="1" id="materialSelectModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">材料选择</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="form1">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">所需材料：</label>
+							<div class="col-sm-8">
+								<input id="materialId" name="materialId" style="width:100%">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">材料编号：</label>
+							<div class="col-sm-8" id="materialCode" style="line-height: 34px">
+							</div>
+						</div>
+							<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">品牌：</label>
+							<div class="col-sm-8" id="brand" style="line-height: 34px">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">材料型号：</label>
+							<div class="col-sm-8" id="model" style="line-height: 34px">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">采购数量：</label>
+							<div class="col-sm-4">
+								<input type="number" class="form-control" id="quantity" name="quantity" placeholder="采购数量" data-bv-digits="true" data-bv-digits-message="采购数量必须是正整数" data-bv-notempty="true"
+									data-bv-notempty-message="采购数量">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">计量单位：</label>
+							<div class="col-sm-8" id="unit" style="line-height: 34px">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">参考价格：</label>
+							<div class="col-sm-8" id="ckjg" style="line-height: 34px">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">采购价格：</label>
+							<div class="col-sm-4">
+								<input type="number" class="form-control" id="price" name="price" placeholder="采购价格" data-bv-digits="true" data-bv-digits-message="采购价格必须是正整数" data-bv-notempty="true"
+									data-bv-notempty-message=采购价格>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">备注：</label>
+							<div class="col-sm-8">
+							<textarea rows="5" cols="" class="form-control" id="mxremark" name="mxremark"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-save">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>	
+	
+</body>
+<%include("../../../resapi/sysjs.html"){} %>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="/assets/js/select2/select2.js"></script>
+<script src="/gobal/js/page/projectbuild/purchasematerial.js"></script>
+</html>

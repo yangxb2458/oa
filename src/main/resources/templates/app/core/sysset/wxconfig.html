@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="main-container container-fluid" style="overflow-y: auto">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="widget col-md-offset-3">
+						<div class="widget-header bordered-bottom bordered-palegreen">
+							<span class="widget-caption">企业微信服务设置</span>
+						</div>
+						<div class="widget-body">
+							<div>
+								<form class="form-horizontal form-bordered" role="form">
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">公司CorpId：</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" placeholder="公司CorpId" id="wxCorpId" name="wxCorpId" value="${wxCorpId}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">微应用AgentId：</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" placeholder="微应用AgentId" id="wxAgentId" name="wxAgentId" value="${wxAgentId}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">微应用AppSecret：</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" placeholder="微应用AppSecret" id="wxAppSecret" name="wxAppSecret" value="${wxAppSecret}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">通讯录SyncSecret：</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" placeholder="通讯录SyncSecret：" id="wxSyncSecret" name="wxSyncSecret" value="${wxSyncSecret}">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-1 col-sm-5">
+											<button type="button" id="savebtn" class="btn btn-palegreen">设置</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+	<%include("../../resapi/sysjs.html"){}%>
+	<script src="/gobal/js/page/sys/wxconfig.js"></script>
+</body>
+</html>

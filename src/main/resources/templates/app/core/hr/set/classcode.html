@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<% include("../../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<style type="text/css">
+.table>tbody>tr>td
+{
+	vertical-align: middle;
+}
+.table>thead>tr>th
+{
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="height: 100%">
+	<div class="page-body" style="padding: 0px; height: 100%">
+		<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px; height: 100%">
+			<div class="widget-header bg-themeprimary">
+				<span class="widget-caption">HR系统代码设置</span>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12" style="padding: 0px; height: 100%;">
+				<a class="btn btn-purple shiny js-add-parent-but" href="javascript:void(0);" style="width: 100%">添加主分类<i style="float: right;" class="fa fa-plus right"></i></a>
+				<div class="widget-body" style="padding: 0px; height: 100%; overflow-y: auto; padding-bottom: 60px">
+					<table class="table table-hover table-striped table-bordered table-condensed">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>分类名称</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody id="tbodylist">
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-md-9 col-sm-6 col-xs-12" align="center" style="padding: 0px; height: 100%;">
+				<div id="parentclode" style="padding: 0px; height: 100%; overflow-y: auto; padding-bottom: 60px">
+					<h5 class="row-title before-magenta" style="width: 396px">
+						<i class="fa fa-edit magenta"></i>添加主分类码
+					</h5>
+					<table class="table table-hover table-striped table-bordered table-condensed" style="width: 400px">
+						<tbody>
+							<tr>
+								<td>排序号：</td>
+								<td><input type="number" id="sortNo" name="sortNo" placeholder="排序号" class="form-control"></td>
+							</tr>
+							<tr>
+								<td>分类标识：</td>
+								<td><input type="text" id="module" name="module" placeholder="分类标识" class="form-control"></td>
+							</tr>
+							<tr>
+								<td>分类名称：</td>
+								<td><input type="text" id="codeName" name="codeName" placeholder="分类名称" class="form-control"></td>
+							</tr>
+							<tr>
+								<td colspan="2" align="center"><button type="button" class="btn btn-palegreen js-add">添加</button>
+								<button type="button" class="btn btn-palegreen js-update" style="display: none;">更改</button></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div id="childclode" style="display: none;padding: 0px; height: 100%; overflow-y: auto; ">
+					<h5 class="row-title before-magenta" style="width: 396px">
+						<i class="fa fa-edit magenta"></i>添加子分类码
+					</h5>
+					<table class="table table-hover table-striped table-bordered table-condensed" style="width: 400px">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>排序号</th>
+								<th>分类名称</th>
+								<th>分类值</th>
+								<th>操作<a class="btn btn-link js-add-child-but">添加子分类</a></th>
+							</tr>
+						</thead>
+						<tbody id="childTbody">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+		<div class="modal fade bs-example-modal-lg" id="childClassCodeModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">分类子集设置</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" role="form" id="form1">
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">排序号：</label>
+							<div class="col-sm-9">
+								<input type="number" class="form-control" name="childSortNo" id="childSortNo" placeholder="排序号"> <input type="hidden" class="form-control" name="dbSourceId" id="dbSourceId" placeholder="排序号">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">上级分类码：</label>
+							<div class="col-sm-9">
+								<select class="form-control" id="parentId" name="parentId" style="border-radius: 0px;">
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">分类码名称：</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="childCodeName" name="childCodeName" placeholder="分类码名称">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">分类码值：</label>
+							<div class="col-sm-9">
+								<input type="text" maxlength="5" class="form-control" id="childCodeValue" name="childCodeValue" placeholder="分类码值">
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-save">保存</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+<% include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/hrclasscode.js"></script>
+</html>

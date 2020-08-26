@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/html5up/control/css/zyUpload.css" type="text/css">
+<style type="text/css">
+*
+{
+box-sizing:inherit;
+webkit-box-sizing:inherit;
+}
+.form-control
+{
+box-sizing: border-box;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+	<div class="main-container container-fluid">
+			<div class="page-container">
+			<div class="widget-body" style="padding:0px;">
+		<div class="well with-header">
+			<div class="header bordered-pink">系统界面设置</div>
+			
+			<form class="form-horizontal form-bordered" role="form">
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">系统名称：</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="sysTitle" name="sysTitle" placeholder="XXX智能办公系统" value="${sysInterface.sysTitle}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">公司理念：</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="idea" name="idea" placeholder="公司理念" value="${sysInterface.idea}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">技术支持：</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="tecSupport" name="tecSupport" placeholder="江苏稠云信息技术有限公司" value="${sysInterface.tecSupport}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">系统备案号：</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="recordNumber" name="recordNumber" placeholder="苏ICP备18037475号-1" value="${sysInterface.recordNumber}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-1 control-label no-padding-right">界面背景图：</label>
+					<div class="col-sm-10" id="background"></div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-1 col-sm-11">
+						<button type="button" class="btn btn-purple js-setbtn">设置</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		</div>
+	</div>
+	</div>
+	</div>
+	</body>
+	<%include("../../resapi/sysjs.html"){}%>
+	<script src="/module/html5up/core/zyFile.js"></script>
+	<script src="/module/html5up/control/js/zyUpload.js"></script>
+	<script src="/gobal/js/page/sys/setthmem.js"></script>
+	<script type="text/javascript">
+		var backgroundimg = "${sysInterface.backgroundImg}";
+	</script>
+</html>

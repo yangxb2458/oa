@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.echarts.EchartsCrmMapper">
+
+<select id="getBiCustomerIndustryPie" resultType="java.util.HashMap">
+SELECT I.INDUSTRY_NAME as name,count(c.industry) AS value
+FROM CRM_CUSTOMER C LEFT JOIN CRM_INDUSTRY I ON C.ORG_ID=I.ORG_ID AND C.INDUSTRY=I.INDUSTRY_ID
+WHERE C.ORG_ID=#{orgId} GROUP BY C.INDUSTRY ORDER BY value desc
+</select>
+
+
+<select id="getBiCustomerKeepUserPie" resultType="java.util.HashMap">
+SELECT U.USER_NAME as name,count(c.KEEP_USER) as value
+FROM CRM_CUSTOMER C LEFT JOIN USER_INFO U ON C.ORG_ID=U.ORG_ID AND C.KEEP_USER=U.ACCOUNT_ID
+WHERE C.ORG_ID=#{orgId} GROUP BY C.KEEP_USER ORDER BY value desc
+</select>
+
+<select id="getBiCustomerAreaPie" resultType="java.util.HashMap">
+SELECT PROVINCE AS name,COUNT(PROVINCE) as value
+FROM CRM_CUSTOMER GROUP BY PROVINCE ORDER BY value desc
+</select>
+
+<select id="getBiCustomerLevelPie" resultType="java.util.HashMap">
+SELECT CASE LEVEL WHEN 1 THEN '公司重点客户'  WHEN 2 THEN '公司主要客户' WHEN 3 THEN '公司一般客户'  WHEN 4 THEN '潜在重点客户'  WHEN 5 THEN '潜在主要客户'  WHEN 6 THEN '黑名单客户'  WHEN 7 THEN '公司主要客户' ELSE '信息池客户' END AS name,count(level) as value
+FROM CRM_CUSTOMER GROUP BY LEVEL ORDER BY value desc
+</select>
+
+
+</mapper>
+

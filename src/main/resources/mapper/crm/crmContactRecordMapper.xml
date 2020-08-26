@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.crm.CrmContactRecordMapper">
+<resultMap id="CrmContactRecord" type="com.core136.bean.crm.CrmContactRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="LINK_MAN_ID" property="linkManId" jdbcType="VARCHAR" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="RECORD_TYPE" property="recordType" jdbcType="VARCHAR" />
+    <result column="NEXT_VISIT" property="nextVisit" jdbcType="VARCHAR" />
+    <result column="LINK_TYPE" property="linkType" jdbcType="VARCHAR" />
+    <result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+<select id="getRecordListByCustomerId" resultType="java.util.HashMap">
+	SELECT R.ID AS id,R.RECORD_ID AS recordId,R.LINK_MAN_ID AS linkManId,
+	(SELECT L.LINK_NAME FROM CRM_LINK_MAN L WHERE R.ORG_ID=L.ORG_ID AND R.LINK_MAN_ID=L.LINK_MAN_ID) AS linkName,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=R.ORG_ID AND U.ACCOUNT_ID=R.CREATE_USER) AS createUserStr,
+	R.CONTENT AS content,R.ATTACH AS attach,R.NEXT_VISIT AS nextVisit,R.RECORD_TYPE AS recordType,R.MSG_TYPE AS msgType,
+	R.CREATE_USER AS createUser,R.CREATE_TIME AS createTime,R.ORG_ID AS orgId
+	FROM
+		CRM_CONTACT_RECORD R
+	WHERE 
+		R.ORG_ID=#{orgId}
+		AND R.CUSTOMER_ID = #{customerId} ORDER BY ID ASC
+
+</select>
+
+
+</mapper>
+

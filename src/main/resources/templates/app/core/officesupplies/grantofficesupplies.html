@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){} %>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="widget-header bg-themeprimary">
+						<span class="widget-caption">办公用品发放记录</span>
+					</div>
+					<div class="widget-body">
+						<div id="registration-form">
+							<form role="form">
+								<div class="form-title">待发放列表</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="buttons-preview" id="toobar">
+											<span style="margin-left: 10px;">申请时间:</span> <span> <input type="text" class="form-control" id="beginTime" readonly="readonly" style="width: 150px; display: inline-block;"
+												name="beginTime" placeholder="开始时间">
+											</span> <span> - </span> <span> <input type="text" class="form-control" id="endTime" readonly="readonly" style="width: 150px; display: inline-block;" name="endTime" placeholder="终止时间">
+											</span> 
+											<span style="margin-left: 10px;">申请人:</span> <span> <input type="text" class="form-control" id="accountId" readonly="readonly" style="width: 150px; display: inline-block;"
+												name="accountId" placeholder="申请人 "  opt-id="accountId" onclick="selectUser(this,'false');">
+											</span>	
+											<span style="margin-left: 10px"> <a href="javascript:void(0);" class="btn btn-success js-query-but">查询</a>
+											</span>
+
+										</div>
+										<table id="myTable"></table>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+		<div class="modal fade bs-example-modal-lg" id="grantmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">办公用品发放</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="form">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">申请数量：</label>
+							<div class="col-sm-8" style="line-height: 34px">
+							
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">发放数量：</label>
+							<div class="col-sm-4">
+								<input type="number" class="form-control" id="quantity" name="quantity">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">接收人：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="getUser" name="getUser" readonly="readonly" opt-id="getUser" onclick="selectUser(this,'false');">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">备注：</label>
+							<div class="col-sm-10">
+								<textarea rows="5" cols="" class="form-control" id="remark" name="remark"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-default js-grant">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../resapi/sysjs.html"){} %>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script src="/gobal/js/page/officesuplies/grantofficesupplies.js"></script>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<style type="text/css">
+.js-file {
+	cursor: pointer;
+}
+.filename
+{
+	padding-top: 10px;
+	white-space: nowrap;
+	display: inline-block;
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-breadcrumbs">
+		<ul class="breadcrumb">
+		</ul>
+	</div>
+	<div class="page-body" style="padding: 0px;height: 100%">
+		<div class="main-container container-fluid" style="padding: 0px;height: 100%">
+			<div class="page-container" style="padding: 0px;height: 100%">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px;height: 100%">
+					<div class="col-md-2 col-sm-2 col-xs-12" style="padding: 0px;height: 100%">
+						<div class="widget flat radius-bordered" style="margin-top: 0px;">
+							<div class="widget-header bg-lightred">
+								<span class="widget-caption">个人文件目录</span>
+							</div>
+							<div class="widget-body">
+								<ul id="tree" class="ztree"></ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-10 col-sm-10 col-xs-12" id="dirdiv" style="padding: 0px;background:#ccc;height: 100%">
+					<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="margin-top: 50px;" id="fileList">
+						<div class="well bordered-top bordered-bottom bordered-pink">
+							<h4 class="block">消息提示</h4>
+							<p>请选择左侧的文件目录!</p>
+						</div>
+					</div>
+						<div class="row" style="margin-left:0px;">
+							<div class="bs-glyphicons">
+								<ul class="bs-glyphicons-list">
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade bs-example-modal-lg" id="createfoldermodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">新建目录</h4>
+				</div>
+				<div class="modal-body">
+					<form action="" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">排序号:</label>
+							<div class="col-sm-10">
+								<input type="number" class="form-control" id="sortNo" name="sortNo" placeholder="排序号">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">文件夹名称:</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="folderName" name="folderName" placeholder="文件夹名称">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-foldersave">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	<div class="modal fade bs-example-modal-lg" id="createfilemodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">新建文件</h4>
+				</div>
+				<div class="modal-body">
+					<form action="" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">排序号:</label>
+							<div class="col-sm-10">
+								<input type="number" class="form-control" id="fileSortNo" name="fileSortNo" placeholder="排序号">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right" style="padding-top: 2px;">选择文件:</label>
+							<div class="col-sm-10">
+								<div id="show_personalFile"></div>
+								<a class="addfile" href="javascript:void(0)">附件上传 
+								<input data_value="" type="file" onchange="fileUpLoad('personalfile','personalFile');" hidefocus="true" size="1"
+									id="personalFile" name="personalFile" class="addfile"/></a>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-filesave">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+<div class="modal fade bs-example-modal-lg" id="renamemodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">重命名</h4>
+				</div>
+				<div class="modal-body">
+					<form action="" class="form-horizontal" id="form3">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">文件名称:</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="fileName" name="fileName" placeholder="文件名称">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-rename">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+</body>
+	<%include("../../../resapi/sysjs.html"){}%>
+	<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+	<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+	<script type="text/javascript" src="/module/bootstrap-menu/BootstrapMenu.min.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/file/personal.js"></script>
+</html>

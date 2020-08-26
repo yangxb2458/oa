@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.file.PersonalFileFolderMapper">
+	<resultMap id="PersonalFileFolder" type="com.core136.bean.file.PersonalFileFolder">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="FOLDER_ID" property="folderId" jdbcType="VARCHAR" />
+		<result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+		<result column="FOLDER_NAME" property="folderName" jdbcType="VARCHAR" />
+		<result column="FOLDER_LEAVE" property="folderLeave" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="DOWN_PRIV" property="downPriv" jdbcType="VARCHAR" />
+		<result column="SHARE_PRIV" property="sharePriv" jdbcType="VARCHAR" />
+		<result column="EDIT_PRIV" property="editPriv" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getPersonalDir" resultType="java.util.HashMap">
+		SELECT FOLDER_ID as folderId, FOLDER_NAME as folderName,FOLDER_LEAVE AS folderLeave,
+		CASE WHEN (SELECT COUNT(1) FROM PERSONAL_FILE_FOLDER TMP WHERE TMP.FOLDER_ID=folderId)=0 then 'false' else 'true' END
+		AS  isParent
+		FROM PERSONAL_FILE_FOLDER WHERE FOLDER_LEAVE=#{folderLeave} AND CREATE_USER=#{accountId} AND ORG_ID=#{orgId} ORDER BY SORT_NO ASC
+	</select>
+
+	<select id="isExistChild" resultType="Integer">
+		SELECT COUNT(1) AS ZS FROM PERSONAL_FILE_FOLDER WHERE FOLDER_LEAVE=#{folderLeave} AND CREATE_USER=#{createUser} AND ORG_ID=#{orgId}
+	</select>
+	
+	<select id="getPersonalFileFolderChild" resultType="java.util.HashMap">
+		SELECT FOLDER_ID AS folderId,FOLDER_NAME AS folderName
+		FROM PERSONAL_FILE_FOLDER
+		WHERE ORG_ID=#{orgId} AND
+		FOLDER_LEAVE = #{folderLeave} AND
+		CREATE_USER = #{createUser}
+	</select>
+	
+	<select id="getPersonalFolderForSelect" resultType="java.util.HashMap">
+		SELECT FOLDER_ID as folderId, FOLDER_NAME as folderName,FOLDER_LEAVE AS folderLeave,'true' AS isParent
+		FROM PERSONAL_FILE_FOLDER 
+		WHERE FOLDER_LEAVE=#{folderLeave} AND CREATE_USER=#{accountId} AND ORG_ID=#{orgId} ORDER BY SORT_NO ASC
+	</select>
+	
+</mapper>
+

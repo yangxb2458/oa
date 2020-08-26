@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){} %>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<style type="text/css">
+#myTable tr td
+{
+    vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+<div class="page-body" style="padding: 4px 0px 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class="active"><a href="/app/core/contract/create" aria-expanded="false">创建合同</a></li>
+							<li><a href="/app/core/contract/create?view=manage" aria-expanded="true">合同管理 </a></li>
+						</ul>
+						<div class="tab-content tabs-flat">
+								<div class="row">
+			<div class="col-md-12">
+				<form class="form-horizontal form-bordered" id="from">
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">合同编号：</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="contractCode" name="contractCode" placeholder="合同编号">
+						</div>
+							<div class="col-sm-2" style="line-height: 34px">
+								<a style="cursor: pointer;" onclick="createCode();">生成合同编号</a>
+							</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">合同标题：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="title" name="title" placeholder="合同标题">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">合同类型：</label>
+						<div class="col-sm-5">
+							<select id="contractType" name="contractType" class="form-control" style="border-radius: 0px;">
+								<option value="1">销售合同</option>
+								<option value="2">采购合同</option>
+								<option value="3">服务合同</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">合同分类：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="sortId" name="sortId" placeholder="合同分类" readonly="readonly">
+							 <div id="menuContent" class="menuContent">
+								<ul id="menuTree" class="ztree"></ul>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">履行期限：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="startTime" name="startTime" placeholder="开始时间">
+						</div>
+						<div class="col-sm-1" align="center" style="line-height: 34px;">----</div>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="endTime" name="endTime" placeholder="终止时间">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">结算方式：</label>
+						<div class="col-sm-2">
+							<select id="payType" name="payType" class="form-control" style="border-radius: 0px;">
+								<option value="1">进度付款</option>
+								<option value="2">滚动付款</option>
+								<option value="3">款到发货</option>
+								<option value="4">货到付款</option>
+							</select>
+						</div>
+						<label class="col-sm-1 control-label no-padding-right">结算币种：</label>
+						<div class="col-sm-2">
+							<select id="cashType" name="cashType" class="form-control" style="border-radius: 0px;">
+								<option value="1">人民币</option>
+								<option value="2">美元</option>
+								<option value="3">其它</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">合同金额：</label>
+						<div class="col-sm-2">
+							<input type="number" id="total" name="total" class="form-control" placeholder="合同金额">
+						</div>
+						<label class="col-sm-1 control-label no-padding-right">已收金额：</label>
+						<div class="col-sm-2">
+							<input type="number" id="realTotal" name="realTotal" class="form-control" placeholder="合同金额" style="display: inline-block;">
+						</div><span style="display: inline-block;line-height: 34px;">元</span>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">签订时间：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="signTime" name="signTime" placeholder="签订时间" readonly="readonly">
+						</div>
+						<label class="col-sm-1 control-label no-padding-right">签订地址：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="signAddress" name="signAddress" placeholder="签订地址">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">合同条款：</label>
+						<div class="col-sm-10">
+							<div id="content" style="height: 300px"></div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">正式合同：</label>
+						<div class="col-sm-5">
+							<div style="padding-top: 4px;">
+								<div id="show_contractattach"></div>
+								<a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('contract','contractattach');" hidefocus="true" size="1" id="contractattach" name="contractattach" class="addfile"
+									multiple="multiple"></a>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">对方名称：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control"  id="customerName"  name="customerName" placeholder="对方名称"/>
+						</div>
+						<label class="col-sm-1 control-label no-padding-right">我方名称：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="myOrgName" name="myOrgName" placeholder="我方名称"  value="${session.UNIT.orgName}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">对方地址：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="registAddr" name="registAddr" placeholder="对方地址">
+						</div>
+						<label class="col-sm-1 control-label no-padding-right">我方地址：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="myOrgAdd" name="myOrgAdd" placeholder="我方地址" value="${session.UNIT.orgAdd}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">对方法人：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="legalPerson" name="legalPerson" placeholder="对方法人">
+						</div>
+						<label class="col-sm-1 control-label no-padding-right">我方法人：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="myLegalPerson" name="myLegalPerson" placeholder="我方法人" value="${session.UNIT.orgLegalPerson}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">对方签订人：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="customerSignUser" name="customerSignUser" placeholder="对方签订人" >
+						</div>
+						<label class="col-sm-1 control-label no-padding-right">我方签订人：</label>
+						<div class="col-sm-5">
+						<input readonly="readonly" type="text" opt-id="mySignUser" onclick="selectUser(this,'false');" id="mySignUser" name="mySignUser" placeholder="我方签订人" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">联系电话：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="mobile" name="mobile" placeholder="联系电话"  >
+						</div>
+						<label class="col-sm-1 control-label no-padding-right">我方联系电话：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="mySignMobile" name="mySignMobile" placeholder="联系电话"  value="${session.UNIT.orgTel}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">对方开户行：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="bank" name="bank" placeholder="对方开户行" >
+						</div>
+						<label class="col-sm-1 control-label no-padding-right">我方开户行：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="myBank" name="myBank" placeholder="我方开户行" value="${session.UNIT.orgBank}">	</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">对方账号：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="bankAccount" name="bankAccount" placeholder="对方账号">
+						</div>
+						<label class="col-sm-1 control-label no-padding-right">我方账号：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="myBankAccount" name="myBankAccount" placeholder="我方账号"  value="${session.UNIT.orgBankAccount}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">对方税号：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="taxNo" name="taxNo" placeholder="对方税号">
+						</div>
+						<label class="col-sm-1 control-label no-padding-right">我方税号：</label>
+						<div class="col-sm-5">
+						<input type="text" class="form-control" id="myTaxNo" name="myTaxNo" placeholder="我方税号" value="${session.UNIT.orgTaxNo}">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-1 col-sm-5">
+								<a id="createbut" href="javascript:void(0);" class="btn btn-maroon">新&nbsp;&nbsp;建</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+	<div id="orgselectdiv"></div>
+	<%include("../../resapi/sysjs.html"){} %>
+	<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+	<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+	<script type="text/javascript" src="/assets/js/select2/select2.js"></script>
+	<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+	<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+	<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/contract/contractcreate.js"></script>
+</body>
+</html>

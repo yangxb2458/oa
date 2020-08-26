@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.projectbuild.ProjectBuildMaterialInMapper">
+<resultMap id="ProjectBuildMaterialIn" type="com.core136.bean.projectbuild.ProjectBuildMaterialIn" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="IN_ID" property="inId" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="MATERIAL_ID" property="materialId" jdbcType="VARCHAR" />
+    <result column="PURCHASE_ID" property="purchaseId" jdbcType="VARCHAR" />
+    <result column="QUANTITY" property="quantity" jdbcType="INTEGER" />
+    <result column="IN_USER" property="inUser" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+<select id="sumMaterialById" resultType="Integer">
+SELECT IFNULL(SUM(QUANTITY), 0) 
+FROM PROJECT_BUILD_MATERIAL_IN
+WHERE ORG_ID=#{orgId} AND PURCHASE_ID=#{purchaseId} AND MATERIAL_ID=#{materialId}
+</select>
+
+<select id="getMaterialByProjectId"  resultType="java.util.HashMap">
+SELECT IFNULL(SUM(P.QUANTITY), 0) AS quantity ,P.MATERIAL_ID AS materialId,M.NAME AS name,M.MATERIAL_CODE AS materialCode,M.BRAND AS brand,M.MODEL AS model,
+M.UNIT AS unit,(SELECT IFNULL(SUM(S.QUANTITY), 0) FROM project_build_material_out S WHERE S.ORG_ID=P.ORG_ID AND S.MATERIAL_ID=P.MATERIAL_ID) AS usedQuantity   
+FROM 
+PROJECT_BUILD_MATERIAL_IN P LEFT JOIN PROJECT_BUILD_MATERIAL M ON P.ORG_ID=M.ORG_ID AND P.MATERIAL_ID = M.MATERIAL_ID
+WHERE 
+P.ORG_ID=#{orgId} AND
+P.PROJECT_ID=#{projectId}
+<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND (M.NAME LIKE #{search} OR M.MATERIAL_CODE LIKE #{search})
+</if>
+GROUP BY P.MATERIAL_ID
+</select>
+
+<select id="getMaterialInList"  resultType="java.util.HashMap">
+SELECT P.IN_ID AS inId,P.QUANTITY AS quantity,P.IN_USER AS inUser,P.REMARK AS remark,P.CREATE_TIME AS createTime,M.NAME AS materialName,M.MATERIAL_ID AS materialId,M.MATERIAL_CODE AS materialCode,M.UNIT AS unit,
+M.BRAND AS brand,M.MODEL AS model,(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=P.IN_USER) AS inUserName,
+(SELECT A.TITLE FROM PROJECT_BUILD_MATERIAL_PURCHASE A WHERE A.ORG_ID=#{orgId} AND A.PURCHASE_ID=P.PURCHASE_ID) AS title
+FROM PROJECT_BUILD_MATERIAL_IN P,PROJECT_BUILD_MATERIAL M
+WHERE 
+P.ORG_ID = M.ORG_ID AND P.MATERIAL_ID = M.MATERIAL_ID AND 
+P.ORG_ID=#{orgId} AND P.PROJECT_ID = #{projectId} AND P.MATERIAL_ID=#{materialId}
+</select>
+
+<select id="getQueryMaterialInList"  resultType="java.util.HashMap">
+SELECT PM.MATERIAL_ID AS materialId,PM.NAME as materialName,PM.MODEL AS model,PM.BRAND AS brand,PM.UNIT AS unit,PM.MATERIAL_CODE AS materialCode,
+(SELECT P.TITLE FROM PROJECT_BUILD_MATERIAL_PURCHASE P WHERE P.ORG_ID=TMP.ORG_ID AND  P.PURCHASE_ID=TMP.PURCHASE_ID) AS title,
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=TMP.ORG_ID AND  U.ACCOUNT_ID = TMP.IN_USER) AS inUserName,
+TMP.IN_USER AS inUser,TMP.PURCHASE_ID AS purchaseId,TMP.CREATE_TIME AS createTime,TMP.QUANTITY AS quantity
+FROM PROJECT_BUILD_MATERIAL PM LEFT JOIN PROJECT_BUILD_MATERIAL_IN TMP
+ON TMP.MATERIAL_ID = PM.MATERIAL_ID 
+WHERE PM.ORG_ID=TMP.ORG_ID AND PM.ORG_ID=#{orgId}
+<if test="purchaseTitle!='%%'.toString() and purchaseTitle!=null">
+AND TMP.PURCHASE_ID IN(SELECT PURCHASE_ID FROM PROJECT_BUILD_MATERIAL_PURCHASE WHERE TITLE LIKE #{purchaseTitle})
+</if>
+<if test="beginTime!=''.toString() and beginTime!=null">
+AND TMP.CREATE_TIME&gt;=#{beginTime}
+</if>
+<if test="endTime!= ''.toString() and endTime!=null">
+AND TMP.CREATE_TIME&lt;= #{endTime}
+</if>
+<if test="materialName!= '%%'.toString() and materialName!=null">
+AND (PM.NAME LIKE #{materialName} OR PM.MATERIAL_CODE LIKE #{materialName})
+</if>
+<if test="inUser!= ''.toString() and inUser!=null">
+AND TMP.IN_USER = #{inUser}
+</if>
+
+</select>
+
+</mapper>
+

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title id="emailTitle"></title>
+    <%include("../../../resapi/mobilestyle.html"){}%>
+</head>
+<body style="overflow-y: auto;">
+			<div style="background: #FFFFFF;padding: 10px;font-size: 14px;min-height: 200px;">
+					<p id="content" align="left"></p>
+			</div>
+			<div class="mail-attachments" id="attach" style="margin-bottom: 50px;margin-top: 5px;margin-left: 5px;" align="left">
+						<h4>
+							<i class="fa fa-paperclip"></i> 附件： <span id="attachCount"></span>
+						</h4>
+						<div id="show_attach"></div>
+					</div>
+		<ul class="m-grids-2"> 
+			<li class="grids-item">
+                <div class="grids-txt" style="text-align: left">送达时间:<span id="sendTime"></span></div>
+            </li>
+            <li class="grids-item">
+                <div class="grids-txt" style="text-align: right">发件人:<span id="fromUserName"></span></div>
+            </li>
+		</ul>
+	<%include("../../../resapi/mobilejs.html"){}%>
+	<script type="text/javascript">
+	var emailId="${parameter.emailId}";
+	</script>
+	<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="/module/fileupload/mobilefileupload.js"></script>
+	<script type="text/javascript">
+	$(function () {
+		bindData();		
+	});
+	
+function bindData()
+{
+	$.ajax({
+		url : "/ret/oaget/getEmailDetails",
+		type : "post",
+		dataType : "json",
+		data:{
+			emailId:emailId
+		},
+		success : function(data) {
+			if(data.status=="500")
+			{
+			console.log(data.msg);
+			}else if(data.status=="100")
+			{
+				top.layer.msg(data.msg);
+			}else
+			{
+				console.log(data.list);
+				for(var key in data.list)
+				{
+					if(key=="subject")
+					{
+						$("#emailTitle").html(data.list[key]);
+					}else if(name=="attach"){
+						$("#attach").attr("data_value",data.list.attach);
+						createAttach("attach",data.list.attachPriv);
+					}else{
+						$("#"+key).html(data.list[key]);
+					}
+				}
+			}
+		}
+		});
+}
+	</script>
+</body>
+</html>

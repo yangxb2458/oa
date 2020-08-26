@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link rel="stylesheet" href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div id="orgselectdiv"></div>
+	<div class="page-body" style="padding: 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+
+					<div class="col-md-2 col-sm-2 col-xs-12" style="padding: 0px;">
+						<div class="widget flat radius-bordered">
+							<div class="widget-header bg-lightred">
+								<span class="widget-caption">部门列表</span>
+							</div>
+							<div class="widget-body">
+								<ul id="tree" class="ztree"></ul>
+								<a id="cbut" href="javascript:void(0);" class="btn btn-purple" style="width: 100%;">创建用户</a>
+								<a id="cquery" href="javascript:void(0);" class="btn btn-palegreen" style="width: 100%; margin-top: 5px;">用户查询</a>
+								<a id="notLoginQuery" href="javascript:void(0);" class="btn btn-primary" style="width: 100%; margin-top: 5px;">部门异常管理</a>
+								<a id="cimport" href="javascript:void(0);" class="btn btn-sky" style="width: 100%; margin-top: 5px;">用户导入</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-10 col-sm-10 col-xs-12" style="padding: 0px">
+						<div class="col-md-12 col-sm-12 col-xs-12" id="datalist" style="display: none; padding: 0px;">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="btn-group" id="toobar" role="group" aria-label="...">
+										<button type="button" class="btn btn-default" id="butdel">
+											<span class="glyphicon glyphicon-remove"></span>批量删除
+										</button>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-12 col-sm-12 col-xs-12" id="datalist1" style="display: none; padding: 0px;">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="btn-group" id="toobar1" role="group" aria-label="...">
+									</div>
+									<table id="myTable1"></table>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="col-md-12 col-sm-12 col-xs-12" id="creatediv" style="padding: 0px;">
+							<div class="widget">
+								<div class="widget-header bordered-bottom bordered-palegreen">
+									<span class="widget-caption">用户基本信息</span>
+								</div>
+								<div class="widget-body">
+									<form class="form-horizontal form-bordered" id="form"
+									              data-bv-message="This value is not valid"
+                                                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                                                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+									>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">排序号 ：</label>
+											<div class="col-sm-2">
+												<input type="number" class="form-control" id="sortNo" name="sortNo" placeholder="排序号"
+												  data-bv-digits="true"
+                                                  data-bv-digits-message="排序号必须是正整数"
+                                                  data-bv-notempty="true"
+                                                  data-bv-notempty-message="排序号不能为空"
+                                                  >
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">用户账号 ：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="accountId" name="accountId" placeholder="用户账号" size="50"
+                                                  data-bv-notempty="true"
+                                                  data-bv-notempty-message="用户账号不能为空"
+												>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">用户姓名 ：</label>
+											<div class="col-sm-5">
+												<input size="20" type="text" class="form-control" id="userName" name="userName" placeholder="用户姓名"
+												data-bv-notempty="true" data-bv-notempty-message="用户姓名不能为空"
+												>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">钉钉账号 ：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="dAccountId" name="dAccountId" placeholder="钉钉账号" size="50">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">微信账号 ：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="wAccountId" name="wAccountId" placeholder="微信账号" size="50">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">登陆密码 ：</label>
+											<div class="col-sm-5">
+												<input size="50" type="text" class="form-control" id="passWord" name="passWord" placeholder="登陆密码">
+											</div>
+											<div class="col-sm-6">
+												<span style="color:red;line-height: 34px;">注：密码为空时，默认设置为123456</span>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">验证方式：</label>
+											<div class="col-sm-5">
+												<select class="form-control" id="passwordType" name="passwordType" style="border-radius: 0px;">
+													<option value="1">密码校验</option>
+													<option value="2">U-KEY</option>
+													<option value="3">U-KEY+密码</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">考勤规则：</label>
+											<div class="col-sm-5">
+												<select class="form-control" id="attendConfigId" name="attendConfigId" style="border-radius: 0px;">
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">用户权限：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="userPriv" name="userPriv" placeholder="用户权限" 
+												data-bv-notempty="true" data-bv-notempty-message="用户权限" onchange="$('#form').data('bootstrapValidator').updateStatus('userPriv', 'NOT_VALIDATED', null );//更新指定的字段
+												$('#form').bootstrapValidator('validateField','userPriv');"
+												readonly="readonly" opt-id="userPriv" onclick="selectUerPriv(this,'true');">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">性别 ：</label>
+											<div class="col-sm-5">
+												<div class="control-group">
+													<div class="radio" style="display: inline-block;">
+														<label> <input name="sex" type="radio" value="男" checked="checked"> <span class="text">男 </span>
+														</label>
+													</div>
+													<div class="radio" style="display: inline-block;">
+														<label> <input name="sex" type="radio" value="女"> <span class="text">女</span>
+													<input name="sex" type="radio" disabled="disabled">
+														</label>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">手机号码 ：</label>
+											<div class="col-sm-5">
+												<input type="text" size="15" class="form-control" id="mobileNo" name="mobileNo" placeholder="手机号码 ">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">所在部门：</label>
+											<div class="col-sm-5" style="position: relative;">
+												<input type="hidden" id="deptId" name="deptId"> 
+												<input type="text" class="form-control" id="deptName" name="deptName" placeholder="所在部门 " readonly="readonly" data-bv-notempty="true"
+                                                  data-bv-notempty-message="所在部门 不能为空">
+												<div id="menuContent" class="menuContent">
+													<ul id="menuTree" class="ztree"></ul>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">个人领导 ：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="leadId" name="leadId" placeholder="个人领导">
+											</div>
+											<a class="selectbutton" opt-id="leadId" onclick="selectUser(this,'false');">选择</a>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">工号 ：</label>
+											<div class="col-sm-5">
+												<input size="20" type="text" class="form-control" id="workId" name="workId" placeholder="工号">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">管理范围 ：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="manageDept" name="manageDept" placeholder="管理范围">
+											</div>
+											<a class="selectbutton" opt-id="manageDept" onclick="selectDept(this,'true');">选择</a>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">行政级别 ：</label>
+											<div class="col-sm-5">
+												<input type="text" readonly="readonly" class="form-control" id="leadLeave" name="leadLeave" placeholder="行政级别 ">
+											</div>
+											<a class="selectbutton" opt-id="leadLeave" onclick="selectUserLevel(this,'false');">选择</a>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-1 col-sm-5">
+												<a id="createbut" href="javascript:void(0);" class="btn btn-primary">新&nbsp;&nbsp;建</a> <a style="display: none;" id="updatabut" href="javascript:void(0);" class="btn btn-maroon">更&nbsp;&nbsp;改</a> <a style="display: none;" id="delbut" href="javascript:void(0);" class="btn btn-danger shiny">删&nbsp;&nbsp;除</a>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade bs-example-modal-sm in" id="exdiv" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content modal-sm">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">人员账户模版</h4>
+				</div>
+				<div class="modal-body">
+					<div id="horizontal-form">
+						<form class="form-horizontal" role="form" id="form1">
+							<div class="form-group" align="center">
+								<a href="/datatemple/用户模版.xlsx" class="btn btn-darkorange">下载模版</a> <a href="javascript:void(0);" class="btn btn-palegreen" style="margin-left: 20px">导入模版 
+								<input id="file" name="file" type="file" onchange="importUserInfoForExcel();" hidefocus="true" size="1" class="addfile" accept=".xls,.xlsx">
+								</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/sys/userinfo.js"></script>
+</html>

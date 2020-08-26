@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.core136.mapper.superversion.SuperversionMapper">
+	<resultMap id="Superversion" type="com.core136.bean.superversion.Superversion">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+		<result column="SUPERVERSION_ID" property="superversionId" jdbcType="VARCHAR" />
+		<result column="LEAD_ID" property="leadId" jdbcType="VARCHAR" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+		<result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+		<result column="HANDED_USER" property="handedUser" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="JOIN_USER" property="joinUser" jdbcType="VARCHAR" />
+		<result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+		<result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getSupperversionList" resultType="java.util.HashMap">
+		SELECT TMP.SUPERVERSION_ID AS superversionId,TMP.LEAD_ID AS leadId,TMP.TITLE AS title,TMP.BEGIN_TIME AS beginTime,TMP.END_TIME AS endTime,TMP.HANDED_USER AS handedUser,
+		TMP.CREATE_TIME AS createTime,TMP.TYPE AS type,TMP.JOIN_USER AS joinUser,TMP.STATUS AS status,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=TMP.HANDED_USER) AS handedUserName,
+		(SELECT S.USER_NAME FROM USER_INFO S WHERE S.ORG_ID=#{orgId} AND S.ACCOUNT_ID=TMP.LEAD_ID) AS leadUserName,
+		(SELECT T.TYPE_NAME FROM SUPERVERSION_CONFIG T WHERE T.ORG_ID=#{orgId} AND T.CONFIG_ID=TMP.TYPE) AS typeName
+		FROM SUPERVERSION TMP
+		WHERE TMP.ORG_ID=#{orgId}
+		AND TMP.CREATE_USER = #{accountId}
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND TMP.TITLE LIKE#{search}
+		</if>
+		<if test="type!= ''.toString() and type!=null ">
+			AND TMP.TYPE = #{type}
+		</if>
+		<if test="handedUser!= ''.toString() and handedUser!=null ">
+			AND TMP.HANDED_USER = #{handedUser}
+		</if>
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND TMP.CREATE_TIME &gt;= #{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND TMP.CREATE_TIME &lt;=#{endTime}
+		</if>
+		<if test="status!=''.toString() and status!=null">
+			AND TMP.STATUS =#{status}
+		</if>
+	</select>
+	
+	
+	<select id="getSupperversionPorcessList" resultType="java.util.HashMap">
+		SELECT TMP.SUPERVERSION_ID AS superversionId,TMP.LEAD_ID AS leadId,TMP.TITLE AS title,TMP.BEGIN_TIME AS beginTime,TMP.END_TIME AS endTime,TMP.HANDED_USER AS handedUser,
+		TMP.CREATE_TIME AS createTime,TMP.TYPE AS type,TMP.JOIN_USER AS joinUser,TMP.STATUS AS status,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=TMP.HANDED_USER) AS handedUserName,
+		(SELECT S.USER_NAME FROM USER_INFO S WHERE S.ORG_ID=#{orgId} AND S.ACCOUNT_ID=TMP.LEAD_ID) AS leadUserName,
+		(SELECT T.TYPE_NAME FROM SUPERVERSION_CONFIG T WHERE T.ORG_ID=#{orgId} AND T.CONFIG_ID=TMP.TYPE) AS typeName,
+		(SELECT COUNT(1) FROM SUPERVERSION_PROCESS A WHERE A.ORG_ID=#{orgId} AND A.SUPERVERSION_ID=TMP.SUPERVERSION_ID) AS prcsCount
+		FROM SUPERVERSION TMP
+		WHERE TMP.ORG_ID=#{orgId}
+		<if test="accountId!=''.toString() and accountId!=null">
+			AND (FUN_INTE_ARRAY(TMP.JOIN_USER,#{accountId}) > 0 OR TMP.HANDED_USER = #{accountId})
+		</if>
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND TMP.TITLE LIKE#{search}
+		</if>
+		<if test="type!= ''.toString() and type!=null ">
+			AND TMP.TYPE = #{type}
+		</if>
+		<if test="handedUser!= ''.toString() and handedUser!=null ">
+			AND TMP.HANDED_USER = #{handedUser}
+		</if>
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND TMP.CREATE_TIME &gt;= #{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND TMP.CREATE_TIME &lt;=#{endTime}
+		</if>
+		<if test="status!=''.toString() and status!=null">
+			AND TMP.STATUS =#{status}
+		</if>
+	</select>
+	
+	
+		<select id="getLeadManageSupperversionList" resultType="java.util.HashMap">
+		SELECT TMP.SUPERVERSION_ID AS superversionId,TMP.LEAD_ID AS leadId,TMP.TITLE AS title,TMP.BEGIN_TIME AS beginTime,TMP.END_TIME AS endTime,TMP.HANDED_USER AS handedUser,
+		TMP.CREATE_TIME AS createTime,TMP.TYPE AS type,TMP.JOIN_USER AS joinUser,TMP.STATUS AS status,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=TMP.HANDED_USER) AS handedUserName,
+		(SELECT S.USER_NAME FROM USER_INFO S WHERE S.ORG_ID=#{orgId} AND S.ACCOUNT_ID=TMP.LEAD_ID) AS leadUserName,
+		(SELECT T.TYPE_NAME FROM SUPERVERSION_CONFIG T WHERE T.ORG_ID=#{orgId} AND T.CONFIG_ID=TMP.TYPE) AS typeName
+		FROM SUPERVERSION TMP
+		WHERE TMP.ORG_ID=#{orgId}
+		AND TMP.LEAD_ID = #{accountId}
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND TMP.TITLE LIKE#{search}
+		</if>
+		<if test="type!= ''.toString() and type!=null ">
+			AND TMP.TYPE = #{type}
+		</if>
+		<if test="handedUser!= ''.toString() and handedUser!=null ">
+			AND TMP.HANDED_USER = #{handedUser}
+		</if>
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND TMP.CREATE_TIME &gt;= #{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND TMP.CREATE_TIME &lt;=#{endTime}
+		</if>
+		<if test="status!=''.toString() and status!=null">
+			AND TMP.STATUS =#{status}
+		</if>
+	</select>
+	
+	<select id="getQuerySuperversionForDept" resultType="java.util.HashMap">
+	 SELECT D.DEPT_ID AS id,D.ORG_LEAVE_ID AS pid,
+	(SELECT COUNT(1) FROM SUPERVERSION S1 WHERE S1.ORG_ID=#{orgId} 
+		AND S1.CREATE_USER IN(SELECT U.ACCOUNT_ID FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.DEPT_ID=D.DEPT_ID)
+	)AS createCount,
+	(SELECT COUNT(1) FROM SUPERVERSION S2 WHERE S2.ORG_ID=#{orgId} 
+		AND S2.LEAD_ID IN(SELECT U.ACCOUNT_ID FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.DEPT_ID=D.DEPT_ID)
+	)AS leadCount,
+	(SELECT COUNT(1) FROM SUPERVERSION S3 WHERE S3.ORG_ID=#{orgId} 
+		AND S3.HANDED_USER IN(SELECT U.ACCOUNT_ID FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.DEPT_ID=D.DEPT_ID)
+	)AS handedCount,
+	(SELECT COUNT(1) FROM SUPERVERSION S4 WHERE S4.ORG_ID=#{orgId}  AND S4.STATUS='0'
+		AND S4.LEAD_ID IN(SELECT U.ACCOUNT_ID FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.DEPT_ID=D.DEPT_ID)
+	)AS doinCount,
+	(SELECT COUNT(1) FROM SUPERVERSION S5 WHERE S5.ORG_ID=#{orgId}  AND S5.STATUS='1'
+		AND S5.LEAD_ID IN(SELECT U.ACCOUNT_ID FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.DEPT_ID=D.DEPT_ID)
+	)AS delayCount,
+	(SELECT COUNT(1) FROM SUPERVERSION S6 WHERE S6.ORG_ID=#{orgId}  AND S6.STATUS='2'
+		AND S6.LEAD_ID IN(SELECT U.ACCOUNT_ID FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.DEPT_ID=D.DEPT_ID)
+	)AS endCount,D.DEPT_NAME AS name
+	 FROM UNIT_DEPT D
+	 WHERE 
+	 D.ORG_ID=#{orgId}
+	 ORDER BY D.SORT_NO ASC
+	</select>
+
+</mapper>
+

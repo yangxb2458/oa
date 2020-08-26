@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class="active"><a href="/app/core/task/createtask" aria-expanded="true">新建任务</a></li>
+							<li><a href="/app/core/task/createtask?view=manage" aria-expanded="false">任务管理 </a></li>
+						</ul>
+						<div class="tab-content tabs-flat">
+							<form class="form-horizontal form-bordered" id="form" data-bv-message="This value is not valid"
+                                                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                                                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">任务标题：</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" id="taskName" name="taskName" placeholder="任务标题"
+										data-bv-notempty="true" data-bv-notempty-message="任务标题不能为空">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">任务类型：</label>
+									<div class="col-sm-2">
+										<select id="taskType" name="taskType" class="form-control" style="border-radius: 0px;"></select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">是否置顶 ：</label>
+									<div class="col-sm-5">
+										<div class="control-group">
+											<label> 
+												<input type="radio" class="colored-danger" checked="checked" value="0" name="isTop"><span class="text">顺序</span>
+											</label>
+											<label> 
+												<input type="radio" class="colored-danger" value="1" name="isTop"> <span class="text">置顶</span>
+												<input type="hidden" class="colored-danger" value="0" name="isTop">
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">分享人员：</label>
+									<div class="col-sm-5" style="padding-left: 0px">
+										<div class="col-md-10">
+											<textarea id="userPriv" name="userPriv" placeholder="用户" class="form-control" readonly="readonly"></textarea>
+										</div>
+										<div class="col-md-2">
+											<a class="selectbutton" opt-id="userPriv" onclick="selectUser(this,'true');">选择</a>
+											<a class="selectbutton" onclick="clearSelect('userPriv');">清空</a>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">分享部门：</label>
+									<div class="col-sm-5" style="padding-left: 0px">
+										<div class="col-md-10" style="margin-top: 5px">
+											<textarea id="deptPriv" name="deptPriv" placeholder="部门" class="form-control" readonly="readonly"></textarea>
+										</div>
+										<div class="col-md-2">
+											<a class="selectbutton" opt-id="deptPriv" onclick="selectDept(this,'true');">选择</a>
+											<a class="selectbutton" onclick="clearSelect('deptPriv');">清空</a>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">分享职务：</label>
+									<div class="col-sm-5" style="padding-left: 0px">
+										<div class="col-md-10" style="margin-top: 5px">
+											<textarea id="leavePriv" name="leavePriv" placeholder="行政级别" class="form-control" readonly="readonly"></textarea>
+										</div>
+										<div class="col-md-2">
+											<a class="selectbutton" opt-id="leavePriv" onclick="selectUserLevel(this,'true');">选择</a>
+											<a class="selectbutton" onclick="clearSelect('leavePriv');">清空</a>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">任务参与人：</label>
+									<div class="col-sm-5" style="padding-left: 0px">
+										<div class="col-md-10">
+											<textarea id="participantAccountId" name="participantAccountId" placeholder="任务参与人" class="form-control" readonly="readonly"></textarea>
+										</div>
+										<div class="col-md-2">
+											<a class="selectbutton" opt-id="participantAccountId" onclick="selectUser(this,'true');">选择</a>
+											<a class="selectbutton" onclick="clearSelect('participantAccountId');">清空</a>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">任务负责人：</label>
+									<div class="col-sm-5" style="padding-left: 0px">
+										<div class="col-md-5">
+											<input type="text" id="chargeAccountId" name="chargeAccountId" placeholder="任务负责人" class="form-control" readonly="readonly">
+										</div>
+										<div class="col-md-2">
+											<a class="selectbutton" opt-id="chargeAccountId" onclick="selectUser(this,'false');">选择</a>
+											<a class="selectbutton" onclick="clearSelect('chargeAccountId');">清空</a>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">任务监督人：</label>
+									<div class="col-sm-5" style="padding-left: 0px">
+										<div class="col-md-5">
+											<input type="text" id="supervisorAccountId" name="supervisorAccountId" placeholder="任务监督人" class="form-control" readonly="readonly">
+										</div>
+										<div class="col-md-2">
+											<a class="selectbutton" opt-id="supervisorAccountId" onclick="selectUser(this,'false');">选择</a>
+											<a class="selectbutton" onclick="clearSelect('supervisorAccountId');">清空</a>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">任务摘要：</label>
+									<div class="col-sm-10">
+										<div id="remark" style="height: 300px"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">任务时间：</label>
+									<div class="col-sm-2" style="position: relative;">
+										<input type="text" class="form-control" id="beginTime" readonly="readonly" name="beginTime" placeholder="开始时间" style="cursor: pointer;"
+										data-bv-notempty="true" data-bv-notempty-message="任务时间不能为空"
+										>
+									</div>
+									<div class="col-sm-3 control-label" style="text-align: left; color: red">注：任务起始时间</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">所需工期：</label>
+									<div class="col-sm-2" style="position: relative;">
+										<input type="number" class="form-control" id="duration" name="duration" placeholder="所需工期" style="cursor: pointer;"
+										data-bv-digits="true" data-bv-digits-message="所需工期必须是正整数"
+										data-bv-notempty="true" data-bv-notempty-message="所需工期不能为空"
+										>
+									</div>
+									<div class="col-sm-3 control-label" style="text-align: left;">天</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">相关附件 ：</label>
+									<div class="col-sm-5">
+										<div style="padding-top: 4px;">
+											<div id="show_taskattach"></div>
+											<a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('task','taskattach');" hidefocus="true" size="1" id="taskattach"
+												name="taskattach" class="addfile" multiple="multiple"></a>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">附件权限 ：</label>
+									<div class="col-sm-5">
+										<div class="control-group" style="padding-top: 5px;">
+											<label> <input type="radio" class="colored-danger" value="1" name="attachPriv" checked="checked"> <span class="text">在线阅读</span>
+											</label> <label> <input type="radio" class="colored-danger" value="2" name="attachPriv"> <span class="text">允许打印</span>
+											</label> <label> <input type="radio" class="colored-danger" value="3" name="attachPriv"> <span class="text">允许下载</span>
+											</label>
+											<label> <input type="radio" class="colored-danger" value="4" name="attachPriv"> <span class="text">在线编辑</span>
+											<input type="hidden" class="colored-danger" value="" name="attachPriv">
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">消息提醒 ：</label>
+									<div class="col-sm-5" style="padding-left:0px;">
+										<div id="msgType"></div>
+									</div>
+								</div>
+								<div class="form-group" align="center">
+										<a id="createbut" href="javascript:void(0);" class="btn btn-primary">创建任务</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/task/createtask.js"></script>
+</html>

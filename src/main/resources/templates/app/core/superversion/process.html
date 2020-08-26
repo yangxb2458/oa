@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<% include("../../resapi/style.html"){}%>
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;padding-top:5px;">
+		<div class="page-container">
+			<div class="tabbable">
+				<ul class="nav nav-tabs tabs-flat" id="myTab" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+					<li class="active"><a href="/app/core/superversion/process" aria-expanded="true">我的待办事务</a></li>
+					<li class=""><a href="/app/core/superversion/process?view=queryprocess" aria-expanded="false"> 我已办理事务</a></li>
+				</ul>
+
+				<div class="tab-content tabs-flat">
+				<div class="buttons-preview" id="toobar">
+								<span style="margin-left: 10px">事件状态:</span> 
+										<span> 
+										<select id="status" style="width: 150px">
+										<option value="">全部</option>
+										<option value="0">进行中</option>
+										<option value="1">延期中</option>
+										<option value="2">已完成</option>
+										</select>
+										</span> 
+										<span style="margin-left: 10px">事件类型:</span> 
+										<span> 
+										<select id="type" style="width: 150px">
+										</select>
+										</span> 
+										<span style="margin-left: 10px;">发布时间:</span>
+										<span> <input type="text" class="form-control" id="beginTime" readonly="readonly" style="width: 150px; display: inline-block;" name="beginTime" placeholder="开始时间">
+											</span>
+										<span> - </span>
+										<span> <input type="text" class="form-control" id="endTime" readonly="readonly" style="width: 150px; display: inline-block;" name="endTime" placeholder="终止时间">
+											</span>
+											<span style="margin-left: 10px;">牵头人:</span>
+											<span> <input type="text" class="form-control" id="handedUser" readonly="readonly" style="width: 150px; display: inline-block;" opt-id="handedUser" onclick="selectUser(this,'false');" name="handedUser" placeholder="牵头人">
+											</span>
+											<span style="margin-left: 10px">
+												<a href="javascript:void(0);" class="btn btn-success js-query-but">查询</a>
+											</span>
+									</div>
+					<table id="myTable"></table>
+				</div>
+			</div>
+		</div>
+		</div>
+
+<div class="modal fade bs-example-modal-lg" tabindex="1" id="dowordmodal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">添加事件</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="form">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">完成工作量：</label>
+							<div class="col-sm-2">
+								<input type="number" id="prcsValue" name="prcsValue" class="form-control" placeholder="完成工作量" />
+							</div>
+							<div class="col-sm-4" style="line-height: 34px">
+							%
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">完成时间：</label>
+							<div class="col-sm-4">
+								<input type="text" id="finishTime" name="finishTime" readonly="readonly" class="form-control" placeholder="完成时间" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">处理过程：</label>
+							<div class="col-sm-8">
+								<textarea rows="5" cols="" class="form-control" id="content" name="content" placeholder="处理过程"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right">相关附件 ：</label>
+						<div class="col-sm-6">
+							<div style="padding-top: 4px;">
+								<div id="show_superversionattach"></div>
+								<a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('superversion','superversionattach');" hidefocus="true" size="1" id="superversionattach"
+									name="superversionattach" class="addfile" multiple="multiple"></a>
+							</div>
+						</div>
+					</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-save">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	
+		<div id="orgselectdiv"></div>
+</body>
+<% include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/superversion/process.js"></script>
+</html>

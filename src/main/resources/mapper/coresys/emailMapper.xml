@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.email.EmailMapper">
+<resultMap id="Email" type="com.core136.bean.email.Email" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="EMAIL_ID" property="emailId" jdbcType="VARCHAR" />
+    <result column="TO_ID" property="toId" jdbcType="VARCHAR" />
+    <result column="DEL_FLAG" property="delFlag" jdbcType="VARCHAR" />
+    <result column="BOX_ID" property="box" jdbcType="VARCHAR" />
+    <result column="BODY_ID" property="bodyId" jdbcType="VARCHAR" />
+    <result column="RECEIPT" property="receipt" jdbcType="VARCHAR" />
+    <result column="READ_TIME" property="readTime" jdbcType="VARCHAR" />
+    <result column="STAR" property="star" jdbcType="VARCHAR" />
+     <result column="TAGS" property="tags" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getEmailListForDesk" resultType="java.util.HashMap">
+  SELECT E.EMAIL_ID AS emailId, E.TO_ID AS toId,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=B.ORG_ID AND U.ACCOUNT_ID=B.FROM_ID) AS fromUserName,
+	B.SUBJECT AS subject,E.READ_TIME AS readTime,B.SEND_TIME AS sendTime, E.STAR AS star
+	FROM 
+  	EMAIL E LEFT JOIN EMAIL_BODY B ON E.ORG_ID = B.ORG_ID AND E.BODY_ID = B.BODY_ID
+  	WHERE 
+		E.DEL_FLAG = '0'
+	AND B.SEND_FLAG='1'
+	AND E.ORG_ID = #{orgId}
+	AND E.TO_ID = #{accountId}
+  ORDER BY B.SEND_TIME DESC LIMIT 0,5
+  </select>
+  
+  
+	<select id="getMyEmailAll" resultType="java.util.HashMap">
+	SELECT
+	E.ID AS id,
+	E.EMAIL_ID AS emailId,
+	B.BODY_ID AS bodyId,
+	E.TO_ID AS toId,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=B.ORG_ID AND U.ACCOUNT_ID=B.FROM_ID) AS fromUserName,
+	B.SUBJECT AS subject,
+	B.SUBHEADING AS subheading,
+	B.SEND_TIME AS sendTime,
+	E.READ_TIME AS readTime,
+	B.ATTACH AS attach,
+	E.STAR AS star,
+	E.TAGS AS tags
+	FROM
+		EMAIL E LEFT JOIN EMAIL_BODY B ON E.ORG_ID = B.ORG_ID AND E.BODY_ID = B.BODY_ID
+	WHERE
+	E.DEL_FLAG = '0'
+	AND B.SEND_FLAG='1'
+	AND E.ORG_ID = #{orgId}
+	AND E.TO_ID = #{accountId}
+	<if test="boxId!=''">
+	AND E.BOX_ID=#{boxId}
+	</if>
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND (B.SUBJECT LIKE #{search})
+	</if>
+	</select>
+	
+	<select id="getMyDelEmailAll" resultType="java.util.HashMap">
+	SELECT
+	E.ID AS id,
+	E.EMAIL_ID AS emailId,
+	B.BODY_ID AS bodyId,
+	E.TO_ID AS toId,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=B.ORG_ID AND U.ACCOUNT_ID=B.FROM_ID) AS fromUserName,
+	B.SUBJECT AS subject,
+	B.SUBHEADING AS subheading,
+	B.SEND_TIME AS sendTime,
+	E.READ_TIME AS readTime,
+	B.ATTACH AS attach,
+	E.STAR AS star,
+	E.TAGS AS tags
+	FROM
+		EMAIL E LEFT JOIN EMAIL_BODY B ON E.ORG_ID = B.ORG_ID AND E.BODY_ID = B.BODY_ID
+	WHERE
+		E.DEL_FLAG = '1'
+	AND B.SEND_FLAG='1'
+	AND E.ORG_ID = #{orgId}
+	AND E.TO_ID = #{accountId}
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND (B.SUBJECT LIKE #{search})
+	</if>
+	</select>
+	
+<select id="getMyStarEmail" resultType="java.util.HashMap">
+	SELECT
+	E.ID AS id,
+	E.EMAIL_ID AS emailId,
+	B.BODY_ID AS bodyId,
+	E.TO_ID AS toId,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=B.ORG_ID AND U.ACCOUNT_ID=B.FROM_ID) AS fromUserName,
+	B.SUBJECT AS subject,
+	B.SUBHEADING AS subheading,
+	B.SEND_TIME AS sendTime,
+	E.READ_TIME AS readTime,
+	B.ATTACH AS attach,
+	E.STAR AS star,
+	E.TAGS AS tags
+	FROM
+		EMAIL E LEFT JOIN EMAIL_BODY B ON E.ORG_ID = B.ORG_ID AND E.BODY_ID = B.BODY_ID
+	WHERE
+		E.DEL_FLAG = '0'
+	AND B.SEND_FLAG='1'
+	AND E.ORG_ID = #{orgId}
+	AND E.TO_ID = #{accountId}
+	AND E.STAR='1'
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND (B.SUBJECT LIKE #{search})
+	</if>
+	</select>
+	
+	<select id="getEmailDetails" resultType="java.util.HashMap">
+	SELECT
+	E.ID AS id,
+	E.EMAIL_ID AS emailId,
+	E.TO_ID AS toId,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=B.ORG_ID AND U.ACCOUNT_ID=B.FROM_ID) AS fromUserName,
+	(SELECT A.HEAD_IMG FROM ACCOUNT A WHERE A.ORG_ID=B.ORG_ID AND A.ACCOUNT_ID=B.FROM_ID) AS headImg,
+	B.ATTACH AS attach,
+	B.SUBJECT AS subject,
+	B.SUBHEADING AS subheading,
+	B.SEND_TIME AS sendTime,
+	B.CONTENT AS content,
+	B.ATTACH AS attach,
+	E.STAR AS star,
+	E.TAGS AS tags
+	FROM
+		EMAIL E LEFT JOIN EMAIL_BODY B ON E.ORG_ID = B.ORG_ID AND E.BODY_ID = B.BODY_ID
+	WHERE
+		E.DEL_FLAG = '0'
+	AND E.ORG_ID = #{orgId}
+	AND E.TO_ID = #{accountId}
+	AND E.EMAIL_ID =#{emailId}
+	</select>
+	
+	<select id="getEmailCount" resultType="java.util.HashMap">
+	SELECT 
+	(SELECT COUNT(1) FROM EMAIL WHERE DEL_FLAG='1'AND TO_ID=#{accountId} AND ORG_ID = #{orgId}) AS delCount, 
+	(SELECT COUNT(1) FROM EMAIL WHERE BOX_ID='0' AND DEL_FLAG='0' AND TO_ID=#{accountId} AND ORG_ID = #{orgId}) AS boxCount,
+	(SELECT COUNT(1) FROM EMAIL WHERE STAR='1' AND DEL_FLAG='0' AND TO_ID=#{accountId} AND ORG_ID = #{orgId}) AS starCount,
+	(SELECT COUNT(1) FROM EMAIL_BODY WHERE DEL_FLAG='0' AND FROM_ID=#{accountId} AND SEND_FLAG='1' AND ORG_ID = #{orgId}) AS sendCount,
+	(SELECT COUNT(1) FROM EMAIL_BODY WHERE FROM_ID=#{accountId} AND SEND_FLAG='0' AND ORG_ID = #{orgId}) AS draftCount
+	</select>	
+	
+	 <update id="delMyEmail">
+		UPDATE EMAIL SET  DEL_FLAG='1' WHERE ORG_ID=#{orgId} AND TO_ID = #{accountId} AND EMAIL_ID IN 
+	 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+	                #{item}       
+	        </foreach>  
+	 </update>
+	 
+	 <update id="recoveryMyEmail">
+		UPDATE EMAIL SET  DEL_FLAG='0' WHERE ORG_ID=#{orgId} AND TO_ID = #{accountId} AND EMAIL_ID IN 
+	 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+	                #{item}       
+	        </foreach>  
+	 </update>
+	 
+	 <delete id="delMyEmailPhysics">
+		DELETE FROM EMAIL WHERE ORG_ID=#{orgId} AND TO_ID = #{accountId} AND EMAIL_ID IN 
+	 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+	                #{item}       
+	        </foreach>  
+	 </delete>
+	 
+	<update id="updateSetStars">
+		UPDATE EMAIL SET STAR='' WHERE ORG_ID=#{orgId} AND TO_ID = #{accountId} AND EMAIL_ID IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                #{item}       
+        </foreach> 
+	</update>
+	
+	
+	<update id="setMyEmailBox">
+		UPDATE EMAIL SET BOX_ID=#{boxId} WHERE ORG_ID=#{orgId} AND TO_ID = #{accountId} AND EMAIL_ID IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                #{item}       
+        </foreach> 
+	</update>
+	
+	
+<select id="getMyEmailAllForMobile" resultType="java.util.HashMap">
+	SELECT
+	E.ID AS id,
+	E.EMAIL_ID AS emailId,
+	B.BODY_ID AS bodyId,
+	E.TO_ID AS toId,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=B.ORG_ID AND U.ACCOUNT_ID=B.FROM_ID) AS fromUserName,
+	B.SUBJECT AS subject,
+	B.SUBHEADING AS subheading,
+	B.SEND_TIME AS sendTime,
+	E.READ_TIME AS readTime,
+	B.ATTACH AS attach,
+	E.STAR AS star,
+	E.TAGS AS tags
+	FROM
+		EMAIL E LEFT JOIN EMAIL_BODY B ON E.ORG_ID = B.ORG_ID AND E.BODY_ID = B.BODY_ID
+	WHERE
+		E.DEL_FLAG = '0'
+	AND B.SEND_FLAG='1'
+	AND E.ORG_ID = #{orgId}
+	AND E.TO_ID = #{accountId}
+	ORDER BY B.SEND_TIME DESC LIMIT ${page},10
+</select>
+	
+</mapper>
+

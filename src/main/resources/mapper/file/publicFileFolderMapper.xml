@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.core136.mapper.file.PublicFileFolderMapper">
+	<resultMap id="PublicFileFolder"
+		type="com.core136.bean.file.PublicFileFolder">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="FOLDER_ID" property="folderId"
+			jdbcType="VARCHAR" />
+		<result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+		<result column="FOLDER_NAME" property="folderName"
+			jdbcType="VARCHAR" />
+		<result column="FOLDER_LEAVE" property="folderLeave"
+			jdbcType="VARCHAR" />
+		<result column="ACCESS_USER_PRIV" property="accessUserPriv"
+			jdbcType="VARCHAR" />
+		<result column="DOWN_USER_PRIV" property="downUserPriv"
+			jdbcType="VARCHAR" />
+		<result column="MANAGE_USER_PRIV" property="manageUserPriv"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_USER_PRIV" property="createUserPriv"
+			jdbcType="VARCHAR" />
+		<result column="ACCESS_DEPT_PRIV" property="accountDeptPriv"
+			jdbcType="VARCHAR" />
+		<result column="DOWN_DEPT_PRIV" property="downDeptPriv"
+			jdbcType="VARCHAR" />
+		<result column="MANAGE_DEPT_PRIV" property="manageDeptPriv"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_DEPT_PRIV" property="createDeptPriv"
+			jdbcType="VARCHAR" />
+		<result column="ACCESS_LEAVE_PRIV" property="accountLeavePriv"
+			jdbcType="VARCHAR" />
+		<result column="DOWN_LEAVE_PRIV" property="downLeavePriv"
+			jdbcType="VARCHAR" />
+		<result column="MANAGE_LEAVE_PRIV" property="manageLeavePriv"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_LEAVE_PRIV" property="createLeavePriv"
+			jdbcType="VARCHAR" />
+		<result column="OWNER" property="owner" jdbcType="VARCHAR" />
+		<result column="SPACE_LIMIT" property="spaceLimit"
+			jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser"
+			jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getPublicFileFolderAllDir"
+		resultType="java.util.HashMap">
+		SELECT FOLDER_ID as folderId, FOLDER_NAME as folderName,FOLDER_LEAVE
+		AS folderLeave,
+		CASE WHEN (SELECT COUNT(1) FROM PUBLIC_FILE_FOLDER TMP
+		WHERE TMP.FOLDER_ID=folderId)=0 then 'false' else 'true' END
+		AS
+		isParent
+		FROM PUBLIC_FILE_FOLDER WHERE ORG_ID=#{orgId} AND
+		FOLDER_LEAVE=#{folderLeave}
+		<if test="opFlag!='1'">
+			AND CREATE_USER=#{accountId}
+		</if>
+		ORDER BY SORT_NO ASC
+	</select>
+
+	<select id="isExistChild" resultType="Integer">
+		SELECT COUNT(1) AS ZS FROM
+		PUBLIC_FILE_FOLDER WHERE FOLDER_LEAVE=#{folderLeave} AND
+		ORG_ID=#{orgId}
+	</select>
+
+<select id="haveCreatePriv" resultType="Integer">
+		SELECT COUNT(1) AS ZS 
+		FROM
+		PUBLIC_FILE_FOLDER 
+		WHERE FOLDER_ID=#{folderId} 
+		AND	ORG_ID=#{orgId}
+		AND(
+			CREATE_USER_PRIV = '@all'
+			OR CREATE_DEPT_PRIV = '@all'
+			OR CREATE_LEAVE_PRIV = '@all'
+			<if test="accountId!='' and accountId!=null">
+			OR FUN_INTE_ARRAY(CREATE_USER_PRIV,#{accountId}) > 0
+			</if>
+			<if test="deptId!='' and deptId!=null">
+			OR FUN_INTE_ARRAY(CREATE_DEPT_PRIV,#{deptId}) > 0
+			</if>
+			<if test="leaveId!='' and leaveId!=null">
+			OR FUN_INTE_ARRAY(CREATE_LEAVE_PRIV,#{leaveId}) > 0
+			</if>
+			)
+	</select>
+
+<select id="haveDownPriv" resultType="Integer">
+		SELECT COUNT(1) AS ZS 
+		FROM
+		PUBLIC_FILE_FOLDER 
+		WHERE FOLDER_ID=#{folderId} 
+		AND	ORG_ID=#{orgId}
+		AND(
+			DOWN_USER_PRIV = '@all'
+			OR DOWN_DEPT_PRIV = '@all'
+			OR DOWN_LEAVE_PRIV = '@all'
+			<if test="accountId!='' and accountId!=null">
+			OR FUN_INTE_ARRAY(DOWN_USER_PRIV,#{accountId}) > 0
+			</if>
+			<if test="deptId!='' and deptId!=null">
+			OR FUN_INTE_ARRAY(DOWN_DEPT_PRIV,#{deptId}) > 0
+			</if>
+			<if test="leaveId!='' and leaveId!=null">
+			OR FUN_INTE_ARRAY(DOWN_LEAVE_PRIV,#{leaveId}) > 0
+			</if>
+			)
+</select>
+
+<select id="haveManagePriv" resultType="Integer">
+		SELECT COUNT(1) AS ZS 
+		FROM
+		PUBLIC_FILE_FOLDER 
+		WHERE FOLDER_ID=#{folderId} 
+		AND	ORG_ID=#{orgId}
+		AND(
+			MANAGE_USER_PRIV = '@all'
+			OR MANAGE_DEPT_PRIV = '@all'
+			OR MANAGE_LEAVE_PRIV = '@all'
+			<if test="accountId!='' and accountId!=null">
+			OR FUN_INTE_ARRAY(MANAGE_USER_PRIV,#{accountId}) > 0
+			</if>
+			<if test="deptId!='' and deptId!=null">
+			OR FUN_INTE_ARRAY(MANAGE_DEPT_PRIV,#{deptId}) > 0
+			</if>
+			<if test="leaveId!='' and leaveId!=null">
+			OR FUN_INTE_ARRAY(MANAGE_LEAVE_PRIV,#{leaveId}) > 0
+			</if>
+			)
+	</select>
+
+
+	<select id="getMyPublicFolderInPriv" resultType="java.util.HashMap">
+		SELECT FOLDER_ID AS folderId,FOLDER_NAME AS folderName,FOLDER_LEAVE AS folderLeave,
+		CASE WHEN (SELECT COUNT(1) FROM PUBLIC_FILE_FOLDER TMP
+		WHERE TMP.FOLDER_ID=folderId)=0 then 'false' else 'true' END
+		AS
+		isParent
+		FROM PUBLIC_FILE_FOLDER
+		WHERE ORG_ID=#{orgId}
+		AND FOLDER_LEAVE=#{folderLeave}
+		<if test="opFlag!='1'.toString()">
+			AND(
+			 ACCESS_USER_PRIV = '@all'
+			OR ACCESS_DEPT_PRIV = '@all'
+			OR ACCESS_LEAVE_PRIV = '@all'
+			<if test="accountId!='' and accountId!=null">
+			OR FUN_INTE_ARRAY(ACCESS_USER_PRIV,#{accountId}) > 0
+			</if>
+			<if test="deptId!='' and deptId!=null">
+			OR
+			FUN_INTE_ARRAY(ACCESS_DEPT_PRIV,#{deptId}) > 0
+			</if>
+			<if test="leaveId!='' and leaveId!=null">
+			OR
+			FUN_INTE_ARRAY(ACCESS_LEAVE_PRIV,#{leaveId}) > 0
+			</if>
+			)
+		</if>
+		ORDER BY SORT_NO ASC
+	</select>
+
+	<select id="getChildFolderList" resultType="java.util.HashMap">
+		SELECT FOLDER_ID AS fileId,FOLDER_NAME AS fileName,'false' AS isFile
+		FROM PUBLIC_FILE_FOLDER
+		WHERE 
+		FOLDER_LEAVE=#{folderId} 
+		AND ORG_ID=#{orgId} 
+		ORDER BY SORT_NO ASC
+		
+	</select>
+
+<select id="getMyPublicFolderInPrivForDesk" resultType="java.util.HashMap">
+		SELECT FOLDER_ID AS folderId,FOLDER_NAME AS folderName,FOLDER_LEAVE AS folderLeave
+		FROM PUBLIC_FILE_FOLDER
+		WHERE ORG_ID=#{orgId}
+		AND FOLDER_LEAVE='0'
+		AND(
+			 ACCESS_USER_PRIV = '@all'
+			OR ACCESS_DEPT_PRIV = '@all'
+			OR ACCESS_LEAVE_PRIV = '@all'
+			<if test="accountId!='' and accountId!=null">
+			OR FUN_INTE_ARRAY(ACCESS_USER_PRIV,#{accountId}) > 0
+			</if>
+			<if test="deptId!='' and deptId!=null">
+			OR
+			FUN_INTE_ARRAY(ACCESS_DEPT_PRIV,#{deptId}) > 0
+			</if>
+			<if test="levelId!='' and levelId!=null">
+			OR
+			FUN_INTE_ARRAY(ACCESS_LEAVE_PRIV,#{levelId}) > 0
+			</if>
+			)
+		ORDER BY SORT_NO ASC LIMIT 0,5
+	</select>
+
+</mapper>

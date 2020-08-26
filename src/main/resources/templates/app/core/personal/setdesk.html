@@ -1,0 +1,70 @@
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="widget-header bordered-bottom bordered-blue">
+			<span class="widget-caption">桌面设置</span>
+		</div>
+		<div class="widget-body" style="padding: 0px;">
+			<div class="tabbable">
+				<ul class="nav nav-tabs" id="myTab">
+					<li class="active"><a data-toggle="tab" href="#left">桌面左侧</a></li>
+
+					<li class="tab-red"><a data-toggle="tab" href="#right">桌面右侧</a></li>
+				</ul>
+
+				<div class="tab-content">
+					<div id="left" class="tab-pane in active">
+						<div id="selectTitleLeft" class="list-select">
+							<div>
+								<div style="display: inline-block; width: 200px; margin: 10px 10px; text-align: center">备选模块</div>
+								<div style="display: inline-block; width: 65px; text-align: center">操作</div>
+								<div style="display: inline-block; width: 200px; margin: 10px 10px; text-align: center">左侧桌面</div>
+							</div>
+							<div class="list-body">
+								<ul class="item-box left-box leftall-box">
+									<!-- 左边框初始化待选项 -->
+								</ul>
+								<div class="center-box">
+									<button class="add-one" title="添加选中项">></button>
+									<button class="add-all" title="添加全部">>></button>
+									<button class="remove-one" title="移除选中项"><</button>
+									<button class="remove-all" title="移除全部"><<</button>
+								</div>
+								<ul class="item-box right-box left-selected">
+									<!-- 右边框存放已选项 -->
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div id="right" class="tab-pane">
+						<div id="selectTitleRight" class="list-select">
+							<div>
+								<div style="display: inline-block; width: 200px; margin: 10px 10px; text-align: center">备选模块</div>
+								<div style="display: inline-block; width: 65px; text-align: center">操作</div>
+								<div style="display: inline-block; width: 200px; margin: 10px 10px; text-align: center">右侧桌面</div>
+							</div>
+							<div class="list-body">
+								<ul class="item-box left-box rightall-box">
+									<!-- 左边框初始化待选项 -->
+								</ul>
+								<div class="center-box">
+									<button class="add-one" title="添加选中项">></button>
+									<button class="add-all" title="添加全部">>></button>
+									<button class="remove-one" title="移除选中项"><</button>
+									<button class="remove-all" title="移除全部"><<</button>
+								</div>
+								<ul class="item-box right-box right-selected">
+									<!-- 右边框存放已选项 -->
+								</ul>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div style="margin-top: 10px;padding-bottom: 10px;" align="center">
+			<button type="button" class="btn btn-blue js-setdesk-btn">修改</button>
+			</div>
+		</div>
+	</div>
+</div>

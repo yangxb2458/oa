@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link href='/module/area/chosen.min.css' rel='stylesheet'>
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<link href="/module/bootstrap-select/bootstrap-select.css" rel="stylesheet" />
+<style type="text/css">
+.bootstrap-tagsinput{
+    background-color: #fbfbfb;
+    }
+        .choose-c .item{
+            min-width: 100px;
+            text-align: left;
+            line-height: 30px;
+            cursor: pointer;
+            padding-left: 10px;
+        }
+        .choose-c .item1{
+        	min-width: 50px;
+        	padding-left: 20px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .btn-sty{
+            width: 72px;
+            display: inline-block;
+            background-color: #53a93f;
+            color: #fff;
+            line-height: 32px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+		<div class="page-container">
+			<div class="widget">
+				<div class="widget-header bordered-bottom bordered-palegreen">
+					<span class="widget-caption">新建客户</span>
+				</div>
+				<div class="widget-body" style="padding-top: 0px">
+					<form class="form-horizontal form-bordered" id="from">
+						<input type="hidden" id="customerId" name="customerId" value="${customerId}">
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">客户中文名称：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="cnName" name="cnName" placeholder="客户中文名称">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">客户英文名称：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="enName"
+									name="enName" placeholder="客户英文名称">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">客户等级：</label>
+							<div class="col-sm-3">
+								<select  class="form-control" id="level" style="border-radius: 0px;" name="level" >
+								<option value="1">公司重点客户</option>
+								<option value="2">公司主要客户</option>
+								<option value="3">公司一般客户</option>
+								<option value="4">潜在重点客户</option>
+								<option value="5">潜在主要客户</option>
+								<option value="6">潜在一般客户</option>
+								<option value="7">黑名单客户</option>
+								<option value="0">信息池客户</option>
+								</select>
+							</div>
+							<div class="col-sm-2" style="line-height: 34px;"><a style="cursor: pointer;" data-toggle="modal" data-target=".bs-example-modal-sm">说明</a></div>
+							<label class="col-sm-1 control-label no-padding-right">客户来源：</label>
+							<div class="col-sm-3">
+								<select  class="form-control" id="source" style="border-radius: 0px;" name="source" >
+								<option value="1">主动联系</option>
+								<option value="2">网络推广</option>
+								<option value="3">陌生开拓</option>
+								<option value="4">朋友介绍</option>
+								<option value="0">其它</option>
+								</select>
+							</div>
+							<div class="col-sm-2"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">企业类型：</label>
+							<div class="col-sm-3">
+								<select  class="form-control" id="model" style="border-radius: 0px;" name="model" >
+										<option value="1">制造</option>
+										<option value="2">贸易</option>
+										<option value="0">其它</option>								
+								</select>
+							</div>
+							<div class="col-sm-2"></div>
+							<label class="col-sm-1 control-label no-padding-right">客户角色：</label>
+							<div class="col-sm-3">
+								<select  class="form-control" id="roles" style="border-radius: 0px;" name="roles" >
+								<option value="1">供应商</option>
+								<option value="2">采购商</option>
+								</select>
+							</div>
+							<div class="col-sm-2"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">企业性质：</label>
+							<div class="col-sm-3">
+								<select  class="form-control" id="nature" style="border-radius: 0px;" name="nature" >
+									<option value="1">私营企业</option>
+									<option value="2">合资企业</option>
+									<option value="3">国企</option>
+									<option value="4">外资企业</option>
+									<option value="5">个体工商户</option>
+									<option value="0">其它</option>
+								</select>
+							</div>
+							<div class="col-sm-2"></div>
+							<label class="col-sm-1 control-label no-padding-right">当前阶段：</label>
+							<div class="col-sm-3">
+								<select  class="form-control" id="selStage" style="border-radius: 0px;" name="selStage" >
+									<option value="0">系统收录</option>
+									<option value="1">邮件介绍</option>
+									<option value="2">电话沟通</option>
+									<option value="3">微信联系</option>
+									<option value="4">上门拜访</option>
+									<option value="5">合作阶段</option>
+								</select>
+							</div>
+							<div class="col-sm-2"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">所属行业：</label>
+							<div class="col-sm-3">
+							<select name="industry" id="industry" class="form-control" style="border-radius: 0px;" onchange="createTagsSelect();">
+							</select>
+							</div>
+							<div class="col-sm-2">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">客户产品：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="customerProduct" name="customerProduct" placeholder="客户产品   " >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">企业标签：</label>
+							<div class="col-sm-10">
+							<input type="text" class="form-control" id="tags"name="tags" placeholder="企业标签"  readonly="readonly" value="">
+							</div>
+							<div class="col-sm-1">
+							<a style="cursor: pointer;line-height: 34px;" data-toggle="modal" data-target="#tagsModal">选择</a>
+							</div>
+						</div>
+					<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">客户画像：</label>
+							<div class="col-sm-5">
+								<div class="checkbox">
+	                               <label style="padding-left:0px;">
+	                                    <input type="checkbox" name="follow" value="1">
+	                                        <span class="text" >关注品质</span>
+	                                </label>
+	                               <label>
+	                                    <input type="checkbox" name="follow" value="2">
+	                                        <span class="text" >关注品牌</span>
+	                                </label>
+	                               <label>
+	                                    <input type="checkbox" name="follow" value="3">
+	                                        <span class="text">关注价格 </span>
+	                                </label>
+	                                 <label>
+	                                    <input type="checkbox" name="follow" value="4">
+	                                        <span class="text">关注服务 </span>
+	                                </label>
+	                                 <label>
+	                                    <input type="checkbox" name="follow" value="5">
+	                                        <span class="text">关注交货速度 </span>
+	                                </label>
+	                                 <label>
+	                                    <input type="checkbox" name="follow" value="6">
+	                                        <span class="text">关注设计能力 </span>
+	                                </label>
+	                            </div>
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">需求产品：</label>
+							<div class="col-sm-5">
+							<select id="focusProduct" name="focusProduct" class="selectpicker form-control" multiple data-live-search="false" data-actions-box="true">
+							</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">合作意向：</label>
+							<div class="col-sm-5">
+							<div class="radio">
+                                                    <label style="padding-left:0px;">
+                                                        <input name="intention" type="radio" class="colored-blue" value="1">
+                                                        <span class="text">强烈</span>
+                                                    </label>
+                                                     <label>
+                                                        <input name="intention" type="radio" class="colored-blue" value="2">
+                                                        <span class="text">一般</span>
+                                                    </label>
+                                                     <label>
+                                                        <input name="intention" type="radio" class="colored-blue" value="0">
+                                                        <span class="text">暂无可能</span>
+                                                    </label>
+                                                </div>
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">竞争对手：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="opponent"name="opponent" placeholder="竞争对手  ">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">统一信用代码：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="creditCode"name="creditCode" placeholder="统一信用代码">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">注册资本：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="registerCapital"name="registerCapital" placeholder="注册资本">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">注册日期：</label>
+							<div class="col-sm-5" style="position: relative;">
+							<input type="text" class="form-control" id="registerDate"name="registerDate" placeholder="注册日期" readonly="readonly">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">营业期限：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="timeOfVaildity"name="timeOfVaildity" placeholder="营业期限" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">企业法人：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="legalPerson"name="legalPerson" placeholder="企业法人">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">经营状态：</label>
+							<div class="col-sm-3">
+							<select class="form-control" id="status" style="border-radius: 0px;" name="status">
+							<option value="1">优</option>
+							<option value="2">良</option>
+							<option value="3">差</option>
+							</select>
+							</div>
+							<div class="col-sm-2">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">营业范围：</label>
+							<div class="col-sm-10">
+								<div id="scopeBusiness"></div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">客户简介：</label>
+							<div class="col-sm-10">
+								<div id="remark"></div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">注册地址：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="registerAddr"name="registerAddr" placeholder="注册地址">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">营业地址：</label>
+							<div class="col-sm-5">
+							<div class="col-sm-2" style="padding-left: 0px;">
+								<select id="country" class="dept_select form-control"></select>
+							</div>
+							<div class="col-sm-2">
+								<select id="province" class="dept_select form-control"></select>
+							</div>
+							<div class="col-sm-2">
+								<select id="city" class="dept_select form-control"></select>
+							</div>
+							<div class="col-sm-6" style="padding-right: 0px;">
+							<input type="text" class="form-control" id="businessAddr"name="businessAddr" placeholder="详细地址">
+							</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">企业电话：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="tel"name="tel" placeholder="企业电话">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">企业传真：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="fax"name="fax" placeholder="企业传真">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">企业邮件：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="eMail"name="eMail" placeholder="企业邮件">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">企业网站：</label>
+							<div class="col-sm-5">
+							<input type="text" class="form-control" id="webSite"name="webSite" placeholder="企业网站">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-5">
+								<a id="createbtn" href="javascript:void(0);"
+									class="btn btn-primary">新&nbsp;&nbsp;建</a>
+									<a id="updatabtn"
+									href="javascript:void(0);" class="btn btn-maroon">更&nbsp;&nbsp;改</a>
+									<a id="backbtn" href="javascript:void(0);" class="btn btn-yellow">返&nbsp;&nbsp;回</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">等级说明</h4>
+                </div>
+                <div class="modal-body">
+				<div>*公司重点客户       交易金额100W以上，信用好</div>
+                <div>*公司主要客户       交易金额20-100W，信用好</div>
+				<div>*公司一般客户       交易金额20W以下，信用好</div>
+				<div>*潜在重点客户       采购需求有可能在100W以上</div>
+				<div>*潜在主要客户       采购需求有可能在50W以下</div>
+				<div>*潜在一般客户       有需求但需求量较少</div>
+				<div>*信息池客户          信息池中还没有销售维护的客户</div>
+				<div>*黑名单客户          有需求但信用差</div>
+				<div>*信息池无效客户   经了解客户没有需求</div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    
+	<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;" id="tagsModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myLargeModalLabel">企业标签选择</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="choose-c">
+                   		所属行业暂无标签
+                    </div>
+                </div>
+                <div class="modal-footer">
+					<a href="javascript:void(0);" class="btn btn-maroon js-sure" data-dismiss="modal">确定</a>
+				</div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    </body>
+	<%include("../../../resapi/sysjs.html"){}%>
+	<script src="/module/jeDate/jeDate.js"></script>
+	<!--Bootstrap  wysiwig Scripts-->
+	<script src="/assets/js/editors/summernote/summernote.js"></script>
+	<script src="/assets/js/tagsinput/bootstrap-tagsinput.js"></script>
+	<script type="text/javascript" src="/module/area/chosen.jquery.min.js"></script>
+	<script type="text/javascript" src="/module/area/area_chs.js"></script>
+	<script type="text/javascript">
+		var areaObj = [];
+		function initLocation(e){
+			var a = 0;
+			for (var m in e) {
+				areaObj[a] = e[m];
+				var b = 0;
+				for (var n in e[m]) {
+					areaObj[a][b++] = e[m][n];
+				}
+				a++;
+			}
+		}
+	</script>
+	
+	<script type="text/javascript" src="/module/area/location_chs.js"></script>
+	<script src="/gobal/js/page/crm/createcustomer.js"></script>
+	<script type="text/javascript" src="/module/bootstrap-select/bootstrap-select.js"></script>
+	<script>
+	  	$('#scopeBusiness').summernote({ height: 200 });
+        $('#remark').summernote({ height: 200 });
+    </script>
+     <script>
+        $(document).on('click','.js-first',function(){
+            $(this).find('span').toggleClass('badge badge-purple badge-square');
+        })
+        $(document).on('click','.js-sure',function(){
+            var arr = [];
+            $(document).find('.list-1').each(function(){
+                if($(this).find('.js-first span').hasClass('badge')){   //选了一级
+                    arr.push($(this).find('.js-first').find('span').text())
+                    $(this).find('.list-2').find('.badge').each(function(){
+                        arr.push($(this).text())
+                    })
+                }
+            })
+            $("#tags").val((arr.unique2()).join(","));
+        })
+    </script>
+</html>

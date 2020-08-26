@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.contract.ContractPayableMapper">
+<resultMap id="ContractPayable" type="com.core136.bean.contract.ContractPayable" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="PAYABLE_ID" property="payableId" jdbcType="VARCHAR" />
+    <result column="CONTRACT_ID" property="contractId" jdbcType="VARCHAR" />
+    <result column="UN_PAYABLED" property="unPayabled" jdbcType="DOUBLE" />
+    <result column="PAYABLE_TIME" property="payableTime" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="PAYABLED" property="payabled" jdbcType="DOUBLE" />
+    <result column="USER_PRIV" property="userPriv" jdbcType="VARCHAR" />
+    <result column="PAYABLED_TIME" property="payabledTime" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getContractPayableList" resultType="java.util.HashMap">
+	SELECT R.PAYABLE_ID AS payableId, R.CONTRACT_ID AS contractId, R.UN_PAYABLED AS unPayabled,R.PAYABLE_TIME AS payableTime,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=R.USER_PRIV) AS userPrivUserName,
+	R.PAYABLED AS payabled,R.PAYABLED_TIME AS payabledTime,R.USER_PRIV AS userPriv,R.CREATE_TIME AS createTime,C.TITLE AS title,C.CUSTOMER_NAME AS customerName
+	FROM CONTRACT_PAYABLE R LEFT JOIN CONTRACT C ON R.ORG_ID=C.ORG_ID AND R.CONTRACT_ID=C.CONTRACT_ID 
+	WHERE 
+	R.ORG_ID=#{orgId}
+	<if test="opFlag!='1'.toString()">
+		AND	R.CREATE_USER=#{accountId}
+	</if>
+	<if test="search!='%%'.toString()">
+	AND	(C.TITLE LIKE #{search} OR C.CUSTOMER_NAME LIKE #{search} OR C.CONTRACT_CODE LIKE #{search})
+	</if>
+	<if test = "beginTime!=''.toString() and beginTime!=null">
+		AND R.PAYABLE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "endTime!=''.toString() and endTime!=null">
+		AND R.PAYABLE_TIME &lt;=#{endTime}
+	</if>
+	<if test="status=='1'.toString()">
+		AND	(R.PAYABLED ==0 OR R.PAYABLED IS NULL)
+	</if>
+	<if test="status=='2'.toString()">
+		AND	R.UN_PAYABLED-C.PAYABLED&gt;0
+	</if>
+	<if test="status=='3'.toString()">
+		AND	R.UN_PAYABLED-C.PAYABLED==0
+	</if>
+</select>
+
+<select id="getDeskPayableList" resultType="java.util.HashMap">
+SELECT R.PAYABLE_TIME AS payableTime,R.UN_PAYABLED AS unPayabled,R.PAYABLED_TIME AS payabledTime,
+(SELECT TEMP.TITLE FROM CONTRACT TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.CONTRACT_ID=R.CONTRACT_ID) AS title,R.PAYABLED AS payabled,
+R.USER_PRIV AS userPriv,(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=R.USER_PRIV)AS userPrivName
+FROM
+CONTRACT_PAYABLE R LEFT JOIN CONTRACT C ON R.ORG_ID=C.ORG_ID AND R.CONTRACT_ID=C.CONTRACT_ID
+WHERE 
+R.PAYABLE_TIME&gt;=#{beginTime}
+<if test="opFlag!='1'.toString()">
+	AND	R.USER_PRIV=#{accountId}
+</if>
+ORDER BY R.CREATE_TIME ASC LIMIT 0,10
+</select>
+
+</mapper>
+

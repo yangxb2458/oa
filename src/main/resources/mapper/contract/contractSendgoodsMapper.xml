@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.contract.ContractSendgoodsMapper">
+<resultMap id="ContractSendgoods" type="com.core136.bean.contract.ContractSendgoods" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="CONTRACT_ID" property="contractId" jdbcType="INTEGER" />
+    <result column="TRACKING_NUMBER" property="trackingNumber" jdbcType="VARCHAR" />
+    <result column="TRACKING_COMP" property="trackingComp" jdbcType="VARCHAR" />
+    <result column="CONSIGNEE" property="consignee" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="IPHONE" property="iphone" jdbcType="VARCHAR" />
+    <result column="SEND_DATE" property="sendDate" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getContractSendgoodsList" resultType="java.util.HashMap">
+SELECT G.RECORD_ID AS recordId, G.TRACKING_NUMBER AS trackingNumber,G.TRACKING_COMP AS trackingComp,G.SEND_DATE AS sendDate,
+G.IPHONE AS iphone,C.TITLE AS title,C.CONTRACT_CODE AS contractCode
+FROM CONTRACT_SENDGOODS G LEFT JOIN CONTRACT C ON G.ORG_ID=C.ORG_ID AND G.CONTRACT_ID=C.CONTRACT_ID
+WHERE C.ORG_ID=#{orgId}
+		<if test="contractType!=''.toString() and contractType!=null">
+		AND C.CONTRACT_TYPE = #{contractType}
+		</if>
+		<if test = "beginTime!=''.toString() and beginTime!=null">
+			AND C.START_TIME &gt;=#{beginTime}
+		</if>
+		<if test = "endTime!=''.toString() and endTime!=null">
+			AND C.START_TIME &lt;=#{endTime}
+		</if>
+		<if test="search!='%%'.toString()">
+		AND (
+				C.CONTRACT_CODE LIKE #{search} OR C.TITLE LIKE #{search} OR C.CUSTOMER_NAME LIKE #{search}
+			)
+		</if>
+</select>
+
+
+
+</mapper>
+

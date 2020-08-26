@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.crm.CrmCustomerMapper">
+<resultMap id="CrmCustomer" type="com.core136.bean.crm.CrmCustomer" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="CUSTOMER_CODE" property="customerId" jdbcType="VARCHAR" />
+    <result column="CN_NAME" property="cnName" jdbcType="VARCHAR" />
+    <result column="EN_NAME" property="enName" jdbcType="VARCHAR" />
+    <result column="MODEL" property="model" jdbcType="VARCHAR" />
+    <result column="LEVEL" property="level" jdbcType="VARCHAR" />
+    <result column="BUSINESS_ADDR" property="businessAddr" jdbcType="VARCHAR" />
+    <result column="COUNTRY" property="country" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="SEL_STAGE" property="selStage" jdbcType="VARCHAR" />
+    <result column="INDUSTRY" property="industry" jdbcType="VARCHAR" />
+    <result column="NATURE" property="nature" jdbcType="VARCHAR" />
+    <result column="LEGAL_PERSON" property="legalPerson" jdbcType="VARCHAR" />
+    <result column="REGISTER_ADDR" property="registerAddr" jdbcType="VARCHAR" />
+    <result column="REGISTER_DATE" property="registerDate" jdbcType="VARCHAR" />
+    <result column="TIME_OF_VAILDITY" property="timeOfVaildity" jdbcType="VARCHAR" />
+    <result column="REGISTER_CAPITAL" property="registerCapital" jdbcType="VARCHAR" />
+    <result column="CREDIT_CODE" property="creditCode" jdbcType="VARCHAR" />
+    <result column="WEB_SITE" property="webSite" jdbcType="VARCHAR" />
+    <result column="ROLES" property="roles" jdbcType="VARCHAR" />
+    <result column="SOURCE" property="source" jdbcType="VARCHAR" />
+    <result column="FOCUS_PRODUCT" property="focusProduct" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="FAX" property="fax" jdbcType="VARCHAR" />
+    <result column="E_MAIL" property="eMail" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SCOPE_BUSINESS" property="scopeBusiness" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="KEEP_USER" property="keepUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+<select id="getAllCrmCustomerList" resultType="java.util.HashMap">
+SELECT C.ID AS id,C.CUSTOMER_ID AS customerId,C.CN_NAME AS cnName,C.EN_NAME AS enName,
+C.MODEL AS model,C.SOURCE AS source,C.COUNTRY AS country,C.PROVINCE AS province,C.LEVEL AS level,C.ROLES AS roles,C.TAGS AS tags,
+(SELECT COUNT(1) FROM CRM_CONTACT_RECORD R WHERE R.ORG_ID=C.ORG_ID AND R.CUSTOMER_ID=C.CUSTOMER_ID) AS recordCount,
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=C.ORG_ID AND U.ACCOUNT_ID=C.KEEP_USER) AS keepUserName,C.INDUSTRY AS industry,
+(SELECT H.INDUSTRY_NAME FROM CRM_INDUSTRY H WHERE H.ORG_ID=C.ORG_ID AND H.INDUSTRY_ID=C.INDUSTRY) AS industryName,
+C.OPPONENT AS opponent,C.TEL AS tel,C.COUNTRY AS country,C.CITY AS city,C.PROVINCE AS province,C.FOCUS_PRODUCT AS focusProduct,
+C.INTENTION AS intention
+FROM CRM_CUSTOMER C
+WHERE 
+C.ORG_ID=#{orgId}
+<if test="source!='%%'">
+AND C.SOURCE LIKE #{source}
+</if>
+<if test="roles!='%%'">
+AND C.ROLES LIKE #{roles}
+</if>
+<if test="model!='%%'">
+AND C.MODEL LIKE #{model}
+</if>
+<if test="industry!='%%'">
+AND C.INDUSTRY LIKE #{industry}
+</if>
+<if test="keepUser!='%%'">
+AND C.KEEP_USER LIKE #{keepUser}
+</if>
+<if test="search !='%%' and search !=''.toString() and search!=null">
+AND (C.CN_NAME LIKE #{search} OR C.EN_NAME LIKE #{search} OR C.SCOPE_BUSINESS LIKE #{search} )
+</if>
+<if test="country!='%0%' and country!='%%' ">
+AND C.COUNTRY LIKE #{country}
+</if>
+<if test="province!='%0%' and province!='%%' ">
+AND C.PROVINCE LIKE #{province}
+</if>
+<if test="city!='%0%'and city!='%%' ">
+AND C.CITY LIKE #{city}
+</if>
+<if test="level!='%%'">
+AND C.LEVEL LIKE #{level}
+</if>
+<if test="intention!='%%'">
+AND C.INTENTION LIKE #{intention}
+</if>
+<if test="opponent!='%%'">
+AND C.OPPONENT LIKE #{opponent}
+</if>
+<if test="list.size() > 0">
+AND (
+ <foreach collection="list" item="item" index="index"  separator="OR">
+     C.TAGS LIKE CONCAT('%',#{item},'%')
+ </foreach>
+ )
+</if>
+
+</select>
+
+<select id="getSelect2CustomerList" resultType="java.util.HashMap">
+SELECT 
+	CUSTOMER_ID AS customerId,CN_NAME AS cnName,EN_NAME AS enName ,LEGAL_PERSON AS legalPerson,REGISTER_ADDR AS registerAddr
+FROM 
+	CRM_CUSTOMER
+WHERE 
+	ORG_ID=#{orgId}
+	<if test="keepUser!=''">
+	AND KEEP_USER=#{keepUser}
+	</if>
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND (CN_NAME LIKE #{search} OR EN_NAME LIKE #{search}) limit 0,10
+	</if>
+</select>
+
+
+
+</mapper>
+

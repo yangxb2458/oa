@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.projectbuild.ProjectBuildSupplierMapper">
+<resultMap id="ProjectBuildSupplier" type="com.core136.bean.projectbuild.ProjectBuildSupplier" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR" />
+    <result column="INDUSTRY" property="industry" jdbcType="VARCHAR" />
+    <result column="LEVEL" property="level" jdbcType="VARCHAR" />
+    <result column="TAGS" property="tags" jdbcType="VARCHAR" />
+    <result column="COUNTRY" property="country" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="LEGAL_PERSON" property="legalPerson" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REGISTER_DATE" property="registerDate" jdbcType="VARCHAR" />
+    <result column="REGISTER_ADDRESS" property="registerAddress" jdbcType="VARCHAR" />
+    <result column="TIME_OF_VAILDITY" property="timeOfVaildity" jdbcType="VARCHAR" />
+    <result column="REGISTERED_CAPITAL" property="registeredCapital" jdbcType="VARCHAR" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="DUTY_PARAGRAPH" property="dutyParagraph" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="FAX" property="fax" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="LINK_NAME" property="linkName" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREDIT_CODE" property="creditCode" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getSupplierList" resultType="java.util.HashMap">
+	SELECT SUPPLIER_ID AS supplierId,COMPANY_NAME AS companyName,CITY AS city,STATUS AS status,LEVEL AS level,
+	LINK_NAME AS linkName,TAGS AS tags,PROVINCE AS province,TEL AS tel  
+	FROM PROJECT_BUILD_SUPPLIER
+	WHERE ORG_ID = #{orgId}
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+		AND COMPANY_NAME LIKE #{search}
+	</if>
+</select>
+
+<select id="getSelect2SupplierList" resultType="java.util.HashMap">
+	SELECT SUPPLIER_ID AS supplierId,COMPANY_NAME AS companyName
+	FROM PROJECT_BUILD_SUPPLIER
+	WHERE ORG_ID = #{orgId}
+	<if test="companyName!= '%%'">
+		AND COMPANY_NAME LIKE #{companyName}
+	</if>
+</select>
+</mapper>
+

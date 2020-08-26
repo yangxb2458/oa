@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.crm.CrmIndustryMapper">
+<resultMap id="CrmIndustry" type="com.core136.bean.crm.CrmIndustry" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="INDUSTRY_NAME" property="industryName" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getAllIndustryList" resultType="java.util.HashMap">
+SELECT INDUSTRY_ID AS industryId,INDUSTRY_NAME AS industryName,SORT_NO AS sortNo,REMARK AS remark FROM CRM_INDUSTRY WHERE ORG_ID=#{orgId}
+<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND INDUSTRY_NAME LIKE #{search}
+</if>
+</select>
+
+</mapper>
+

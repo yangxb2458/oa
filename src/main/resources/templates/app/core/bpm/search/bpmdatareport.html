@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="widget">
+						<div class="widget-header bordered-bottom bordered-blue">
+							<span class="widget-caption">数据条件</span>
+						</div>
+						<div class="widget-body">
+						<div class="row">
+						<form class="form-horizontal form-bordered" id="queryfield">
+						
+						</form>
+						<form id="form2" method="post">
+							<input type="hidden" name="templateId" class="js-templateId" value="${parameter.templateId}"/> 
+							<input type="hidden" name="conditionJson" class="js-conditionJson" /> 
+						</form>
+						</div>
+						<div  class="row" align="center" style="margin-top: 20px;">
+						<a href="javascript:void(0);" class="btn btn-success js-query-but">查询</a>
+						<a href="javascript:void(0);" class="btn btn-primary js-exportFlag" style="display: none;">导出</a>
+						</div>
+						<table id="myTable"></table>
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript">
+var templateId="${parameter.templateId}";
+</script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/gobal/js/page/bpm/bpmdatareport.js"></script>
+</body>
+</html>

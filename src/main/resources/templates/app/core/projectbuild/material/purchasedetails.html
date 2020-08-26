@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){} %>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="widget">
+						<div class="widget-header bordered-bottom bordered-palegreen">
+							<span class="widget-caption">工程材料采购详情</span>
+						</div>
+						<div class="widget-body">
+							<form class="form-horizontal form-bordered" id="form"  data-bv-message="This value is not valid" data-bv-feedbackicons-valid="glyphicon glyphicon-ok" data-bv-feedbackicons-invalid="glyphicon glyphicon-remove" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">申请标题：</label>
+									<div class="col-sm-5" id="title" name="title">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">关联项目：</label>
+									<div class="col-sm-5" id="projectId" name="projectId">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">项目阶段：</label>
+									<div class="col-sm-5" id="stageId" name="stageId">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">供商应：</label>
+									<div class="col-sm-5" id="supplierId" name="supplierId">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">采购明细：</label>
+									<div class="col-sm-10">
+										<div class="form-title">材料清单</div>
+										<div class="row">
+											<div class="col-md-12">
+												<table id="myTable"></table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">采购总金额：</label>
+									<div class="col-sm-3" id="amount" name="amount"></div>
+									<div class="col-sm-2" style="line-height: 34px;">元(RMB)</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">备注：</label>
+									<div class="col-sm-5" id="remark" name="remark">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">相关文件：</label>
+									<div class="col-sm-5">
+										<div style="padding-top: 4px;" id="projectbuildattach" name="projectbuildattach">
+											<div id="show_projectbuildattach"></div>
+										</div>
+									</div>
+
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<%include("../../../resapi/sysjs.html"){} %>
+<script type="text/javascript">
+var purchaseId = "${parameter.purchaseId}";
+</script>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript"src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript"src="/module/fileupload/fileupload.js"></script>
+<script src="/gobal/js/page/projectbuild/purchasedetails.js"></script>
+</html>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.dataupload.DataUploadInfoMapper">
+<resultMap id="DataUploadInfo" type="com.core136.bean.dataupload.DataUploadInfo" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="DATA_TYPE" property="dataType" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="FROM_ACCOUNT_ID" property="fromAccountId" jdbcType="VARCHAR" />
+    <result column="APPROVED_TYPE" property="approvedType" jdbcType="DOUBLE" />
+    <result column="APPROVED_USER" property="approvedUser" jdbcType="VARCHAR" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="VARCHAR" />
+    <result column="TO_USER" property="toUser" jdbcType="VARCHAR" />
+    <result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getDataUploadInfoList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,TITLE AS title,DEPT_ID AS deptId,FROM_ACCOUNT_ID AS fromAccountId,APPROVED_TYPE AS approvedType,
+	 APPROVED_USER AS approvedUser,DATA_TYPE AS dataType,STATUS AS status
+	FROM DATA_UPLOAD_INFO
+	WHERE ORG_ID=#{orgId}
+	<if test="deptId!=null and deptId!=''.toString()">
+		AND DEPT_ID=#{deptId}
+	</if>
+	<if test="fromAccountId!=null and fromAccountId!=''.toString()">
+		AND FROM_ACCOUNT_ID=#{fromAccountId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="dataType!=null and dataType!=''.toString()">
+		AND DATA_TYPE=#{dataType}
+	</if>
+	<if test="approvedType!=null and approvedType!=''.toString()">
+		AND APPROVED_TYPE=#{approvedType}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND TITLE LIKE #{search}
+	</if>
+</select>
+
+
+<select id="getToProcessInfoList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,TITLE AS title,DEPT_ID AS deptId,FROM_ACCOUNT_ID AS fromAccountId,APPROVED_TYPE AS approvedType,
+	 APPROVED_USER AS approvedUser,DATA_TYPE AS dataType,STATUS AS status
+	FROM DATA_UPLOAD_INFO
+	WHERE ORG_ID=#{orgId}
+	AND APPROVED_USER = #{accountId}
+	AND STATUS='0'
+	<if test="deptId!=null and deptId!=''.toString()">
+		AND DEPT_ID=#{deptId}
+	</if>
+	<if test="fromAccountId!=null and fromAccountId!=''.toString()">
+		AND FROM_ACCOUNT_ID=#{fromAccountId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="dataType!=null and dataType!=''.toString()">
+		AND DATA_TYPE=#{dataType}
+	</if>
+	<if test="approvedType!=null and approvedType!=''.toString()">
+		AND APPROVED_TYPE=#{approvedType}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND TITLE LIKE #{search}
+	</if>
+</select>
+
+
+<select id="getOldProcessInfoList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,TITLE AS title,DEPT_ID AS deptId,FROM_ACCOUNT_ID AS fromAccountId,APPROVED_TYPE AS approvedType,
+	 APPROVED_USER AS approvedUser,DATA_TYPE AS dataType,STATUS AS status
+	FROM DATA_UPLOAD_INFO
+	WHERE ORG_ID=#{orgId}
+	AND APPROVED_USER = #{accountId}
+	AND STATUS='1'
+	<if test="deptId!=null and deptId!=''.toString()">
+		AND DEPT_ID=#{deptId}
+	</if>
+	<if test="fromAccountId!=null and fromAccountId!=''.toString()">
+		AND FROM_ACCOUNT_ID=#{fromAccountId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="dataType!=null and dataType!=''.toString()">
+		AND DATA_TYPE=#{dataType}
+	</if>
+	<if test="approvedType!=null and approvedType!=''.toString()">
+		AND APPROVED_TYPE=#{approvedType}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND TITLE LIKE #{search}
+	</if>
+</select>
+
+</mapper>
+

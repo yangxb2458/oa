@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.crm.CrmLinkManMapper">
+<resultMap id="CrmLinkMan" type="com.core136.bean.crm.CrmLinkMan" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="LINK_MAN_ID" property="linkManId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="VARCHAR" />
+    <result column="LINK_NAME" property="linkName" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="POSTION" property="postion" jdbcType="VARCHAR" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="FAX" property="fax" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="VARCHAR" />
+    <result column="HOBBY" property="hobby" jdbcType="VARCHAR" />
+    <result column="HEAD_IMG" property="headImg" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+<select id="getCrmLinkManList" resultType="java.util.HashMap">
+SELECT 
+	L.LINK_MAN_ID AS linkManId,
+	C.CUSTOMER_ID AS customerId,
+	C.CN_NAME AS cnName,
+	C.EN_NAME AS enName,
+	L.LINK_NAME AS linkName,
+	L.DEPT_NAME AS deptName,
+	L.POSTION AS postion,
+	L.SEX AS sex,
+	L.MOBILE AS mobile,
+	L.EMAIL AS email,
+	L.TEL AS tel,
+	L.FAX AS fax,
+	L.ADDRESS AS address,
+	L.BIRTHDAY AS birthday,
+	L.HOBBY AS hobby
+FROM CRM_LINK_MAN L,CRM_CUSTOMER C
+WHERE 
+	C.ORG_ID = L.ORG_ID
+	AND C.CUSTOMER_ID=L.CUSTOMER_ID
+	AND L.ORG_ID=#{orgId}
+	AND C.CUSTOMER_ID=#{customerId}
+</select>
+
+<select id="getCrmLinkManAllList" resultType="java.util.HashMap">
+SELECT 
+L.LINK_MAN_ID AS linkManId,
+C.CUSTOMER_ID AS customerId,
+C.CN_NAME AS cnName,
+C.EN_NAME AS enName,
+L.LINK_NAME AS linkName,
+L.DEPT_NAME AS deptName,
+L.POSTION AS postion,
+L.SEX AS sex,
+L.MOBILE AS mobile,
+L.EMAIL AS email
+FROM CRM_LINK_MAN L,CRM_CUSTOMER C
+WHERE 
+C.ORG_ID = L.ORG_ID
+AND C.CUSTOMER_ID=L.CUSTOMER_ID
+AND L.ORG_ID=#{orgId}
+<if test="search !='%%' and search !=''.toString() and search!=null">
+AND (C.CN_NAME LIKE #{search} OR C.EN_NAME LIKE #{search} OR L.LINK_NAME LIKE #{search} OR L.MOBILE LIKE #{search})
+</if>
+</select>
+
+<select id="getCrmLinkManInfo" resultType="java.util.HashMap">
+SELECT 
+	L.LINK_MAN_ID AS linkManId,
+	C.CUSTOMER_ID AS customerId,
+	C.CN_NAME AS cnName,
+	C.EN_NAME AS enName,
+	L.LINK_NAME AS linkName,
+	L.DEPT_NAME AS deptName,
+	L.POSTION AS postion,
+	L.SEX AS sex,
+	L.MOBILE AS mobile,
+	L.EMAIL AS email,
+	L.TEL AS tel,
+	L.FAX AS fax,
+	L.ADDRESS AS address,
+	L.BIRTHDAY AS birthday,
+	L.DECISION_MAKER AS decisionMaker, 
+	L.HOBBY AS hobby
+FROM CRM_LINK_MAN L,CRM_CUSTOMER C
+WHERE 
+	C.ORG_ID = L.ORG_ID
+	AND C.CUSTOMER_ID=L.CUSTOMER_ID
+	AND L.ORG_ID=#{orgId}
+	AND L.LINK_MAN_ID = #{linkManId}
+</select>
+
+<select id="getMyCrmLinkManAllList" resultType="java.util.HashMap">
+SELECT 
+L.LINK_MAN_ID AS linkManId,
+C.CUSTOMER_ID AS customerId,
+C.CN_NAME AS cnName,
+C.EN_NAME AS enName,
+L.LINK_NAME AS linkName,
+L.DEPT_NAME AS deptName,
+L.POSTION AS postion,
+L.SEX AS sex,
+L.MOBILE AS mobile,
+L.EMAIL AS email
+FROM CRM_LINK_MAN L,CRM_CUSTOMER C
+WHERE 
+C.ORG_ID = L.ORG_ID
+AND C.CUSTOMER_ID=L.CUSTOMER_ID
+AND L.ORG_ID=#{orgId}
+AND C.KEEP_USER = #{keepUser}
+<if test="search !='%%' and search !=''.toString() and search!=null">
+AND (C.CN_NAME LIKE #{search} OR C.EN_NAME LIKE #{search} OR L.LINK_NAME LIKE #{search} OR L.MOBILE LIKE #{search})
+</if>
+</select>
+
+</mapper>
+

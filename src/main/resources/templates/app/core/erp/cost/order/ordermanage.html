@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css"
+	rel="stylesheet" />
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px;">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">订单管理</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title">产品清单</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="buttons-preview" id="toobar">
+										<a href="javascript:void(0);" class="btn btn-darkorange">批量删除</a>
+										<a href="javascript:void(0);createOrder();"
+											class="btn btn-azure">创建订单</a>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+<%include("../../../../resapi/sysjs.html"){}%>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/gobal/js/page/erp/erp.js"></script>
+<script src="/gobal/js/page/erp/ordermanage.js"></script>
+</html>

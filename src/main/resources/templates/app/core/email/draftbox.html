@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<%include("../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+.tooltip-inner
+{
+    white-space: nowrap;
+   
+}
+.tooltip
+{
+position: fixed;
+}
+.fixed-table-toolbar .bs-bars, .fixed-table-toolbar .search, .fixed-table-toolbar .columns
+{
+   margin-top: 0px;
+   margin-bottom: 0px;
+}
+.fixed-table-body thead th .th-inner
+{
+display: none;
+}
+.item-sender
+{
+   white-space: nowrap;
+   text-overflow: ellipsis;
+   overflow: hidden;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+	
+	<div class="page-header position-relative mail-header">
+                    <div class="header-title">
+                        <h1>
+                           内部邮件-草稿箱
+                        </h1>
+                    </div>
+                    <div style="float:right;line-height:40px;margin-right: 10px"><a href="/app/core/oa/email?view=emailbox" class="btn btn-palegreen">文件夹管理</a></div>
+                    <!--Header Buttons-->
+                    <div class="header-buttons">
+                    </div>
+                    <!--Header Buttons End-->
+                </div>
+                <!-- /Page Header -->
+                <!-- Page Body -->
+                <div class="page-body no-padding">
+                    <div class="mail-container">
+                        <div class="mail-body">
+                            <div class="mail-list col-md-12" style="min-height: 200px;">
+								   <div class="mail-header " id="toobar" role="group" style="margin-left:0px;background-color:transparent">
+									   <div class="header-buttons" style="line-height: normal;">
+			                                <li>
+			                                    <a class="tooltip-primary" href="/app/core/oa/email?view=sendemail" data-toggle="tooltip" data-original-title="创建"><i class="glyphicon glyphicon-pencil"></i></a>
+			                                </li>
+			                                <li>
+			                                    <a class="tooltip-primary js-delMyEmail" data-toggle="tooltip" data-original-title="删除"><i class="glyphicon glyphicon-remove"></i></a>
+			                                </li>
+			                            </div>
+								   </div>
+								<div id="myTable" style="padding:0px;"></div>
+                            </div>
+                        </div>
+                        <div class="mail-sidebar">
+                            <ul class="mail-menu">
+                                 <li>
+                                    <a href="/app/core/oa/email">
+                                        <i class="fa fa-inbox"></i>
+                                        <span class="badge badge-default badge-square pull-right js-boxCount"></span>
+                                        	收件箱
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/app/core/oa/email?view=staremail">
+                                        <i class="fa fa-star"></i>
+                                        <span class="badge badge-default badge-square pull-right js-starCount"></span>
+                                        	标星邮件
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/app/core/oa/email?view=sendemailbox">
+                                        <i class="glyphicon glyphicon-share"></i>
+                                        <span class="badge badge-default badge-square pull-right js-sendCount"></span>
+                                       	 发件箱
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a href="/app/core/oa/email?view=draftbox">
+                                        <i class="fa fa-envelope"></i><span class="badge badge-default badge-square pull-right js-draftCount"></span>
+                                      	  草稿箱
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/app/core/oa/email?view=delemail">
+                                        <i class="fa fa-trash-o"></i>
+                                        <span class="badge badge-default badge-square pull-right js-delCount"></span>
+                                       回收站
+                                    </a>
+                                </li>
+                         <li class="divider"></li>
+					</ul>
+					<ul class="mail-menu">
+						<li class="menu-title myemailbox">
+							<h6>我的文件夹</h6>
+						</li>
+						<li class="divider"></li>
+						<li><a href="#" data-toggle="modal" data-target=".bs-example-modal-sm"> + 创建文件夹 </a></li>
+					</ul>
+                        </div>
+                    </div>
+	</div>
+	
+	</div>
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="createBoxModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">创建文件夹</h4>
+                </div>
+                <div class="modal-body">
+	                	<div class="form-group">
+	                    	<input type="number" id="sortNo" name="sortNo" class="form-control" id="definput" placeholder="排序号">
+	                    </div>
+	                    <div class="form-group">
+	                    	<input type="text" id="boxName" name="boxName" class="form-control" id="definput" placeholder="文件夹名称">
+	                    </div>
+	                </div>
+                <div class="modal-footer">
+                     <button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+                     <button type="button" class="btn btn-primary js-saveBox">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+</body>
+	<%include("../../resapi/sysjs.html"){}%>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="/gobal/js/page/oa/email.js"></script>
+<script type="text/javascript">
+$(function(){
+	getDraftBoxEmail();
+	$(".js-delMyEmail").unbind("click").click(function(){
+		delMySendEmail();
+	});
+})
+</script>
+</html>

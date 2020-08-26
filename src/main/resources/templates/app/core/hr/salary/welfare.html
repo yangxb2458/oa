@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/module/jeDate/jedate.css" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class=""><a href="/app/core/hr/welfare" aria-expanded="false">福利管理 </a></li>
+							<li class="active"><a href="/app/core/hr/welfare?view=input" aria-expanded="true">福利录入</a></li>
+							<li class=""><a href="/app/core/hr/welfare?view=import" aria-expanded="false">福利导入</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding-top: 0px;">
+							<div class="row">
+								<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+									<form class="form-horizontal">
+										<table class="table table-hover table-striped table-bordered">
+											<tr>
+												<td width="20%">排序号：</td>
+												<td width="30%"><input placeholder="排序号" type="number" name="sortNo" id="sortNo" maxlength="50" value="" class="form-control"></td>
+												<td width="20%">人员姓名：</td>
+												<td width="30%"><input placeholder="人员姓名" type="text" name="userId" id="userId" readonly="readonly" opt-id="userId" class="form-control" onclick="selectHrUser(this,'false');"></td>
+											</tr>
+											<tr>
+												<td width="20%">福利标题：</td>
+												<td width="80%" colspan="3">
+												<input placeholder="福利标题" type="text" name="title" id="title" maxlength="100" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">发放年度：</td>
+												<td width="30%"><input placeholder="发放年度" type="text" name="year" id="year" class="form-control" maxlength="20" readonly="readonly"></td>
+												<td width="20%">发放月份：</td>
+												<td width="30%">
+												<select id="month" name="month" class="form-control">
+												<option value="1">一月</option>
+												<option value="2">二月</option>
+												<option value="3">三月</option>
+												<option value="4">四月</option>
+												<option value="5">五月</option>
+												<option value="6">六月</option>
+												<option value="7">七月</option>
+												<option value="8">八月</option>
+												<option value="9">九月</option>
+												<option value="10">十月</option>
+												<option value="11">十一月</option>
+												<option value="12">十二月</option>
+												</select>
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">福利类型：</td>
+												<td width="30%">
+												<select name="type" id="type"  class="form-control">
+												<option value="1">现金</option>
+												<option value="2">物质</option>
+												<option value="0">其它</option>
+												</select>
+												</td>
+												<td width="20%">福利金额：</td>
+												<td width="30%">
+													<input placeholder="福利金额" type="number" name="amount" id="amount" maxlength="10" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">备注</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<div id="remark" name="remark"></div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" align="center"><a id="createbut" href="javascript:void(0);" class="btn btn-primary js-add-save">录&nbsp;&nbsp;入</a></td>
+											</tr>
+										</table>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	<div id="attachselect"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/module/hrorgselect/hrorgselect.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/hrapi.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/salary/welfareinput.js"></script>
+</body>
+</html>

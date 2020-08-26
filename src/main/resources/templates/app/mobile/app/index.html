@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="telephone=no" name="format-detection" />
+<title>AAP应用登陆中...</title>
+<script type="text/javascript" src="/gobal/js/jquery/jquery-2.0.3.min.js"></script>
+</head>
+<script>
+var code = "${parameter.code}";
+	$(function() {
+		$.ajax({
+			url : "/mobile/mobileget/login",
+			type : "post",
+			data :{code:code},
+			dataType : "json",
+			success : function(data) {
+				if(data.status=="200")
+				{
+					window.location.href = "/mobile/main/index";
+				}else
+				{
+					alert(data.msg);
+				}
+			}
+		});
+	});
+</script>
+<body>
+</body>
+</html>

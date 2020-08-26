@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrLeaveRecordMapper">
+<resultMap id="HrLeaveRecord" type="com.core136.bean.hr.HrLeaveRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="POST" property="post" jdbcType="VARCHAR" />
+    <result column="LEAVE_TYPE" property="leaveType" jdbcType="VARCHAR" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="DOUBLE" />
+    <result column="PLAN_TIME" property="planTime" jdbcType="VARCHAR" />
+    <result column="FACT_TIME" property="factTime" jdbcType="VARCHAR" />
+    <result column="LAST_SALARY_TIME" property="lastSalaryTime" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="SALARY" property="salary" jdbcType="VARCHAR" />
+    <result column="TRACE" property="trace" jdbcType="VARCHAR" />
+    <result column="LEAVE_CONDITION" property="leaveCondition" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getHrLeaveRecordList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,USER_ID AS userId,DEPT_ID AS deptId,LEAVE_TYPE AS leaveType, APPLY_TIME AS applayTime,
+	FACT_TIME AS factTime,POST AS post,LAST_SALARY_TIME AS lastSalaryTime
+	FROM HR_LEAVE_RECORD
+	WHERE ORG_ID=#{orgId}
+	<if test="userId!=null and userId!=''.toString()">
+		AND USER_ID=#{userId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND (FACT_TIME &gt;=#{beginTime} OR END_TIME ='')
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND (FACT_TIME &lt;=#{endTime} OR END_TIME ='')
+	</if>
+	<if test="leaveType!=null and leaveType!=''.toString()">
+		AND leaveType=#{leaveType}
+	</if>
+</select>
+
+</mapper>
+

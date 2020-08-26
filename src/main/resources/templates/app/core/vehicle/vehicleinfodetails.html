@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet" type="text/css" href="/module/jeDate/jedate.css" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="row">
+					<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="widget-header bordered-bottom bordered-blue">
+                                            <span class="widget-caption">车辆基本详情</span>
+                                        </div>
+						<form class="form-horizontal">
+							<table class="table table-hover table-striped table-bordered">
+								<tr>
+									<td width="20%">排序号：</td>
+									<td width="30%" id="sortNo"></td>
+									<td rowspan="6" colspan="2" style="text-align: center;">
+										<div>
+											<div>
+												<img id="file_img" style="width: 350px; height: 275px;" src="" onerror="this.onerror=null;this.src='/gobal/img/other/car.jpg'" class="avatar">
+											</div>
+										</div>
+									</td>
+								<tr>
+									<td width="20%">车牌号：</td>
+									<td width="30%" id="vehicleNumber"></td>
+								<tr>
+									<td width="20%">品牌：</td>
+									<td width="30%" id="brand"></td>
+								<tr>
+									<td width="20%">型号：</td>
+									<td width="30%" id="model"></td>
+								<tr>
+									<td width="20%">排量：</td>
+									<td width="30%" id="displacement"></td>
+								</tr>
+								<tr>
+									<td width="20%">发动机编号：</td>
+									<td width="30%" id="engineNo"></td>
+								</tr>
+								<tr>
+									<td width="20%">颜色：</td>
+									<td width="30%" id="color"></td>
+									<td width="20%">座位数：</td>
+									<td width="30%" id="seats"></td>
+								</tr>
+								<tr>
+									<td width="20%">车架号：</td>
+									<td width="30%" id="frameNo"></td>
+									<td width="20%">证书编号：</td>
+									<td width="30%" id="certification"></td>
+								</tr>
+								<tr>
+									<td width="20%">车辆性质：</td>
+									<td width="30%" id="nature"></td>
+									<td width="20%">车辆类型：</td>
+									<td width="30%" id="type"></td>
+								</tr>
+								<tr>
+									<td width="20%">管理部门：</td>
+									<td width="30%" id="manageDept"></td>
+									<td width="20%">联系电话：</td>
+									<td width="30%" id="managePhone"></td>
+								</tr>
+								<tr>
+									<td width="20%">车辆所有者：</td>
+									<td width="30%" id="onwer"></td>
+									<td width="20%">联系电话：</td>
+									<td width="30%" id="onwerPhone"></td>
+								</tr>
+								<tr>
+									<td width="20%">长期使用者：</td>
+									<td width="30%" id="caruser"></td>
+									<td width="20%">联系电话：</td>
+									<td width="30%" id="caruserPhone"></td>
+								</tr>
+								<tr>
+									<td width="20%">购买价格：</td>
+									<td width="30%" id="price"></td>
+									<td width="20%">购置税：</td>
+									<td width="30%" id="tax"></td>
+								</tr>
+								<tr>
+									<td width="20%">购买日期：</td>
+									<td width="30%" id="buyTime"></td>
+									<td width="20%">起始里程：</td>
+									<td width="30%" id="mileage"></td>
+								</tr>
+								<tr>
+									<td width="20%">年检日期：</td>
+									<td width="30%" id="yearlyTime"></td>
+									<td width="20%">保险到期：</td>
+									<td width="30%" id="insureTime"></td>
+								</tr>
+								<tr>
+									<td width="20%">授权人员：</td>
+									<td width="30%" colspan="3" id="userPriv"></td>
+								</tr>
+								<tr>
+									<td width="20%">授权部门：</td>
+									<td width="30%" colspan="3" id="deptPriv"></td>
+								</tr>
+								<tr>
+									<td width="20%">授权职务：</td>
+									<td width="30%" colspan="3" id="levelPriv"></td>
+								</tr>
+								<tr>
+									<td width="20%">相关附件：</td>
+									<td width="80%" colspan="3" id="vechicleattach">
+										<div id="show_vechicleattach"></div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4">备注</td>
+								</tr>
+								<tr>
+									<td colspan="4" id="remark"></td>
+								</tr>
+								<tr>
+									<td colspan="4" align="center"><a href="javascript:void(0);window.close();" class="btn btn-primary">关&nbsp;&nbsp;闭</a></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	<div id="attachselect"></div>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript">
+		var vehicleId = "${parameter.vehicleId}";
+	</script>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/gobal/js/page/vechicle/vehicleinfodetails.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="page-container">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+				<div class="widget-header bordered-bottom bordered-blue">
+                                            <span class="widget-caption">卷库详情</span>
+                                        </div>
+                                        <div class="widget-body">
+							<div class="row" style="padding-top:15px;">
+								<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12">
+									<form class="form-horizontal form-bordered" id="form">
+                                        <div class="form-group">
+											<label class="col-sm-2 control-label no-padding-right">排序号 ：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="sortNo">
+											</div>
+											<label class="col-sm-2 control-label no-padding-right">案卷号 ：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="volumeCode">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label no-padding-right">案卷名称：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="volumeTitle">
+											</div>
+											<label class="col-sm-2 control-label no-padding-right">所属卷库 ：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="repositoryId">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label no-padding-right">起始日期：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="beginDate">
+											</div>
+											<label class="col-sm-2 control-label no-padding-right">结束日期 ：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="endDate">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label no-padding-right">编制机构：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="createOrg">
+											</div>
+											<label class="col-sm-2 control-label no-padding-right">所属部门 ：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="deptId">
+											</div>
+										</div> 
+                                        <div class="form-group">
+											<label class="col-sm-2 control-label no-padding-right">保管期限：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="storagePeriod">
+											</div>
+											<label class="col-sm-2 control-label no-padding-right">密级 ：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="secretLevel">
+											</div>
+										</div> 
+                                        <div class="form-group">
+											<label class="col-sm-2 control-label no-padding-right">微缩号：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="microNo">
+											</div>
+											<label class="col-sm-2 control-label no-padding-right">凭证类别 ：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="voucherType">
+											</div>
+										</div>
+                                        <div class="form-group">
+											<label class="col-sm-2 control-label no-padding-right">凭证起始号 ：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="voucherBeginNo">
+											</div>
+											<label class="col-sm-2 control-label no-padding-right">凭证结束号 ：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="voucherEndNo">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-2 control-label no-padding-right">总页码 ：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="pageTotal">
+											</div>
+											<label class="col-sm-2 control-label no-padding-right">管理员 ：</label>
+											<div class="col-sm-4" style="line-height: 34px;" id="manageUser">
+											</div>
+										</div>
+                                        <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right">备注：</label>
+                                        <div class="col-sm-10" id="remark" style="line-height: 34px">
+                                        </div>
+                                        </div>           
+										<div align="center">
+										<a href="javascript:void(0);window.close();" class="btn btn-primary">关&nbsp;&nbsp;闭</a>
+										</div>
+									</form>
+								</div>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript">
+var volumeId = "${parameter.volumeId}";
+</script>
+<script type="text/javascript" src="/gobal/js/page/archives/volumedetails.js"></script>
+</body>
+</html>

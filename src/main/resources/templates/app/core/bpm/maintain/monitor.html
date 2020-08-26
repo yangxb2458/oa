@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="well with-header with-footer">
+						<div class="header bordered-blue">BPM流程监控</div>
+						<div class="buttons-preview" id="toobar">
+							<span style="margin-left: 10px;">流水号:</span> <span> <input type="text" class="form-control" id="bpmRunNo" name="bpmRunNo"
+								style="width: 100px; display: inline-block;" placeholder="流水号">
+							</span> <span style="margin-left: 10px;">创建时间:</span> <span> <input type="text" class="form-control" id="beginTime" readonly="readonly"
+								style="width: 150px; display: inline-block;" name="beginTime" placeholder="开始时间" style="cursor: pointer;">
+							</span> <span> - </span> <span> <input type="text" class="form-control" id="endTime" readonly="readonly" style="width: 150px; display: inline-block;" name="endTime"
+								placeholder="终止时间" style="cursor: pointer;">
+							</span> <span style="margin-left: 10px">流程分类:</span> <span> <select id="flows" style="width: 150px">
+							</select>
+							</span> <span style="margin-left: 10px;">发起人:</span> <span> <input type="text" class="form-control" id="createUser" name="createUser" readonly="readonly"
+								style="width: 150px; display: inline-block;"  opt-id="createUser" onclick="selectUser(this,'false');">
+							</span> <span style="margin-left: 10px"><a href="javascript:void(0);" class="btn btn-success js-monitor-query-but">查询</a></span>
+						</div>
+						<table id="myTable"></table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/bpm/bpmsys.js"></script>
+<script type="text/javascript" src="/gobal/js/page/bpm/monitor.js"></script>
+</html>

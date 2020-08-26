@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.task.TaskProcessMapper">
+<resultMap id="TaskProcess" type="com.core136.bean.task.TaskProcess" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="PROCESS_ID" property="processId" jdbcType="VARCHAR" />
+    <result column="TASK_DATA_ID" property="taskDataId" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="COMPLETE_TIME" property="completeTime" jdbcType="DOUBLE" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="getProcessInfo" resultType="java.util.HashMap">
+   	SELECT P.CONTENT AS content,P.REMARK AS remark,P.ATTACH AS attach,P.COMPLETE_TIME AS completeTime,P.PROGRESS AS pProgress,
+   	D.TEXT AS text,D.START_DATE AS startDate,D.PROGRESS AS progress, D.DURATION AS duration,P.ATTACH AS attach
+   	FROM TASK_PROCESS P LEFT JOIN TASK_GANTT_DATA D ON P.ORG_ID=D.ORG_ID AND P.TASK_DATA_ID=D.TASK_DATA_ID
+   	WHERE P.ORG_ID=#{orgId}
+   	AND P.CREATE_USER=#{accountId}
+   	AND P.PROCESS_ID=#{processId}
+   </select>
+  
+  
+  <select id="getMyTaskProcessList" resultType="java.util.HashMap">
+  	SELECT P.PROCESS_ID AS processId,D.TEXT AS text,P.PROGRESS AS progress,P.COMPLETE_TIME AS completeTime,D.START_DATE AS startDate,P.PROGRESS AS pProgress,D.DURATION AS duration,
+  	(SELECT T5.TASK_TYPE FROM TASK T5 WHERE T5.ORG_ID=#{orgId} AND T5.TASK_ID=D.TASK_ID) AS taskType,
+  	(SELECT T1.TASK_NAME FROM TASK T1 WHERE T1.ORG_ID=#{orgId} AND T1.TASK_ID=D.TASK_ID) AS taskName
+  	FROM 
+  	TASK_PROCESS P LEFT JOIN  TASK_GANTT_DATA D ON P.ORG_ID=D.ORG_ID AND P.TASK_DATA_ID=D.TASK_DATA_ID
+  	<if test="search !='%%' and search !=''.toString() and search!=null">
+  		AND D.TASK_ID IN(SELECT T.TASK_ID FROM TASK T WHERE T.ORG_ID=#{orgId} 
+		AND (T.TASK_NAME LIKE #{search} OR D.TEXT LIKE #{search}))
+	</if>
+	<if test="taskType!=''.toString() and taskType!=null">
+		AND D.TASK_ID IN(SELECT T2.TASK_ID FROM TASK T2 WHERE T2.ORG_ID=#{orgId} 
+		AND T2.TASK_TYPE = #{taskType})
+	</if>
+	<if test="createUser!=''.toString() and createUser!=null">
+		AND D.TASK_ID IN(SELECT T3.TASK_ID FROM TASK T3 WHERE T3.ORG_ID=#{orgId} 
+		AND T3.CREATE_USER=#{createUser}
+	</if>
+  	WHERE 
+  	P.ORG_ID=#{orgId}
+  	AND P.CREATE_USER=#{accountId}
+	<if test = "beginTime!=''.toString() and beginTime!=null">
+		AND P.COMPLETE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "endTime!=''.toString() and endTime!=null">
+		AND P.COMPLETE_TIME &lt;=#{endTime}
+	</if>
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+		AND (T.TASK_NAME LIKE #{search} OR D.TEXT LIKE #{search})
+	</if>
+  </select>
+  
+</mapper>
+

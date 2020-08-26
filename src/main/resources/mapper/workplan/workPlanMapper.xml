@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.core136.mapper.workplan.WorkPlanMapper">
+	<resultMap id="WorkPlan" type="com.core136.bean.workplan.WorkPlan">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
+		<result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="PLAN_TYPE" property="planType" jdbcType="VARCHAR" />
+		<result column="USER_PRIV" property="userPriv" jdbcType="VARCHAR" />
+		<result column="DEPT_PRIV" property="deptPriv" jdbcType="VARCHAR" />
+		<result column="LEVEL_PRIV" property="levelPriv" jdbcType="VARCHAR" />
+		<result column="JOIN_USER" property="joinUser" jdbcType="VARCHAR" />
+		<result column="HOLD_USER" property="holdUser" jdbcType="VARCHAR" />
+		<result column="SUP_USER" property="supUser" jdbcType="VARCHAR" />
+		<result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+		<result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getManageWorkPlanList" resultType="java.util.HashMap">
+	SELECT W.PLAN_ID AS planId, W.TITLE AS title,W.BEGIN_TIME AS beginTime,W.END_TIME AS endTime,W.STATUS AS status,W.PLAN_TYPE AS planType,
+	W.HOLD_USER AS holdUser,(SELECT TEMP.USER_NAME FROM USER_INFO TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.ACCOUNT_ID=W.HOLD_USER) AS holdUserName,
+	W.SUP_USER AS supUser,(SELECT TEMP1.USER_NAME FROM USER_INFO TEMP1 WHERE TEMP1.ORG_ID=#{orgId} AND TEMP1.ACCOUNT_ID=W.SUP_USER) AS supUserName
+	FROM WORK_PLAN W LEFT JOIN USER_INFO U ON W.ORG_ID=U.ORG_ID AND W.CREATE_USER=U.ACCOUNT_ID
+	WHERE
+	W.ORG_ID=#{orgId}
+	<if test="status!=''.toString() and status!=null">
+		AND W.STATUS = #{status}
+	</if>
+	<if test="beginTime!=''.toString() and beginTime!=null">
+		AND W.CREATE_TIME &gt;= #{beginTime}
+	</if>
+	<if test="endTime!=''.toString() and endTime!=null">
+		AND W.CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="planType!= ''.toString() and planType!=null ">
+		AND W.PLAN_TYPE = #{planType}
+	</if>
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+		AND W.TITLE LIKE#{search}
+	</if>
+	<if test="opFlag!= '1'.toString()">
+		AND W.CREATE_USER = #{createUser}
+	</if>
+	</select>
+	
+	
+	<select id="getHoldWorkPlanList" resultType="java.util.HashMap">
+	SELECT W.PLAN_ID AS planId, W.TITLE AS title,W.BEGIN_TIME AS beginTime,W.END_TIME AS endTime,W.STATUS AS status,W.PLAN_TYPE AS planType,
+	W.HOLD_USER AS holdUser,(SELECT TEMP.USER_NAME FROM USER_INFO TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.ACCOUNT_ID=W.HOLD_USER) AS holdUserName,
+	W.SUP_USER AS supUser,(SELECT TEMP1.USER_NAME FROM USER_INFO TEMP1 WHERE TEMP1.ORG_ID=#{orgId} AND TEMP1.ACCOUNT_ID=W.SUP_USER) AS supUserName
+	FROM WORK_PLAN W LEFT JOIN USER_INFO U ON W.ORG_ID=U.ORG_ID AND W.CREATE_USER=U.ACCOUNT_ID
+	WHERE
+	W.ORG_ID=#{orgId}
+	<if test="status!=''.toString() and status!=null">
+		AND W.STATUS = #{status}
+	</if>
+	<if test="beginTime!=''.toString() and beginTime!=null">
+		AND W.CREATE_TIME &gt;= #{beginTime}
+	</if>
+	<if test="endTime!=''.toString() and endTime!=null">
+		AND W.CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="planType!= ''.toString() and planType!=null ">
+		AND W.PLAN_TYPE = #{planType}
+	</if>
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+		AND W.TITLE LIKE#{search}
+	</if>
+	<if test="opFlag!= '1'.toString()">
+		AND W.HOLD_USER = #{createUser}
+	</if>
+	</select>
+	
+	
+	<select id="getSupWorkPlanList" resultType="java.util.HashMap">
+	SELECT W.PLAN_ID AS planId, W.TITLE AS title,W.BEGIN_TIME AS beginTime,W.END_TIME AS endTime,W.STATUS AS status,W.PLAN_TYPE AS planType,
+	W.HOLD_USER AS holdUser,(SELECT TEMP.USER_NAME FROM USER_INFO TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.ACCOUNT_ID=W.HOLD_USER) AS holdUserName,
+	W.SUP_USER AS supUser,(SELECT TEMP1.USER_NAME FROM USER_INFO TEMP1 WHERE TEMP1.ORG_ID=#{orgId} AND TEMP1.ACCOUNT_ID=W.SUP_USER) AS supUserName
+	FROM WORK_PLAN W LEFT JOIN USER_INFO U ON W.ORG_ID=U.ORG_ID AND W.CREATE_USER=U.ACCOUNT_ID
+	WHERE
+	W.ORG_ID=#{orgId}
+	<if test="status!=''.toString() and status!=null">
+		AND W.STATUS = #{status}
+	</if>
+	<if test="beginTime!=''.toString() and beginTime!=null">
+		AND W.CREATE_TIME &gt;= #{beginTime}
+	</if>
+	<if test="endTime!=''.toString() and endTime!=null">
+		AND W.CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="planType!= ''.toString() and planType!=null ">
+		AND W.PLAN_TYPE = #{planType}
+	</if>
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+		AND W.TITLE LIKE#{search}
+	</if>
+	<if test="opFlag!= '1'.toString()">
+		AND W.SUP_USER = #{createUser}
+	</if>
+	</select>
+	
+	
+	<select id="getMyWorkPlanList" resultType="java.util.HashMap">
+	SELECT W.PLAN_ID AS planId, W.TITLE AS title,W.BEGIN_TIME AS beginTime,W.END_TIME AS endTime,W.STATUS AS status,W.PLAN_TYPE AS planType,
+	W.HOLD_USER AS holdUser,(SELECT TEMP.USER_NAME FROM USER_INFO TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.ACCOUNT_ID=W.HOLD_USER) AS holdUserName,
+	W.SUP_USER AS supUser,(SELECT TEMP1.USER_NAME FROM USER_INFO TEMP1 WHERE TEMP1.ORG_ID=#{orgId} AND TEMP1.ACCOUNT_ID=W.SUP_USER) AS supUserName
+	FROM WORK_PLAN W LEFT JOIN USER_INFO U ON W.ORG_ID=U.ORG_ID AND W.CREATE_USER=U.ACCOUNT_ID
+	WHERE
+	W.ORG_ID=#{orgId}
+	<if test="status!=''.toString() and status!=null">
+		AND W.STATUS = #{status}
+	</if>
+	<if test="beginTime!=''.toString() and beginTime!=null">
+		AND W.CREATE_TIME &gt;= #{beginTime}
+	</if>
+	<if test="endTime!=''.toString() and endTime!=null">
+		AND W.CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="planType!= ''.toString() and planType!=null ">
+		AND W.PLAN_TYPE = #{planType}
+	</if>
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+		AND W.TITLE LIKE#{search}
+	</if>
+	<if test="opFlag!= '1'.toString()">
+		AND (FUN_INTE_ARRAY(W.JOIN_USER,#{accountId}) > 0 OR W.JOIN_USER = '@all')
+	</if>
+	</select>
+	
+	
+	<select id="getShareWorkPlanList" resultType="java.util.HashMap">
+	SELECT W.PLAN_ID AS planId, W.TITLE AS title,W.BEGIN_TIME AS beginTime,W.END_TIME AS endTime,W.STATUS AS status,W.PLAN_TYPE AS planType,
+	W.HOLD_USER AS holdUser,(SELECT TEMP.USER_NAME FROM USER_INFO TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.ACCOUNT_ID=W.HOLD_USER) AS holdUserName,
+	W.SUP_USER AS supUser,(SELECT TEMP1.USER_NAME FROM USER_INFO TEMP1 WHERE TEMP1.ORG_ID=#{orgId} AND TEMP1.ACCOUNT_ID=W.SUP_USER) AS supUserName
+	FROM WORK_PLAN W LEFT JOIN USER_INFO U ON W.ORG_ID=U.ORG_ID AND W.CREATE_USER=U.ACCOUNT_ID
+	WHERE
+	W.ORG_ID=#{orgId}
+	<if test="status!=''.toString() and status!=null">
+		AND W.STATUS = #{status}
+	</if>
+	<if test="beginTime!=''.toString() and beginTime!=null">
+		AND W.CREATE_TIME &gt;= #{beginTime}
+	</if>
+	<if test="endTime!=''.toString() and endTime!=null">
+		AND W.CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="planType!= ''.toString() and planType!=null ">
+		AND W.PLAN_TYPE = #{planType}
+	</if>
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+		AND W.TITLE LIKE#{search}
+	</if>
+	<if test="opFlag!= '1'.toString()">
+		AND(
+		FUN_INTE_ARRAY(W.USER_PRIV,#{accountId}) > 0
+		<if test="deptId!=null and deptId=!''">
+			OR FUN_INTE_ARRAY(W.DEPT_PRIV,#{deptId})> 0
+		</if>
+		<if test="levelId!='' and levelId!=null">
+			OR FUN_INTE_ARRAY(W.LEVEL_PRIV,#{levelId}) > 0
+		</if>
+		OR W.USER_PRIV = '@all'
+		OR W.DEPT_PRIV = '@all'
+		OR W.LEVEL_PRIV = '@all'
+		)
+	</if>
+	</select>
+
+	<select id="getTodayWorkPlanList" resultType="java.util.HashMap">
+	SELECT W.PLAN_ID AS planId, W.TITLE AS title,W.BEGIN_TIME AS beginTime,W.END_TIME AS endTime,W.STATUS AS status,W.PLAN_TYPE AS planType,
+	W.HOLD_USER AS holdUser,(SELECT TEMP.USER_NAME FROM USER_INFO TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.ACCOUNT_ID=W.HOLD_USER) AS holdUserName,
+	W.SUP_USER AS supUser,(SELECT TEMP1.USER_NAME FROM USER_INFO TEMP1 WHERE TEMP1.ORG_ID=#{orgId} AND TEMP1.ACCOUNT_ID=W.SUP_USER) AS supUserName
+	FROM WORK_PLAN W LEFT JOIN USER_INFO U ON W.ORG_ID=U.ORG_ID AND W.CREATE_USER=U.ACCOUNT_ID
+	WHERE
+	W.ORG_ID=#{orgId}
+	AND	W.BEGIN_TIME = CURRENT_DATE()
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+		AND W.TITLE LIKE#{search}
+	</if>
+	</select>
+
+<select id="getMonthWorkPlanList" resultType="java.util.HashMap">
+	SELECT W.PLAN_ID AS planId, W.TITLE AS title,W.BEGIN_TIME AS beginTime,W.END_TIME AS endTime,W.STATUS AS status,W.PLAN_TYPE AS planType,
+	W.HOLD_USER AS holdUser,(SELECT TEMP.USER_NAME FROM USER_INFO TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.ACCOUNT_ID=W.HOLD_USER) AS holdUserName,
+	W.SUP_USER AS supUser,(SELECT TEMP1.USER_NAME FROM USER_INFO TEMP1 WHERE TEMP1.ORG_ID=#{orgId} AND TEMP1.ACCOUNT_ID=W.SUP_USER) AS supUserName
+	FROM WORK_PLAN W LEFT JOIN USER_INFO U ON W.ORG_ID=U.ORG_ID AND W.CREATE_USER=U.ACCOUNT_ID
+	WHERE
+	W.ORG_ID=#{orgId}
+	AND	LEFT(W.BEGIN_TIME,7) = LEFT(CURRENT_DATE(),7)
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+		AND W.TITLE LIKE#{search}
+	</if>
+	</select>
+
+</mapper>
+

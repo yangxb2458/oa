@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.projectbuild.ProjectBuildStageMapper">
+<resultMap id="ProjectBuildStage" type="com.core136.bean.projectbuild.ProjectBuildStage" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="STAGE_ID" property="stageId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="STAGE_NAME" property="stageName" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="SUPERINTENDENT" property="superintendent" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+	<select id="getprojectbuildStagelist" resultType="java.util.HashMap">
+		SELECT A.STAGE_ID AS stageId,A.STAGE_NAME AS stageName, A.PROJECT_ID AS projectId,A.BEGIN_TIME AS beginTime,A.END_TIME AS endTime,A.STATUS AS status, A.SUPERINTENDENT AS superintendent,
+		(SELECT P.PROJECT_TITLE FROM PROJECT_BUILD_DETAILS P WHERE P.ORG_ID=A.ORG_ID AND P.PROJECT_ID= A.PROJECT_ID) AS projectTitle
+		FROM
+		PROJECT_BUILD_STAGE A
+		WHERE A.ORG_ID=#{orgId} AND A.PROJECT_ID=#{projectId}
+	</select>
+	
+	<select id="getprojectbuildStageOpenlist" resultType="java.util.HashMap">
+		SELECT STAGE_ID AS stageId,STAGE_NAME AS stageName
+		FROM
+		PROJECT_BUILD_STAGE
+		WHERE 
+		ORG_ID=#{orgId} 
+		AND (STATUS='1' OR STATUS='2')
+		AND PROJECT_ID=#{projectId}
+	</select>
+	
+	
+	
+</mapper>
+

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.echarts.EchartsFinanceMapper">
+
+<select id="getPayableListData" resultType="java.util.HashMap">
+SELECT -ABS(PAYABLED+UN_PAYABLED) AS total FROM
+(
+SELECT SUM(PAYABLED) AS PAYABLED,SUM(UN_PAYABLED) AS UN_PAYABLED,left(PAYABLE_TIME, 7) AS PAYABLE_MONTH  
+FROM CONTRACT_PAYABLE WHERE ORG_ID=#{orgId}  GROUP BY PAYABLE_MONTH ORDER BY PAYABLE_MONTH ASC
+) TMP WHERE TMP.PAYABLE_MONTH&gt;=#{beginTime} AND TMP.PAYABLE_MONTH&lt;#{endTime}
+</select>
+
+<select id="getReceviablesListData" resultType="java.util.HashMap">
+
+SELECT RECEIVED+UN_RECEIVED AS total FROM
+(
+SELECT SUM(RECEIVED) AS RECEIVED,SUM(UN_RECEIVED) AS UN_RECEIVED,left(RECEIVABLES_TIME, 7) AS RECEIVABLES_TIME  
+FROM CONTRACT_RECEIVABLES TMP WHERE ORG_ID=#{orgId}  group by  RECEIVABLES_TIME ORDER BY RECEIVABLES_TIME ASC
+) TMP WHERE TMP.RECEIVABLES_TIME&gt;=#{beginTime} AND TMP.RECEIVABLES_TIME&lt;#{endTime}
+</select>
+
+<select id="getPayReceivTotalData" resultType="java.util.HashMap">
+SELECT
+(SELECT SUM(UN_PAYABLED) FROM CONTRACT_PAYABLE WHERE ORG_ID=#{orgId}) AS payTotal,
+(SELECT SUM(UN_RECEIVED) FROM CONTRACT_RECEIVABLES WHERE ORG_ID=#{orgId}) AS receTotal
+</select>
+
+</mapper>
+

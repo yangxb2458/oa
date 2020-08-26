@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.email.EmailBodyMapper">
+<resultMap id="EmailBody" type="com.core136.bean.email.EmailBody" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="BODY_ID" property="bodyId" jdbcType="VARCHAR" />
+    <result column="TO_ID" property="toId" jdbcType="VARCHAR" />
+    <result column="FROM_ID" property="fromId" jdbcType="VARCHAR" />
+    <result column="COPY_TO_ID" property="copyToId" jdbcType="VARCHAR" />
+    <result column="SUBJECT" property="subject" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="SUBHEADING" property="subheading" jdbcType="VARCHAR" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="SEND_FLAG" property="sendFlag" jdbcType="VARCHAR" />
+    <result column="READ_FLAG" property="readFlag" jdbcType="VARCHAR" />
+    <result column="WEB_EMAIL_FLAG" property="webEmailFlag" jdbcType="VARCHAR" />
+    <result column="WEB_EMAIL_TO" property="webEmailTo" jdbcType="VARCHAR" />
+    <result column="DEL_FLAG" property="delFlag" jdbcType="VARCHAR" />
+    <result column="WEB_EMAIL_COPY" property="webEmailCopy" jdbcType="VARCHAR" />
+    <result column="MSG_TYPE" property="MSG_TYPE" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+	<select id="getsendBoxEmail" resultType="java.util.HashMap">
+	SELECT ID AS id,BODY_ID AS bodyId,FROM_ID AS formId,TO_ID AS toId,COPY_TO_ID AS copyToId,SUBJECT AS subject,CONTENT AS content,SEND_TIME AS sendTime,ATTACH AS attach,
+	SEND_FLAG AS sendFlag,READ_FLAG AS readFlag,WEB_EMAIL_FLAG AS webEmailFlag,WEB_EMAIL_TO AS webEmailTo,WEB_EMAIL_COPY AS webEmailCopy,ORG_ID AS orgId,SUBHEADING AS subheading
+	FROM EMAIL_BODY
+	WHERE DEL_FLAG='0' AND SEND_FLAG='1' AND ORG_ID=#{orgId} 
+	AND FROM_ID = #{accountId}
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND (SUBJECT LIKE #{search} OR WEB_EMAIL_TO LIKE #{search})
+	</if>
+	</select>
+	
+	<select id="getDraftBoxEmail" resultType="java.util.HashMap">
+	SELECT ID AS id,BODY_ID AS bodyId,FROM_ID AS formId,TO_ID AS toId,COPY_TO_ID AS copyToId,SUBJECT AS subject,CONTENT AS content,SEND_TIME AS sendTime,ATTACH AS attach,
+	SEND_FLAG AS sendFlag,READ_FLAG AS readFlag,WEB_EMAIL_FLAG AS webEmailFlag,WEB_EMAIL_TO AS webEmailTo,WEB_EMAIL_COPY AS webEmailCopy,ORG_ID AS orgId,SUBHEADING AS subheading
+	FROM EMAIL_BODY
+	WHERE DEL_FLAG='0' AND SEND_FLAG='0' AND ORG_ID=#{orgId} 
+	AND FROM_ID = #{accountId}
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND (SUBJECT LIKE #{search} OR WEB_EMAIL_TO LIKE #{search})
+	</if>
+	</select>
+	
+	<update id="delMySendEmail">
+		UPDATE EMAIL_BODY SET  DEL_FLAG='1' WHERE ORG_ID=#{orgId} AND FROM_ID = #{accountId} AND BODY_ID IN 
+	 		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+	                #{item}       
+	        </foreach>  
+	 </update>
+	
+	
+</mapper>
+

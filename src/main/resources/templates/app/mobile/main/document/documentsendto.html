@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>公文抄送</title> <%include("../../../resapi/mobilestyle.html"){}%>
+</head>
+<body>
+	<section class="g-flexview">
+		<section class="g-scrollview">
+			<div id="J_ListContent" class="m-list list-theme4"></div>
+		</section>
+
+	</section>
+	<script id="J_ListHtml" type="text/html">
+    {{each list as data}}
+    <a href="/app/core/document/documentread?runId={{data.runId}}&runProcessId={{data.flowId}}" class="list-item" style="height:90px;">
+        <div class="list-mes">
+            <h3 class="list-title" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;width: 98%;">NO:【{{data.id}}】{{data.flowTitle}}</h3>
+            <div class="list-mes-item" style="padding-right:7px;margin-top: 4px;">
+                    <span class="list-price" style="width:40%">抄&nbsp;&nbsp;送&nbsp;&nbsp;人：{{data.sendUserName}}</span><span class="list-price" style="width:60%">抄送时间：{{data.senToTime}}</span>
+            </div>
+ 		<div class="list-mes-item" style="padding-right:7px;margin-top: 2px;">
+					<span class="list-price" style="width:40%">
+					查阅状态：
+					{{if data.status=="0"}}未阅{{/if}}
+					{{if data.status=="1"}}已阅{{/if}}
+					</span>
+                    <span class="list-price" style="width:60%">查阅时间：{{data.revTime}}</span>
+            </div>
+        </div>
+    </a>
+    {{/each}}
+</script>
+<%include("../../../resapi/mobilejs.html"){}%>
+<script src="/module/art-template/template-web.js"></script>
+	<script>
+		var page = 1;
+		$(function() {
+			bindData();
+		});
+		function bindData() {
+			var loadMore = function(callback) {
+				$.ajax({
+					url : '/mobile/mobileget/getSendToMeDocumentListForMobile?&page=' + page,
+					type : "post",
+					dataType : "json",
+					success : function(data) {
+						var ret = data.list;
+						if (ret) {
+							// 该示例使用了arttemplate模板引擎，当然你也可以用其他方式
+							$('#J_ListContent').prepend(template('J_ListHtml', {
+								list : ret
+							}));
+							var tipStr = ret.length > 0 ? '为您更新了' + ret.length + '条内容' : '已是最新内容';
+							++page;
+							YDUI.dialog.toast(tipStr, 'none', 1500);
+						}
+					},
+					complete : function() {
+						typeof callback == 'function' && callback();
+					}
+				});
+			};
+			$('#J_ListContent').pullRefresh({
+				loadListFn : function() {
+					var def = $.Deferred();
+					loadMore(function() {
+						def.resolve();
+					});
+					return def.promise();
+				}
+			});
+
+		}
+		
+	</script>
+</body>
+</html>

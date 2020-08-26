@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/module/jeDate/jedate.css" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class=""><a href="/app/core/hr/titleevaluation" aria-expanded="false">职称评定管理 </a></li>
+							<li class="active"><a href="/app/core/hr/titleevaluation?view=input" aria-expanded="true">职称评定录入</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding-top: 0px;">
+							<div class="row">
+								<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+									<form class="form-horizontal">
+										<table class="table table-hover table-striped table-bordered">
+											<tr>
+												<td width="20%">排序号：</td>
+												<td width="30%"><input placeholder="排序号" type="number" name="sortNo" id="sortNo" maxlength="50" value="" class="form-control"></td>
+												<td width="20%">职称申请人员：</td>
+												<td width="30%"><input placeholder="职称申请人员" type="text" name="userId" id="userId" readonly="readonly" id="userId" opt-id="userId" class="form-control" onclick="selectHrUser(this,'false');"></td>
+											</tr>
+											<tr>
+												<td width="20%">申请人员部门：</td>
+												<td width="30%"><input placeholder="申请人员部门" type="text" name="deptId" id="deptId" readonly="readonly" value="" class="form-control" opt-id="deptId" onclick="selectHrDept(this,'false');"></td>
+												<td width="20%">申请人员职务：</td>
+												<td width="30%"><input placeholder="申请人员职务" type="text" name="post" id="post" readonly="readonly" value="" class="form-control" opt-id="post" onclick="selectHrUserLeave(this,'false');"></td>
+											</tr>
+											<tr>
+												<td width="20%">申报称职名称：</td>
+												<td width="30%"><input placeholder="申报称职名称" type="text" name="postName" id="postName" maxlength="50" value="" class="form-control"></td>
+												<td width="20%">职称获取类型：</td>
+												<td width="30%"><select id="getType" name="getType" module="getType" class="form-control js-auto-select" style="border-radius: 0px;"></select></td>
+											</tr>
+											<tr>
+												<td width="20%">职称申请日期：</td>
+												<td width="30%"><input placeholder="职称申请日期" type="text" name="applyTime" id="applyTime" maxlength="20" value="" class="form-control" readonly="readonly"></td>
+												<td width="20%">职称获取日期：</td>
+												<td width="30%"><input placeholder="职称获取日期" type="text" name="receiveTime" id="receiveTime" maxlength="20" value="" class="form-control" readonly="readonly">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">下次申报日期：</td>
+												<td width="30%"><input placeholder="下次申报日期" type="text" name="nextApplyTime" id="nextApplyTime" class="form-control" readonly="readonly"></td>
+												<td width="20%">下次申报资称：</td>
+												<td width="30%"><input placeholder="下次申报资称" type="text" name="nextPostName" id="nextPostName" class="form-control" maxlength="50"></td>
+											</tr>
+											<tr>
+												<td width="20%">聘用公司：</td>
+												<td width="30%"><input placeholder="聘用公司" type="text" name="employComp" id="employComp" class="form-control" maxlength="50"></td>
+												<td width="20%">聘用职务：</td>
+												<td width="30%"><input placeholder="聘用职务" type="text" name="employPost" id="employPost" class="form-control" maxlength="50" readonly="readonly" opt-id="employPost" onclick="selectHrUserLeave(this,'false');"></td>
+											</tr>
+											<tr>
+												<td width="20%">聘用开始日期：</td>
+												<td width="30%"><input placeholder="聘用开始日期" type="text" name="employBeginTime" id="employBeginTime" class="form-control" readonly="readonly"></td>
+												<td width="20%">聘用结束日期：</td>
+												<td width="30%"><input placeholder="聘用结束日期" type="text" name="employEndTime" id="employEndTime" class="form-control" readonly="readonly"></td>
+											</tr>
+												<tr>
+												<td width="20%">相关附件：</td>
+												<td width="80%" colspan="3">
+													<div id="show_hrattach"></div> <a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('hr','hrattach');" hidefocus="true"
+														maxlength="1" id="hrattach" name="hrattach" class="addfile" multiple="multiple"></a> <a class="addfile" style="width: 200px;" href="#" op_id="hrattach"
+													onclick="selectattach(this,'true')">选择网络文件</a>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">备注</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<div id="remark" name="remark"></div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" align="center"><a href="javascript:void(0);" class="btn btn-primary js-add-save">新&nbsp;&nbsp;建</a></td>
+											</tr>
+										</table>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	<div id="attachselect"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/attachselect.js"></script>
+<script type="text/javascript" src="/module/hrorgselect/hrorgselect.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/hrapi.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/evaluation/input.js"></script>
+</body>
+</html>

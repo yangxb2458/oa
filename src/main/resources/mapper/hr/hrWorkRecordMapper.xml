@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrWorkRecordMapper">
+<resultMap id="HrWorkRecord" type="com.core136.bean.hr.HrWorkRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="POST" property="post" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="DOUBLE" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="CERIFIER" property="cerifier" jdbcType="VARCHAR" />
+    <result column="INDUSTRY" property="industry" jdbcType="VARCHAR" />
+    <result column="NATURE" property="nature" jdbcType="VARCHAR" />
+    <result column="COMP_NAME" property="compName" jdbcType="VARCHAR" />
+    <result column="JOB_CONTENT" property="jobContent" jdbcType="VARCHAR" />
+    <result column="ACHIEVEMENT" property="achievement" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getHrWorkRecordList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,USER_ID AS userId,COMP_NAME AS compName,DEPT_NAME AS deptName, BEGIN_TIME AS beginTime,
+	END_TIME AS endTime,POST AS post,CERIFIER AS cerifier,INDUSTRY AS industry
+	FROM HR_WORK_RECORD
+	WHERE ORG_ID=#{orgId}
+	<if test="userId!=null and userId!=''.toString()">
+		AND USER_ID=#{userId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND (BEGIN_TIME &gt;=#{beginTime} OR END_TIME ='')
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND (BEGIN_TIME &lt;=#{endTime} OR END_TIME ='')
+	</if>
+	<if test="nature!=null and nature!=''.toString()">
+		AND NATURE=#{nature}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND (COMP_NAME LIKE #{search} OR POST LIKE #{search} OR INDUSTRY LIKE #{search})
+	</if>
+</select>
+
+
+<select id="getMyHrWorkRecordList" resultType="java.util.HashMap">
+	SELECT W.RECORD_ID AS recordId,W.USER_ID AS userId,W.COMP_NAME AS compName,W.DEPT_NAME AS deptName, W.BEGIN_TIME AS beginTime,
+	W.END_TIME AS endTime,W.POST AS post,W.CERIFIER AS cerifier,W.INDUSTRY AS industry
+	FROM HR_WORK_RECORD W
+	WHERE W.ORG_ID=#{orgId}
+	AND W.USER_ID=(SELECT U.USER_ID FROM HR_USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=#{accountId})
+</select>
+
+</mapper>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.projectbuild.ProjectBuildBpmConfigMapper">
+<resultMap id="ProjectBuildBpmConfig" type="com.core136.bean.projectbuild.ProjectBuildBpmConfig" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="CONFIG_ID" property="configId" jdbcType="VARCHAR" />
+    <result column="FLOW_ID" property="flowId" jdbcType="INTEGER" />
+    <result column="EVENT" property="event" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getAllProjectBuildBpmConfig" resultType="java.util.HashMap">
+SELECT C.CONFIG_ID AS configId, C.EVENT AS event,C.FLOW_ID AS flowId,(SELECT FLOW_NAME FROM BPM_FLOW F WHERE F.ORG_ID=C.ORG_ID AND F.FLOW_ID=C.FLOW_ID) AS flowName
+FROM PROJECT_BUILD_BPM_CONFIG C WHERE C.ORG_ID=#{orgId}
+</select>
+
+
+
+
+</mapper>
+

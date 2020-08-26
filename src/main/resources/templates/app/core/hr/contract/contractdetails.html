@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="page-container">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+				<div class="widget-header bordered-bottom bordered-blue">
+                                            <span class="widget-caption">人事合同详情</span>
+                                        </div>
+									<form class="form-horizontal">
+										<table class="table table-hover table-striped table-bordered">
+											<tr>
+												<td width="20%">排序号：</td>
+												<td width="30%" id="sortNo"></td>
+												<td width="20%">应聘岗位：</td>
+												<td width="30%" id="poolPosition"></td>
+											</tr>
+											<tr>
+												<td width="20%">合同编号：</td>
+												<td width="30%"  id="contractCode"></td>
+												<td width="20%">合同类型：</td>
+												<td width="30%" id="contractType"></td>
+											</tr>
+											<tr>
+												<td width="20%">签约公司：</td>
+												<td width="30%" id="enterpries"></td>
+												<td width="20%">签约方式：</td>
+												<td width="30%" id="signType"><td>
+											</tr>
+											<tr>
+												<td width="20%">关联OA账号：</td>
+												<td width="30%" id="userId"></td>
+												<td width="20%">雇佣者姓名：</td>
+												<td width="30%" id="userName"></td>
+											</tr>
+											
+											<tr>
+												<td width="20%">合同生效时间：</td>
+												<td width="30%" id="startTime"></td>
+												<td width="20%">合同终止时间：</td>
+												<td width="30%" id="endTime"></td>
+											</tr>
+											<tr>
+												<td width="20%">合同期限属性：</td>
+												<td width="30%" id="specialization"></td>
+												<td width="20%">合同签订时间：</td>
+												<td width="30%" id="signTime"></td>
+											</tr>
+											<tr>
+												<td width="20%">合同附件：</td>
+												<td width="80%" colspan="3" id="hrattach">
+													<div id="show_hrattach"></div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">备注</td>
+											</tr>
+											<tr>
+												<td colspan="4" id="remark"></td>
+											</tr>
+											<tr>
+												<td colspan="4" align="center"><a href="javascript:void(0);window.close();" class="btn btn-primary js-add-save">关&nbsp;&nbsp;闭</a></td>
+											</tr>
+										</table>
+									</form>
+								</div>
+		</div>
+	</div>
+	</div>
+</body>
+	<%include("../../../resapi/sysjs.html"){}%>
+	<script type="text/javascript">
+		var contractId = "${parameter.contractId}";
+	</script>
+	<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+	<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/hr/hrapi.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/hr/contract/contractdetails.js"></script>
+</html>

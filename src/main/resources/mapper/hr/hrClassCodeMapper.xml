@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrClassCodeMapper">
+<resultMap id="HrClassCode" type="com.core136.bean.hr.HrClassCode" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="CODE_ID" property="codeId" jdbcType="VARCHAR" />
+    <result column="MODULE" property="module" jdbcType="VARCHAR" />
+    <result column="CODE_NAME" property="codeName" jdbcType="VARCHAR" />
+    <result column="CODE_VALUE" property="codeValue" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="VARCHAR" />
+    <result column="CODE_FLAG" property="codeFlag" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+<select id="getCodeListByModule" resultType="java.util.HashMap">
+	SELECT CODE_ID AS codeId,CODE_NAME AS codeName,CODE_VALUE AS codeValue,PARENT_ID AS parentId,CODE_FLAG AS codeFlag,MODULE AS module,SORT_NO AS sortNo
+	FROM HR_CLASS_CODE
+	WHERE ORG_ID=#{orgId}
+	AND PARENT_ID=#{module}
+</select>
+<select id="getAllParentCodeList" resultType="java.util.HashMap">
+	SELECT CODE_ID AS codeId,CODE_NAME AS codeName,CODE_VALUE AS codeValue,PARENT_ID AS parentId,CODE_FLAG AS codeFlag,MODULE AS module,SORT_NO AS sortNo
+	FROM HR_CLASS_CODE
+	WHERE ORG_ID=#{orgId}
+	AND PARENT_ID=''
+</select>
+<select id="getHrClassCodeName" resultType="java.util.HashMap">
+	SELECT CODE_NAME AS codeName
+	FROM HR_CLASS_CODE
+	WHERE ORG_ID=#{orgId}
+	AND MODULE=#{module}
+	AND CODE_VALUE=#{codeValue}
+</select>
+
+
+</mapper>
+

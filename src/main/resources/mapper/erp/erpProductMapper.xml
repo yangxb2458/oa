@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.erp.ErpProductMapper">
+<resultMap id="ErpProduct" type="com.core136.bean.erp.ErpProduct" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="MODEL" property="model" jdbcType="VARCHAR" />
+    <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+    <result column="SORT_LEAVE" property="sortLeave" jdbcType="VARCHAR" />
+    <result column="BOM_ID" property="bomId" jdbcType="VARCHAR" />
+    <result column="PARAM" property="param" jdbcType="VARCHAR" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="PRODUCT_IMG" property="productImg" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="selectProductByName" resultMap="ErpProduct">
+	SELECT ID, PRODUCT_ID, MODEL, SORT_NO, PRODUCT_NAME, UNIT, SORT_LEAVE, PRODUCT_IMG, PARAM,(SELECT TMP.BOM_NAME FROM ERP_BOM TMP WHERE TMP.BOM_ID=P.BOM_ID AND TMP.ORG_ID=P.ORG_ID) AS BOM_ID, REMARK, CREATE_USER, CREATE_TIME,ORG_ID 
+	FROM ERP_PRODUCT P 
+	WHERE PRODUCT_NAME LIKE #{productName} AND ORG_ID=#{orgId}
+</select>
+
+
+
+<select id="getProuctAndBomInfoByProductId" resultType="java.util.HashMap">
+SELECT P.PRODUCT_NAME AS productName,P.MODEL AS model,P.PARAM AS param,P.REMARK AS remark,P.PRODUCT_IMG AS productImg,
+B.BOM_ID AS bomId,B.BOM_NAME AS bomName,B.VERSION AS version,B.PRODUCT_NUMBER AS productNumber,B.MAP_NUMBER AS mapNumber,B.STATUS AS status
+FROM ERP_PRODUCT P JOIN ERP_BOM B ON P.BOM_ID=B.BOM_ID AND P.PRODUCT_ID=#{productId} AND P.ORG_ID=#{orgId}
+</select>
+
+<select id="getProductSelect2" resultType="java.util.HashMap">
+SELECT P.PRODUCT_ID AS productId,P.PRODUCT_NAME AS productName,P.MODEL AS model,B.MATERIEL_CODE AS materielCode,P.UNIT AS unit
+FROM ERP_PRODUCT P,ERP_BOM B 
+WHERE 
+P.ORG_ID=#{orgId}
+AND P.BOM_ID=B.BOM_ID 
+AND P.ORG_ID=B.ORG_ID
+<if test="search !='%%' and search !=''.toString() and search!=null">
+AND (P.PRODUCT_NAME LIKE #{search} OR P.MODEL LIKE #{search})
+</if>
+</select>
+
+</mapper>
+

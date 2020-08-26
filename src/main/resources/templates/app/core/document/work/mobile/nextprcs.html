@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/mobile/css/ydui.css?rev=@@hash" />
+<style type="text/css">
+.btn {
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	display: inline-block;
+	margin-bottom: 0;
+	font-weight: 400;
+	border-radius: 0px;
+}
+
+actionsheet-item:active {
+background-color: red;
+-webkit-tap-highlight-color: transparent;
+}
+.actionsheet-item {
+	height: 50px;
+	line-height: 50px;
+	font-size:16px;
+	-webkit-tap-highlight-color:transparent;
+}
+.actionsheet-action {
+	height: 50px;
+	line-height: 50px;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body no-padding">
+		<div class="col-md-12 col-sm-12 col-xs-12 no-padding">
+			<div class="widget" style="margin-top: 0px;margin-bottom: 0px;">
+				<div class="widget-header bordered-bottom bordered-blue">
+					<span class="widget-caption">公文转交一步</span>
+					</div>
+				</div>
+				<div class="widget-body no-padding">
+					<div class="widget-main ">
+						<div class="panel-group accordion" id="accordion">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-bottom: 60px;">
+			<div class="widget-body">
+				<div class="form-group" id="msgdiv" style="display: none;">
+						<div class="form-title">提醒方式:</div>
+							<div id="msgType"></div>
+						<div class="form-title">消息内容:</div>
+							<textarea rows="2" cols="" class="form-control" id="msg-content"></textarea>
+				</div>
+				<div id="sendToUserDiv" style="display: none;">
+					<div class="form-title">抄送人</div>
+					<div class="form-group">
+						<textarea data-value="" opt-id="sendToUser" onclick="getSearchUserForMobile(this);" rows="2" cols="" class="form-control" id="sendToUser" name="sendToUser" placeholder="请选择抄送人员"></textarea>
+					</div>
+					<div align="right">
+						<a style="margin-top: 5px;" onclick="clearSelect('sendToUser')">清空</a>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer" style="position: absolute; bottom: 0px; width: 100%; text-align: center;">
+			<button type="button" class="btn btn-warning" onclick="history.go(-1);">取消</button>
+			<button type="button" class="btn btn-primary js-next-runprcs">确认</button>
+		</div>
+
+		<div class="m-actionsheet" id="J_ActionSheet">
+			<div>
+				<span class="input-icon icon-right">
+                   <input type="text" class="form-control input-lg" id="search" name="search" placeholder="姓氏,拼音模糊查询">
+                   <i class="glyphicon glyphicon-search maroon"></i>
+                 </span>
+			</div>
+			<div style="height: 200px; overflow: auto; margin-bottom: 50px;" id="J_ListContent">
+			</div>
+			<a href="javascript:;" class="actionsheet-action" id="J_Cancel" style="position: absolute; width: 100%; bottom: 0px;background-color: #04BE02;font-size: 16px;color: white;">关闭</a>
+		</div>
+<script id="J_ListHtml" type="text/html">
+    {{each list as data}}
+    	<a href="#" class="actionsheet-item" data-value="{{data.accountId}}">{{data.userName}}</a> 
+    {{/each}}
+</script>
+</body>
+<script type="text/javascript" src="/gobal/js/jquery/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="/mobile/js/ydui.js"></script>
+<script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/assets/js/slimscroll/jquery.slimscroll.min.js"></script>
+<!--Beyond Scripts-->
+<script type="text/javascript" src="/assets/js/beyond.min.js"></script>
+<script type="text/javascript" src="/module/layer/layer.js"></script>
+<script type="text/javascript" src="/assets/js/validation/bootstrapValidator.js"></script>
+<script type="text/javascript" src="/gobal/js/page/document/mobile/mdocumentsys.js"></script>
+<script type="text/javascript" src="/gobal/js/page/sys/cyoa.js"></script>
+<script type="text/javascript">
+var runId = "${parameter.runId}";
+var processId = "${parameter.processId}";
+var runProcessId = "${parameter.runProcessId}";
+</script>
+<script src="/module/art-template/template-web.js"></script>
+<script type="text/javascript" src="/gobal/js/page/document/mobile/nextprcs.js"></script>
+
+
+</html>

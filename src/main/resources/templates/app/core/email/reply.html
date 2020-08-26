@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet"
+	href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css"
+	type="text/css">
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+
+		<div class="page-header position-relative mail-header">
+			<div class="header-title">
+				<h1>内部邮件</h1>
+			</div>
+			<div style="float:right;line-height:40px;margin-right: 10px"><a href="/app/core/oa/email?view=emailbox" class="btn btn-palegreen">文件夹管理</a></div>
+			<!--Header Buttons-->
+			<div class="header-buttons"></div>
+			<!--Header Buttons End-->
+		</div>
+		<!-- /Page Header -->
+		<!-- Page Body -->
+		<div class="page-body no-padding">
+			<div class="mail-container">
+				<div class="mail-body">
+					<div class="mail-compose">
+						<div class="form-group bordered-left-4 bordered-themeprimary">
+							<label for="to">收件人:</label> <input type="text"
+								class="form-control" id="toId" name="toId" tabindex="1"
+								id="toId" opt-id="toId" onclick="selectUser(this,'true');" />
+							<div class="field-options">
+								<a href="javascript:;"
+									onclick="$(this).hide(); $('#cc').parent().removeClass('hidden'); $('#cc').focus();">抄送</a>
+								<a href="javascript:;"
+									onclick="$(this).hide(); $('#bcc').parent().removeClass('hidden'); $('#bcc').focus();">密送</a>
+							</div>
+						</div>
+						<div
+							class="form-group hidden bordered-left-4 bordered-themethirdcolor">
+							<label for="cc">抄送:</label> <input type="text"
+								class="form-control" id="cc" tabindex="2" />
+						</div>
+						<div
+							class="form-group hidden bordered-left-4 bordered-themefourthcolor">
+							<label for="bcc">密送:</label> <input type="text"
+								class="form-control" id="bcc" tabindex="2" />
+						</div>
+						<div class="form-group bordered-left-4 bordered-themesecondary">
+							<label for="subject">邮件主题:</label> <input type="text"
+								class="form-control" id="subject" tabindex="1" maxlength="200"/>
+						</div>
+						<div class="compose-message-editor">
+							<div id="content"></div>
+						</div>
+					</div>
+					<div class="widget-body">
+						<form class="form-horizontal form-bordered" id="from">
+							<div class="form-group">
+								<label class="col-sm-1 control-label no-padding-right"
+									style="padding-top: 15px">消息提醒 ：</label>
+								<div class="col-sm-11" style="padding-left: 0px">
+									<div style="padding-top: 10px;" id="msgType"></div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label no-padding-right">相关附件
+									：</label>
+								<div class="col-sm-11" style="padding-top: 5px">
+									<div id="show_attach"></div>
+									<a class="addfile" href="javascript:void(0)">附件上传 <input
+										data_value="" type="file" style="position: absolute;"
+										onchange="fileUpLoad('email','attach');" hidefocus="true"
+										size="1" id="attach" name="attach" class="addfile"
+										multiple="multiple"></a>
+								</div>
+							</div>
+							<div class="form-group" align="center" style="margin-top: 10px;">
+								<a href="javascript:void(0);"
+									class="btn btn-darkorange js-sendemail">发送邮箱</a> <a
+									href="javascript:void(0);" class="btn btn-maroon">保存草稿</a>
+							</div>
+						</form>
+					</div>
+				</div>
+
+
+
+
+				<div class="mail-sidebar">
+					<ul class="mail-menu">
+						<li><a href="/app/core/oa/email"> <i class="fa fa-inbox"></i>
+								<span
+								class="badge badge-default badge-square pull-right js-boxCount"></span>
+								收件箱
+						</a></li>
+						<li><a href="/app/core/oa/email?view=staremail"> <i class="fa fa-star"></i> <span
+								class="badge badge-default badge-square pull-right js-starCount"></span>
+								标星邮件
+						</a></li>
+						<li><a href="/app/core/oa/email?view=sendemailbox"> <i class="glyphicon glyphicon-share"></i>
+								<span
+								class="badge badge-default badge-square pull-right js-sendCount"></span>
+								发件箱
+						</a></li>
+
+						<li class="active"><a href="/app/core/oa/email?view=draftbox"> <i class="fa fa-envelope"></i><span
+								class="badge badge-default badge-square pull-right js-draftCount"></span>
+								草稿箱
+						</a></li>
+
+
+						<li><a href="/app/core/oa/email?view=delemail"> <i class="fa fa-trash-o"></i> <span
+								class="badge badge-default badge-square pull-right js-delCount"></span>
+								回收站
+						</a></li>
+						<li class="divider myemailbox"></li>
+						<li><a href="#" data-toggle="modal"
+							data-target=".bs-example-modal-sm"> + 创建文件夹 </a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel" aria-hidden="true"
+		id="createBoxModal">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="mySmallModalLabel">创建文件夹</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<input type="number" id="sortNo" name="sortNo"
+							class="form-control" id="definput" placeholder="排序号">
+					</div>
+					<div class="form-group">
+						<input type="text" id="boxName" name="boxName"
+							class="form-control" id="definput" placeholder="文件夹名称">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-saveBox">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+<div id="orgselectdiv"></div>
+	<%include("../../resapi/sysjs.html"){}%>
+	<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<!--Bootstrap  wysiwig Scripts-->
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script src="/assets/js/editors/summernote/summernote.js"></script>
+<script src="/gobal/js/page/oa/email.js"></script>
+<script>
+    var bodyId ="${bodyId}";
+    var flag="${flag}";
+        $('#content').summernote({ height: 300 });
+        $(function(){
+        	getSmsConfig("msgType","email");
+        	initReplyEmail(flag);
+        	$(".js-sendemail").unbind("click").click(function(){
+        		sendEmail();
+        	});
+        })
+    </script>
+</html>

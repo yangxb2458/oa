@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.oa.NewsCommentsMapper">
+	<resultMap id="NewsComments" type="com.core136.bean.oa.NewsComments">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="COMM_ID" property="commId" jdbcType="VARCHAR" />
+		<result column="COMM_PID" property="commPid" jdbcType="VARCHAR" />
+		<result column="COMM_TYPE" property="commType" jdbcType="VARCHAR" />
+		<result column="NEWS_ID" property="newsId" jdbcType="VARCHAR" />
+		<result column="COMM_CONTENT" property="commContent" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getCommentsList" resultType="java.util.HashMap">
+		SELECT N.COMM_ID AS commId, N.NEWS_ID AS newsId,N.COMM_TYPE AS commType,N.COMM_CONTENT AS
+		commContent,N.CREATE_TIME AS createTime,N.COMM_PID AS commPid,N.CREATE_USER AS createUser,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=N.ORG_ID AND
+		U.ACCOUNT_ID=N.CREATE_USER) AS createUserName,
+		(SELECT A.HEAD_IMG FROM ACCOUNT A WHERE A.ORG_ID=#{orgId} AND A.ACCOUNT_ID=N.CREATE_USER) AS headImg,
+		(SELECT COUNT(1) FROM NEWS_COMMENTS TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.COMM_PID=N.COMM_ID) AS countComm
+		FROM NEWS_COMMENTS N
+		WHERE
+		N.ORG_ID=#{orgId} AND N.NEWS_ID=#{newsId}
+		ORDER BY N.CREATE_TIME DESC
+		
+	</select>
+
+
+</mapper>
+

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrContractMapper">
+<resultMap id="HrContract" type="com.core136.bean.hr.HrContract" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="CONTRACT_ID" property="contractId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="SIGN_TYPE" property="signType" jdbcType="VARCHAR" />
+    <result column="ENTERPRIES" property="enterpries" jdbcType="VARCHAR" />
+    <result column="CONTRACT_CODE" property="contractCode" jdbcType="VARCHAR" />
+    <result column="CONTRACT_TYPE" property="contractType" jdbcType="VARCHAR" />
+    <result column="SPECIALIZATION" property="specialization" jdbcType="VARCHAR" />
+    <result column="SIGN_TIME" property="signTime" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+    <result column="START_TIME" property="startTime" jdbcType="VARCHAR" />
+    <result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+    <result column="REMINDER" property="reminder" jdbcType="VARCHAR" />
+    <result column="SEND_TO_USER" property="sendToUser" jdbcType="VARCHAR" />
+    <result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+    <result column="POOL_POSITION" property="poolPosition" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getDeskHrContractList" resultType="java.util.HashMap">
+SELECT H.CONTRACT_CODE AS contractCode,USER_NAME AS userName,H.END_TIME AS endTime,H.SIGN_TIME AS signTime,H.CONTRACT_TYPE AS contractType,
+(SELECT C.CODE_NAME FROM HR_CLASS_CODE C WHERE C.ORG_ID=#{orgId} AND C.MODULE='poolPosition' AND C.CODE_VALUE=H.POOL_POSITION) AS poolPositionValue,
+(SELECT C.CODE_NAME FROM HR_CLASS_CODE C WHERE C.ORG_ID=#{orgId} AND C.MODULE='contractType' AND C.CODE_VALUE=H.CONTRACT_TYPE) AS contractTypeValue,
+H.ENTERPRIES AS enterpries,(SELECT C.CODE_NAME FROM HR_CLASS_CODE C WHERE C.ORG_ID=#{orgId} AND C.MODULE='enterpries' AND C.CODE_VALUE=H.ENTERPRIES) AS enterpriesValue, 
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND H.USER_ID=U.ACCOUNT_ID) AS userIdUserName
+FROM HR_CONTRACT H
+WHERE H.ORG_ID=#{orgId}
+<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND H.END_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND H.END_TIME &lt;#{endTime}
+	</if>
+	ORDER BY H.END_TIME ASC LIMIT 0,10
+</select>
+
+
+<select id="getHrContractList" resultType="java.util.HashMap">
+	SELECT CONTRACT_ID AS contractId,USER_ID AS userId,ENTERPRIES AS enterpries,CONTRACT_CODE AS contractCode, SIGN_TIME AS signTime,
+	END_TIME AS endTime,START_TIME AS startTime,POOL_POSITION poolPosition,CONTRACT_TYPE contractType,USER_NAME AS userName,SIGN_TYPE AS signType
+	FROM HR_CONTRACT
+	WHERE ORG_ID=#{orgId}
+	<if test="userId!=null and userId!=''.toString()">
+		AND USER_ID=#{userId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND SIGN_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND SIGN_TIME &lt;=#{endTime}
+	</if>
+	<if test="enterpries!=null and enterpries!=''.toString()">
+		AND ENTERPRIES=#{enterpries}
+	</if>
+	<if test="contractType!=null and contractType!=''.toString()">
+		AND CONTRACT_TYPE=#{contractType}
+	</if>
+</select>
+
+
+<select id="getMyHrContractList" resultType="java.util.HashMap">
+	SELECT C.CONTRACT_ID AS contractId,C.USER_ID AS userId,C.ENTERPRIES AS enterpries,C.CONTRACT_CODE AS contractCode, C.SIGN_TIME AS signTime,
+	C.END_TIME AS endTime,C.START_TIME AS startTime,C.POOL_POSITION poolPosition,C.CONTRACT_TYPE contractType,C.USER_NAME AS userName,C.SIGN_TYPE AS signType
+	FROM HR_CONTRACT C
+	WHERE C.ORG_ID=#{orgId}
+	AND C.USER_ID = (SELECT U.USER_ID FROM HR_USER_INFO U WHERE U.ORG_ID='8EADB678-A646-1E51-3E87-75A547B8AF19' AND U.ACCOUNT_ID=#{orgId})
+</select>
+
+</mapper>
+

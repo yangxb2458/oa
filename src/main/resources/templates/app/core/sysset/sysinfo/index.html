@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/assets/img/favicon.png" type="image/x-icon">
+<link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+<link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+<link href="/assets/css/font-awesome.min.css" rel="stylesheet" />
+<link href="/assets/css/weather-icons.min.css" rel="stylesheet" />
+<link id="beyond-link" href="/assets/css/beyond.min.css" rel="stylesheet" type="text/css" />
+<link href="/assets/css/demo.min.css" rel="stylesheet" />
+<link href="/assets/css/typicons.min.css" rel="stylesheet" />
+<link href="/module/tab/css/tabstyle.css" rel="stylesheet" />
+<link href="/assets/css/animate.min.css" rel="stylesheet" />
+<link href="/assets/css/style.css" rel="stylesheet" />
+<link id="skin-link" href="" rel="stylesheet" type="text/css" />
+<script src="/assets/js/skins.min.js"></script>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+	<div class="main-container container-fluid">
+			<div class="page-container">
+			<div class="widget-body" style="padding:0px;">
+		<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+			<div class="well with-header">
+				<div class="header bg-blue">系统信息</div>
+
+				<div class="form-title">运行环境</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">操作系统：</label>
+					<div class="col-sm-10">${sysInfo.OS_NAME }</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">系统版本：</label>
+					<div class="col-sm-10">${sysInfo.OS_VERSION }</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">应用服务器：</label>
+					<div class="col-sm-10">${SERVERINFO}</div>
+				</div>
+
+				<div class="form-title">软件信息</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">JAVA版本：</label>
+					<div class="col-sm-10">${sysInfo.JAVA_VERSION }</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">JAVA目录：</label>
+					<div class="col-sm-10">${sysInfo.JAVA_HOME }</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">数据库类型：</label>
+					<div class="col-sm-10">${sysInfo.DB_TYPE }</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">数据库版本：</label>
+					<div class="col-sm-10">${sysInfo.DB_VERSION }</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">数据库安装路径：</label>
+					<div class="col-sm-10">${sysInfo.DB_PATH}</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">软件名称：</label>
+					<div class="col-sm-10">${sysInfo.SOFT_NAME }</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">软件版本：</label>
+					<div class="col-sm-10">${sysInfo.P_VESION }</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">软件目录：</label>
+					<div class="col-sm-10">${sysInfo.APP_PATH }</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">软件版本：</label>
+					<div class="col-sm-10">${sysInfo.P_VESION }</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">软件版权：</label>
+					<div class="col-sm-10">${sysInfo.COPY_RIGHT }</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">研发公司：</label>
+					<div class="col-sm-10">${sysInfo.DEV_COM }</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">机器码：</label>
+					<div class="col-sm-10">${sysInfo.MACHINE_CODE }</div>
+				</div>
+				<div class="form-title">注册信息</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">授权单位：</label>
+					<div class="col-sm-10">${sysInfo.ORG_NAME}</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">授权组织数：</label>
+					<div class="col-sm-10">${sysInfo.ORG_COUNT}</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">授权人员数：</label>
+					<div class="col-sm-10">${sysInfo.USER_COUNT}</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">当前人员数：</label>
+					<div class="col-sm-10">${ACCOUNT_COUNT}/人&nbsp;&nbsp;（包含离职、注销、管理员，50人内免授权）</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">授权日期：</label>
+					<div class="col-sm-10">${sysInfo.REG_DATE }</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">截止日期：</label>
+					<div class="col-sm-10">${sysInfo.SERVICE_END_TIME}</div>
+				</div>
+				<div class="row" style="margin-top: 10px">
+					<label class="col-sm-2" style="text-align: right; line-height: 24px">注册状态：</label>
+					<div class="col-sm-10">
+						<% var regflag = sysInfo.IS_REGIST; if(regflag==true) { %> <a href="javascript:void(0);" class="btn btn-success btn-xs">授权中</a>
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-2" style="text-align: right">授权组件：</label>
+					<div class="col-sm-10">${sysInfo.MODEL }</div>
+				</div>
+				<% }else { %> <a href="javascript:void(0);" class="btn btn-danger btn-xs">注册无效</a>
+			</div>
+		</div>
+		<div class="row">
+			<label class="col-sm-2" style="text-align: right">授权组件：</label>
+			<div class="col-sm-10">${sysInfo.MODEL }</div>
+		</div>
+		<div class="row" style="margin-top: 20px;">
+			<label class="col-sm-2" style="text-align: right">失败信息：</label>
+			<div class="col-sm-10">
+				<% var msgList = sysInfo.REG_MSG_LIST; for(item in msgList) { %>
+				<div style="color: red;">${item}</div>
+				<% } %>
+			</div>
+		</div>
+		<% } %>
+		<form action="/sys/file/sysRegist" method="post" enctype="multipart/form-data">
+		<div class="row" style="line-height: 34px; margin-top: 20px;">
+			<label class="col-sm-2" style="text-align: right">上传注册文件：</label>
+			<div class="col-sm-10">
+				<input type="file" name="regFile" id="regFile" class="form-control" style="width: 200px; display: inline-block;">
+				<button class="btn btn-palegreen shiny" style="display: inline-block; margin-top: -5px;" type="submit">注册</button>
+			</div>
+		</div>
+		</form>
+	</div>
+	</div>
+	</div>
+	</div>
+</body>
+
+
+
+</html>

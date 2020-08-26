@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.im.InquiryMapper">
+<resultMap id="Inquiry" type="com.core136.bean.im.Inquiry" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="INQUIRY_ID" property="inquiryId" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_ID" property="accountId" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+    <result column="MODEL" property="model" jdbcType="VARCHAR" />
+    <result column="TO_ACCOUNT_ID" property="toAccountId" jdbcType="VARCHAR" />
+    <result column="ORG_NAME" property="orgName" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getInquiryById" resultType="java.util.HashMap">
+SELECT I.ID AS id, I.INQUIRY_ID AS inquiryId,I.TITLE AS title,I.ACCOUNT_ID AS accountId,I.ATTACH AS attach,
+I.CONTENT AS content,I.END_TIME AS endTime,I.MODEL AS model,I.TO_ACCOUNT_ID AS toAccountId,I.ORG_NAME AS orgName,
+I.ORG_ID AS orgId,U.USER_NAME AS userName,U.MOBILE_NO AS mobileNo,U.SEX AS sex,U.E_MAILE AS eMail,U.WX_NO AS wxNo 
+FROM INQUIRY I,USER_INFO U 
+WHERE I.ACCOUNT_ID = U.ACCOUNT_ID AND I.INQUIRY_ID=#{inquiryId}
+
+</select>
+
+
+ 
+</mapper>
+

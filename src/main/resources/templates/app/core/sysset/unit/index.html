@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="main-container container-fluid" style="overflow-y: auto">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="widget col-md-offset-3">
+						<div class="widget-header bordered-bottom bordered-palegreen">
+							<span class="widget-caption">单位基本信息</span>
+						</div>
+						<div class="widget-body">
+							<div>
+								<form class="form-horizontal form-bordered" role="form">
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">企业Logo：</label>
+										<div class="col-sm-5">
+											<img src="/sys/file/getBackgroundImg?fileName=${unit.orgLogo}" style="widt: 100px; height: 40px" id="orgLogo_img">
+										<a class="addfile" href="javascript:void(0)">上传LOGO <input data-value="${unit.orgLogo}" type="file" onchange="uploadimglogo('orgLogo');" hidefocus="true" size="1" id="orgLogo"
+									name="orgLogo" class="addfile" accept="image/*"></a>
+									</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">公司名称：</label>
+										<div class="col-sm-5">
+											<input size="40" type="text" class="form-control" placeholder="单位名称" id="orgName" name="orgName" value="${unit.orgName}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">公司地址：</label>
+										<div class="col-sm-5">
+											<input size="100" type="text" class="form-control" placeholder="公司地址" id="orgAdd" name="orgAdd" value="${unit.orgAdd}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">邮政编码：</label>
+										<div class="col-sm-5">
+											<input size="10" type="text" class="form-control" placeholder="公司电话" id="orgPost" name="orgPost" value="${unit.orgPost}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">公司电话：</label>
+										<div class="col-sm-5">
+											<input size="20" type="text" class="form-control" placeholder="公司电话" id="orgTel" name="orgTel" value="${unit.orgTel}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">公司传真：</label>
+										<div class="col-sm-5">
+											<input size="20" type="text" class="form-control" placeholder="公司传真" id="orgFax" name="orgFax" value="${unit.orgFax}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">公司邮件：</label>
+										<div class="col-sm-5">
+											<input size="50" type="text" class="form-control" placeholder="公司邮件" id="orgEmail" name="orgEmail" value="${unit.orgEmail}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">公司法人：</label>
+										<div class="col-sm-5">
+											<input size="20" type="text" class="form-control" placeholder="公司法人" id="orgLegalPerson" name="orgLegalPerson" value="${unit.orgLegalPerson}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">开户行：</label>
+										<div class="col-sm-5">
+											<input size="50" type="text" class="form-control" placeholder="开户行" id="orgBank" name="orgBank" value="${unit.orgBank}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">银行账号：</label>
+										<div class="col-sm-5">
+											<input size="50" type="text" class="form-control" placeholder="银行账号" id="orgBankAccount" name="orgBankAccount" value="${unit.orgBankAccount}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">企业税号：</label>
+										<div class="col-sm-5">
+											<input size="50" type="text" class="form-control" placeholder="企业税号" id="orgTaxNo" name="orgTaxNo" value="${unit.orgTaxNo}">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-1 col-sm-5">
+											<button type="button" id="savebtn" class="btn btn-palegreen">设置</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+	<%include("../../../resapi/sysjs.html"){}%>
+	<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+	<script src="/gobal/js/page/sys/unit.js"></script>
+</body>
+</html>

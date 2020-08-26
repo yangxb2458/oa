@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../resapi/style.html"){}%>
+</head>
+<body style="overflow-y: auto; height: 100%;">
+	<div class="page-body" style="padding: 4px 0px 0px;">
+		<div class="page-container">
+			<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+				<div class="tabbable">
+					<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+						<% if(view==''||view==null) { view='desk'; } for(item in profilelist) { if(item.url==view) { %>
+						<li class="active"><a href="/app/core/desk?view=${item.url}" aria-expanded="true">${item.title}</a></li> <% }else { %>
+						<li class=""><a href="/app/core/desk?view=${item.url}" aria-expanded="false">${item.title}</a></li> <% } } %>
+					</ul>
+					<div class="tab-content tabs-flat" style="padding:0px">
+						<div class="row">
+						<div class="col-md-4 col-sm-4 col-xs-12" style="padding:0px"><img style="height: 288px;width:100%" src="/gobal/img/desk/financialIndex.png"></div>
+						<div class="col-md-8 col-sm-8 col-xs-12" style="padding:0px">
+						<div class="widget">
+                                <div class="widget-header bordered-bottom bordered-themeprimary">
+                                    <i class="widget-icon fa fa-tasks themeprimary"></i>
+                                    <span class="widget-caption themeprimary">账务收支统计</span>
+                                </div>
+                                    <div id="main1" style="height: 250px;" class="col-sm-12"></div>
+                            </div>
+						</div>
+						</div>
+						<div class="row" style="margin-top: 10px;margin-bottom: 10px;">
+						<div class="col-md-8 col-sm-8 col-xs-12" style="padding-top: 20px;">
+							<div class="col-md-2 col-sm-4 col-xs-6">
+								<a style="cursor: pointer;" class="js-createcontract">
+								<div align="center">
+								<img alt="" src="/gobal/img/desk/financial5.png" style="height: 40px;">
+								<div style="margin-top: 10px; margin-bottom: 10px;">创建合同</div>
+								</div>
+								</a>
+							</div>
+							<div class="col-md-2 col-sm-4 col-xs-6">
+							<a style="cursor: pointer;" class="js-managecontract">
+								<div align="center">
+								<img alt="" src="/gobal/img/desk/financial4.png" style="height: 40px;">
+								<div style="margin-top: 10px; margin-bottom: 10px;">管理合同</div>
+								</div>
+								</a>
+							</div>
+							<div class="col-md-2 col-sm-4 col-xs-6">
+							<a style="cursor: pointer;" class="js-bill">
+								<div align="center">
+								<img alt="" src="/gobal/img/desk/financial6.png" style="height: 40px;">
+								<div style="margin-top: 10px; margin-bottom: 10px;">合同票据</div>
+								</div>
+								</a>
+							</div>
+							<div class="col-md-2 col-sm-4 col-xs-6">
+							<a style="cursor: pointer;" class="js-receivables">
+								<div align="center">
+								<img alt="" src="/gobal/img/desk/financial2.png" style="height: 40px;">
+								<div style="margin-top: 10px; margin-bottom: 10px;">收款记录</div>
+								</div>
+								</a>
+							</div>
+							<div class="col-md-2 col-sm-4 col-xs-6">
+							<a style="cursor: pointer;" class="js-payable">
+								<div align="center">
+								<img alt="" src="/gobal/img/desk/financial1.png" style="height: 40px;">
+								<div style="margin-top: 10px; margin-bottom: 10px;">付款记录</div>
+								</div>
+								</a>
+							</div>
+							<div class="col-md-2 col-sm-4 col-xs-6">
+							<a style="cursor: pointer;" class="js-total">
+								<div align="center">
+								<img alt="" src="/gobal/img/desk/financial3.png" style="height: 40px;">
+								<div style="margin-top: 10px; margin-bottom: 10px;">财务汇总</div>
+								</div>
+								</a>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-4 col-xs-12">
+						<div class="databox radius-bordered databox-shadowed databox-vertical">
+                                        <div class="databox-top bg-orange no-padding"><span style="line-height: 50px;font-size: 20px">应收应付</span></div>
+                                        <div class="databox-bottom no-padding bg-white">
+                                            <div class="databox-row">
+                                                <div class="databox-cell cell-6 text-align-center bordered-right bordered-platinum">
+                                                    <span class="databox-number lightcarbon" id="receTotal">0</span>
+                                                    <span class="databox-text sonic-silver no-margin">应收总额</span>
+                                                </div>
+                                                <div class="databox-cell cell-6 text-align-center">
+                                                    <span class="databox-number lightcarbon" id="payTotal">0</span>
+                                                    <span class="databox-text sonic-silver no-margin">应付总额</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+						</div>
+						</div>
+						<h6 class="row-title before-azure" style="margin-left: 5px;">近期收款记录</h6>
+						<div style="margin-top: 10px;margin-bottom: 10px;">
+						<table class="table table-hover table-striped table-bordered">
+							<thead>
+								<tr>
+									<th>序号</th>
+									<th>合同名称</th>
+									<th>应收时间</th>
+									<th>应收金额</th>
+									<th>已收金额</th>
+									<th>最后收款日期</th>
+									<th>负责人</th>
+								</tr>
+							</thead>
+							<tbody id="receivedtr">
+							</tbody>
+						</table>
+						</div>
+						<h6 class="row-title before-orange" style="margin-left: 5px;">近期付款记录</h6>
+						<div style="margin-top: 10px;margin-bottom: 10px;">
+						<table class="table table-hover table-striped table-bordered">
+							<thead>
+								<tr>
+									<th>序号</th>
+									<th>合同名称</th>
+									<th>应付时间</th>
+									<th>应付金额</th>
+									<th>已付金额</th>
+									<th>最后付款日期</th>
+									<th>负责人</th>
+								</tr>
+							</thead>
+							<tbody id="paytr">
+							</tbody>
+						</table>
+						</div>
+						<h6 class="row-title before-sky" style="margin-left: 5px;">近期票据记录</h6>
+						<div style="margin-top: 10px;margin-bottom: 10px;">
+						<table class="table table-hover table-striped table-bordered">
+						<thead>
+								<tr>
+									<th>序号</th>
+									<th>发票编号</th>
+									<th>客户名称</th>
+									<th>合同标题</th>
+									<th>发票类型</th>
+									<th>开票日期</th>
+									<th>开票方式</th>
+									<th>票面金额</th>
+								</tr>
+							</thead>
+							<tbody id="billtr">
+							</tbody>
+						</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<%include("../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/echart/echarts.min.js"></script>
+<script type="text/javascript" src="/gobal/js/page/sys/deskforfinance.js"></script>
+</html>

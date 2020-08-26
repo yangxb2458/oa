@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.meeting.MeetingRoomMapper">
+	<resultMap id="MeetingRoom" type="com.core136.bean.meeting.MeetingRoom">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="ROOM_ID" property="roomId" jdbcType="VARCHAR" />
+		<result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+		<result column="DEPT_PRIV" property="deptPriv" jdbcType="VARCHAR" />
+		<result column="USER_COUNT" property="userCount" jdbcType="INTEGER" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="MANAGER" property="manager" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getMeetingRoomList" resultType="java.util.HashMap">
+	 SELECT M.ID AS id, M.ROOM_ID AS roomId, M.NAME AS name,M.STATUS AS status,M.ADDRESS AS address,M.REMARK AS remark,M.USER_COUNT AS userCount,
+	 (SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=M.ORG_ID AND U.ACCOUNT_ID=M.MANAGER) AS managerName,M.DEPT_PRIV AS deptPriv
+	 FROM 
+	 MEETING_ROOM M
+	 WHERE
+	 M.ORG_ID=#{orgId}
+	</select>
+
+<select id="getCanUseMeetingRoomList" resultType="java.util.HashMap">
+	SELECT ROOM_ID AS roomId,NAME AS name,STATUS AS status
+	FROM MEETING_ROOM 
+	WHERE 
+	ORG_ID=#{orgId}
+	AND
+	(
+		DEPT_PRIV ='@all' OR FUN_INTE_ARRAY(DEPT_PRIV,#{deptId}) > 0
+	)
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND NAME LIKE #{search}
+	</if>
+</select>
+
+</mapper>
+

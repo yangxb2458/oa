@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<% include("../../resapi/style.html"){}%>
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<link href="/module/bootstrap-table/bootstrap-table.css"
+	rel="stylesheet" />
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">考勤规则设置</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title">考勤规则表</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="buttons-preview" id="toobar">
+										<a href="javascript:void(0);" onclick="doadd();"
+											class="btn btn-azure">创建考勤规则</a>
+											
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+    <div class="modal fade bs-example-modal-lg" id="setconfigmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myLargeModalLabel">考勤规则设置</h4>
+                </div>
+                <div class="modal-body">
+                <form class="form-horizontal form-bordered" role="form" id="form1">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label no-padding-right">排序号：</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="number" class="form-control" name="sortNo" id="sortNo" placeholder="排序号">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label no-padding-right">规则名称：</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="title" name="title" placeholder="规则名称">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label no-padding-right">上班时间：</label>
+                                                        <div class="col-sm-9">
+                                                           <input type="text" class="form-control" id="beginTime" name="beginTime" placeholder="上班时间">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label no-padding-right">下班时间：</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="endTime" name="endTime" placeholder="下班时间">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label no-padding-right">备注：</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea rows="5" cols="" id="remark" name="remark" class="form-control"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+                   <button type="button" class="btn btn-primary js-save">保存</button>
+               </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+<% include("../../resapi/sysjs.html"){}%>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script src="/gobal/js/page/attend/config.js"></script>
+</html>

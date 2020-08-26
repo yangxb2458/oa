@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet" type="text/css" href="/module/flowdesigner/style.css" />
+<link rel="stylesheet" type="text/css" href="/module/popupmenu/style.css" />
+<link href="/assets/css/typicons.min.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="page-body" style="padding: 0px">
+		<div class="widget-header bg-blue">
+			<span class="widget-caption">BPM审批走向图</span>
+		</div>
+		<div class="col-md-12 col-sm-12 col-xs-12" style="background-image: url('/module/flowdesigner/bg.png');">
+			<div id="notepad"></div>
+		</div>
+		<div class="buttons-preview" style="position: absolute; bottom: 0px; width: 100%;" align="center">
+			<a href="javascript:void(0);history.back(-1);" class="btn btn-maroon">返回</a>
+		</div>
+	</div>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script>
+var runId = "${parameter.runId}";
+</script>
+<script src="/module/jsPlumb/src/jsPlumb-util.js"></script>
+<script src="/module/jsPlumb/src/jsPlumb-dom-adapter.js"></script>
+<script src="/module/jsPlumb/src/jsPlumb-drag.js"></script>
+<script src="/module/jsPlumb/src/jsPlumb.js"></script>
+<script src="/module/jsPlumb/src/jsPlumb-endpoint.js"></script>
+<script src="/module/jsPlumb/src/jsPlumb-connection.js"></script>
+<script src="/module/jsPlumb/src/jsPlumb-anchors.js"></script>
+<script src="/module/jsPlumb/src/jsPlumb-defaults.js"></script>
+<script src="/module/jsPlumb/src/jsPlumb-connectors-statemachine.js"></script>
+<script src="/module/jsPlumb/src/jsPlumb-connectors-flowchart.js"></script>
+<script src="/module/jsPlumb/src/jsPlumb-renderers-svg.js"></script>
+<script src="/module/jsPlumb/src/jsPlumb-renderers-canvas.js"></script>
+<script src="/module/jsPlumb/src/jsPlumb-renderers-vml.js"></script>
+<script src="/module/jsPlumb/src/jquery.jsPlumb.js"></script>
+<script src="/module/flowdesigner/flowdesigner2.js"></script>
+<script src="/gobal/js/page/document/documentflowchart.js"></script>
+<script src="/assets/js/toastr/toastr.js"></script>
+</html>

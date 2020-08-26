@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding-left: 4px;padding-right: 0px;">
+					<div class="tabbable tabs-left col-md-2 col-sm-4 col-xs-12" style="padding: 0px;">
+						<ul class="nav nav-tabs" style="width: 100%;">
+							<li class=""><a href="/app/core/hr/analysis">人事档案</a></li>
+							<li class="active"><a href="/app/core/hr/analysis?view=contract">人事合同</a></li>
+							<li class=""><a href="/app/core/hr/analysis?view=incentive">人员奖惩</a></li>
+							<li class=""><a href="/app/core/hr/analysis?view=licence">人员证照</a></li>
+							<li class=""><a href="/app/core/hr/analysis?view=learn">学习经历</a></li>
+							<li class=""><a href="/app/core/hr/analysis?view=skills">劳动技能</a></li>
+							<li class=""><a href="/app/core/hr/analysis?view=transfer">人事调动</a></li>
+							<li class=""><a href="/app/core/hr/analysis?view=leave">人员离职</a></li>
+							<li class=""><a href="/app/core/hr/analysis?view=reinstat">人员复职</a></li>
+							<li class=""><a href="/app/core/hr/analysis?view=evaluation">职称评定</a></li>
+							<li class=""><a href="/app/core/hr/analysis?view=care">员工关怀</a></li>
+						</ul>
+					</div>
+					<div class="col-md-10 col-sm-8 col-xs-12" style="padding: 0px;">
+					<div class="widget-header bg-themeprimary">
+						<span class="widget-caption">人事合同分析</span>
+					</div>
+						<div class="widget-body">
+						<table class="table table-hover table-striped table-bordered">
+							<tr>
+								<td>数据类型</td>
+								<td colspan="2">
+								<div class="radio">
+			                          <label>
+			                              <input name="dataType" type="radio" class="colored-blue" value="1" checked="checked">
+			                                 <span class="text">合同类型</span>
+			                          </label>
+			                          <label>
+			                              <input name="dataType" type="radio" class="colored-blue" value="2">
+			                                 <span class="text">签约公司</span>
+			                          </label>
+			                          <label>
+			                              <input name="dataType" type="radio" class="colored-blue" value="3">
+			                                 <span class="text">签约方式</span>
+			                          </label>
+			                          <label>
+			                              <input name="dataType" type="radio" class="colored-blue" value="4">
+			                                 <span class="text">应聘岗位</span>
+			                          </label>
+			                        </div>
+                        </td>
+							</tr>
+						<tr>
+						<td>展示方式</td>
+						<td colspan="2">
+						<div class="radio">
+                          <label>
+                              <input name="echartType" type="radio" class="colored-blue" value="1" checked="checked">
+                                 <span class="text">饼状图</span>
+                          </label>
+                          <label>
+                              <input name="echartType" type="radio" class="colored-blue" value="2">
+                                 <span class="text">柱状图</span>
+                          </label>
+                          <label>
+                              <input name="echartType" type="radio" class="colored-blue" value="3">
+                                 <span class="text">明细表</span>
+                          </label>
+                          </div>
+						</td>
+						</tr>
+						<tr>
+							<td>查询范围</td>
+							<td>
+								<textarea placeholder="部门" name="deptId" id="deptId" class="form-control" readonly="readonly"></textarea>
+							</td>
+							<td>
+							<a opt-id="deptId" onclick="selectHrDept(this,'false');" style="display: inline-block;cursor: pointer;margin-left: 10px;">选择</a>
+								<a onclick="clearSelect('deptId');" style="display: inline-block;cursor: pointer;margin-left: 20px;">清空</a>
+							</td>
+						</tr>
+						</table>
+						<div class="row" align="center" style="margin: 20px;">
+							<a href="javascript:void(0);" class="btn btn-magenta js-query">查询</a>
+						</div>
+						<div class="row">
+						<div class="widget col-sm-12" style="height: 450px;padding: 5px;">
+								<div class="widget-header">
+									<span class="widget-caption" id="echartTitle"></span>
+								</div>
+								<div class="widget-body" style="height: 450px;" id="dataDiv">
+								</div>
+							</div>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/echart/echarts.min.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/hrapi.js"></script>
+<script type="text/javascript" src="/module/hrorgselect/hrorgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/analysis/analysiscontract.js"></script>
+</body>
+</html>
+
+

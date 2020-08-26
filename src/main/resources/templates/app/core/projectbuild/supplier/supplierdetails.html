@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){} %>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="widget">
+						<div class="widget-header bordered-bottom bordered-palegreen">
+							<span class="widget-caption">供应商详情</span>
+						</div>
+						<div class="widget-body" style="padding-top: 0px">
+							<form class="form-horizontal form-bordered" id="from">
+								<div class="form-group" style="padding-top: 15px;">
+									<label class="col-sm-1 control-label no-padding-right">供应商名称：</label>
+									<div class="col-sm-5" id="companyName"
+										style="line-height: 34px;"></div>
+									<label class="col-sm-1 control-label no-padding-right">排序号：</label>
+									<div class="col-sm-3" id="sortNo" style="line-height: 34px;">
+									</div>
+									<div class="col-sm-2"></div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">供应商等级：</label>
+									<div class="col-sm-3" id="level" style="line-height: 34px;">
+									</div>
+									<div class="col-sm-2"></div>
+									<label class="col-sm-1 control-label no-padding-right">供应商性质：</label>
+									<div class="col-sm-3" id="industry" style="line-height: 34px;">
+									</div>
+									<div class="col-sm-2"></div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">供应商标签：</label>
+									<div class="col-sm-11" id="tags" style="line-height: 34px;">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">统一信用代码：</label>
+									<div class="col-sm-5" id="creditCode"
+										style="line-height: 34px;"></div>
+									<label class="col-sm-1 control-label no-padding-right">注册资本：</label>
+									<div class="col-sm-5" id="registeredCapital"
+										style="line-height: 34px;"></div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">注册日期：</label>
+									<div class="col-sm-5" id="registerDate"
+										style="line-height: 34px;"></div>
+									<label class="col-sm-1 control-label no-padding-right">营业期限：</label>
+									<div class="col-sm-5" id="timeOfVaildity"
+										style="line-height: 34px;"></div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">企业法人：</label>
+									<div class="col-sm-5" id="legalPerson"
+										style="line-height: 34px;"></div>
+									<label class="col-sm-1 control-label no-padding-right">经营状态：</label>
+									<div class="col-sm-3" id="status" style="line-height: 34px;">
+									</div>
+									<div class="col-sm-2"></div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">客户简介：</label>
+									<div class="col-sm-10" id="remark" style="line-height: 34px;">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">注册地址：</label>
+									<div class="col-sm-5" id="registerAddr"
+										style="line-height: 34px;"></div>
+									<label class="col-sm-1 control-label no-padding-right">营业地址：</label>
+									<div class="col-sm-5">
+										<div class="col-sm-2" style="line-height: 34px;" id="country">
+										</div>
+										<div class="col-sm-2" id="province" style="line-height: 34px;">
+										</div>
+										<div class="col-sm-2" id="city" style="line-height: 34px;">
+										</div>
+										<div class="col-sm-6" style="padding-right: 0px;line-height:34px;" id="address"></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">联系电话：</label>
+									<div class="col-sm-5" id="tel" style="line-height: 34px;">
+									</div>
+									<label class="col-sm-1 control-label no-padding-right">联系传真：</label>
+									<div class="col-sm-5" id="fax" style="line-height: 34px;">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">联系邮件：</label>
+									<div class="col-sm-5" id="email" style="line-height: 34px;">
+									</div>
+									<label class="col-sm-1 control-label no-padding-right">联系人：</label>
+									<div class="col-sm-5" id="linkName" style="line-height: 34px;">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">开户银行：</label>
+									<div class="col-sm-5" id="bankOfDeposit"
+										style="line-height: 34px;"></div>
+									<label class="col-sm-1 control-label no-padding-right">银行账户：</label>
+									<div class="col-sm-5" id="bankAccount"
+										style="line-height: 34px;"></div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right">企业税号：</label>
+									<div class="col-sm-5" id="dutyParagraph"
+										style="line-height: 34px;"></div>
+									<label class="col-sm-1 control-label no-padding-right">资质文件：</label>
+									<div class="col-sm-5">
+										<div style="padding-top: 4px;" id="projectbuildattach" name="projectbuildattach">
+											<div id="show_projectbuildattach"></div>
+											
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-1 col-sm-5">
+										<a href="javascript:void(0);window.close();"
+											class="btn btn-primary">关&nbsp;&nbsp;闭</a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<%include("../../../resapi/sysjs.html"){} %>
+<script type="text/javascript">
+	var supplierId = "${parameter.supplierId}";
+</script>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript"src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script src="/gobal/js/page/projectbuild/supplierdetails.js"></script>
+</html>

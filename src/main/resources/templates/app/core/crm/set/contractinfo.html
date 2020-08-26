@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<%include("../../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+.bootstrap-tagsinput{
+    background-color: #fbfbfb;
+}
+ .select2-container--open{
+      z-index: 9999;!important;
+}
+.chosen-container 
+{
+margin-top: -10px;
+}
+.choose-c .item{
+            min-width: 100px;
+            text-align: left;
+            line-height: 30px;
+            cursor: pointer;
+            padding-left: 10px;
+        }
+        .choose-c .item1{
+        	min-width: 50px;
+        	padding-left: 20px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .btn-sty{
+            width: 72px;
+            display: inline-block;
+            background-color: #53a93f;
+            color: #fff;
+            line-height: 32px;
+            text-align: center;
+            cursor: pointer;
+        }
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">客户银行税务信息</span>
+				</div>
+				</div>
+				<div class="col-sm-12"> 
+				<div class="buttons-preview" id="toobar">
+									<a class="btn btn-azure js-btn" style="">添加分类</a>
+									</div>
+<table id="myTable"></table>
+</div>	
+<div class="modal fade bs-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;" id="contractInfoModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myLargeModalLabel">账户信息</h4>
+                </div>
+                <div class="modal-body">
+                	<form class="form-horizontal" id="form1">
+		                <div class="form-group">
+		                <label class="col-sm-2 control-label no-padding-right">关联客户：</label>
+		                <div class="col-sm-10">
+	                    	<input type="hidden" id="customerId" name = "customerId" style="width:100%"/>
+	                    </div>
+		                </div>
+		                 <div class="form-group">
+		                <label class="col-sm-2 control-label no-padding-right">开户银行：</label>
+		                <div class="col-sm-10">
+	                    	<input type="text" id="bank" name = "bank" class="form-control"/>
+	                    </div>
+		                </div>
+		                 <div class="form-group">
+		                <label class="col-sm-2 control-label no-padding-right">银行账户：</label>
+		                <div class="col-sm-10">
+	                    	<input type="text" id="bankAccount" name = "bankAccount"  class="form-control"/>
+	                    </div>
+		                </div>
+		                <div class="form-group">
+		                <label class="col-sm-2 control-label no-padding-right">税务登记号：</label>
+		                <div class="col-sm-10">
+	                    	<input  type="text" id="taxNo" name = "taxNo"  class="form-control"/>
+	                    </div>
+		                </div>
+		             </form>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+                   <button type="button" class="btn btn-primary js-tosave">确定</button>
+              </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    
+    <div class="modal fade bs-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;" id="updatecontractInfoModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myLargeModalLabel">账户信息</h4>
+                </div>
+                <div class="modal-body">
+                	<form class="form-horizontal" id="form2">
+		                <div class="form-group">
+		                <label class="col-sm-2 control-label no-padding-right">关联客户：</label>
+		                <div class="col-sm-10">
+	                    	<span id="customerName" style="line-height: 34px;"></span>
+	                    </div>
+		                </div>
+		                 <div class="form-group">
+		                <label class="col-sm-2 control-label no-padding-right">开户银行：</label>
+		                <div class="col-sm-10">
+	                    	<input type="text" id="bank1" name = "bank1" class="form-control"/>
+	                    </div>
+		                </div>
+		                 <div class="form-group">
+		                <label class="col-sm-2 control-label no-padding-right">银行账户：</label>
+		                <div class="col-sm-10">
+	                    	<input type="text" id="bankAccount1" name = "bankAccount1"  class="form-control"/>
+	                    </div>
+		                </div>
+		                <div class="form-group">
+		                <label class="col-sm-2 control-label no-padding-right">税务登记号：</label>
+		                <div class="col-sm-10">
+	                    	<input  type="text" id="taxNo1" name = "taxNo1"  class="form-control"/>
+	                    </div>
+		                </div>
+		             </form>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+                   <button type="button" class="btn btn-primary js-tosave1">确定</button>
+              </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+</body>
+	<%include("../../../resapi/sysjs.html"){}%>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="/assets/js/select2/select2.js"></script>
+<script src="/gobal/js/page/crm/contractinfo.js"></script>
+</html>

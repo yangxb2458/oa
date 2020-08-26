@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME}_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<% include("../resapi/style.html"){} %>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link rel="stylesheet" href="/module/im/im.css" rel="stylesheet" />
+<style>
+.sidebar-menu {
+	scrollbar-width: none; /* firefox */
+	-ms-overflow-style: none; /* IE 10+ */
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+	display: none; /* Chrome Safari */
+}
+.spanStyle{  
+      white-space: nowrap;  /*强制span不换行*/
+      display: inline-block;  /*将span当做块级元素对待*/
+      width: 225px;  /*限制宽度*/
+      overflow: hidden;  /*超出宽度部分隐藏*/
+      text-overflow: ellipsis;  /*超出部分以点号代替*/
+      line-height: 0.9;  /*数字与之前的文字对齐*/
+}
+</style>
+</head>
+<body>
+	<!-- Navbar -->
+	<div class="navbar">
+		<div class="navbar-inner">
+			<div class="navbar-container" style="padding-left:0px;">
+				<!-- Navbar Barnd -->
+				<div class="navbar-header pull-left">
+					<a href="#" class="navbar-brand"> <small style="line-height: 40px;"> 
+					<% var orgLogo=session.UNIT.orgLogo; 
+					if(orgLogo!=null) 
+					{ %> 
+						<img src="/sys/file/getBackgroundImg?fileName=${orgLogo}" alt="" /> 
+					<% } %> 
+					${session.UNIT.orgName}
+					</small>
+					</a>
+				</div>
+				<div class="navbar-header pull-right">
+					<div class="navbar-account">
+						<ul class="account-area">
+							<li><a class="wave in dropdown-toggle" data-toggle="dropdown" title="我的提醒" href="#"> <i class="icon fa fa-envelope"></i> <span class="badge" id="msgTotal"></span>
+							</a> <!--Messages Dropdown-->
+								<ul class="pull-right dropdown-menu dropdown-arrow dropdown-messages">
+								</ul> <!--/Messages Dropdown--></li>
+
+							<li><a class="dropdown-toggle" data-toggle="dropdown" title="系统任务" href="#"> <i class="icon fa fa-tasks"></i> <span class="badge" id="taskTotal"></span>
+							</a> <!--Tasks Dropdown-->
+								<ul class="pull-right dropdown-menu dropdown-tasks dropdown-arrow " id="tasklist">
+									
+								</ul> <!--/Tasks Dropdown--></li>
+							<li><a class="login-area dropdown-toggle" data-toggle="dropdown" style="width: 152px;">
+									<div class="avatar" title="个人头像" id="accountHeadImg" style="width: 29px; height: 29px; border-left: 0px; border-radius: 50%; overflow: hidden;">
+										<img src="/sys/file/getHeadImg" onerror="this.onerror=null;this.src='/assets/img/avatars/adam-jansen.jpg'" style="width: 100%">
+									</div>
+									<section>
+										<h2>
+											<span class="profile"><span>${USER_INFO.userName}</span></span>
+										</h2>
+									</section>
+							</a> <!--Login Area Dropdown-->
+								<ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
+									<!--Avatar Area-->
+									<li>
+										<div class="avatar-area">
+											<img src="/sys/file/getHeadImg" onerror="this.onerror=null;this.src='/assets/img/avatars/adam-jansen.jpg'" class="avatar"> <span class="caption">更换头像<input type="file" onchange="uploadheadimg('file');" hidefocus="true" size="1" id="file" name="file" class="addfile" multiple="multiple" accept="image/*"></span>
+										</div>
+									</li>
+									<!--Avatar Area-->
+									<li class="edit"><a href="profile.html" class="pull-left">个人主页</a> <a href="javascript:goUrl('/app/core/personseting');" class="pull-right">控制面板</a></li>
+									<!--Theme Selector Area-->
+									<li class="theme-area">
+										<ul class="colorpicker" id="skin-changer">
+											<li style="width: 28px; height: 28px"><a class="colorpick-btn" href="#" style="background-color: #5DB2FF;" rel="/assets/css/skins/blue.min.css"></a></li>
+											<li style="width: 28px; height: 28px"><a class="colorpick-btn" href="#" style="background-color: #2dc3e8;" rel="/assets/css/skins/azure.min.css"></a></li>
+											<li style="width: 28px; height: 28px"><a class="colorpick-btn" href="#" style="background-color: #03B3B2;" rel="/assets/css/skins/teal.min.css"></a></li>
+											<li style="width: 28px; height: 28px"><a class="colorpick-btn" href="#" style="background-color: #53a93f;" rel="/assets/css/skins/green.min.css"></a></li>
+											<li style="width: 28px; height: 28px"><a class="colorpick-btn" href="#" style="background-color: #FF8F32;" rel="/assets/css/skins/orange.min.css"></a></li>
+											<li style="width: 28px; height: 28px"><a class="colorpick-btn" href="#" style="background-color: #cc324b;" rel="/assets/css/skins/pink.min.css"></a></li>
+											<li style="width: 28px; height: 28px"><a class="colorpick-btn" href="#" style="background-color: #AC193D;" rel="/assets/css/skins/darkred.min.css"></a></li>
+											<li style="width: 28px; height: 28px"><a class="colorpick-btn" href="#" style="background-color: #8C0095;" rel="/assets/css/skins/purple.min.css"></a></li>
+											<li style="width: 28px; height: 28px"><a class="colorpick-btn" href="#" style="background-color: #0072C6;" rel="/assets/css/skins/darkblue.min.css"></a></li>
+											<li style="width: 28px; height: 28px"><a class="colorpick-btn" href="#" style="background-color: #585858;" rel="/assets/css/skins/gray.min.css"></a></li>
+											<li style="width: 28px; height: 28px"><a class="colorpick-btn" href="#" style="background-color: #474544;" rel="/assets/css/skins/black.min.css"></a></li>
+											<li style="width: 28px; height: 28px"><a class="colorpick-btn" href="#" style="background-color: #001940;" rel="/assets/css/skins/deepblue.min.css"></a></li>
+										</ul>
+									</li>
+									<!--/Theme Selector Area-->
+									<li class="dropdown-footer"><a href="/account/loginout"> 注销 </a></li>
+								</ul></li>
+						</ul>
+						<div class="setting" id="imbtn">
+							<a title="IM" href="#"> <i class="icon glyphicon glyphicon-user"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="imUserList" class="menuContent">
+				<ul id="tree" class="ztree"></ul>
+				<div style="bottom: 0px;position: absolute;text-align: center;width: 100%;height: 30px;line-height: 30px;">在线人数<span style="color: blue;font-size: 18px" class="js-onlinecount">0</span>人</div>
+			</div>
+		</div>
+	</div>
+	<div class="main-container container-fluid">
+		<!-- Page Container -->
+		<div class="page-container">
+			<!-- Page Sidebar -->
+			<div class="page-sidebar" id="sidebar">
+				<!-- Page Sidebar Header-->
+				<div class="sidebar-header-wrapper">
+					<input type="text" class="searchinput" id="searchInput" name="searchInput" /> 
+					<i class="searchicon fa fa-search"></i>
+					<div class="searchhelper">全文检索</div>
+				</div>
+				<ul class="nav sidebar-menu">
+					<% for(item in sysMenuList) { if(item.sysMenuLeave=='0') { %>
+					<li><a href="#" class="menu-dropdown"> <i class="${item.sysMenuPic}"></i> <span class="menu-text"> ${item.sysMenuName}</span> <i class="menu-expand"></i></a>
+						<ul class="submenu">
+							<% for(item1 in sysMenuList) { if(item1.sysMenuLeave==item.sysMenuId) { %>
+							<li><% if(item1.sysMenuUrl!=null&&item1.sysMenuUrl!='') { %> <a href="${item1.sysMenuUrl}" class="uria"> <span class="menu-text">${item1.sysMenuName}</span></a> <% } if(item1.sysMenuUrl==null||item1.sysMenuUrl=='') { %> <a href="#" class="menu-dropdown"> <span class="menu-text">${item1.sysMenuName}</span> <i class="menu-expand"></i></a> <% } %>
+								<ul class="submenu" style="display: none;">
+									<% for(item2 in sysMenuList) { if(item1.sysMenuId==item2.sysMenuLeave) { %>
+									<li><% if(item2.sysMenuUrl!=null&&item1.sysMenuUrl=='') { %> <a href="${item2.sysMenuUrl}" class="uria"> <span class="menu-text">${item2.sysMenuName}</span></a> <% } %>
+									</li> <% } } %>
+								</ul> <% } } %>
+						</ul></li> <% } } %>
+				</ul>
+			</div>
+		</div>
+		<div class="page-content">
+			<div class="page-breadcrumbs">
+				<div id="page-tab">
+					<button class="tab-btn" id="page-prev"></button>
+					<nav id="page-tab-content">
+						<div id="menu-list"></div>
+					</nav>
+					<button class="tab-btn" id="page-next"></button>
+					<div id="page-operation">
+						<div id="menu-all">
+							<ul id="menu-all-ul">
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="page-content"></div>
+		</div>
+	</div>
+	<div class="modal fade bs-example-modal-lg" id="userInfoModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">个人信息</h4>
+				</div>
+				<div class="modal-body" style="padding: 0px">
+				<div class="row">
+					<div class="profile-container">
+                                <div class="profile-header row" style="margin-top: 0px">
+                                    <div class="col-md-2 col-md-4 col-sm-12 text-center">
+                                        <img id="headImg" onerror="this.onerror=null;this.src='/assets/img/avatars/adam-jansen.jpg'" alt="" class="header-avatar">
+                                    </div>
+                                    <div class="col-md-5 col-md-8 col-sm-12 profile-info">
+                                        <div class="header-fullname" id="userName"></div>
+                                        <div class="header-information" id="sign">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-md-12 col-sm-12 col-xs-12 profile-stats">
+                                        <div class="row">
+                                            <div class="col-md-4 col-md-4 col-sm-4 col-xs-12 stats-col">
+                                                <div class="stats-value pink" id="bpmTotal"></div>
+                                                <div class="stats-title">已办流程</div>
+                                            </div>
+                                            <div class="col-md-4 col-md-4 col-sm-4 col-xs-12 stats-col">
+                                                <div class="stats-value pink" id="attachTotal"></div>
+                                                <div class="stats-title">贡献文件</div>
+                                            </div>
+                                            <div class="col-md-4 col-md-4 col-sm-4 col-xs-12 stats-col">
+                                                <div class="stats-value pink" id="diaryTotal"></div>
+                                                <div class="stats-title">发布日志</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="profile-body">
+                                    <div class="col-md-12">
+                                        <div class="tabbable">
+                                            <ul class="nav nav-tabs tabs-flat  nav-justified" id="myTab11">
+                                                <li class="active">
+                                                    <a data-toggle="tab" href="userInfo">基本信息</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content tabs-flat" style="margin-top:0px">
+                                                <div id="userInfo" class="tab-pane active">
+                                                	<form class="form-horizontal form-bordered">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label no-padding-right">所属部门：</label>
+                                                        <div class="col-sm-4" style="line-height: 34px" id="deptName"></div>
+                                                        <label class="col-sm-2 control-label no-padding-right">担任职务：</label>
+                                                        <div class="col-sm-4" style="line-height: 34px" id="leadLevelName"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label no-padding-right">出生日期：</label>
+                                                        <div class="col-sm-4" style="line-height: 34px" id="birthday"></div>
+                                                        <label class="col-sm-2 control-label no-padding-right">性别：</label>
+                                                        <div class="col-sm-4" style="line-height: 34px" id="sex"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label no-padding-right">手机号码：</label>
+                                                        <div class="col-sm-4" style="line-height: 34px" id="mobileNo"></div>
+                                                        <label class="col-sm-2 control-label no-padding-right">电子邮件：</label>
+                                                        <div class="col-sm-4" style="line-height: 34px" id="eMail"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label no-padding-right">QQ号码：</label>
+                                                        <div class="col-sm-4" style="line-height: 34px" id="qq"></div>
+                                                        <label class="col-sm-2 control-label no-padding-right">微信号：</label>
+                                                        <div class="col-sm-4" style="line-height: 34px" id="wxNo"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label no-padding-right">工号：</label>
+                                                        <div class="col-sm-4" style="line-height: 34px" id="workId"></div>
+                                                        <label class="col-sm-2 control-label no-padding-right">上级领导：</label>
+                                                        <div class="col-sm-4" style="line-height: 34px" id="leadId"></div>
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+<!--Basic Scripts-->
+<% include("../resapi/sysjs.html"){} %>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/tab/js/tab.js"></script>
+<script type="text/javascript">
+	 var isWin = (navigator.userAgent.indexOf("Win")!=-1)
+	 var scrollSetp = 500;
+	 var operationWidth = 90;
+	 var leftOperationWidth = 30;
+	 var animatSpeed = 150;
+	 if(isWin)
+		{
+		 	$(".sidebar-menu").css("overflow-y","auto");
+		}else
+		{
+			$(".sidebar-menu").css("overflow-y","");	
+		}
+		var msgtime="${msgtime}";
+		function changeFrameHeight(){
+	        $(".sidebar-menu").css("height",document.documentElement.clientHeight-85);
+	        $("#page-content").css("height",document.documentElement.clientHeight-85);
+	    }
+		function goUrl(url)
+		{
+			$(document).find("[href='"+url+"']").trigger('click');
+		}
+		function createmove() {
+	        var nav = $("#menu-list");
+	        var wwidth = parseInt($("#page-tab").width());
+	        var navwidth = parseInt(nav.width());
+	        if (wwidth - operationWidth < navwidth) {
+	            nav.animate({
+	                "margin-left": "-" + (navwidth - wwidth + operationWidth) + "px"
+	            },
+	            animatSpeed)
+	        }
+	    }
+	   function linkframe(url, value) {
+	        $("#menu-list a.active").removeClass("active");
+	        $("#menu-list a[data-url='" + url + "'][data-value='" + value + "']").addClass("active");
+	        $("#page-content iframe.active").removeClass("active");
+	        $("#page-content .iframe-content[data-url='" + url + "'][data-value='" + value + "']").addClass("active");
+	        $("#menu-all-ul li.active").removeClass("active");
+	        $("#menu-all-ul li[data-url='" + url + "'][data-value='" + value + "']").addClass("active")
+	    }
+	    function move(selDom) {
+	        var nav = $("#menu-list");
+	        var releft = selDom.offset().left;
+	        var wwidth = parseInt($("#page-tab").width());
+	        var left = parseInt(nav.css("margin-left"));
+	        if (releft < 0 && releft <= wwidth) {
+	            nav.animate({
+	                "margin-left": (left - releft + leftOperationWidth) + "px"
+	            },
+	            animatSpeed)
+	        } else {
+	            if (releft + selDom.width() > wwidth - operationWidth) {
+	                nav.animate({
+	                    "margin-left": (left - releft + wwidth - selDom.width() - operationWidth) + "px"
+	                },
+	                animatSpeed)
+	            }
+	        }
+	    }
+		function closemenu() {
+	    	var flag= $(this.parentElement).attr("data-value");
+	        $(this.parentElement).animate({
+	            "width": "0",
+	            "padding": "0"
+	        },
+	        0,
+	        function() {
+	            var jthis = $(this);
+	            if (jthis.hasClass("active")) {
+	                var linext = jthis.next();
+	                if (linext.length > 0) {
+	                    linext.click();
+	                    move(linext)
+	                } else {
+	                    var liprev = jthis.prev();
+	                    if (liprev.length > 0) {
+	                        liprev.click();
+	                        move(liprev)
+	                    }
+	                }
+	            }
+	            if(isIE()||isIE11()){
+	            	this.removeNode(true);
+	            }else
+	            {
+	            	this.remove();
+	            }
+	            $("#page-content .iframe-content[data-url='" + jthis.data("url") + "'][data-value='" + jthis.data("value") + "']").remove()
+	        });
+	        $("#menu-all-ul li").each(function(){
+	        	if(flag==$(this).attr("data-value"))
+	        		{
+	        		$(this).remove();
+	        		}
+	        });
+	        event.stopPropagation()
+	    }
+		
+		function openNewTabs(url,title)
+		{
+			var linkUrl = url;
+            var linkHtml =title;
+            var selDom = $("#menu-list a[data-url='" + linkUrl + "'][data-value='" + linkHtml + "']");
+            if (selDom.length === 0) {
+                var iel = $("<i>", {
+                    "class": "menu-close"
+                }).bind("click", closemenu);
+                $("<a>", {
+                    "html": linkHtml,
+                    "href": "javascript:void(0);",
+                    "data-url": linkUrl,
+                    "data-value": linkHtml
+                }).bind("click",
+                function() {
+                    var jthis = $(this);
+                    linkframe(jthis.data("url"), jthis.data("value"))
+                }).append(iel).appendTo("#menu-list");
+                $("<iframe>", {
+                    "class": "iframe-content",
+                    "data-url": linkUrl,
+                    "data-value": linkHtml,
+                    src: linkUrl
+                }).appendTo("#page-content");
+                $("<li>", {
+                    "html": linkHtml,
+                    "data-url": linkUrl,
+                    "data-value": linkHtml
+                }).bind("click",
+                function() {
+                    var jthis = $(this);
+                    linkframe(jthis.data("url"), jthis.data("value"));
+                    move($("#menu-list a[data-url='" + linkUrl + "'][data-value='" + linkHtml + "']"));
+                    $("#menu-all").hide();
+                    event.stopPropagation()
+                }).appendTo("#menu-all-ul");
+                createmove()
+            } else {
+                move(selDom)
+            }
+            linkframe(linkUrl, linkHtml);
+            return false
+		}
+	    window.onresize=function(){ 
+	    changeFrameHeight();
+	    }
+	    $(function(){
+	    	$(".uria").tab();
+	    	changeFrameHeight();
+	    });
+	    function isIE(){
+	  	　　if(!!window.ActiveXObject || "ActiveXObject" in window){
+	  	　　　　return true;
+	  	　　}else{
+	  	　　　　return false;
+	  	　　}
+	  	} 
+	  function isIE11(){
+	  	　　if((/Trident\/7\./).test(navigator.userAgent)){
+	  	　　　　return true;
+	  	　　}else{
+	  	　　　　return false;
+	  	　　}
+	  	}
+		</script>
+<script type="text/javascript" src="/gobal/js/page/sys/frame.js"></script>
+
+<!--  /Body -->
+</html>

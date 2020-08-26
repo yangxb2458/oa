@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.erp.ErpUnitMapper">
+<resultMap id="ErpUnit" type="com.core136.bean.erp.ErpUnit" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="UNIT_ID" property="unitId" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="CN_NAME" property="cnName" jdbcType="VARCHAR" />
+    <result column="EN_NAME" property="enName" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getAllUnit" resultMap="ErpUnit">
+        SELECT ID,UNIT_ID,TYPE,CN_NAME,EN_NAME,ORG_ID 
+        FROM ERP_UNIT WHERE ORG_ID=#{orgId}
+</select>
+
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.contract.ContractPrivMapper">
+<resultMap id="ContractPriv" type="com.core136.bean.contract.ContractPriv" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="PRIV_ID" property="privId" jdbcType="VARCHAR" />
+    <result column="FINANCIAL_STAFF" property="financialStaff" jdbcType="INTEGER" />
+    <result column="SHIPPER" property="shipper" jdbcType="VARCHAR" />
+    <result column="LENDING_EXAMINER" property="lendingExaminer" jdbcType="VARCHAR" />
+    <result column="BORROW_PERSON" property="borrowPerson" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+<select id="isExistChild" resultType="Integer">
+SELECT COUNT(1) AS ZS FROM CONTRACT_PRIV WHERE ORG_ID=#{orgId}
+</select>
+</mapper>
+

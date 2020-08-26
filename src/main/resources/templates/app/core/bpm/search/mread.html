@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title id="flowTitle"></title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="print">
+<link href="/assets/css/beyond.min.css" rel="stylesheet" type="text/css" media="print">
+<link href="/assets/css/style.css" rel="stylesheet" type="text/css" media="print">
+<style type="text/css">
+#bom {
+	position: fixed;
+	left: 0px;
+	bottom: 0;
+	_position: absolute;
+}
+
+.form-group {
+	border-bottom: 1px dashed #a09090;
+	margin-bottom: 5px;
+}
+.form-group > span
+{
+	line-height: 34px;
+}
+.header-title {
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div id="bpmformdata" style="page-break-after: always">
+					<div class="page-header position-relative">
+						<div class="header-title">
+							<i class="fa fa-angle-right"></i>
+							<h1>
+								<span style="margin-right: 20px" id="runNo"> </span> <span id="runcreatetime"> </span>
+							</h1>
+						</div>
+
+					</div>
+					<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px; background-color: #FFF;">
+						<div id="formdata" style="padding: 10px;"></div>
+						<div style="margin-top: 20px;" id="pfile">
+							<div class="widget-header bordered-bottom bordered-themesecondary">
+								<i class="widget-icon fa fa-tags themesecondary"></i> <span class="widget-caption themesecondary">公共附件</span>
+							</div>
+							<div style="margin-top: 10px;">
+								<div id="show_publicfile"></div>
+								<div id="publicfile"></div>
+							</div>
+						</div>
+						<div style="margin-top: 20px; margin-bottom: 60px;" id="idea">
+							<div class="widget-header bordered-bottom bordered-themeprimary">
+								<i class="widget-icon fa fa-tasks themeprimary"></i> <span class="widget-caption themeprimary">会签结果</span>
+							</div>
+							<div id="ideadiv">
+								<div class="tickets-container" style="padding: 0px;">
+									<ul class="tickets-list" id="ideaList">
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-md-12 col-sm-12 col-xs-12" id="bom" style="padding-top: 10px; background-color: #ccc">
+						<div class="buttons-preview" align="center">
+							<a href="javascript:void(0);history.go(-1);" class="btn btn-darkorange">返回</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+var runId = "${runId}";
+var flowId = "${flowId}";
+</script>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/gobal/js/page/bpm/bpmsys.js"></script>
+<script type="text/javascript" src="/gobal/js/page/bpm/mobile/bpmmread.js"></script>
+</html>

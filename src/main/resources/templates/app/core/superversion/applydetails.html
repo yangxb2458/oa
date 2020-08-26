@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="page-container">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="col-md-8 col-sm-8 col-xs-12 col-md-offset-2">
+					<div class="well with-header">
+						<div class="header bordered-blueberry">延期审批详情</div>
+						<form class="form-horizontal form-bordered" id="from">
+							<div class="form-group">
+								<label class="col-sm-1 control-label no-padding-right">申请原因：</label>
+								<div class="col-sm-5" id="content" style="line-height: 34px"></div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label no-padding-right">申请人：</label>
+								<div class="col-sm-5" id="createUser" style="line-height: 34px"></div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label no-padding-right">延期时间：</label>
+								<div class="col-sm-2" id="delayTime" style="line-height: 34px"></div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label no-padding-right">相关附件 ：</label>
+								<div class="col-sm-5" id="attach">
+									<div id="show_attach"></div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label no-padding-right">审批状态：</label>
+								<div class="col-sm-2" id="passStatus" style="line-height: 34px"></div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label no-padding-right">审批意见：</label>
+								<div class="col-sm-2" id="ideaText" style="line-height: 34px"></div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-1 col-sm-5">
+									<a href="javascript:void(0);window.close();" class="btn btn-primary">关闭</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%include("../../resapi/sysjs.html"){}%>
+	<script type="text/javascript">
+		var delayId = "${parameter.delayId}";
+	</script>
+	<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+	<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/superversion/applydetails.js"></script>
+</body>
+</html>

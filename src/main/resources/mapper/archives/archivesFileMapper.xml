@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.archives.ArchivesFileMapper">
+<resultMap id="ArchivesFile" type="com.core136.bean.archives.ArchivesFile" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="FILE_ID" property="fileId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="FILE_CODE" property="fileCode" jdbcType="VARCHAR" />
+    <result column="SUBJECT" property="subject" jdbcType="VARCHAR" />
+    <result column="SUBHEADING" property="subheading" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="SEND_ORG" property="sendOrg" jdbcType="VARCHAR"/>
+    <result column="SEND_TIME" property="sendTime" jdbcType="VARCHAR"/>
+    <result column="SECRET_LEVEL" property="secretLevel" jdbcType="VARCHAR"/>
+    <result column="FILE_TYPE" property="fileType" jdbcType="VARCHAR"/>
+    <result column="PAGE_TOTAL" property="pageTotal" jdbcType="INTEGER"/>
+    <result column="PRINT_TOTAL" property="printTotal" jdbcType="INTEGER"/>
+    <result column="ISAUDIT" property="isaudit" jdbcType="VARCHAR"/>
+    <result column="VOLUME_ID" property="volumeId" jdbcType="VARCHAR"/>
+    <result column="ATTACH_PRIV" property="attachPriv" jdbcType="VARCHAR"/>
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR"/>
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="DESTORY_FLAG" property="destoryFlag" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+<select id="getArchivesFileList" resultType="java.util.HashMap">
+	SELECT F.FILE_ID AS fileId, V.VOLUME_TITLE AS volumeTitle,F.TITLE AS title,F.SUBJECT AS subject,F.FILE_TYPE AS fileType,F.PAGE_TOTAL AS pageTotal,F.SECRET_LEVEL AS secretLevel
+	FROM
+	ARCHIVES_FILE F LEFT JOIN ARCHIVES_VOLUME V ON F.ORG_ID=V.ORG_ID AND F.VOLUME_ID=V.VOLUME_ID
+	WHERE F.ORG_ID=#{orgId} AND F.DESTORY_FLAG!='1'
+	<if test="opFlag!='1'.toString()">
+		AND V.MANAGE_USER = #{accountId}
+	</if>
+	<if test="volumeId!=''.toString() and volumeId!=null">
+		AND F.VOLUME_ID = #{volumeId}
+	</if>
+	<if test="fileType!=''.toString() and fileType!=null">
+		AND F.FILE_TYPE = #{fileType}
+	</if>
+	<if test="secretLevel!=''.toString() and secretLevel!=null">
+		AND F.SECRET_LEVEL = #{secretLevel}
+	</if>
+	<if test="search !='%%'.toString() and search !=''.toString() and search!=null">
+		AND (F.TITLE LIKE #{search} OR F.SUBJECT LIKE #{search} OR F.SUBHEADING LIKE #{search} OR F.FILE_CODE LIKE #{search})
+	</if>
+</select>
+
+<select id="getArchivesFileQueryList" resultType="java.util.HashMap">
+	SELECT F.FILE_ID AS fileId, V.VOLUME_TITLE AS volumeTitle,F.TITLE AS title,F.SUBJECT AS subject,F.FILE_TYPE AS fileType,
+	F.PAGE_TOTAL AS pageTotal,F.SECRET_LEVEL AS secretLevel,F.SEND_ORG AS sendOrg
+	FROM
+	ARCHIVES_FILE F LEFT JOIN ARCHIVES_VOLUME V ON F.ORG_ID=V.ORG_ID AND F.VOLUME_ID=V.VOLUME_ID
+	WHERE F.ORG_ID=#{orgId} AND F.DESTORY_FLAG!='1'
+	<if test="repositoryId!=''.toString() and repositoryId!=null">
+		AND V.VOLUME_ID IN (SELECT TEMP.VOLUME_ID FROM ARCHIVES_VOLUME TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.REPOSITORY_ID=#{repositoryId})
+	</if>
+	<if test="volumeId!=''.toString() and volumeId!=null">
+		AND F.VOLUME_ID = #{volumeId}
+	</if>
+	<if test="fileType!=''.toString() and fileType!=null">
+		AND F.FILE_TYPE = #{fileType}
+	</if>
+	<if test="secretLevel!=''.toString() and secretLevel!=null">
+		AND F.SECRET_LEVEL = #{secretLevel}
+	</if>
+	<if test="search !='%%'.toString() and search !=''.toString() and search!=null">
+		AND (F.TITLE LIKE #{search} OR F.SUBJECT LIKE #{search} OR F.SUBHEADING LIKE #{search} OR F.FILE_CODE LIKE #{search} OR F.SEND_ORG LIKE #{search})
+	</if>
+</select>
+
+
+<select id="getBorrowArchivesFileList" resultType="java.util.HashMap">
+	SELECT F.FILE_ID AS fileId, V.VOLUME_TITLE AS volumeTitle,F.TITLE AS title,F.SUBJECT AS subject,F.FILE_TYPE AS fileType,
+	F.PAGE_TOTAL AS pageTotal,F.SECRET_LEVEL AS secretLevel,F.SEND_ORG AS sendOrg
+	FROM
+	ARCHIVES_FILE F LEFT JOIN ARCHIVES_VOLUME V ON F.ORG_ID=V.ORG_ID AND F.VOLUME_ID=V.VOLUME_ID
+	WHERE F.ORG_ID=#{orgId} AND F.DESTORY_FLAG!='1'
+	AND F.VOLUME_ID = #{volumeId}
+</select>
+
+</mapper>
+

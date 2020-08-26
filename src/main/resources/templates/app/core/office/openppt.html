@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME}_智能办公系统-${attachName}</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<head>
+<script type="text/javascript" src="../jquery.min.js"></script>
+<script type="text/javascript">
+        var openModeType = "${parameter.openModeType}";
+          	function Save() {
+              	document.getElementById("PageOfficeCtrl1").WebSave();
+        	}
+         function AddSeal() {
+			try{
+        		  document.getElementById("PageOfficeCtrl1").ZoomSeal.AddSeal();
+			}catch (e){ };
+        	}
+         
+        function PrintFile()
+        {
+        	document.getElementById("PageOfficeCtrl1").ShowDialog(4);
+        }
+        function IsFullScreen(){
+            document.getElementById("PageOfficeCtrl1").FullScreen = !document.getElementById("PageOfficeCtrl1").FullScreen;
+            
+          }
+       function CloseFile(){
+            window.external.close(); 
+          }
+       function AfterDocumentOpened() {
+    	   if(openModeType=="1")
+    		   {
+	           document.getElementById("PageOfficeCtrl1").SetEnableFileCommand(4, false); //禁止另存
+	           document.getElementById("PageOfficeCtrl1").SetEnableFileCommand(5, false); //禁止打印
+	           document.getElementById("PageOfficeCtrl1").SetEnableFileCommand(6, false); //禁止页面设置
+	           document.getElementById("PageOfficeCtrl1").SetEnableFileCommand(8, false); //禁止打印预览
+    		   }else if(penModeType=="2"||penModeType=="3")
+    		{
+    			 document.getElementById("PageOfficeCtrl1").SetEnableFileCommand(4, true); //禁止另存
+    		}
+       }
+  		</script>
+
+</head>
+<body>
+	<div id="officediv" style="display: inline-block; float: left;">${pageoffice}</div>
+	<form action="">
+		<input type="hidden" name="attachId" id="attachId" value="${attachId}">
+	</form>
+</body>
+<script type="text/javascript">
+    $(function(){
+    	setOfficeWH();
+    });
+    window.onresize=function(){ 
+    	setOfficeWH();
+	    }
+    function setOfficeWH(){
+        $("#officediv").css("height",document.documentElement.clientHeight);
+        $("#officediv").css("width",document.documentElement.clientWidth);
+    }
+    </script>
+</html>

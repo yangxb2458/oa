@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/module/jeDate/jedate.css" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class="active"><a href="/app/core/hr/salary" aria-expanded="true">薪资管理 </a></li>
+							<li class=""><a href="/app/core/hr/salary?view=input" aria-expanded="false">薪资录入</a></li>
+							<li class=""><a href="/app/core/hr/salary?view=import" aria-expanded="false">薪资导入</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding: 0px;">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12" id="salarylistdiv">
+									<div class="btn-group" id="toobar">
+										<span style="margin-left: 10px;">年度:</span> <span> 
+										<input readonly="readonly" placeholder="年度" style="width: 150px; display: inline-block;" id="yearQuery" class="form-control">
+										</span> 
+										<span style="margin-left: 10px;">月份:</span>
+										<span> 
+										<select id="monthQuery" name="monthQuery" class="form-control" style="width: 150px; display: inline-block;">
+												<option value="">全部</option>
+												<option value="1">一月</option>
+												<option value="2">二月</option>
+												<option value="3">三月</option>
+												<option value="4">四月</option>
+												<option value="5">五月</option>
+												<option value="6">六月</option>
+												<option value="7">七月</option>
+												<option value="8">八月</option>
+												<option value="9">九月</option>
+												<option value="10">十月</option>
+												<option value="11">十一月</option>
+												<option value="12">十二月</option>
+												</select>
+										</span>
+										<span style="margin-left: 10px;">人员姓名:</span> <span> <input readonly="readonly" placeholder="人员姓名" style="width: 150px; display: inline-block;" id="userIdQuery" opt-id="userIdQuery"
+											class="form-control" onclick="selectHrUser(this,'false');">
+										</span> <span style="margin-left: 20px"> <a href="javascript:void(0);" class="btn btn-magenta js-simple-query">查询</a>
+										</span>
+									</div>
+									<table id="myTable"></table>
+								</div>
+								<div class="col-md-12 col-sm-12 col-xs-12" id="salarydiv" style="display: none;">
+									<div class="row">
+										<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+											<form class="form-horizontal">
+											<table class="table table-hover table-striped table-bordered">
+											<tr>
+												<td width="20%">排序号：</td>
+												<td width="30%"><input placeholder="排序号" type="number" name="sortNo" id="sortNo" maxlength="50" value="" class="form-control"></td>
+												<td width="20%">人员姓名：</td>
+												<td width="30%"><input placeholder="人员姓名" type="text" name="userId" id="userId" readonly="readonly" opt-id="userId" class="form-control" onclick="selectHrUser(this,'false');"></td>
+											</tr>
+											<tr>
+												<td width="20%">薪资年度：</td>
+												<td width="30%"><input placeholder="薪资年度" type="text" name="year" id="year" class="form-control" maxlength="20"></td>
+												<td width="20%">薪资月份：</td>
+												<td width="30%">
+												<select id="month" name="month" class="form-control">
+												<option value="1">一月</option>
+												<option value="2">二月</option>
+												<option value="3">三月</option>
+												<option value="4">四月</option>
+												<option value="5">五月</option>
+												<option value="6">六月</option>
+												<option value="7">七月</option>
+												<option value="8">八月</option>
+												<option value="9">九月</option>
+												<option value="10">十月</option>
+												<option value="11">十一月</option>
+												<option value="12">十二月</option>
+												</select>
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">岗位工资：</td>
+												<td width="30%">
+												<input placeholder="岗位工资" type="number" name="postSalary" id="postSalary" maxlength="10" class="form-control">
+												</td>
+												<td width="20%">薪级工资：</td>
+												<td width="30%">
+													<input placeholder="薪级工资" type="number" name="levelSalary" id="levelSalary" maxlength="10" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">粮油补贴：</td>
+												<td width="30%">
+												<input placeholder="粮油补贴" type="number" name="foodSalary" id="foodSalary" maxlength="10" class="form-control">
+												</td>
+												<td width="20%">特殊岗位津贴：</td>
+												<td width="30%">
+													<input placeholder="特殊岗位津贴" type="number" name="otherPassSalary" id="otherPassSalary" maxlength="10" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">交通补贴：</td>
+												<td width="30%">
+												<input placeholder="粮油补贴" type="number" name="transportSalary" id="transportSalary" maxlength="10" class="form-control">
+												</td>
+												<td width="20%">岗位津贴：</td>
+												<td width="30%">
+													<input placeholder="岗位津贴" type="number" name="postAllowance" id="postAllowance" maxlength="10" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">应发合计：</td>
+												<td width="30%">
+												<input placeholder="应发合计" type="number" name="sumAmount" id="sumAmount" maxlength="10" class="form-control">
+												</td>
+												<td width="20%">退休金：</td>
+												<td width="30%">
+													<input placeholder="退休金" type="number" name="pensoin" id="pensoin" maxlength="10" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">失业保险：</td>
+												<td width="30%">
+												<input placeholder="失业保险" type="number" name="unemployment" id="unemployment" maxlength="10" class="form-control">
+												</td>
+												<td width="20%">医保：</td>
+												<td width="30%">
+													<input placeholder="医保" type="number" name="medical" id="medical" maxlength="10" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">公积金：</td>
+												<td width="30%">
+												<input placeholder="公积金" type="number" name="accumulationFund" id="accumulationFund" maxlength="10" class="form-control">
+												</td>
+												<td width="20%">个人所得税：</td>
+												<td width="30%">
+													<input placeholder="个人所得税" type="number" name="tax" id="tax" maxlength="10" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">其它费用：</td>
+												<td width="30%">
+												<input placeholder="其它费用" type="number" name="costOther" id="costOther" maxlength="10" class="form-control">
+												</td>
+												<td width="20%"></td>
+												<td width="30%">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">实扣费用：</td>
+												<td width="30%">
+													<input placeholder="实扣费用" type="number" name="realCost" id="realCost" maxlength="10" class="form-control">
+												</td>
+												<td width="20%">实发工资：</td>
+												<td width="30%">
+												<input placeholder="其它费用" type="number" name="realSalary" id="realSalary" maxlength="10" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">提醒方式：</td>
+												<td width="80%" colspan="3"><div id="msgType" style="padding-left: 0px;"></div></td>
+											</tr>
+											<tr>
+														<td colspan="4" align="center">
+														<a id="createbut" href="javascript:void(0);" class="btn btn-primary js-update-save">更&nbsp;&nbsp;新</a>
+														<a href="javascript:void(0);" class="btn btn-purple js-back-btn" style="margin-left: 20px;">返&nbsp;&nbsp;回</a>
+														</td>
+													</tr>
+										</table>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	<div id="attachselect"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/module/hrorgselect/hrorgselect.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/hrapi.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/salary/manage.js"></script>
+</body>
+</html>

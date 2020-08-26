@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.core136.mapper.superversion.SuperversionDelayMapper">
+	<resultMap id="SuperversionDelay" type="com.core136.bean.superversion.SuperversionDelay">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="DELAY_ID" property="delayId" jdbcType="VARCHAR" />
+		<result column="SUPERVERSION_ID" property="superversionId" jdbcType="VARCHAR" />
+		<result column="LEAD_ID" property="leadId" jdbcType="VARCHAR" />
+		<result column="DELAY_TIME" property="delayTime" jdbcType="VARCHAR" />
+		<result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+		<result column="PASS_STATUS" property="passStatus" jdbcType="VARCHAR" />
+		<result column="IDEA_TEXT" property="ideaText" jdbcType="VARCHAR" />
+		<result column="APPLY_TIME" property="applyTime" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getDelayApplyList" resultType="java.util.HashMap">
+	SELECT D.DELAY_ID AS delayId,D.SUPERVERSION_ID AS superversionId,S.TITLE AS title,S.TYPE AS type,S.JOIN_USER AS joinUser,S.BEGIN_TIME AS beginTime,S.END_TIME AS endTime,
+	(SELECT T.TYPE_NAME FROM SUPERVERSION_CONFIG T WHERE T.ORG_ID=#{orgId} AND T.CONFIG_ID=S.TYPE) AS typeName,DELAY_TIME AS delayTime,D.PASS_STATUS AS passStatus,
+	D.CREATE_TIME AS createTime,D.CREATE_USER AS createUser,(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=D.CREATE_USER) AS createUserName
+	FROM
+	SUPERVERSION_DELAY D LEFT JOIN SUPERVERSION S ON D.ORG_ID=S.ORG_ID AND D.SUPERVERSION_ID=S.SUPERVERSION_ID AND D.LEAD_ID=S.LEAD_ID
+	WHERE
+	D.ORG_ID=#{orgId}
+	AND D.LEAD_ID=#{accountId}
+	<if test="status!=''.toString() and status!=null">
+		AND D.PASS_STATUS = #{status}
+	</if>
+	<if test="beginTime!=''.toString() and beginTime!=null">
+		AND D.CREATE_TIME &gt;= #{beginTime}
+	</if>
+	<if test="endTime!=''.toString() and endTime!=null">
+		AND D.CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="type!= ''.toString() and type!=null ">
+		AND D.TYPE = #{type}
+	</if>
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+		AND S.TITLE LIKE#{search}
+	</if>
+	<if test="createUser!= ''.toString() and createUser!=null ">
+		AND D.CREATE_USER = #{createUser}
+	</if>
+	</select>
+
+</mapper>
+

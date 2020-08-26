@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.echarts.EchartsBpmMapper">
+
+<select id="getBiBpmFlowPie" resultType="java.util.HashMap">
+SELECT C.FLOW_NAME as name,count(I.flow_id) as value
+FROM BPM_FLOW C LEFT JOIN BPM_LIST I ON C.ORG_ID=I.ORG_ID AND C.FLOW_ID=I.FLOW_ID
+WHERE 
+C.ORG_ID=#{orgId} GROUP BY I.FLOW_ID ORDER BY value DESC LIMIT 0,10
+</select>
+
+
+
+<select id="getBiBpmFlowByDeptPie" resultType="java.util.HashMap">
+SELECT U.deptName as name,count(U.deptId) as value
+FROM BPM_RUN_PROCESS B LEFT JOIN (SELECT D.DEPT_NAME AS deptName,D.DEPT_ID AS deptId,D.ORG_ID as orgId,P.ACCOUNT_ID AS accountId FROM UNIT_DEPT D,USER_INFO P WHERE D.ORG_ID=P.ORG_ID AND D.DEPT_ID=P.DEPT_ID) U
+ON B.ORG_ID=U.orgId AND B.ACCOUNT_ID=U.accountId
+WHERE 
+B.ORG_ID=#{orgId} GROUP BY U.deptId ORDER BY value DESC LIMIT 0,10
+</select>
+
+
+<select id="getBiBpmFlowByAccountPie" resultType="java.util.HashMap">
+SELECT U.USER_NAME AS name,count(C.ACCOUNT_ID) AS value
+FROM BPM_RUN_PROCESS C LEFT JOIN USER_INFO U ON C.ORG_ID=U.ORG_ID AND C.ACCOUNT_ID=U.ACCOUNT_ID
+WHERE 
+C.ORG_ID=#{orgId} GROUP BY C.ACCOUNT_ID ORDER BY value DESC LIMIT 0,10
+</select>
+
+<select id="getBiBpmFlowByMonthLine" resultType="java.util.HashMap">
+SELECT COUNT(1) AS total,createTime
+FROM
+(SELECT LEFT(CREATE_TIME, 7) AS createTime
+FROM BPM_LIST WHERE ORG_ID=#{orgId}) TEMP
+WHERE TEMP.createTime&gt;#{beginTime} AND TEMP.createTime&lt;=#{endTime} GROUP BY TEMP.createTime
+</select>
+
+</mapper>
+

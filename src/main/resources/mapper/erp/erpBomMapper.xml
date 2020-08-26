@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.erp.ErpBomMapper">
+<resultMap id="ErpBom" type="com.core136.bean.erp.ErpBom" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="BOM_ID" property="bomId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="BOM_NAME" property="bomName" jdbcType="VARCHAR" />
+    <result column="MATERIEL_CODE" property="materielCode" jdbcType="VARCHAR" />
+    <result column="VERSION" property="version" jdbcType="VARCHAR" />
+    <result column="SORT_ID" property="sortId" jdbcType="VARCHAR" />
+    <result column="MAP_NUMBER" property="mapNumber" jdbcType="VARCHAR" />
+    <result column="PRODUCT_NUMBER" property="productNumber" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SKETCH_MAP" property="sketchMap" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getErpBomTreeBySortId" resultType="java.util.HashMap">
+SELECT BOM_ID as sortId, BOM_NAME as sortName, 'false' AS  isParent
+FROM ERP_BOM WHERE SORT_ID=#{sortId} AND ORG_ID=#{orgId}
+</select>
+<select id="selectBomList2ById" resultMap="ErpBom">
+	SELECT ID, BOM_ID, SORT_NO, SORT_NO, BOM_NAME, VERSION, SORT_ID, MAP_NUMBER, PRODUCT_NUMBER, STATUS,REMARK, CREATE_USER, CREATE_TIME,ORG_ID 
+	FROM ERP_BOM WHERE BOM_NAME LIKE #{bomName} AND ORG_ID=#{orgId}
+</select>
+</mapper>
+

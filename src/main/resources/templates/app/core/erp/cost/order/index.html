@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../../resapi/style.html"){}%>
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">创建订单</span> <span class="widget-caption" style="float: right; padding-right: 20px;">订单编号:${erpOrder.orderCode}</span> <input type="hidden"
+						id="orderCode" name="orderCode" value="${erpOrder.orderCode}"> <input type="hidden" id="orderId" name="orderId" value="${erpOrder.orderId}">
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title">订单基本信息</div>
+
+							<div class="form-group row">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<label class="col-sm-1 control-label no-padding-right" style="line-height: 34px">订单标题:</label>
+									<div class="col-sm-8">
+										<input type="text" class="form-control" id="orderTitle" name="orderTitle" placeholder="订单标题" value="${erpOrder.orderTitle}">
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">客户名称:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="customer" name="customer" placeholder="客户名称" value="${erpOrder.customer}">
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">支付方式:</label>
+									<div class="col-sm-4">
+										<select class="form-control" style="border-radius: 0px" id="payType" name="payType">
+											<option value="1">现金</option>
+											<option value="2">账期一个月</option>
+											<option value="3">账期二个月</option>
+											<option value="4">账期三个月</option>
+											<option value="5">账期六个月</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">联系人:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="linkName" name="linkName" placeholder="联系人" value="${erpOrder.linkName}">
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">电话:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="tel" name="tel" placeholder="电话" value="${erpOrder.tel}">
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">交货期:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="delivery" name="delivery" placeholder="交货期" readonly="readonly" value="${erpOrder.delivery}">
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">送货地址:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="address" name="address" placeholder="送货地址" value="${erpOrder.address}">
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">备注:</label>
+									<div class="col-sm-10">
+										<textarea rows="5" class="form-control" id="remark" name="remark" placeholder="备注">${erpOrder.remark}</textarea>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">附件:</label>
+									<div class="col-sm-10">
+										<div style="padding-top: 4px;">
+											<div id="show_attach"></div>
+											<a class="addfile" href="javascript:void(0)">附件上传 <input data_value="${erpOrder.attach}" type="file" onchange="fileUpLoad('erp','attach');" hidefocus="true" size="1"
+												id="attach" name="attach" class="addfile" multiple="multiple" /></a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">包装费:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="packCharges" name="packCharges" placeholder="包装费" value="${erpOrder.packCharges}">
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">运输费:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="freight" name="freight" placeholder="运输费" value="${erpOrder.freight}">
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">税费:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="tax" name="tax" placeholder="税费" value="${erpOrder.tax}">
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">其它费用:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="otherCharges" name="otherCharges" placeholder="其它费用" value="${erpOrder.otherCharges}">
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
+									<a href="javascript:void(0);save();" class="btn btn-magenta" id="savebtn">保存</a> <a href="javascript:void(0);update();" class="btn btn-magenta" id="upatebtn">更新</a> <a
+										href="javascript:void(0);history.back(-1);" class="btn btn-warning shiny">返回</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<%include("../../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script src="/module/jeDate/jeDate.js"></script>
+<script src="/gobal/js/page/erp/erporder.js"></script>
+</html>

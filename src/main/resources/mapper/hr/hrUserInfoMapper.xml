@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrUserInfoMapper">
+<resultMap id="HrUserInfo" type="com.core136.bean.hr.HrUserInfo" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_ID" property="accountId" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="LEAVE_ID" property="leaveId" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="USER_NAME_EN" property="userNameEn" jdbcType="VARCHAR" />
+    <result column="WORK_NO" property="workNo" jdbcType="VARCHAR" />
+    <result column="STAFF_NO" property="staffNo" jdbcType="VARCHAR" />
+    <result column="BEFORE_USER_NAME" property="beforeUserName" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="BIRTH_DAY" property="birthDay" jdbcType="VARCHAR" />
+    <result column="LEVEL_TYPE" property="levelType" jdbcType="VARCHAR" />
+    <result column="ANIMAL" property="animal" jdbcType="VARCHAR" />
+    <result column="NATIVE_PLACE" property="nativePlace" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="BLOOD_TYPE" property="bloodType" jdbcType="VARCHAR" />
+    <result column="NATIONALTY" property="nationalty" jdbcType="VARCHAR" />
+    <result column="MARITAL_STATUS" property="maritalStatus" jdbcType="VARCHAR" />
+    <result column="HEALTH" property="health" jdbcType="VARCHAR" />
+    <result column="POLITICAL_STATUS" property="politicalStatus" jdbcType="VARCHAR" />
+    <result column="JOIN_PARTY_TIME" property="joinPartyTime" jdbcType="VARCHAR" />
+    <result column="STAFF_TYPE" property="maritalStatus" jdbcType="VARCHAR" />
+    <result column="STAFF_ADDRESS" property="politicalLandscape" jdbcType="VARCHAR" />
+    <result column="WORK_TYPE" property="partyTime" jdbcType="VARCHAR" />
+    <result column="WAGES_LEVEL" property="wagesLevel" jdbcType="VARCHAR" />
+    <result column="OCCUPATION" property="occupation" jdbcType="VARCHAR" />
+    <result column="EMPLOYED_TIME" property="employedTime" jdbcType="VARCHAR" />
+    <result column="WORK_STATUS" property="workStatus" jdbcType="VARCHAR" />
+    <result column="WORK_JOB" property="workJob" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="ATTEND_TYPE" property="attendType" jdbcType="VARCHAR" />
+    <result column="PERSENT_POSITION" property="persentPosition" jdbcType="VARCHAR" />
+    <result column="WORK_LEAVE" property="workLeave" jdbcType="VARCHAR" />
+    <result column="MOBILE_NO" property="mobileNo" jdbcType="VARCHAR" />
+    <result column="WX_NO" property="wxNo" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="HOME_ADDRESS" property="homeAddress" jdbcType="VARCHAR" />
+    <result column="QQ" property="qq" jdbcType="VARCHAR" />
+    <result column="OTHER_CONTACT" property="otherContact" jdbcType="VARCHAR" />
+    <result column="BANK" property="bank" jdbcType="VARCHAR" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="HIGHSET_SHOOL" property="highsetShool" jdbcType="VARCHAR" />
+    <result column="HIGHSET_DEGREE" property="highsetDegree" jdbcType="VARCHAR" />
+    <result column="GRADUATION_TIME" property="graduationTime" jdbcType="VARCHAR" />
+    <result column="GRADUATION_SHOOL" property="graduationShool" jdbcType="VARCHAR" />
+    <result column="MAJOR" property="major" jdbcType="VARCHAR" />
+    <result column="SKILLS" property="skills" jdbcType="VARCHAR" />
+    <result column="STAFF_CARD_NO" property="staffCardNo" jdbcType="VARCHAR" />
+    <result column="OTHER_LANGUAGE" property="otherLanguage" jdbcType="VARCHAR" />
+    <result column="OTHER_LANGUAGE_LEVEL" property="otherLanguageLevel" jdbcType="VARCHAR" />
+    <result column="CRETIFICATE" property="cretificate" jdbcType="VARCHAR" />
+    <result column="SURETY" property="surety" jdbcType="VARCHAR" />
+    <result column="INSURE" property="insure" jdbcType="VARCHAR" />
+    <result column="BODY_EXAMIM" property="bodyExamim" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="RESUME" property="resume" jdbcType="VARCHAR" />
+    <result column="PHOTOS" property="photos" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <select id="getHrUserInfoListByDeptId" resultType="java.util.HashMap">
+	SELECT U.USER_ID AS userId,U.USER_NAME AS userName,U.SEX AS sex,U.PHOTOS AS headimg,D.DEPT_NAME AS deptName,
+	U.EMPLOYED_TIME AS employedTime,U.WORK_STATUS AS workStatus,
+	U.WORK_TYPE AS workType,U.WORK_NO AS workNo,U.PHONE AS phone
+	FROM 
+	HR_USER_INFO U LEFT JOIN HR_DEPARTMENT D ON U.DEPT_ID=D.DEPT_ID AND U.ORG_ID=D.ORG_ID
+	WHERE
+	U.ORG_ID=#{orgId}
+	<if test="deptId!=null and deptId!=''.toString() and deptId!='0'.toString()">
+		AND U.DEPT_ID=#{deptId}
+	</if>
+	<if test="search!='%%'.toString() and search!=null and search!=''.toString()">
+		AND (U.USER_NAME LIKE #{search} OR U.STAFF_CARD_NO LIKE #{search} OR U.WORK_NO LIKE #{search})
+	</if>
+</select>
+ 
+ <select id="getHrUserInfoByDeptId" resultType="java.util.HashMap">
+	SELECT USER_ID AS userId,USER_NAME AS userName,SEX AS sex,PHOTOS AS headimg
+	FROM 
+	HR_USER_INFO 
+	WHERE DEPT_ID=#{deptId} 
+	AND ORG_ID=#{orgId}
+	ORDER BY SORT_NO ASC
+</select>
+
+<select id="getUserNamesByUserIds" resultType="java.util.HashMap">
+	SELECT USER_ID AS userId,USER_NAME AS userName,SEX AS sex,PHOTOS AS headimg
+	FROM 
+	HR_USER_INFO 
+	WHERE ORG_ID=#{orgId}
+	<if test="list!=null">
+			AND USER_ID IN
+			<foreach collection="list" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	ORDER BY SORT_NO ASC
+</select>
+
+ <select id="getHrUserInfoBySearchuser"  resultType="java.util.HashMap">
+	SELECT USER_ID AS userId,USER_NAME AS userName,SEX AS sex,PHOTOS AS headimg
+	FROM HR_USER_INFO 
+	WHERE
+	ORG_ID=#{orgId} 
+	<if test="searchuser !='%%' and searchuser !=''.toString() and searchuser!=null">
+			AND (USER_NAME LIKE #{searchuser} OR USER_NAME_EN LIKE #{searchuser})
+	</if> ORDER BY SORT_NO ASC
+ </select>
+
+
+<select id="getHrUserInfoByBeptIdInWorkList" resultType="java.util.HashMap">
+	SELECT U.USER_ID AS userId,U.USER_NAME AS userName,SEX AS sex,U.EMPLOYED_TIME AS employedTime,U.LEAVE_ID AS leaveId,
+	U.MOBILE_NO AS mobileNo,U.WORK_STATUS AS workStatus,
+	(SELECT D.DEPT_NAME FROM HR_DEPARTMENT D WHERE D.ORG_ID=#{orgId} AND U.DEPT_ID=D.DEPT_ID) AS deptName
+	FROM 
+	HR_USER_INFO U
+	WHERE U.ORG_ID=#{orgId}
+	<if test="deptId!=null and deptId!=''.toString()">
+		AND U.DEPT_ID=#{deptId}
+	</if>
+	<if test="workStatus!=null and workStatus!=''.toString()">
+		AND U.WORK_STATUS=#{workStatus}
+	</if>
+	<if test = "employedTime!=''.toString() and employedTime!=null">
+		AND U.EMPLOYED_TIME &gt;=#{employedTime}
+	</if>
+	<if test = "staffCardNo!=''.toString() and staffCardNo!=null">
+		AND U.staffCardNo=#{staffCardNo}
+	</if>
+	<if test="search!='%%'.toString() and search!=null and search!=''.toString()">
+		AND U.USER_NAME LIKE #{search}
+	</if>
+</select>
+
+<select id="getHrUserInfoForTree" resultType="java.util.HashMap">
+SELECT USER_ID as deptId, USER_NAME as deptName,'false' AS isParent,CASE WHEN SEX = '男' then '/gobal/img/org/U01.png' else '/gobal/img/org/U11.png' END AS  icon
+FROM HR_USER_INFO WHERE DEPT_ID=#{deptId} AND ORG_ID=#{orgId} ORDER BY SORT_NO ASC
+</select>
+
+<select id="getDeskHrUserInfo" resultType="java.util.HashMap">
+SELECT 
+(SELECT COUNT(1) FROM HR_USER_INFO WHERE ORG_ID=#{orgId} AND WORK_STATUS='01') AS ingWorkTotal,
+(SELECT COUNT(1) FROM HR_CARE_RECORD WHERE ORG_ID=#{orgId}) AS careTotal,
+(SELECT SUM(LEVEL_TYPE) FROM HR_USER_INFO WHERE ORG_ID=#{orgId} AND WORK_STATUS='01') AS levelType,
+(SELECT COUNT(1) FROM (SELECT DISTINCT CREATE_USER FROM ATTEND WHERE  ORG_ID=#{orgId} AND NOW_TIME=(SELECT DATE_FORMAT(NOW(),'%Y-%m-%d')) )TEMP) AS attendTotal
+
+</select>
+
+</mapper>
+

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body">
+	<h6 class="row-title before-blue">处理器</h6>
+		<div class="row" id="cpucharts">
+		</div>
+		<h6 class="row-title before-blue" style="margin-top: 20px;">内存</h6>
+		<div class="row">
+		<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="widget" style="height: 350px;" class="col-sm-12">
+					<div class="widget-header">
+						<span class="widget-caption">内存使用情况</span>
+						<!--Widget Buttons-->
+					</div>
+					<!--Widget Header-->
+					<div class="widget-body" style="height: 350px;">
+						<div id="memorymain" style="height: 300px;" class="col-sm-12"></div>
+					</div>
+					<!--Widget Body-->
+				</div>
+				<!--Widget-->
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="widget" style="height: 350px;" class="col-sm-12">
+					<div class="widget-header">
+						<span class="widget-caption">交换区使用情况</span>
+						<!--Widget Buttons-->
+					</div>
+					<!--Widget Header-->
+					<div class="widget-body" style="height: 350px;">
+						<div id="swapmain" style="height: 300px;" class="col-sm-12"></div>
+					</div>
+					<!--Widget Body-->
+				</div>
+				<!--Widget-->
+			</div>
+		</div>
+		<h6 class="row-title before-blue" style="margin-top: 20px;">硬盘</h6>
+		<div class="row" id="diskcharts">
+		</div>
+	</div>
+	
+		
+</body>
+	<%include("../../resapi/sysjs.html"){}%>
+	<script src="/module/echart/echarts.min.js"></script>
+	<script src="/gobal/js/page/sys/sysmonitor.js"></script>
+
+</html>

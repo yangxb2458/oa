@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>收发文流程查询</title>
+ <%include("../../../resapi/mobilestyle.html"){}%>
+ <link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+ <style>
+ actionsheet-item:active {
+background-color: red;
+-webkit-tap-highlight-color: transparent;
+}
+.actionsheet-item {
+	height: 50px;
+	line-height: 50px;
+	font-size:16px;
+	-webkit-tap-highlight-color:transparent;
+}
+.actionsheet-action {
+	height: 50px;
+	line-height: 50px;
+}
+ </style>
+</head>
+<body>
+	<section class="g-flexview">
+		<section class="g-scrollview">
+			<div class="m-cell">
+			<div class="cell-item">
+                <div class="cell-left">流&nbsp;&nbsp;水&nbsp;&nbsp;号：</div>
+                <div class="cell-right"><input id="id" type="text" class="cell-input" placeholder="流水号" autocomplete="off"></div>
+            </div>
+             <div class="cell-item">
+                <div class="cell-left">发&nbsp;&nbsp;起&nbsp;&nbsp;人：</div>
+                <div class="cell-right"><input readonly="readonly" data-value="" opt-id="createUser" onclick="getSearchUserForMobile(this,'false');" id="createUser" type="text" class="cell-input" placeholder="发起人" autocomplete="off"></div>
+            	<a href="#"  onclick="$('#createUser').attr('data-value','');$('#createUser').val('')" style="line-height: 50px;margin-right: 10px;">清空</a>
+            </div>
+            <div class="cell-item">
+                <div class="cell-left">流程标题：</div>
+                <div class="cell-right"><input id="title" type="text" class="cell-input" placeholder="流程标题" autocomplete="off"></div>
+                <a href="#" onclick="$('#title').val('');" style="line-height: 50px;margin-right: 10px;">清空</a>
+            </div>
+            <div class="cell-item">
+                <div class="cell-left">流程名称：</div>
+                <label class="cell-right cell-arrow">
+                    <select id="flowId" name="flowId" class="cell-select"></select>
+                </label>
+            </div>
+            <div class="cell-item menuContent" id="menuContent" style="display: none;">
+            <ul id="tree" class="ztree"></ul>
+            </div>
+            <div class="cell-item">
+                <div class="cell-left">流程状态：</div>
+                <div class="cell-right">
+                    <select class="cell-select" id="status">
+                		<option value="-1">全部</option>
+                		<option value="0">过程中</option>
+                		<option value="1">已结束</option>
+                	</select>
+                </div>
+            </div><div class="cell-item">
+                <div class="cell-left">查询范围：</div>
+                <div class="cell-right">
+                    <select class="cell-select" id=managePriv>
+                		<option value="0">全部</option>
+                		<option value="1">我经办的</option>
+                		<option value="2">可查询的</option>
+                	</select>
+                </div>
+            </div>
+        </div>
+		<a href="javascript:;" class="btn btn-primary js-query" style="width:100%;">查询</a>
+		</section>
+	</section>
+
+		<div class="m-actionsheet" id="J_ActionSheet">
+			<div>
+				<span class="input-icon icon-right">
+                   <input type="text" class="form-control input-lg" id="search" name="search" placeholder="姓氏,拼音模糊查询">
+                   <i class="glyphicon glyphicon-search maroon"></i>
+                 </span>
+			</div>
+			<div style="height: 200px; overflow: auto; margin-bottom: 50px;" id="J_ListContent">
+			</div>
+			<a href="javascript:;" class="actionsheet-action" id="J_Cancel" style="position: absolute; width: 100%; bottom: 0px;background-color: #04BE02;font-size: 16px;color: white;">关闭</a>
+		</div>
+<script id="J_ListHtml" type="text/html">
+    {{each list as data}}
+    	<a href="#" class="actionsheet-item" data-value="{{data.accountId}}">{{data.userName}}</a> 
+    {{/each}}
+</script>
+<%include("../../../resapi/mobilejs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script src="/module/art-template/template-web.js"></script>
+<script type="text/javascript">
+var $myAs = $('#J_ActionSheet');
+function clearFlowId()
+{
+	$("#bpmSrot").val("");
+	$("#bpmSrot").attr("data-value","");
+}
+function getSearchUserForMobile(Obj,flag) {
+	$("#J_ListContent").empty();
+	$.ajax({
+		url : '/ret/unitget/getSearchUserForMobile',
+		type : "post",
+		dataType : "json",
+		data:{
+			search:$("#search").val()
+			},
+		success : function(data) {
+			var ret = data.list;
+			if (ret) {
+				$('#J_ListContent').prepend(template('J_ListHtml', {
+					list : ret
+				}));
+				$myAs.actionSheet('open');
+				$(".actionsheet-item").unbind("click").click(function(){
+					if(flag=="false")
+					{
+						$(Obj).attr("data-value","");
+						$(Obj).val("");
+					}
+					var accountId = $(this).attr("data-value");
+					var userName = $(this).text();
+					var id = $(Obj).attr("opt-id");
+					var vid = $("#"+id).attr("data-value");
+					var vname = $("#"+id).val();
+					var tempAccountId=[];
+					var tempUserName=[];
+					if(vid!=null&&vid!="")
+					{
+						tempAccountId = vid.split(",");
+					}
+					if(vname!=null&&vname!="")
+					{
+						tempUserName = vname.split(",");
+					}
+					tempAccountId.push(accountId);
+					tempUserName.push(userName);
+					$("#"+id).attr("data-value",unique(tempAccountId).join(","));
+					$("#"+id).val(unique(tempUserName).join(","))
+					$myAs.actionSheet('close');
+				})
+			}
+		}
+	});
+
+}
+
+$(function(){
+	$.ajax({
+		url : "/ret/documentget/getAllDocumentFlowListByManage",
+		dataType : "json",
+		type : "post",
+		success : function(data) {
+			if(data.status=="200")
+			{
+				var html ="<option value=''>请选择</option>";
+				for(var i=0;i<data.list.length;i++)
+				{
+					html+="<option value='"+data.list[i].flowId+"'>"+data.list[i].flowName+"</option>";
+				}
+				$("#flowId").html(html);
+			}else if(data.status=="100")
+			{
+				top.layer.msg(data.msg);
+			}else
+			{
+				console.log(data.msg);
+			}
+		}
+	})
+	$(".js-query").unbind("click").click(function(){
+		var id = $("#id").val();
+		var title = $("#title").val();
+		var flowId =$("#flowId").val();
+		var status = $("#status").val();
+		var createUser = $("#createUser").attr("data-value");
+		var managePriv = $("#managePriv").val();
+		open("/mobile/document/documentquerylist?id="+id+"&title="+title+"&flowId="+flowId+"&status="+status+"&createUser="+createUser+"&managePriv="+managePriv,"_self");
+	})
+})
+</script>
+</body>
+
+</html>

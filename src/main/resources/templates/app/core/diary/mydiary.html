@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){} %>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<link href="/module/calendar/calendar.css" rel="stylesheet" />
+<style>
+#myTable>thead
+{
+display: none !important;
+}
+.dairyhead
+{
+	display: inline-block;
+	padding:0px 25px 0px 25px;
+}
+.diarycontext
+{
+text-align: left;
+}
+.diaryfoot
+{
+margin-top:10px;
+text-align: right;
+}
+.diaryfoot a
+{
+	margin-right: 10px;
+	text-decoration:none;
+	font-weight: 500;
+	cursor: pointer;
+}
+.userInfo
+{
+
+}
+.userinfo_sapn
+{
+margin-right: 10px;
+color: #333;
+font-size: 16px;
+font-weight: 500;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="page-header position-relative">
+			<div class="header-title">
+				<h1>工作日志</h1>
+			</div>
+			<!--Header Buttons-->
+			<a class="btn btn-default purple js-mydiary" style="float: right; line-height: 26px; margin-right: 10px">我的日志</a> 
+			<a class="btn btn-default purple" href="/app/core/diary/sharediarylist" style="float: right; line-height: 26px; margin-right: 10px">他人分享</a>
+			<!--Header Buttons End-->
+		</div>
+		<div class="col-md-2 col-sm-2 col-xs-12" align="center">
+		<a href="javascript:void(0);" class="btn btn-primary js-create-but" style="margin-top: 20px;width: 100%">填报日志</a>
+			<div id="calendar" style="border:1px solid #dbdbdb;background-color: white;margin-top: 10px;"></div>
+		</div>
+		<div class="col-md-8 col-sm-8 col-xs-12" style="padding-left: 0px; padding-right: 10px;" id="mydiarydiv">
+				<div class="widget-body">
+						<div class="buttons-preview" id="toobar"></div>
+						<table id="myTable"></table>
+				</div>
+		</div>
+		<div class="col-md-8 col-sm-8 col-xs-12" style="padding-left: 0px; padding-right: 2px;display: none;" id="creatediarydiv">
+			<div class="widget-header bordered-bottom bordered-palegreen">
+				<span class="widget-caption">填写工作日志</span>
+			</div>
+			<div class="widget-body">
+				<form class="form-horizontal form-bordered" id="form" data-bv-message="This value is not valid"
+                                                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                                                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">指定日期：</label>
+						<div class="col-sm-2" style="position: relative;">
+							<input type="text" class="form-control" id="diaryDay" readonly="readonly" name="diaryDay" placeholder="指定日期" style="cursor: pointer;"
+							data-bv-notempty="true" data-bv-notempty-message="指定日期不能为空"
+							>
+						</div>
+						<label class="col-sm-4 control-label" style="text-align: left; color: red"> 注：指定工作日的工作日志 </label>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">日志标题：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="title" name="title" placeholder="日志标题"
+							data-bv-notempty="true" data-bv-notempty-message="日志标题不能为空">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">日志类型：</label>
+						<div class="col-sm-5">
+							<select id="diaryType" name="diaryType" class="form-control" style="border-radius: 0px;"></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">日志内容：</label>
+						<div class="col-sm-10">
+							<div id="content" style="height: 300px;"></div>
+						</div>
+					</div>
+					<div class="form-group" id="sharediv"></div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">相关附件 ：</label>
+						<div class="col-sm-5" style="text-align: left;">
+							<div style="padding-top: 4px;">
+								<div id="show_diaryattach"></div>
+								<a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('diary','diaryattach');" hidefocus="true" size="1" id="diaryattach"
+									name="diaryattach" class="addfile" multiple="multiple"></a>
+							<a class="addfile" style="width: 200px;" href="#" op_id="diaryattach" onclick="selectattach(this,'true')">选择网络文件</a>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">附件权限 ：</label>
+						<div class="col-md-5">
+							<div class="control-group" style="padding-top: 5px; float: left;">
+								<label> <input type="radio" class="colored-danger" value="1" name="attachPriv" checked> <span class="text">在线阅读</span>
+								</label>
+								<label> <input type="radio" class="colored-danger" value="3" name="attachPriv"> <span class="text">允许下载</span>
+								</label> <label> <input type="radio" class="colored-danger" value="2" name="attachPriv"> <span class="text">允许打印</span>
+								</label>
+								<label> <input type="radio" class="colored-danger" value="" name="attachPriv"> <span class="text"></span>
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right" style="line-height: 34px;">消息提醒 ：</label>
+						<div class="col-sm-11" style="padding-left: 0px">
+							<div class="checkbox" id="msgType"  style="float: left;"></div>
+							<span name="msgType"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<a id="createbut" href="javascript:void(0);" class="btn btn-primary">创&nbsp;&nbsp;建</a>
+							<a id="updatebut" href="javascript:void(0);" class="btn btn-primary">保&nbsp;&nbsp;存</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="col-md-2 col-sm-2 col-xs-12" style="padding-left: 0px; padding-right: 0px;">
+			<div class="widget-header bg-themeprimary">
+				<span class="widget-caption">我的下属</span>
+			</div>
+			<div class="widget-body" style="padding: 0px;">
+				<div id="registration-form"></div>
+			</div>
+		</div>
+
+	</div>
+	<div id="orgselectdiv"></div>
+	<div id="attachselect"></div>
+</body>
+<%include("../../resapi/sysjs.html"){} %>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/calendar/calendar.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/attachselect.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/gobal/js/page/oa/mydiary.js"></script>
+</html>

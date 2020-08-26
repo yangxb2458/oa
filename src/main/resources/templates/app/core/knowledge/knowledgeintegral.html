@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){} %>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class=""><a href="/app/core/file/knowledgeinit" aria-expanded="false">知识管理 </a></li>
+							<li class="active"><a href="/app/core/file/knowledgeinit?view=init" aria-expanded="true">知识维护</a></li>
+							<li class=""><a href="/app/core/file/knowledgeinit?view=total" aria-expanded="false">知识汇总</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding: 0px;">
+							<div class="well bordered-left bordered-themeprimary">
+								<p>知识管理维护主要是管理员全局了解知识管理中索引库的具体情况，可以重置，清空，删除索引库。</p>
+								<p>索引库的维护有一定的风险，需在软件厂商或技术人员指导下进行。</p>
+								<p>
+									<i class="fa fa-star yellow margin-right-5"></i><strong>注意:</strong> 索引库在操作前需要及时备份，防止操作失误导致数据丢失，操作完成后系统需要重启。
+								</p>
+							</div>
+							<table class="table table-hover table-striped table-bordered table-condensed">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>项目</th>
+										<th>数量</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td>Steve</td>
+										<td>Jobs</td>
+										<td>steve</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>Bill</td>
+										<td>Gates</td>
+										<td>billy</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>Mark</td>
+										<td>Zuckerberg</td>
+										<td>markz</td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td>Marissa</td>
+										<td>Mayer</td>
+										<td>marim</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<%include("../../resapi/sysjs.html"){} %>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/gobal/js/page/knowledge/knowledgeintegral.js"></script>
+
+</html>

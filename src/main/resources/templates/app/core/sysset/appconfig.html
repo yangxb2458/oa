@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<% include("../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">移动APP应用设置</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title">APP应用列表</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="buttons-preview" id="toobar">
+										<a href="javascript:void(0);" onclick="doadd();" class="btn btn-azure">添加APP应用</a>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade bs-example-modal-lg" id="setAppConfig" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">APP设置</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" role="form" id="form1">
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">排序号：</label>
+							<div class="col-sm-9">
+								<input type="number" class="form-control" name="sortNo" id="sortNo" placeholder="排序号">
+								<input type="hidden" class="form-control" name="appId" id="appId" placeholder="排序号">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">APP应用标题：</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="title" name="title" placeholder="APP应用标题">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">APP应用标识：</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="module" name="module" placeholder="APP应用标题">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">APP分组：</label>
+							<div class="col-sm-9">
+								<select class="form-control" id="groupTitle" name="groupTitle">
+								<option value="PERSONDESK">个人办公</option>
+								<option value="BPM">工作流</option>
+								<option value="DOCUMENT">公文</option>
+								<option value="TASK">任务管理</option>
+								<option value="WORKPLAN">工作计划</option>
+								<option value="OTHER">其它</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">APP应用图标：</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="img" name="img" placeholder="APP应用图标">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">App应用URL：</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="appUrl" name="appUrl" placeholder="App应用URL">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">APP应用备注：</label>
+							<div class="col-sm-9">
+							<textarea rows="2" cols="" class="form-control" id="remark" name="remark" placeholder="APP应用备注"></textarea>
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-save">保存</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+<% include("../../resapi/sysjs.html"){}%>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="/gobal/js/page/sys/appconfig.js"></script>
+</html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.file.AttachMapper">
+<resultMap id="Attach" type="com.core136.bean.file.Attach" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="ATTACH_ID" property="attachId" jdbcType="VARCHAR" />
+    <result column="CREATE_ACCOUNT" property="createAccount" jdbcType="VARCHAR" />
+    <result column="UP_TIME" property="upTime" jdbcType="VARCHAR" />
+    <result column="OLD_NAME" property="oldName" jdbcType="VARCHAR" />
+    <result column="NEW_NAME" property="newName" jdbcType="VARCHAR" />
+    <result column="EXT_NAME" property="extName" jdbcType="VARCHAR" />
+    <result column="PATH" property="path" jdbcType="VARCHAR" />
+    <result column="MODULES" property="modules" jdbcType="VARCHAR" />
+    <result column="DEL_FLAG" property="delFlag" jdbcType="VARCHAR" />
+    <result column="PRIV" property="priv" jdbcType="VARCHAR" />
+    <result column="FILE_SIZE" property="fileSize" jdbcType="INTEGER" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+<select id="getAttachManageList" resultType="java.util.HashMap">
+ SELECT ID AS id,ATTACH_ID AS attachId,UP_TIME AS upTime,CREATE_ACCOUNT AS createAccount,OLD_NAME AS oldName,
+ NEW_NAME AS newName,EXT_NAME AS extName,PATH AS path,MODULES AS modules,DEL_FLAG AS delFlag,PRIV AS priv,
+ FILE_SIZE AS fileSize,(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=CREATE_ACCOUNT) AS createUserName
+ FROM ATTACH
+ WHERE ORG_ID=#{orgId}
+ <if test="modules!=''.toString() and modules!=null">
+	AND MODULES=#{modules}
+</if>
+ <if test="createAccount!=''.toString() and createAccount!=null">
+	AND CREATE_ACCOUNT=#{createAccount}
+</if>
+<if test="beginTime!=''.toString() and beginTime!=null">
+	AND UP_TIME &gt;=#{beginTime}
+</if>
+<if test="endTime!=''.toString() and endTime!=null">
+	AND UP_TIME &lt;=#{endTime}
+</if>
+<if test="extName!=''.toString() and extName!=null">
+	AND EXT_NAME=#{extName}
+</if>
+<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND OLD_NAME=#{search}
+</if>
+ </select>
+  
+ <select id="getAttachList" resultMap="Attach">
+ SELECT ID,ATTACH_ID,UP_TIME,CREATE_ACCOUNT,OLD_NAME,NEW_NAME,EXT_NAME,PATH,MODULES,DEL_FLAG,PRIV,FILE_SIZE,ORG_ID
+ FROM ATTACH
+ WHERE ATTACH_ID IN 
+ 		<foreach collection="attachIds" index="index" item="item" open="(" separator="," close=")">
+                #{item}       
+        </foreach>  
+ AND ORG_ID=#{orgId} AND DEL_FLAG='0'
+ </select>
+ 
+ <select id="getModuleAttachInfo" resultType="java.util.HashMap">
+	SELECT SUM(FILE_SIZE) AS totalFileSize,COUNT(1) AS totalCount
+		FROM ATTACH 
+	WHERE ORG_ID=#{orgId} AND MODULES=#{modules}
+</select>
+	
+	<select id="getMyAttachCount" resultType="Integer">
+		SELECT COUNT(1) AS total 
+		FROM 
+		ATTACH 
+		WHERE
+		ORG_ID=#{orgId}
+		AND CREATE_ACCOUNT=#{accountId}
+</select>
+	
+</mapper>
+

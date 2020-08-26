@@ -1,0 +1,15 @@
+mvn  install:install-file  -DgroupId=cyunsoft.bean  -DartifactId=cyunsoft-bean  -Dversion=0.0.1-SNAPSHOT  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/cyunsoft-bean-0.0.1-SNAPSHOT.jar
+
+mvn  install:install-file  -DgroupId=cyunsoft.bi  -DartifactId=cyunsoft-bi  -Dversion=0.0.1-SNAPSHOT  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/cyunsoft-bi-0.0.1-SNAPSHOT.jar
+
+mvn  install:install-file  -DgroupId=cyunsoft.common  -DartifactId=cyunsoft-common  -Dversion=0.0.1-SNAPSHOT  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/cyunsoft-common-0.0.1-SNAPSHOT.jar
+
+mvn  install:install-file  -DgroupId=cyunsoft.coreservice  -DartifactId=cyunsoft-coreservice  -Dversion=0.0.1-SNAPSHOT  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/cyunsoft-coreservice-0.0.1-SNAPSHOT.jar
+
+mvn  install:install-file  -DgroupId=cyunsoft.imservice  -DartifactId=cyunsoft-imservice  -Dversion=0.0.1-SNAPSHOT  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/cyunsoft-imservice-0.0.1-SNAPSHOT.jar
+
+mvn  install:install-file  -DgroupId=com.oracle  -DartifactId=ojdbc8  -Dversion=12.2.0.1  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/ojdbc8.jar
+
+mvn  install:install-file  -DgroupId=com.dingtalk.open  -DartifactId=taobao-sdk-java-auto  -Dversion=1479188381469-20200218  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/taobao-sdk-java-auto_1479188381469-20200218.jar
+
+mvn  install:install-file  -DgroupId=com.zhuozhengsoft  -DartifactId=pageoffice  -Dversion=4.6.0.4  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/pageoffice4.6.0.4.jar

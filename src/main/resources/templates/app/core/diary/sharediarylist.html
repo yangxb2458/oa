@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<style>
+#myTable>thead
+{
+display: none !important;
+}
+.dairyhead
+{
+	display: inline-block;
+	padding:0px 25px 0px 25px;
+}
+.diarycontext
+{
+text-align: left;
+}
+.diaryfoot
+{
+margin-top:10px;
+text-align: right;
+}
+.diaryfoot a
+{
+	margin-right: 10px;
+	text-decoration:none;
+	font-weight: 500;
+	cursor: pointer;
+}
+.userInfo
+{
+
+}
+.userinfo_sapn
+{
+margin-right: 10px;
+color: #333;
+font-size: 16px;
+font-weight: 500;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">Ta分享工作日志</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="buttons-preview" id="toobar">
+									<span>时间范围:</span>
+									<span> <input type="text" class="form-control" id="beginTime" readonly="readonly"
+									style="width: 150px; display: inline-block;" name="beginTime" placeholder="开始时间" style="cursor: pointer;">
+								</span> <span> - </span> <span> <input type="text" class="form-control" id="endTime" readonly="readonly" style="width: 150px; display: inline-block;" name="endTime"
+									placeholder="终止时间" style="cursor: pointer;"></span>
+									<span style="margin-left: 10px"><a href="javascript:void(0);" class="btn btn-success js-query-but">查询</a></span>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+							<div align="center">
+								<a id="createbut" href="javascript:void(0);history.go(-1);" class="btn btn-primary">返&nbsp;&nbsp;回</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade bs-example-modal-lg" id="commmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">评论</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" role="form" id="form1">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">评论：</label>
+							<div class="col-sm-10">
+								<textarea rows="3" cols="" class="form-control" id="commContent" name="commContent"></textarea>
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-save">保存</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript">
+var accountId = "${parameter.accountId}";
+</script>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script src="/gobal/js/page/oa/showdiarylist.js"></script>
+</html>

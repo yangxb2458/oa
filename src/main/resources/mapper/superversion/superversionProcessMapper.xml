@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.core136.mapper.superversion.SuperversionProcessMapper">
+	<resultMap id="SuperversionProcess" type="com.core136.bean.superversion.SuperversionProcess">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="PROCESS_ID" property="processId" jdbcType="INTEGER" />
+		<result column="SUPERVERSION_ID" property="superversionId" jdbcType="VARCHAR" />
+		<result column="PRCS_VALUE" property="prcsValue" jdbcType="INTEGER" />
+		<result column="FINISH_TIME" property="finishTime" jdbcType="VARCHAR" />
+		<result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+<select id="getMyCompleteProcessList" resultType="java.util.HashMap">
+SELECT P.PROCESS_ID AS processId,P.SUPERVERSION_ID AS superversionId,P.FINISH_TIME AS finishTime,P.PRCS_VALUE AS prcsValue,S.BEGIN_TIME AS beginTime,S.END_TIME AS endTime,
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=S.CREATE_USER) AS createUserName,
+S.TITLE AS superversionTitle,
+(SELECT C.TYPE_NAME FROM SUPERVERSION_CONFIG C WHERE C.ORG_ID=#{orgId} AND C.CONFIG_ID=S.TYPE) AS typeName
+FROM 
+SUPERVERSION_PROCESS P LEFT JOIN SUPERVERSION S ON P.ORG_ID=S.ORG_ID AND P.SUPERVERSION_ID=S.SUPERVERSION_ID
+WHERE 
+P.ORG_ID=#{orgId}
+AND P.CREATE_USER = #{accountId}
+<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND(S.TITLE LIKE #{search})
+</if>
+<if test="beginTime!=null and beginTime!=''.toString()">
+	AND P.CREATE_TIME &gt;=#{beginTime}
+</if>
+<if test = "endTime!=''.toString() and endTime!=null">
+	AND P.CREATE_TIME &lt;=#{endTime}
+</if>
+<if test="type!=null and type!=''.toString()">
+	AND S.TYPE=#{type}
+</if>
+</select>
+
+<select id="getControlProcessList" resultType="java.util.HashMap">
+SELECT P.PROCESS_ID AS processId,P.SUPERVERSION_ID AS superversionId,P.FINISH_TIME AS finishTime,P.PRCS_VALUE AS prcsValue,
+S.BEGIN_TIME AS beginTime,S.END_TIME AS endTime,
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=S.CREATE_USER) AS createUserName,
+S.TITLE AS superversionTitle,P.CONTENT AS content,
+(SELECT C.TYPE_NAME FROM SUPERVERSION_CONFIG C WHERE C.ORG_ID=#{orgId} AND C.CONFIG_ID=S.TYPE) AS typeName
+FROM 
+SUPERVERSION_PROCESS P LEFT JOIN SUPERVERSION S ON P.ORG_ID=S.ORG_ID AND P.SUPERVERSION_ID=S.SUPERVERSION_ID
+WHERE 
+P.ORG_ID=#{orgId}
+AND S.LEAD_ID=#{accountId}
+<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND(S.TITLE LIKE #{search})
+</if>
+<if test="beginTime!=null and beginTime!=''.toString()">
+	AND P.CREATE_TIME &gt;=#{beginTime}
+</if>
+<if test = "endTime!=''.toString() and endTime!=null">
+	AND P.CREATE_TIME &lt;=#{endTime}
+</if>
+<if test="type!=null and type!=''.toString()">
+	AND S.TYPE=#{type}
+</if>
+</select>
+
+
+</mapper>
+

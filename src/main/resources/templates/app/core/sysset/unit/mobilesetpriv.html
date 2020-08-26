@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<style type="text/css">
+.table>tbody>tr>td
+{
+vertical-align: middle;
+text-align: center;
+}
+.table>thead>tr>th
+{
+text-align: center;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="widget-body">
+					<div class="alert alert-info fade in">
+						<button class="close" data-dismiss="alert">×</button>
+						<i class="fa-fw fa fa-info"></i> <strong>提示!</strong> 权限设置需要有系统管理员权限才可以操作。
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<h5 class="row-title before-orange">
+								<i class="typcn typcn-th-menu orange"></i>${userPriv.userPrivName}
+							</h5>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<table class="table table-hover table-striped table-bordered table-condensed">
+								<thead>
+									<tr>
+										<th width="100px;">序号</th>
+										<th>APP图标</th>
+										<th>APP标题</th>
+										<th>APP标识</th>
+										<th>备注</th>
+										<th width="150px;">操作</th>
+									</tr>
+								</thead>
+								<tbody id="applist">
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12" align="center" style="margin-top: 20px;">
+							<a href="javascript:void(0);" class="btn btn-azure js-mobile-save">设置权限</a>
+							<a href="javascript:void(0);history.go(-1);" class="btn btn-magenta">返回</a>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	var userPrivId = "${userPriv.userPrivId}";
+	var mobilePrivStr="${userPriv.mobilePriv}";
+</script>
+<%include("../../../resapi/sysjs.html"){}%>
+<script src="/gobal/js/page/sys/mobilesetpriv.js"></script>
+</html>

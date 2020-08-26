@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="page-container">
+
+			<div class="well with-header">
+				<div class="header bordered-darkorange">固定资产详细</div>
+				<div>
+					<form class="form-horizontal form-bordered" id="from">
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">排序号：</label>
+							<div class="col-sm-5" id="sortNo" style="line-height: 30px"></div>
+							<label class="col-sm-1 control-label no-padding-right">资产编号：</label>
+							<div class="col-sm-5" id="assetsCode" style="line-height: 30px"></div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">资产名称：</label>
+							<div class="col-sm-5" id="assetsName" style="line-height: 30px"></div>
+							<label class="col-sm-1 control-label no-padding-right">使用部门：</label>
+							<div class="col-sm-5" id="ownDept" style="line-height: 30px"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">所属类别：</label>
+							<div class="col-sm-5" id="sortId" style="line-height: 30px"></div>
+							<label class="col-sm-1 control-label no-padding-right">存放仓库：</label>
+							<div class="col-sm-5" id="storageId" style="line-height: 30px"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">品牌：</label>
+							<div class="col-sm-5" id="brand" style="line-height: 30px"></div>
+							<label class="col-sm-1 control-label no-padding-right">型号：</label>
+							<div class="col-sm-5" id="model" style="line-height: 30px"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">采购价格：</label>
+							<div class="col-sm-5" id="purchasePrice" style="line-height: 30px"></div>
+							<label class="col-sm-1 control-label no-padding-right">采购日期：</label>
+							<div class="col-sm-5" id="purchaseTime" style="line-height: 30px"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">折旧方式：</label>
+							<div class="col-sm-5" id="depreciation" style="line-height: 30px"></div>
+							<label class="col-sm-1 control-label no-padding-right">当前状态：</label>
+							<div class="col-sm-5" id="status" style="line-height: 30px"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">备注说明：</label>
+							<div class="col-sm-10" id="remark" style="line-height: 30px"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">相关附件：</label>
+							<div class="col-sm-10" id="attach">
+								<div style="padding-top: 4px;">
+									<div id="show_attach"></div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div align="center">
+								<a id="updatebut" href="javascript:void(0);window.close(0);" class="btn btn-primary">关&nbsp;&nbsp;闭</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript">
+	var assetsId = "${parameter.assetsId}";
+</script>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+	<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/fixedassets/detailsfixedassets.js"></script>
+</body>
+</html>

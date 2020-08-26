@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.officesupplies.OfficeSuppliesApplyMapper">
+<resultMap id="OfficeSuppliesApply" type="com.core136.bean.officesupplies.OfficeSuppliesApply" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="APPLY_ID" property="applyId" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="SUPPLIES_ID" property="suppliesId" jdbcType="VARCHAR" />
+    <result column="QUANTITY" property="quantity" jdbcType="INTEGER" />
+    <result column="USED_USER" property="usedUser" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="APPLY_USER" property="applyUser" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getMyApplyOfficeSuppliesList" resultType="java.util.HashMap">
+  SELECT A.APPLY_ID AS applyId,A.TITLE AS title,A.SUPPLIES_ID AS suppliesId,A.QUANTITY AS quantity,A.USED_USER,A.REMARK AS remark,
+  A.CREATE_TIME AS createTime,P.SUPPLIES_NAME AS suppliesName,P.UNIT AS unit,P.BRAND AS brand,P.MODEL AS model,A.STATUS AS status
+  FROM 
+  OFFICE_SUPPLIES_APPLY A LEFT JOIN OFFICE_SUPPLIES P ON P.ORG_ID=A.ORG_ID AND A.SUPPLIES_ID =P.SUPPLIES_ID
+  WHERE A.ORG_ID=#{orgId}
+  AND A.CREATE_USER = #{accountId}
+  <if test="search !='%%' and search !=''.toString() and search!=null">
+	AND (A.TITLE LIKE #{search} OR A.SUPPLIES_CODE LIKE #{search})
+</if>
+<if test="beginTime!=null and beginTime!=''.toString()">
+		AND A.CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "endTime!=''.toString() and endTime!=null">
+		AND A.CREATE_TIME &lt;=#{endTime}
+	</if>
+ 	<if test="status !=''.toString() and status!=null">
+	AND A.STATUS=#{status}
+	</if>
+  </select>
+	
+<select id="getApplyOfficeSuppliesList" resultType="java.util.HashMap">
+  SELECT A.APPLY_ID AS applyId,A.TITLE AS title,A.SUPPLIES_ID AS suppliesId,A.QUANTITY AS quantity,A.USED_USER,A.REMARK AS remark,
+  A.CREATE_TIME AS createTime,P.SUPPLIES_NAME AS suppliesName,P.UNIT AS unit,P.BRAND AS brand,P.MODEL AS model,A.STATUS AS status
+  FROM 
+  OFFICE_SUPPLIES_APPLY A LEFT JOIN OFFICE_SUPPLIES P ON P.ORG_ID=A.ORG_ID AND A.SUPPLIES_ID =P.SUPPLIES_ID
+  WHERE A.ORG_ID=#{orgId}
+   	<if test="accountId !=''.toString() and accountId!=null">
+	 AND A.CREATE_USER = #{accountId}
+ 	</if>
+ 	<if test="beginTime!=null and beginTime!=''.toString()">
+		AND A.CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "endTime!=''.toString() and endTime!=null">
+		AND A.CREATE_TIME &lt;=#{endTime}
+	</if>
+  <if test="search !='%%' and search !=''.toString() and search!=null">
+	AND (A.TITLE LIKE #{search} OR A.SUPPLIES_CODE LIKE #{search})
+  </if>
+  	<if test="status !=''.toString() and status!=null">
+	AND A.STATUS=#{status}
+	</if>
+  </select>
+  
+  <select id="getGrantOfficeSuppliesList" resultType="java.util.HashMap">
+  SELECT A.APPLY_ID AS applyId,A.TITLE AS title,A.SUPPLIES_ID AS suppliesId,A.QUANTITY AS quantity,A.USED_USER,A.REMARK AS remark,
+  A.CREATE_TIME AS createTime,P.SUPPLIES_NAME AS suppliesName,P.UNIT AS unit,P.BRAND AS brand,P.MODEL AS model,A.STATUS AS status
+  FROM 
+  OFFICE_SUPPLIES_APPLY A LEFT JOIN OFFICE_SUPPLIES P ON P.ORG_ID=A.ORG_ID AND A.SUPPLIES_ID =P.SUPPLIES_ID
+  WHERE A.ORG_ID=#{orgId} AND A.STATUS= '1'
+   	<if test="accountId !=''.toString() and accountId!=null">
+	 AND A.CREATE_USER = #{accountId}
+ 	</if>
+ 	<if test="beginTime!=null and beginTime!=''.toString()">
+		AND A.CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "endTime!=''.toString() and endTime!=null">
+		AND A.CREATE_TIME &lt;=#{endTime}
+	</if>	
+  <if test="search !='%%' and search !=''.toString() and search!=null">
+	AND (A.TITLE LIKE #{search} OR A.SUPPLIES_CODE LIKE #{search})
+  </if>
+  </select>
+  
+	
+</mapper>

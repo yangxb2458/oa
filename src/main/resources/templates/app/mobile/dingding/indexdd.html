@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>登陆跳转</title>
+<%include("../resapi/ddstyle.html"){}%>
+</head>
+	<script>
+var corpId="${ddConfig.dingdingCorpId}";
+var orgId="${ddConfig.orgId}";
+		$(function() {
+			dd.ready(function() {
+				dd.runtime.permission.requestAuthCode({
+					corpId : corpId,
+					onSuccess : function(result) {
+						var code = result.code;
+						$.get("/dingding/dingdingget/getUserInfo?code=" + code+"&orgId="+orgId, function(response) {
+							if (response.status == "200") {
+								window.location.href = "/app/core/frame";
+							}
+						});
+					},
+					onFail : function(err) {
+					}
+				})
+			});
+		});
+	</script>
+<body>
+
+</body>
+</html>

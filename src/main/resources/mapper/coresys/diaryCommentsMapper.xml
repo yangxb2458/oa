@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.oa.DiaryCommentsMapper">
+	<resultMap id="DiaryComments" type="com.core136.bean.oa.DiaryComments">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="COMM_ID" property="commId" jdbcType="VARCHAR" />
+		<result column="DIARY_ID" property="diaryId" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getDiaryCommentsList" resultType="java.util.HashMap">
+		SELECT COMM_ID AS commId,DIARY_ID AS diaryId,CONTENT AS content,CREATE_TIME AS createTime,CREATE_USER AS createUser
+		FROM 
+		DIARY_COMMENTS
+		WHERE ORG_ID=#{orgId}
+		AND DIARY_ID = #{diaryId}
+		ORDER BY CREATE_TIME DESC
+	</select>
+
+
+	<select id="getMyDiaryCommentsCount" resultType="Integer">
+		SELECT COUNT(1) AS ZS 
+		FROM 
+		DIARY_COMMENTS 
+		WHERE
+		ORG_ID=#{orgId}
+		AND CREATE_USER=#{accountId}
+</select>
+
+</mapper>
+

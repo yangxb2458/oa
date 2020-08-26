@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="page-container">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+				<div class="widget-header bordered-bottom bordered-blue">
+                                            <span class="widget-caption">人员档案详情</span>
+                                        </div>
+								<form class="form-horizontal">
+									<table class="table table-hover table-striped table-bordered">
+										<tr>
+											<td width="20%">排序号：</td>
+											<td id="sortNo"></td>
+											<td rowspan="6" colspan="2" width="50%" style="text-align: center;">
+												<div>
+													<div>
+														<img id="file_img" style="width: 150px; height: 200px;" src="" onerror="this.onerror=null;this.src='/assets/img/avatars/adam-jansen.jpg'" class="avatar">
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td width="20%">姓名：</td>
+											<td id="userName"></td>
+										</tr>
+										<tr>
+											<td width="20%">OA用户名：</td>
+											<td id="accountId"></td>
+										</tr>
+										<tr>
+											<td width="20%">部门：</td>
+											<td id="deptId"></td>
+										</tr>
+										<tr>
+											<td width="20%">职务：</td>
+											<td id="leaveId"></td>
+										</tr>
+										<tr>
+											<td width="20%">英文名：</td>
+											<td id="userNameEn"></td>
+										</tr>
+										<tr>
+											<td width="20%">曾用名：</td>
+											<td width="30%" id="beforeUserName"></td>
+											<td width="20%">性别：</td>
+											<td width="30%" id="sex"></td>
+										</tr>
+										<tr>
+											<td width="20%">工号：</td>
+											<td width="30%" id="workNo"></td>
+											<td width="20%">编号：</td>
+											<td width="30%" id="staffNo"></td>
+										</tr>
+										<tr>
+											<td width="20%">身份证号：</td>
+											<td id="staffCardNo"></td>
+											<td width="20%">出生日期：</td>
+											<td id="birthDay"></td>
+										</tr>
+										<tr>
+											<td width="20%">年休假：</td>
+											<td id="levelType"></td>
+											<td width="20%">生肖：</td>
+											<td id="animal"></td>
+										</tr>
+										<tr>
+											<td width="20%">籍贯：</td>
+											<td id="nativePlace"></td>
+											<td width="20%">现住地址 :</td>
+											<td id="address"></td>
+										</tr>
+										<tr>
+											<td width="20%">血型 :</td>
+											<td id="bloodType"></td>
+											<td width="20%">民族：</td>
+											<td id="nationalty"></td>
+										</tr>
+										<tr>
+											<td width="20%">婚姻状况：</td>
+											<td id="maritalStatus"></td>
+											<td width="20%">健康状况：</td>
+											<td id="health"></td>
+										</tr>
+										<tr>
+											<td width="20%">政治面貌：</td>
+											<td id="politicalStatus"></td>
+											<td width="20%">入党时间：</td>
+											<td id="joinPartyTime"></td>
+										</tr>
+										<tr>
+											<td width="20%">户口类别：</td>
+											<td id="staffType"></td>
+											<td width="20%">户口所在地：</td>
+											<td id="staffAddress"></td>
+										</tr>
+										<tr>
+											<td class="TableHeader" colspan="4"><b>&nbsp;职位情况及联系方式：</b></td>
+										</tr>
+										<tr>
+											<td width="20%">工种：</td>
+											<td id="workType"></td>
+											<td width="20%">工资级别：</td>
+											<td id="wagesLevel"></td>
+										</tr>
+										<tr>
+											<td width="20%">员工类型：</td>
+											<td id="occupation"></td>
+											<td width="20%">入职时间：</td>
+											<td id="employedTime"></td>
+										</tr>
+										<tr>
+											<td width="20%">岗位：</td>
+											<td id="workJob"></td>
+											<td width="20%">在职状态：</td>
+											<td id="workStatus"></td>
+										</tr>
+										<tr>
+											<td width="20%">联系电话：</td>
+											<td id="phone"></td>
+											<td width="20%">考勤排班类型：</td>
+											<td id="attendType"></td>
+										</tr>
+										<tr>
+											<td width="20%">职称：</td>
+											<td id="persentPosition"></td>
+											<td width="20%">职称级别：</td>
+											<td id="workLeave"></td>
+										</tr>
+										<tr>
+											<td width="20%">手机号码：</td>
+											<td id="mobileNo"></td>
+											<td width="20%">微信号码：</td>
+											<td id="wxNo"></td>
+										</tr>
+										<tr>
+											<td width="20%">电子邮件：</td>
+											<td id="email"></td>
+											<td width="20%">家庭地址：</td>
+											<td id="homeAddress"></td>
+										</tr>
+										<tr>
+											<td width="20%">QQ：</td>
+											<td id="qq"></td>
+											<td width="20%">其他联系方式：</td>
+											<td id="otherContact"></td>
+										</tr>
+										<tr>
+											<td width="20%">开户银行：</td>
+											<td id="bank"></td>
+											<td width="20%">银行账户：</td>
+											<td id="bankAccount"></td>
+										</tr>
+										<tr>
+											<td class="TableHeader" colspan="4"><b>&nbsp;教育背景：</b></td>
+										</tr>
+										<tr>
+											<td width="20%">学历：</td>
+											<td id="highsetShool"></td>
+											<td width="20%">学位：</td>
+											<td id="highsetDegree"></td>
+										</tr>
+										<tr>
+											<td width="20%">毕业时间：</td>
+											<td id="graduationTime"></td>
+											<td width="20%">毕业学校：</td>
+											<td id="graduationShool"></td>
+										</tr>
+										<tr>
+											<td width="20%">专业：</td>
+											<td id="major"></td>
+											<td width="20%">特长：</td>
+											<td id="skills"></td>
+										</tr>
+										<tr>
+											<td width="20%">外语语种：</td>
+											<td id="otherLanguage"></td>
+											<td width="20%">外语水平：</td>
+											<td id="otherLanguageLevel"></td>
+										</tr>
+										<tr>
+											<td colspan="2"><b>&nbsp;职务情况：</b></td>
+											<td colspan="2"><b>&nbsp;担保记录：</b></td>
+										</tr>
+										<tr>
+											<td colspan="2" id="cretificate"></td>
+											<td colspan="2" id="surety"></td>
+										</tr>
+										<tr>
+											<td class="TableHeader" colspan="2"><b>&nbsp;社保缴纳情况：</b></td>
+											<td class="TableHeader" colspan="2"><b>&nbsp;体检记录：</b></td>
+										</tr>
+										<tr>
+											<td colspan="2" id="insure"></td>
+											<td colspan="2" id="bodyExamim"></td>
+										</tr>
+										<tr>
+											<td align="left" colspan="4" class="TableHeader"><b>&nbsp; 备注：</b></td>
+										</tr>
+										<tr>
+											<td style="text-align: left;" colspan="4" id="remark"></td>
+										</tr>
+										<tr>
+											<td class="TableHeader" colspan="4"><b>&nbsp; 简历：</b></td>
+										</tr>
+										<tr style="">
+											<td colspan="4" style="">
+												<div id="resume" name="resume"></div>
+											</td>
+										</tr>
+										<tr style="">
+											<td style="">相关附件</td>
+											<td colspan="3" style="" id="hrattach">
+												<div id="show_hrattach"></div>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="4" style="text-align: center"><a id="createbut" href="javascript:void(0);window.close();" class="btn btn-primary">关&nbsp;&nbsp;闭</a></td>
+										</tr>
+									</table>
+								</form>
+							</div>
+		</div>
+	</div>
+	</div>
+</body>
+	<%include("../../../resapi/sysjs.html"){}%>
+	<script type="text/javascript">
+		var userId = "${parameter.userId}";
+	</script>
+	<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+	<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/hr/hrapi.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/hr/baseinfo/userinfodetails.js"></script>
+</html>

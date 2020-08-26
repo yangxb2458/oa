@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.file.KnowledgeSearchMapper">
+<resultMap id="KnowledgeSearch" type="com.core136.bean.file.KnowledgeSearch" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="KEY_WORD" property="keyWord" jdbcType="VARCHAR" />
+    <result column="SORT_ID" property="sortId" jdbcType="VARCHAR" />
+    <result column="COUNT" property="count" jdbcType="INTEGER" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+<select id="getHostKeyWords" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,KEY_WORD AS keyWord
+	FROM KNOWLEDGE_SEARCH
+	WHERE ORG_ID=#{orgId} ORDER BY COUNT DESC LIMIT 0,10
+</select>
+
+
+
+</mapper>
+

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){} %>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="col-md-2 col-sm-2 col-xs-12" style="padding: 0px;">
+						<div class="widget flat radius-bordered">
+							<div class="widget-header bg-lightred">
+								<span class="widget-caption">项目分类列表</span>
+							</div>
+							<div class="widget-body">
+								<ul id="tree" class="ztree"></ul>
+								<a id="cbut" href="javascript:void(0);" class="btn btn-purple" style="width: 100%;">创建项目</a>
+							</div>
+
+						</div>
+					</div>
+					<div class="col-md-10 col-sm-10 col-xs-12" style="padding: 0px">
+						<div class="col-md-12 col-sm-12 col-xs-12" id="listtable">
+							<div class="widget-header bg-themeprimary">
+								<span class="widget-caption">项目清单</span>
+							</div>
+							<div class="widget-body">
+										<div class="form-title">项目列表</div>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="buttons-preview" id="toobar">
+													<!-- 													<a  class="btn btn-azure js-btn" >材料导入</a> -->
+												</div>
+												<table id="myTable"></table>
+											</div>
+										</div>
+							</div>
+						</div>
+
+
+						<div class="col-md-12 col-sm-12 col-xs-12" id="creatediv" style="display: none;">
+							<div class="widget">
+								<div class="widget-header bordered-bottom bordered-palegreen">
+									<span class="widget-caption">工程项目录入</span>
+								</div>
+								<div class="widget-body">
+									<form class="form-horizontal form-bordered" id="form" data-bv-message="This value is not valid" data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+										data-bv-feedbackicons-invalid="glyphicon glyphicon-remove" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">工程名称：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="projectTitle" name="projectTitle" placeholder="工程名称" data-bv-notempty="true" data-bv-notempty-message="项目名称不能为空">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">排序号：</label>
+											<div class="col-sm-2">
+												<input type="number" class="form-control" id="sortNo" name="sortNo" placeholder="排序号" data-bv-digits="true" data-bv-digits-message="排序号必须是正整数" data-bv-notempty="true" data-bv-notempty-message="排序号不能为空">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">项目类型：</label>
+											<div class="col-sm-2">
+												<select class="form-control" style="border-radius: 0px;" id="projectType" name="projectType">
+													<option value="">请选择</option>
+													<option value="1">总包项目</option>
+													<option value="2">分包项目</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">所属分类：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="sortId" name="sortId" placeholder="所属分类" readonly="readonly" data-bv-notempty="true" data-bv-notempty-message="所属分类不能为空">
+												<div id="menuContent" class="menuContent">
+													<ul id="menuTree" class="ztree"></ul>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">甲方单位：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="firstParty" name="firstParty" placeholder="甲方单位" data-bv-notempty="true" data-bv-notempty-message="甲方单位不能为空">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">乙方单位：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="secondParty" name="secondParty" placeholder="乙方单位">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">项目建价：</label>
+											<div class="col-sm-3">
+												<input type="number" class="form-control" id="amount" name="amount" placeholder="项目总金额" data-bv-digits="true" data-bv-digits-message="项目总金额必须是正整数" data-bv-notempty="true" data-bv-notempty-message="项目总金额不能为空">
+											</div>
+											<div class="col-sm-2" style="line-height: 34px;">元(RMB)</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">交付日期：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="endTime" name="endTime" placeholder="交付日期">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">开工日期：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="beginTime" name="beginTime" placeholder="开工日期">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">项目经理：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="manager" name="manager" placeholder="项目经理">
+											</div>
+											<div class="col-md-2">
+												<a class="selectbutton" opt-id="manager" onclick="selectUser(this,'true');">选择</a>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">甲方联系人：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="partALinkUserName" name="partALinkUserName" placeholder="甲方联系人">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">甲方电话：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="partALinkTel" name="partALinkTel" placeholder="甲方电话">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">甲方传真：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="partALinkFax" name="partALinkFax" placeholder="甲方传真">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">甲方邮件：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="partALinkEmail" name="partALinkEmail" placeholder="甲方邮件">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">甲方手机：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="partALinkMobile" name="partALinkMobile" placeholder="甲方手机">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">备注：</label>
+											<div class="col-sm-10">
+												<div id="remark" name="remark"></div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">相关合同：</label>
+											<div class="col-sm-5">
+												<select id="contract" name="contract">
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">相关文件：</label>
+											<div class="col-sm-10">
+												<div style="padding-top: 4px;">
+													<div id="show_projectbuildattach"></div>
+													<a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('projectbuild','projectbuildattach');" hidefocus="true" size="1"
+														id="projectbuildattach" name="projectbuildattach" class="addfile" multiple="multiple"></a>
+												</div>
+											</div>
+
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-1 col-sm-5">
+												<a id="createbut" href="javascript:void(0);" class="btn btn-primary">创建项目</a> <a id="updatabut" href="javascript:void(0);" class="btn btn-primary">更新项目</a>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	<%include("../../../resapi/sysjs.html"){} %>
+	<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+	<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+	<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+	<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+	<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+	<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+	<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+	<script src="/gobal/js/page/projectbuild/approval.js"></script>
+</body>
+</html>

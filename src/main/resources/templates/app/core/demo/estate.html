@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet"
+	href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css"
+	type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="page-container">
+		<div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px">
+		
+             <div class="col-md-2 col-sm-2 col-xs-12" style="padding: 0px;">
+                           <div class="widget flat radius-bordered">
+                                <div class="widget-header bg-lightred">
+                                    <span class="widget-caption">小区列表</span>
+                                </div>
+								<div class="widget-body">
+                                    <ul id="tree" class="ztree"></ul>
+                                    <a id="cbut" href="javascript:void(0);" class="btn btn-purple" style="width: 100%;">创建小区</a>
+                                    <a id="cbut" href="javascript:void(0);" class="btn btn-success" style="width: 100%;margin-top: 10px;">创建住宅</a>
+                                </div>
+                                
+                            </div>
+       		 </div>
+       		 <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px">
+			<div class="widget-header bordered-bottom bordered-palegreen">
+				<span class="widget-caption">创建住宅</span>
+			</div>
+			<div class="widget-body" style="padding-top: 0px">
+				<form class="form-horizontal form-bordered" id="from">
+					<div class="form-group" style="padding-top:15px;">
+						<label class="col-sm-1 control-label no-padding-right">楼号：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="newsTitle"
+								name="newsTitle" placeholder="楼号">
+						</div>
+					</div>
+					<div class="form-group" style="padding-top:15px;">
+						<label class="col-sm-1 control-label no-padding-right">楼层：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="newsTitle"
+								name="newsTitle" placeholder="楼层">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">建筑公司：</label>
+						<div class="col-sm-10">
+						<label class="col-sm-1 control-label no-padding-right">xxx建筑公司</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">厅:</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="newsTitle"
+								name="newsTitle" placeholder="厅">
+						</div>
+						<label class="col-sm-1 control-label no-padding-right">室：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="newsTitle"
+								name="newsTitle" placeholder="室">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">建筑年份：</label>
+						<div class="col-sm-2" style="position: relative;">
+							<input type="text" class="form-control" id="sendTime" readonly="readonly"
+								name="sendTime" placeholder="建筑年份" style="cursor: pointer;">
+						</div>
+						<label class="col-sm-1 control-label no-padding-right">产权：</label>
+						<div class="col-sm-2" style="position: relative;">
+							<input type="text" class="form-control" id="endTime" readonly="readonly"
+								name="endTime" placeholder="产权" style="cursor: pointer;">
+						</div>
+					</div>
+					<div class="form-group" style="padding-top:15px;">
+						<label class="col-sm-1 control-label no-padding-right">住宅总面积：</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="newsTitle"
+								name="newsTitle" placeholder="住宅总面积">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">建筑图纸：</label>
+						<div class="col-sm-5" style="padding-left: 0px">
+						<img alt="" src="/gobal/demo/1.jpg" style="width:150px;height: 150px">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">实景图：</label>
+						<div class="col-sm-5" style="padding-left: 0px">
+						<img alt="" src="/gobal/demo/11.png" style="width:150px;height: 150px">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-1 col-sm-5">
+							<a id="createbut" href="javascript:void(0);"
+								class="btn btn-primary">创&nbsp;&nbsp;建</a>
+						</div>
+					</div>
+				</form>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+<%include("../../resapi/sysjs.html"){}%>
+	<!--Bootstrap  wysiwig Scripts-->
+	<script type="text/javascript"
+		src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript"
+		src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript"
+		src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+	<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+	<script type="text/javascript">
+	var zNodes = [
+		{id:1, pId:0, name: "沛县"},
+		{id:2, pId:0, name: "新城区"},
+		{id:3, pId:0, name: "铜山区"},
+		{id:4, pId:0, name: "金山桥开发区"},
+		{id:5, pId:1, name: "东城区"},
+		{id:11, pId:1, name: "西城区"},
+		{id:12, pId:1, name: "xx城区"},
+		{id:13, pId:5, name: "完美小区"},
+		{id:14, pId:5, name: "随心园小区"},
+		{id:15, pId:13, name: "#1号楼"},
+		{id:16, pId:13, name: "#2号楼"},
+		{id:17, pId:13, name: "#3号楼"},
+		{id:18, pId:13, name: "#4号楼"}
+	];
+	var setting = {
+    data: {
+        key : {
+            title : "name", //鼠标悬停显示的信息
+            name : "name" //网页上显示出节点的名称
+        },
+        simpleData: {
+            enable: true,
+            idKey: "id", //修改默认的ID为自己的ID
+            pIdKey: "pId",//修改默认父级ID为自己数据的父级ID
+            rootPId: 0     //根节点的ID
+        }
+    }
+};
+	
+	$(document).ready(function(){
+    $.fn.zTree.init($("#tree"), setting, zNodes);
+})
+	</script>
+</body>
+</html>

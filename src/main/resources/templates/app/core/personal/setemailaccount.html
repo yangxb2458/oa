@@ -1,0 +1,59 @@
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="widget-header bordered-bottom bordered-blue">
+			<span class="widget-caption">账户&服务器设置</span>
+		</div>
+		<div class="widget-body">
+			<form role="form">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<label>邮件账号</label> <input type="email" class="form-control" id="email" placeholder="邮件账号">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<label>邮件密码</label> <input type="password" class="form-control" id="emailpassword" placeholder="邮件密码" maxlength="16">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<label>POP3服务器地址</label> <input type="text" class="form-control" id="pop3" placeholder="POP3服务器地址">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<label>SMTP服务器地址</label> <input type="text" class="form-control" id="smtp" placeholder="SMTP服务器地址">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<label>服务器端口</label> <input type="number" class="form-control" id="port" placeholder="服务器端口">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<label>邮件协议类型</label>
+							<div class="radio">
+								<label style="padding: 0px;"> <input name="type" type="radio" checked="checked" value="1"> <span class="text">常规 </span>
+								</label> <label> <input name="type" type="radio" value="0"> <span class="text">SSL </span>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<button type="button" class="btn btn-blue js-emailconfig">修改</button>
+			</form>
+		</div>
+	</div>
+</div>

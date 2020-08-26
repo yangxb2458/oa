@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/module/jeDate/jedate.css" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class="active"><a href="/app/core/hr/contract" aria-expanded="true">合同管理 </a></li>
+							<li class=""><a href="/app/core/hr/contract?view=input" aria-expanded="false">合同录入</a></li>
+							<li class=""><a href="/app/core/hr/contract?view=import" aria-expanded="false">合同导入</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding: 0px;">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12" id="baseinfolistdiv">
+									<div class="btn-group" id="toobar">
+										<span style="margin-left: 10px;">签约公司:</span> <span> <select id="enterpriesQuery" style="width: 200px; display: inline-block; border-radius: 0px;" class="form-control"></select>
+										</span> <span style="margin-left: 10px;">合同类型:</span> <span> <select id="contractTypeQuery" style="width: 150px; display: inline-block; border-radius: 0px;" class="form-control"></select>
+										</span> <span style="margin-left: 10px;">签约日期:</span> <span> <input readonly="readonly" placeholder="签约日期" style="width: 150px; display: inline-block;" id="beginTimeQuery"
+											class="form-control">
+										</span> <span style="margin-left: 10px;">-</span> <span> <input readonly="readonly" placeholder="签约日期" style="width: 150px; display: inline-block;" id="endTimeQuery" class="form-control">
+										</span> <span style="margin-left: 10px;">雇佣者:</span> <span> <input readonly="readonly" placeholder="雇佣者" style="width: 150px; display: inline-block;" id="userIdQuery" opt-id="userIdQuery"
+											class="form-control" onclick="selectHrUser(this,'false');">
+										</span> <span style="margin-left: 20px"> <a href="javascript:void(0);" class="btn btn-magenta js-simple-query">查询</a>
+										</span>
+									</div>
+									<table id="myTable"></table>
+								</div>
+								<div class="col-md-12 col-sm-12 col-xs-12" id="baseinfodiv" style="display: none;">
+									<div class="row">
+										<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+											<form class="form-horizontal">
+												<table class="table table-hover table-striped table-bordered">
+													<tr>
+														<td width="20%">排序号：</td>
+														<td width="30%"><input placeholder="排序号" type="number" name="sortNo" id="sortNo" maxlength="50" value="" class="form-control"></td>
+														<td width="20%">应聘岗位：</td>
+														<td width="30%"><select id="poolPosition" name="poolPosition" module="poolPosition" style="border-radius: 0px;" class="form-control js-auto-select" style="border-radius: 0px;"></select></td>
+													</tr>
+													<tr>
+														<td width="20%">合同编号：</td>
+														<td width="30%"><input placeholder="含同编号" type="text" name="contractCode" id="contractCode" maxlength="50" value="" class="form-control" maxlength="50"></td>
+														<td width="20%">合同类型：</td>
+														<td width="30%"><select id="contractType" name="contractType" module="contractType" style="border-radius: 0px;" class="form-control js-auto-select" style="border-radius: 0px;">
+														</select></td>
+													</tr>
+													<tr>
+														<td width="20%">签约公司：</td>
+														<td width="30%"><select id="enterpries" name="enterpries" module="enterpries" style="border-radius: 0px;" class="form-control js-auto-select" style="border-radius: 0px;">
+														</select></td>
+														<td width="20%">签约方式：</td>
+														<td width="30%"><select id="signType" name="signType" class="form-control" style="border-radius: 0px;">
+																<option value="1">新签</option>
+																<option value="2">补签</option>
+																<option value="3">改签</option>
+																<option value="4">续签</option>
+														</select></td>
+													</tr>
+													<tr>
+														<td width="20%">关联OA账号：</td>
+														<td width="30%"><input placeholder="关联OA账号" type="text" name="userId" id="userId" readonly="readonly" opt-id="userId" class="form-control" onclick="selectHrUser(this,'false');"></td>
+														<td width="20%">雇佣者姓名：</td>
+														<td width="30%"><input placeholder="雇佣者姓名" type="text" name="userName" id="userName" class="form-control" maxlength="50"></td>
+													</tr>
+
+													<tr>
+														<td width="20%">合同生效时间：</td>
+														<td width="30%"><input placeholder="合同生效时间" type="text" name="startTime" id="startTime" maxlength="20" value="" class="form-control"></td>
+														<td width="20%">合同终止时间：</td>
+														<td width="30%"><input placeholder="合同终止时间" type="text" name="endTime" id="endTime" maxlength="20" value="" class="form-control"></td>
+													</tr>
+													<tr>
+														<td width="20%">合同期限属性：</td>
+														<td width="30%"><select id="specialization" name="specialization" class="form-control" style="border-radius: 0px;">
+																<option value="1">固定期限</option>
+																<option value="2">无固定期限</option>
+																<option value="3">以完成一定工作任务为期限</option>
+														</select></td>
+														<td width="20%">合同签订时间：</td>
+														<td width="30%"><input placeholder="合同签订时间" type="text" name="signTime" id="signTime" maxlength="20" value="" class="form-control"></td>
+													</tr>
+													<tr>
+														<td width="20%">是否自动提醒：</td>
+														<td width="80%" colspan="3"><div class="control-group">
+																<label> <input type="radio" class="colored-danger" value="0" name="reminder" checked="checked"> <span class="text">不提醒</span>
+																</label> <label> <input type="radio" class="colored-danger" value="1" name="reminder"> <span class="text">自动提醒</span>
+																</label>
+															</div></td>
+													</tr>
+													<tr>
+														<td width="20%">提醒用户：</td>
+														<td width="70%" colspan="2"><input type="text" id="sendToUser" name="sendToUser" class="form-control" readonly="readonly"></td>
+														<td width="30%"><a style="cursor: pointer;" opt-id="sendToUser" onclick="selectUser(this,'false');">选择</a> <a style="margin-left: 10px;" onclick="clearSelect('userPriv')">清空</a></td>
+													</tr>
+													<tr>
+														<td width="20%">提醒方式：</td>
+														<td width="80%" colspan="3"><div id="msgType" style="padding-left: 0px;"></div></td>
+													</tr>
+													<tr>
+														<td width="20%">合同附件：</td>
+														<td width="80%" colspan="3">
+															<div id="show_hrattach"></div> <a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('hr','hrattach');" hidefocus="true"
+																maxlength="1" id="hrattach" name="hrattach" class="addfile" multiple="multiple"></a> <a class="addfile" style="width: 200px;" href="#" op_id="hrattach"
+															onclick="selectattach(this,'true')">选择网络文件</a>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="4">备注</td>
+													</tr>
+													<tr>
+														<td colspan="4">
+															<div id="remark" name="remark"></div>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="4" align="center">
+														<a id="createbut" href="javascript:void(0);" class="btn btn-primary js-update-save">更&nbsp;&nbsp;新</a>
+														<a href="javascript:void(0);" class="btn btn-purple js-back-btn" style="margin-left: 20px;">返&nbsp;&nbsp;回</a>
+														</td>
+													</tr>
+												</table>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	<div id="attachselect"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/attachselect.js"></script>
+<script type="text/javascript" src="/module/hrorgselect/hrorgselect.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/hrapi.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/contract/manage.js"></script>
+</body>
+</html>

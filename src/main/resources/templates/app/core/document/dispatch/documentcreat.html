@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">发文列表</span>
+				</div>
+				<div class="widget-body">
+					<div class="row pricing-container">
+						<div class="well bordered-top bordered-bottom bordered-pink">
+							<h4 class="block">友情提醒</h4>
+							<p>暂无发文！</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<div class="modal fade bs-example-modal-lg" id="senddocument" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">创建发文</h4>
+				</div>
+				<div class="modal-body">
+					<div>
+						<form role="form">
+							<div class="form-group">
+								<label for="exampleInputEmail1">发文标题</label> <input type="text" class="form-control" id="flowTitle" placeholder="发文标题" maxlength="200">
+							</div>
+							<div class="form-group" style="text-align: right; margin-bottom: 0px;">
+								<div class="checkbox">
+									<label style="padding-left: 0px;"> <input type="checkbox" checked="checked" name="follow"> <span class="text">是否关注</span>
+									</label> <label style="padding-left: 20px;"> 紧急程度： <select id="urgency" style="border-radius: 0px; margin-right: 10px;">
+											<option value="0">一般</option>
+											<option value="1">紧急</option>
+											<option value="2">加急</option>
+									</select>
+									</label>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" id="sendDocumentBtn">创建</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	<div class="modal fade bs-example-modal-lg" id="documentfunction" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">收文文流程说明</h4>
+				</div>
+				<div class="modal-body" id="flowFunction"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/gobal/js/page/document/dispatchcreate.js"></script>
+</html>

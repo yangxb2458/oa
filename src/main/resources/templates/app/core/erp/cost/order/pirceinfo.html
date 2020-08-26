@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css"
+	rel="stylesheet" />
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y:auto;">
+<div class="page-body" style="padding:0px;">
+	<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">产品成本组成详情</span>
+					<span class="widget-caption" style="float:right;padding-right:20px;">单品成本：<span id="pircespan"></span> RMB</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+						<div class="row">
+                                <div class="form-group">
+                                 <div class="col-md-6 col-sm-6 col-xs-12">
+		                                                        <label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">产品名称:</label>
+		                                                        <div class="col-sm-10" style="line-height: 34px;" id="productName">
+		                                                        </div>
+		                                                    </div>
+		                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+		                                                        <label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">产品型号:</label>
+		                                                        <div class="col-sm-4" style="line-height: 34px;" id="model">
+		                                                        </div>
+		                                                    </div>
+                                                    	</div>
+                                                    	<div class="form-group">
+                                 <div class="col-md-6 col-sm-6 col-xs-12">
+		                                                        <label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">规格参数:</label>
+		                                                        <div class="col-sm-10" style="line-height: 34px;" id="param">
+		                                                        </div>
+		                                                    </div>
+		                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+		                                                        <label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">备注:</label>
+		                                                        <div class="col-sm-4" style="line-height: 34px;" id="remark">
+		                                                        </div>
+		                                                    </div>
+                                                    	</div>
+                                                    	<div class="form-group">
+                                 <div class="col-md-6 col-sm-6 col-xs-12">
+		                                                        <label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">BOM名称:</label>
+		                                                        <div class="col-sm-10" style="line-height: 34px;" id="bomName">
+		                                                        </div>
+		                                                    </div>
+		                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+		                                                        <label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">BOM版本:</label>
+		                                                        <div class="col-sm-10" style="line-height: 34px;" id="version">
+		                                                        </div>
+		                                                    </div>
+                                                    	</div>
+                                                    	<div class="form-group">
+                                 <div class="col-md-6 col-sm-6 col-xs-12">
+		                                                        <label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">设计图号:</label>
+		                                                        <div class="col-sm-10" style="line-height: 34px;" id="mapNumber">
+		                                                        </div>
+		                                                    </div>
+		                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+		                                                        <label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">制品号:</label>
+		                                                        <div class="col-sm-10" style="line-height: 34px;" id="productNumber">
+		                                                        </div>
+		                                                    </div>
+                                                    	</div>
+                                                    	<div class="form-group">
+							                                 <div class="col-md-6 col-sm-6 col-xs-12">
+							                                 <label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">BOM状态:</label>
+							                                 <div class="col-sm-10" style="line-height: 34px;" id="status">
+							                                  </div>
+							                                 </div>
+							                                 <div class="col-md-6 col-sm-6 col-xs-12">
+							                                 <label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">产品图样:</label>
+							                                 <div class="col-sm-10" style="line-height: 34px;">
+							                                 <div id="show_attach">
+																						</div>
+							 															<input data_value="" id="attach" name="attach" type="hidden"/>
+							                                  </div>
+							                                 </div>
+							                                 </div>
+							                                 
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+                            <div class="well with-header" style="padding-top: 38px;padding-left: 0px;padding-right: 0px;">
+                                <div class="header bg-palegreen">
+                                   单个产品成本详情
+                                </div>
+											<div class="row">
+												<div class="col-md-12">
+													<table id="myTable"></table>
+												</div>
+									</div>
+                                <div style="width:100%;" align="center">
+                                <a href="javascript:window.opener=null;window.open('','_self');window.close();" class="btn btn-azure">关闭</a>
+                                </div>
+                            </div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+<%include("../../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/gobal/js/page/erp/erp.js"></script>
+<script src="/gobal/js/page/erp/priceinfo.js"></script>
+<script>
+var productId = "${productId}";
+</script>
+</body> 
+</html>

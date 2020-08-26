@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/module/jeDate/jedate.css" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class=""><a href="/app/core/leadactivity/manage" aria-expanded="false">行程管理 </a></li>
+							<li class="active"><a href="/app/core/leadactivity/manage?view=input" aria-expanded="true">创建行程</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding-top: 0px;">
+							<div class="row">
+								<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+									<form class="form-horizontal">
+										<table class="table table-hover table-striped table-bordered">
+											<tr>
+												<td width="20%">行程标题：</td>
+												<td width="30%"><input placeholder="行程标题" type="text" name="title" id="title" class="form-control" maxlength="200"></td>
+												<td width="20%">指定领导：</td>
+												<td width="30%"><input placeholder="指定领导" type="text" id="leader" name="leader" class="form-control" readonly="readonly" opt-id="leader" onclick="selectUser(this,'false');"></td>
+											</tr>
+											<tr>
+												<td width="20%">开始时间：</td>
+												<td width="30%"><input placeholder="开始时间" type="text" name="beginTime" id="beginTime" maxlength="20" value="" class="form-control"></td>
+												<td width="20%">结束日期：</td>
+												<td width="30%"><input placeholder="结束日期" type="text" name="endTime" id="endTime" class="form-control"></td>
+											</tr>
+											<tr>
+												<td width="20%">查询权限（人员）：</td>
+												<td colspan="2"><textarea rows="3" cols=""  class="form-control" id="userPriv" name="userPriv" readonly="readonly"></textarea>  </td>
+												<td width="30%">
+												<a style="cursor: pointer;" opt-id="userPriv" onclick="selectUser(this,'true');">选择</a>
+												<a style="cursor: pointer;margin-left:20px;" onclick="clearSelect('userPriv')">清空</a>
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">查询权限（部门）：</td>
+												<td colspan="2">
+													<textarea rows="3" class="form-control" id="deptPriv" name="deptPriv" readonly="readonly"></textarea>
+												</td>
+												<td width="30%">
+												<a style="cursor: pointer;" opt-id="deptPriv" onclick="selectDept(this,'true');">选择</a>
+												<a style="cursor: pointer;margin-left:20px;" onclick="clearSelect('deptPriv')">清空</a>
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">查询权限（职务）：</td>
+												<td colspan="2"><textarea rows="3" cols=""  class="form-control" id="levelPriv" name="levelPriv"></textarea>  </td>
+												<td width="30%">
+												<a style="cursor: pointer;" opt-id="levelPriv" onclick="selectUserLevel(this,'true');">选择</a>
+												<a style="cursor: pointer;margin-left:20px;" onclick="clearSelect('levelPriv')">清空</a>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">备注</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<div id="remark" name="remark"></div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" align="center"><a href="javascript:void(0);" class="btn btn-primary js-add-save">新&nbsp;&nbsp;建</a></td>
+											</tr>
+										</table>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/leadactivity/input.js"></script>
+</body>
+</html>

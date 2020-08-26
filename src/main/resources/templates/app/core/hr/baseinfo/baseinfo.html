@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/module/jeDate/jedate.css" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class="active"><a href="/app/core/hr/baseinfo" aria-expanded="true">档案管理 </a></li>
+							<li class=""><a href="/app/core/hr/baseinfo?view=input" aria-expanded="false">档案录入</a></li>
+							<li class=""><a href="/app/core/hr/baseinfo?view=import" aria-expanded="false">档案导入</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding-top: 0px;">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12" id="baseinfolistdiv">
+									<div class="btn-group" id="toobar">
+										<span style="margin-left: 10px;">部门名称:</span> <span> <input type="text" class="form-control" name="deptIdQuery" id="deptIdQuery" placeholder="部门名称" readonly="readonly" value="全部"
+											data-value='' style="width: 200px; display: inline-block;" />
+											<div id="menuContent" class="menuContent" style="margin-left: 42px;">
+												<ul id="tree" class="ztree"></ul>
+											</div>
+										</span> <span style="margin-left: 10px;">在职状态:</span> <span> <select style="width: 150px; display: inline-block;" id="workStatusQuery" class="form-control"></select>
+										</span> <span style="margin-left: 10px;">入职时间:</span> <span> <input readonly="readonly" placeholder="入职时间" style="width: 150px; display: inline-block;" id="employedTimeQuery"
+											class="form-control">
+										</span> <span style="margin-left: 10px;">身份证号:</span> <span> <input style="width: 150px; display: inline-block;" placeholder="身份证号" type="text" size="18" name="staffCardNoQuery"
+											id="staffCardNoQuery" class="form-control" value="">
+										</span> <span style="margin-left: 20px"> <a href="javascript:void(0);" class="btn btn-magenta js-simple-query">查询</a>
+										</span>
+									</div>
+									<table id="myTable"></table>
+								</div>
+								<div class="col-md-12 col-sm-12 col-xs-12" id="baseinfodiv" style="display: none;">
+									<div class="widget">
+										<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+											<form class="form-horizontal">
+												<table class="table table-hover table-striped table-bordered">
+													<tr>
+														<td width="20%">排序号：</td>
+														<td><input type="number" placeholder="排序号" name="sortNo" id="sortNo" maxlength="10" class="form-control"></td>
+														<td rowspan="6" colspan="2" width="50%" style="text-align: center;">
+															<div>
+																<div>
+																	<img id="file_img" style="width: 150px; height: 200px;" src="" onerror="this.onerror=null;this.src='/assets/img/avatars/adam-jansen.jpg'" class="avatar">
+																</div>
+																<div>
+																	<a style="margin: 20px; cursor: pointer;" onclick='delPhotos();'>删除</a> <a style="margin: 20px; position: relative; text-decoration: none; cursor: pointer;" onclick='delPhotos();'>更换
+																		<input type="file" onchange="uploadimg('file','hrphotos');" hidefocus="true" maxlength="1" id="file" name="file" class="addfile" accept="image/*">
+																	</a>
+																</div>
+															</div>
+														</td>
+													</tr>
+													<tr>
+														<td width="20%">姓名：</td>
+														<td><input type="text" placeholder="姓名" name="userName" id="userName" maxlength="20" value="" class="form-control"></td>
+													</tr>
+													<tr>
+														<td width="20%">OA用户名：</td>
+														<td><input type="text" placeholder="OA用户名" name="accountId" id="accountId" class="form-control" readonly="readonly" opt-id="accountId" onclick="selectUser(this,'false');"></td>
+													</tr>
+													<tr>
+														<td width="20%">部门：</td>
+														<td><input placeholder="部门" type="text" name="deptId" id="deptId" class="form-control" opt-id="deptId" onclick="selectHrDept(this,'false');"></td>
+													</tr>
+													<tr>
+														<td width="20%">职务：</td>
+														<td><input placeholder="职务" readonly="readonly" type="text" name="leaveId" id="leaveId" class="form-control" opt-id="leaveId" onclick="selectHrUserLeave(this,'false');"></td>
+													</tr>
+													<tr>
+														<td width="20%">英文名：</td>
+														<td><input placeholder="英文名" type="text" name="userNameEn" id="userNameEn" maxlength="20" value="" class="form-control"></td>
+													</tr>
+													<tr>
+														<td width="20%">曾用名：</td>
+														<td width="30%"><input type="text" placeholder="曾用名" id="beforeUserName" name="beforeUserName" maxlength="20" value="" class="form-control"></td>
+														<td width="20%">性别：</td>
+														<td width="30%"><select name="sex" id="sex" class="form-control">
+																<option value="0">男</option>
+																<option value="1">女</option>
+																<option value="2">其它</option>
+														</select></td>
+													</tr>
+													<tr>
+														<td width="20%">工号：</td>
+														<td width="30%"><input placeholder="工号" type="text" name="workNo" id="workNo" maxlength="50" value="" class="form-control"></td>
+														<td width="20%">编号：</td>
+														<td width="30%"><input placeholder="编号" type="text" name="staffNo" id="staffNo" maxlength="50" value="" class="form-control"></td>
+													</tr>
+													<tr>
+														<td width="20%">身份证号：</td>
+														<td><input placeholder="身份证号" type="text" maxlength="18" name="staffCardNo" id="staffCardNo" class="form-control" value=""></td>
+														<td width="20%">出生日期：</td>
+														<td><input placeholder="出生日期" type="text" name="birthDay" id="birthDay" maxlength="10" maxlength="10" class="form-control"></td>
+													</tr>
+													<tr>
+														<td width="20%">年休假：</td>
+														<td><input type="number" placeholder="年休假" name="levelType" id="levelType" maxlength="4" maxlength="4" class="form-control" value="0"></td>
+														<td width="20%">生肖：</td>
+														<td><select name="animal" id="animal" class="form-control">
+																<option value="">请选择</option>
+																<option value="鼠">鼠</option>
+																<option value="牛">牛</option>
+																<option value="虎">虎</option>
+																<option value="兔">兔</option>
+																<option value="龙">龙</option>
+																<option value="蛇">蛇</option>
+																<option value="马">马</option>
+																<option value="羊">羊</option>
+																<option value="猴">猴</option>
+																<option value="鸡">鸡</option>
+																<option value="狗">狗</option>
+																<option value="猪">猪</option>
+														</select></td>
+													</tr>
+													<tr>
+														<td width="20%">籍贯：</td>
+														<td><select class="form-control js-auto-select" name="nativePlace" id="nativePlace" module="nativePlace">
+														</select></td>
+														<td width="20%">现住地址 :</td>
+														<td><input type="text" placeholder="请输入详细地址" class="form-control" id="address" name="address" maxlength="50"></td>
+													</tr>
+													<tr>
+														<td width="20%">血型 :</td>
+														<td><select name="bloodType" id="bloodType" class="form-control">
+																<option value=""></option>
+																<option value="A">A</option>
+																<option value="B">B</option>
+																<option value="O">O</option>
+																<option value="AB">AB</option>
+																<option value="Rh">Rh</option>
+														</select></td>
+														<td width="20%">民族：</td>
+														<td><input placeholder="民族" type="text" id="nationalty" name="nationalty" class="form-control" value=""></td>
+													</tr>
+													<tr>
+														<td width="20%">婚姻状况：</td>
+														<td><select id="maritalStatus" name="maritalStatus" class="form-control">
+																<option value="" selected=""></option>
+																<option value="0">未婚</option>
+																<option value="1">已婚</option>
+																<option value="2">离异</option>
+																<option value="3">丧偶</option>
+														</select></td>
+														<td width="20%">健康状况：</td>
+														<td><input placeholder="健康状况" type="text" id="health" name="health" value="" maxlength="50" class="form-control"></td>
+													</tr>
+													<tr>
+														<td width="20%">政治面貌：</td>
+														<td><select id="politicalStatus" name="politicalStatus" module="politicalStatus" class="form-control js-auto-select">
+														</select></td>
+														<td width="20%">入党时间：</td>
+														<td><input placeholder="入党时间" type="text" id="joinPartyTime" name="joinPartyTime" maxlength="10" maxlength="10" class="form-control"></td>
+													</tr>
+													<tr>
+														<td width="20%">户口类别：</td>
+														<td><select name="staffType" id="staffType" module="staffType" class="form-control js-auto-select">
+														</select></td>
+														<td width="20%">户口所在地：</td>
+														<td><input placeholder="户口所在地" type="text" name="staffAddress" id="staffAddress" maxlength="50" value="" class="form-control"></td>
+													</tr>
+													<tr>
+														<td class="TableHeader" colspan="4"><b>&nbsp;职位情况及联系方式：</b></td>
+													</tr>
+													<tr>
+														<td width="20%">工种：</td>
+														<td><select name="workType" id="workType" module="workType" class="form-control js-auto-select"></select></td>
+														<td width="20%">工资级别：</td>
+														<td><select name="wagesLevel" id="wagesLevel" class="form-control"></select></td>
+													</tr>
+													<tr>
+														<td width="20%">员工类型：</td>
+														<td><select id="occupation" name="occupation" module="occupation" class="form-control js-auto-select">
+														</select></td>
+														<td width="20%">入职时间：</td>
+														<td><input type="text" id="employedTime" name="employedTime" class="form-control" maxlength="10" placeholder="入职时间"></td>
+													</tr>
+													<tr>
+														<td width="20%">岗位：</td>
+														<td><select id="workJob" name="workJob" module='workJob' class="form-control js-auto-select">
+														</select></td>
+														<td width="20%">在职状态：</td>
+														<td><select name="workStatus" id="workStatus" module="workStatus" class="form-control js-auto-select"></select></td>
+													</tr>
+													<tr>
+														<td width="20%">联系电话：</td>
+														<td><input placeholder="联系电话" type="text" id="phone" name="phone" class="form-control" maxlength="15"></td>
+														<td width="20%">考勤排班类型：</td>
+														<td><select name="attendType" id="attendType" class="form-control">
+														</select></td>
+													</tr>
+													<tr>
+														<td width="20%">职称：</td>
+														<td><select id="persentPosition" name="persentPosition" module="persentPosition" class="form-control js-auto-select">
+														</select></td>
+														<td width="20%">职称级别：</td>
+														<td><select id="workLeave" module="workLeave" name="workLeave" class="form-control js-auto-select">
+														</select></td>
+													</tr>
+													<tr>
+														<td width="20%">手机号码：</td>
+														<td><input placeholder="手机号码" type="text" name="mobileNo" id="mobileNo" class="form-control" value="" maxlength="15"></td>
+														<td width="20%">微信号码：</td>
+														<td><input placeholder="微信号码" type="text" name="wxNo" id="wxNo" class="form-control" value=""></td>
+													</tr>
+													<tr>
+														<td width="20%">电子邮件：</td>
+														<td><input placeholder="电子邮件" type="text" name="email" id="email" class="form-control" value="" maxlength="50"></td>
+														<td width="20%">家庭地址：</td>
+														<td><input placeholder="家庭地址" type="text" name="homeAddress" id="homeAddress" value="" class="form-control" maxlength="50"></td>
+													</tr>
+													<tr>
+														<td width="20%">QQ：</td>
+														<td><input placeholder="QQ" type="text" name="qq" id="qq" class="form-control" value="" maxlength="20"></td>
+														<td width="20%">其他联系方式：</td>
+														<td><input placeholder="其他联系方式" type="text" name="otherContact" id="otherContact" maxlength="50" value="" class="form-control"></td>
+													</tr>
+													<tr>
+														<td width="20%">开户银行：</td>
+														<td><input placeholder="开户银行" type="text" name="bank" id="bank" class="form-control" value="" maxlength="50"></td>
+														<td width="20%">银行账户：</td>
+														<td><input placeholder="银行账户" type="text" name="bankAccount" id="bankAccount" maxlength="50" value="" class="form-control"></td>
+													</tr>
+													<tr>
+														<td class="TableHeader" colspan="4"><b>&nbsp;教育背景：</b></td>
+													</tr>
+													<tr>
+														<td width="20%">学历：</td>
+														<td><select id="highsetShool" name="highsetShool" module="highsetShool" class="form-control js-auto-select">
+														</select></td>
+														<td width="20%">学位：</td>
+														<td><select id="highsetDegree" name="highsetDegree" module="highsetDegree" class="form-control js-auto-select">
+														</select></td>
+													</tr>
+													<tr>
+														<td width="20%">毕业时间：</td>
+														<td><input placeholder="毕业时间" type="text" name="graduationTime" id="graduationTime" maxlength="10" maxlength="10" class="form-control" value=""></td>
+														<td width="20%">毕业学校：</td>
+														<td><input placeholder="毕业学校" type="text" id="graduationShool" name="graduationShool" value="" class="form-control" maxlength="50"></td>
+													</tr>
+													<tr>
+														<td width="20%">专业：</td>
+														<td><input placeholder="专业" type="text" name="major" id="major" value="" class="form-control" maxlength="50"></td>
+														<td width="20%">特长：</td>
+														<td><input placeholder="特长" type="text" name="skills" id="skills" value="" maxlength="80" class="form-control"></td>
+													</tr>
+													<tr>
+														<td width="20%">外语语种：</td>
+														<td><input placeholder="外语语种" type="text" name="otherLanguage" id="otherLanguage" value="" class="form-control" maxlength="20"></td>
+														<td width="20%">外语水平：</td>
+														<td><input placeholder="外语水平" type="text" name="otherLanguageLevel" id="otherLanguageLevel" value="" class="form-control" maxlength="80"></td>
+													</tr>
+													<tr>
+														<td colspan="2"><b>&nbsp;职务情况：</b></td>
+														<td colspan="2"><b>&nbsp;担保记录：</b></td>
+													</tr>
+													<tr>
+														<td colspan="2" style="text-align: left;"><textarea cols="30" id="cretificate" name="cretificate" rows="5" class="form-control" wrap="on"></textarea></td>
+														<td colspan="2"><textarea cols="30" name="surety" id="surety" rows="5" class="form-control" wrap="on"></textarea></td>
+													</tr>
+													<tr>
+														<td class="TableHeader" colspan="2"><b>&nbsp;社保缴纳情况：</b></td>
+														<td class="TableHeader" colspan="2"><b>&nbsp;体检记录：</b></td>
+													</tr>
+													<tr>
+														<td colspan="2" style="text-align: left;"><textarea cols="30" class="form-control" name="insure" id="insure" rows="5"></textarea></td>
+														<td colspan="2"><textarea cols="30" class="form-control" id="bodyExamim" name="bodyExamim" rows="5" class="BigInput tijian" wrap="on"></textarea></td>
+													</tr>
+													<tr>
+														<td align="left" colspan="4" class="TableHeader"><b>&nbsp; 备注：</b></td>
+													</tr>
+													<tr>
+														<td style="text-align: left;" colspan="4"><textarea name="remark" id="remark" cols="" rows="5" class="form-control" value=""></textarea></td>
+													</tr>
+													<tr>
+														<td class="TableHeader" colspan="4"><b>&nbsp; 简历：</b></td>
+													</tr>
+													<tr style="">
+														<td colspan="4" style="">
+															<div id="resume" name="resume"></div>
+														</td>
+													</tr>
+													<tr style="">
+														<td style="">相关附件</td>
+														<td colspan="3" style="">
+															<div id="show_hrattach"></div> <a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('hr','hrattach');" hidefocus="true"
+																maxlength="1" id="hrattach" name="hrattach" class="addfile" multiple="multiple"></a> <a class="addfile" style="width: 200px;" href="#" op_id="hrattach"
+															onclick="selectattach(this,'true')">选择网络文件</a>
+														</td>
+													</tr>
+													<tr>
+														<td colspan="4" style="text-align: center"><a id="createbut" href="javascript:void(0);" class="btn btn-primary js-add-save">更新</a><a href="javascript:void(0);"
+															class="btn btn-purple js-back-btn" style="margin-left: 20px;">返回</a></td>
+													</tr>
+												</table>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	<div id="attachselect"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/attachselect.js"></script>
+<script type="text/javascript" src="/module/hrorgselect/hrorgselect.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/hrapi.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/baseinfo/baseinfo.js"></script>
+</body>
+</html>

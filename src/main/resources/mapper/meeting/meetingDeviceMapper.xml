@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.meeting.MeetingDeviceMapper">
+	<resultMap id="MeetingDevice" type="com.core136.bean.meeting.MeetingDevice">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="DEVICE_ID" property="deviceId" jdbcType="VARCHAR" />
+		<result column="DEVICE_CODE" property="deviceCode" jdbcType="VARCHAR" />
+		<result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+		<result column="DEVICE_NAME" property="deviceName" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="BRAND" property="brand" jdbcType="VARCHAR" />
+		<result column="MODEL" property="model" jdbcType="VARCHAR" />
+		<result column="MANAGER" property="manager" jdbcType="VARCHAR" />
+		<result column="DEPT_PRIV" property="deptPriv" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getMeetingDeviceList" resultType="java.util.HashMap">
+	 SELECT M.ID AS id,M.DEVICE_ID AS deviceId,M.DEVICE_CODE AS deviceCode,M.SORT_NO AS sortNo,M.DEVICE_NAME AS deviceName,M.STATUS AS status,M.BRAND AS brand,
+	 M.MODEL AS model,M.MANAGER AS manager,M.DEPT_PRIV AS deptPriv,M.REMARK AS remark,
+	 (SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=M.ORG_ID AND M.MANAGER=U.ACCOUNT_ID) AS managerName
+	 FROM 
+	 MEETING_DEVICE M
+	 WHERE
+	 M.ORG_ID=#{orgId}
+	<if test="search !='%%' and search !=''.toString() and search!=null">
+	 	AND M.DEVICE_NAME LIKE #{search}
+	 </if>
+	</select>
+	
+	<select id="getCanUseDeviceList" resultType="java.util.HashMap">
+	 SELECT DEVICE_ID AS deviceId,SORT_NO AS sortNo,DEVICE_NAME AS deviceName,BRAND AS brand,MODEL AS model
+	 FROM 
+	 MEETING_DEVICE
+	 WHERE
+	 ORG_ID=#{orgId} 
+	 <if test="deptId!=null and deptId!=''.toString()">
+	 AND (DEPT_PRIV ='@all' OR FUN_INTE_ARRAY(DEPT_PRIV,#{deptId}) > 0)
+	 </if>
+	</select>
+	
+	<select id="getDeviceListName" resultType="java.util.HashMap">
+	 SELECT DEVICE_NAME AS deviceName
+	 FROM 
+	 MEETING_DEVICE
+	 WHERE
+	 ORG_ID=#{orgId}
+	 <if test="list!=null">
+		AND DEVICE_ID IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</if>
+	</select>
+
+</mapper>
+

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">审批管理</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title">审批列表</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="buttons-preview" id="toobar">
+										<span style="margin-left: 10px;">资产分类:</span>
+										<span> 
+										<input type="text" class="form-control" id="assetsSortId" name="assetsSortId"  style="width: 150px; display: inline-block;" placeholder="资产分类 " readonly="readonly">
+                                               <div id="menuContent" class="menuContent"><ul id="menuTree" class="ztree"></ul></div>
+										</span>
+										<span style="margin-left: 10px">审批状态:</span> 
+										<span> 
+										<select id="status" name="status" style="width: 150px">
+										<option value="">全部</option>
+										<option value="0" selected>待审批</option>
+										<option value="1">已审批</option>
+										</select>
+										</span> 
+										<span style="margin-left: 10px;">申请时间:</span>
+										<span> <input type="text" class="form-control" id="beginTime" readonly="readonly" style="width: 150px; display: inline-block;" name="beginTime" placeholder="开始时间">
+											</span>
+										<span> - </span>
+										<span> <input type="text" class="form-control" id="endTime" readonly="readonly" style="width: 150px; display: inline-block;" name="endTime" placeholder="终止时间">
+											</span>
+											<span style="margin-left: 10px">
+												<a href="javascript:void(0);" class="btn btn-success js-query-but">查询</a>
+											</span>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade bs-example-modal-lg" tabindex="1" id="approvefixedmodal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">领用申请</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="form">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">资产名称：</label>
+							<div class="col-sm-8" style="line-height: 34px" id="assetsName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">资产编号：</label>
+							<div class="col-sm-8" style="line-height: 34px" id="assetsCode">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">品牌：</label>
+							<div class="col-sm-8" style="line-height: 34px" id="brand">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">型号：</label>
+							<div class="col-sm-8" style="line-height: 34px" id="model">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">审批意见：</label>
+							<div class="col-sm-8" style="line-height: 34px">
+								<div class="radio" style="display: inline-block;">
+	                                 <label><input name="status" type="radio" class="colored-blue" value="1" checked="checked">
+	                                 <span class="text">同意</span>
+	                                 </label>
+	                             </div>
+	                             <div class="radio" style="display: inline-block;">
+	                                 <label><input name="status" type="radio" class="colored-blue" value="0">
+	                                 <span class="text">不同意</span>
+	                                 </label>
+	                             </div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">审批备注：</label>
+							<div class="col-sm-8">
+								<textarea rows="5" cols="" class="form-control" id="remark" name="remark"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-save">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	
+	</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script src="/gobal/js/page/fixedassets/approve.js"></script>
+
+</html>

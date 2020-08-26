@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">创建询价单</span> <span class="widget-caption" style="float: right; padding-right: 20px;" id="inquiryCodeSpan">询价单编号:${inquiryCode}</span> 
+					<input type="hidden" id="inquiryCode" name="inquiryCode" value="${inquiryCode}"> <input type="hidden" id="inquiryId" name="inquiryId" value="${inquiryId}">
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title">询价单基本信息</div>
+
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">询价单标题:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="title" name="title" placeholder="询价单标题" value="">
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12"></div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">对方询价单号:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="customerInquiryCode" name="customerInquiryCode" placeholder="对方询价单号">
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">结算币种:</label>
+									<div class="col-sm-4">
+										<select class="form-control" style="border-radius: 0px" id="cashType" name="cashType">
+											<option value="1">RMB 人民币</option>
+											<option value="2">US 美元</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">客户名称:</label>
+									<div class="col-sm-10">
+										<input type="text" style="width: 100%" id="customerId" name="customerId" placeholder="客户名称" >
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">支付方式:</label>
+									<div class="col-sm-4">
+										<select class="form-control" style="border-radius: 0px" id="payType" name="payType">
+											<option value="1">进度付款</option>
+											<option value="2">滚动付款</option>
+											<option value="3">款到发货</option>
+											<option value="4">货到付款</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">联系人:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="linkMan" name="linkMan" placeholder="联系人" maxlength="50">
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">电话:</label>
+									<div class="col-sm-10">
+									<input type="text" class="form-control" id="tel" name="tel" placeholder="电话" maxlength="50">
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">报价时间:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="endTime" name="endTime" placeholder="报价时间" readonly="readonly">
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">送货地址:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="sendAdd" name="sendAdd" placeholder="送货地址" value="">
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="buttons-preview" id="toobar">
+										<a href="javascript:void(0);addRow();" class="btn btn-azure">添加产品</a>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">客户性质:</label>
+									<div class="col-sm-10">
+										<div class="radio">
+											<label style="padding-left: 0px"> <input name="customerType" type="radio" checked="checked" value="1"> <span class="text">终端用户 </span>
+											</label> <label> <input name="customerType" type="radio" value="2"> <span class="text">合作伙伴</span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">包装要求:</label>
+									<div class="col-sm-10">
+										<div class="radio">
+											<label style="padding-left: 0px"> <input name="packCharges" type="radio" checked="checked" value="1"> <span class="text">需要包装 </span>
+											</label> <label> <input name="packCharges" type="radio" value="0"> <span class="text">不需要包装</span>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">是否含税:</label>
+									<div class="col-sm-10">
+										<div class="radio">
+											<label style="padding-left: 0px"> <input name="taxFlag" type="radio" checked="checked" value="1"> <span class="text">含税 </span>
+											</label> <label> <input name="taxFlag" type="radio" value="0"> <span class="text">不含税</span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">是否开票:</label>
+									<div class="col-sm-10">
+										<div class="radio">
+											<label style="padding-left: 0px"> <input name="invoiceFlag" type="radio" checked="checked" value="1"> <span class="text">不开票</span>
+											</label> <label> <input name="invoiceFlag" type="radio" value="0"> <span class="text">开票</span>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">附件:</label>
+									<div class="col-sm-10">
+										<div style="padding-top: 4px;">
+											<div id="show_attach"></div>
+											<a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('crm','attach');" hidefocus="true" size="1" id="attach"
+												name="attach" class="addfile" multiple="multiple" /></a>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<label class="col-sm-2 control-label no-padding-right" style="line-height: 34px">备注:</label>
+									<div class="col-sm-10">
+										<textarea rows="5" class="form-control" id="remark" name="remark" placeholder="备注"></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
+									<a href="javascript:void(0);" class="btn btn-magenta" id="savebtn">保存</a> <a href="javascript:void(0);" class="btn btn-magenta" id="upatebtn">更新</a> <a
+										href="javascript:void(0);history.back(-1);" class="btn btn-warning shiny" id="backbtn">返回</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/assets/js/select2/select2.js"></script>
+<script type="text/javascript" src="/gobal/js/page/erp/erp.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/gobal/js/page/crm/inquirycreate.js"></script>
+</html>

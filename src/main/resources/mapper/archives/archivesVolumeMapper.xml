@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.archives.ArchivesVolumeMapper">
+<resultMap id="ArchivesVolume" type="com.core136.bean.archives.ArchivesVolume" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="VOLUME_ID" property="volumeId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="VOLUME_CODE" property="volumeCode" jdbcType="VARCHAR" />
+    <result column="VOLUME_TITLE" property="volumeTitle" jdbcType="VARCHAR" />
+    <result column="REPOSITORY_ID" property="repositoryId" jdbcType="VARCHAR" />
+    <result column="BEGIN_DATE" property="beginTime" jdbcType="VARCHAR" />
+    <result column="END_DATE" property="endTime" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="CREATE_ORG" property="createOrg" jdbcType="VARCHAR" />
+    <result column="STORAGE_PERIOD" property="storagePeriod" jdbcType="VARCHAR" />
+    <result column="SECRET_LEVEL" property="secretLevel" jdbcType="VARCHAR" />
+    <result column="MICRO_NO" property="microNo" jdbcType="VARCHAR" />
+    <result column="VOUCHER_TYPE" property="voucherType" jdbcType="VARCHAR" />
+    <result column="VOUCHER_BEGIN_NO" property="voucherBeginNo" jdbcType="VARCHAR" />
+    <result column="VOUCHER_END_NO" property="voucherEndNo" jdbcType="VARCHAR" />
+    <result column="PAGE_TOTAL" property="pageTotal" jdbcType="INTEGER" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="MANAGE_USER" property="manageUser" jdbcType="VARCHAR" />
+    <result column="DESTORY_FLAG" property="destoryFlag" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+<select id="getArchivesVolumeList" resultType="java.util.HashMap">
+	SELECT V.VOLUME_ID AS volumeId, V.VOLUME_CODE AS volumeCode,V.VOLUME_TITLE AS volumeTitle,R.TITLE AS repositoryTitle,V.MANAGE_USER AS manageUser,
+	V.SECRET_LEVEL AS secretLevel,V.PAGE_TOTAL AS pageTotal
+	FROM ARCHIVES_VOLUME V LEFT JOIN ARCHIVES_REPOSITORY R ON V.ORG_ID=R.ORG_ID AND V.REPOSITORY_ID=R.REPOSITORY_ID
+	WHERE V.ORG_ID=#{orgId} AND V.DESTORY_FLAG!='1'
+	<if test="opFlag!='1'.toString()">
+		AND V.MANAGE_USER = #{accountId}
+	</if>
+	<if test="search !='%%'.toString() and search !=''.toString() and search!=null">
+		AND (V.VOLUME_TITLE LIKE #{search} OR V.VOLUME_CODE LIKE #{search})
+	</if>
+</select>
+
+<select id="getArchivesVolumeListForSelect" resultType="java.util.HashMap">
+	SELECT V.VOLUME_ID AS volumeId,V.VOLUME_TITLE AS volumeTitle
+	FROM ARCHIVES_VOLUME V
+	WHERE V.ORG_ID=#{orgId} AND V.DESTORY_FLAG!='1'
+	<if test="opFlag!='1'.toString()">
+		AND V.MANAGE_USER = #{accountId}
+	</if>
+</select>
+
+<select id="getArchivesVolumeByRepositoryId" resultType="java.util.HashMap">
+	SELECT V.VOLUME_ID AS volumeId,V.VOLUME_TITLE AS volumeTitle
+	FROM ARCHIVES_VOLUME V
+	WHERE V.ORG_ID=#{orgId} AND V.DESTORY_FLAG!='1'
+	AND V.REPOSITORY_ID=#{repositoryId}
+</select>
+
+</mapper>
+

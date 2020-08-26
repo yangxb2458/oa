@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrLearnRecordMapper">
+<resultMap id="HrLearnRecord" type="com.core136.bean.hr.HrLearnRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="SHOOL_NAME" property="shoolName" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="DOUBLE" />
+    <result column="MAJOR" property="major" jdbcType="VARCHAR" />
+    <result column="HIGHSET_DEGREE" property="highsetDegree" jdbcType="VARCHAR" />
+    <result column="HONOR" property="honor" jdbcType="VARCHAR" />
+    <result column="CERIFICATE" property="cerificate" jdbcType="VARCHAR" />
+    <result column="CERIFIER" property="cerifier" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getHrLearnRecordList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,USER_ID AS userId,SHOOL_NAME AS shoolName,MAJOR AS major, BEGIN_TIME AS beginTime,
+	END_TIME AS endTime,HIGHSET_DEGREE AS highsetDegree,CERIFIER AS cerifier
+	FROM HR_LEARN_RECORD
+	WHERE ORG_ID=#{orgId}
+	<if test="userId!=null and userId!=''.toString()">
+		AND USER_ID=#{userId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND (BEGIN_TIME &gt;=#{beginTime} OR END_TIME ='')
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND (BEGIN_TIME &lt;=#{endTime} OR END_TIME ='')
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND (SHOOL_NAME LIKE #{search} OR MAJOR LIKE #{search})
+	</if>
+</select>
+
+
+<select id="getMyHrLearnRecordList" resultType="java.util.HashMap">
+	SELECT L.RECORD_ID AS recordId,L.USER_ID AS userId,L.SHOOL_NAME AS shoolName,L.MAJOR AS major, L.BEGIN_TIME AS beginTime,
+	L.END_TIME AS endTime,L.HIGHSET_DEGREE AS highsetDegree,L.CERIFIER AS cerifier
+	FROM HR_LEARN_RECORD L
+	WHERE L.ORG_ID=#{orgId}
+	AND L.USER_ID=(SELECT U.USER_ID FROM HR_USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=#{accountId})
+</select>
+
+</mapper>
+

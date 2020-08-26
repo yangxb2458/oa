@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<%include("../../../resapi/style.html"){} %>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+	<div class="row">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">BPM签名设置</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+					<div class="buttons-preview" id="toobar">
+					<a href="javascript:void(0);" class="btn btn-palegreen js-add-but" style="display: inline-block;">添加签名</a>
+					</div>
+					<table id="myTable"></table>
+			</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<div class="modal fade bs-example-modal-lg" id="sealsignsetmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">签名设置</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form" class="form-horizontal" id="form" data-bv-message="This value is not valid"
+                                                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                                                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                                                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+					>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right">排序号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" id="sortNo" name="sortNo" placeholder="排序号" 
+								data-bv-digits="true"
+                                                  data-bv-digits-message="排序号必须是正整数"
+                                                  data-bv-notempty="true"
+                                                  data-bv-notempty-message="排序号不能为空"
+								>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right">签名标题:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="title" name="title" placeholder="签名标题"  data-bv-notempty="true" data-bv-notempty-message="签名标题不能为空">
+							
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right">使用人:</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="accountId" name="accountId" placeholder="使用人" readonly="readonly"  opt-id="accountId" onclick="selectUser(this,'true');"
+									data-bv-notempty="true" data-bv-notempty-message="使用人不能为空"
+								>
+							
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right">签名文件：</label>
+							<div class="col-sm-8">
+							<div style="padding-top: 4px;">
+								<div id="show_systemattach"></div>
+								<a class="addfile" href="javascript:void(0)">上传签名 <input accept="image/jpeg,image/jpg,image/png" data_value="" type="file" 
+								onchange="fileUpLoad('system','systemattach');" hidefocus="true" size="1" id="systemattach"
+									name="systemattach" class="addfile"></a>
+							</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right">授权密码：</label>
+							<div class="col-sm-4">
+								<input type="password" class="form-control" id="password" name="password" placeholder="授权密码"  data-bv-notempty="true" data-bv-notempty-message="授权密码不能为空">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right">密码确认：</label>
+							<div class="col-sm-4">
+								<input type="password" class="form-control" id="password1" name="password1" placeholder="密码确认" data-bv-notempty="true" data-bv-notempty-message="密码确认不能为空">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-add">保存</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</div>
+<div id="orgselectdiv"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){} %>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script src="/gobal/js/page/bpm/setsealsign.js"></script>
+</html>

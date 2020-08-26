@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.erp.ErpEquipmentMapper">
+<resultMap id="ErpEquipment" type="com.core136.bean.erp.ErpEquipment" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="EQUIPMENT_ID" property="equipmentId" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_NAME" property="equipmentName" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="MODEL" property="model" jdbcType="VARCHAR" />
+    <result column="PARAM" property="param" jdbcType="VARCHAR" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="SORT_LEAVE" property="sortLeave" jdbcType="VARCHAR" />
+    <result column="EQUIPMENT_IMG" property="equipmentImg" jdbcType="VARCHAR" />
+    <result column="PARAM" property="param" jdbcType="VARCHAR" /> 
+    <result column="PRICE" property="price" jdbcType="INTEGER" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+</mapper>
+

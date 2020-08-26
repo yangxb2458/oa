@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.officesupplies.OfficeSuppliesUnitMapper">
+<resultMap id="OfficeSuppliesUnit" type="com.core136.bean.officesupplies.OfficeSuppliesUnit" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="UNIT_ID" property="unitId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="CN_NAME" property="cnName" jdbcType="VARCHAR" />
+    <result column="EN_NAME" property="enName" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getAllUnit" resultType="java.util.HashMap">
+	SELECT UNIT_ID AS unitId,CN_NAME AS cnName,EN_NAME AS enName 
+	FROM
+	OFFICE_SUPPLIES_UNIT 
+	WHERE ORG_ID=#{orgId}
+</select>
+
+
+<select id="getOfficeSuppliesUnitList" resultMap="OfficeSuppliesUnit">
+        SELECT ID,UNIT_ID,CN_NAME,EN_NAME,ORG_ID 
+        FROM OFFICE_SUPPLIES_UNIT 
+        WHERE ORG_ID=#{orgId}
+        <if test="search !='%%' and search !=''.toString() and search!=null">
+        	AND (CN_NAME LIKE #{search} OR EN_NAME LIKE #{search})
+        </if>
+</select>
+
+
+</mapper>
+

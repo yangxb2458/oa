@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.crm.CrmMyProductMapper">
+<resultMap id="CrmMyProduct" type="com.core136.bean.crm.CrmMyProduct" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+<select id="getMyProductNameStr" resultType="java.util.HashMap">
+SELECT PRODUCT_NAME AS productName FROM CRM_MY_PRODUCT WHERE ORG_ID=#{orgId}
+AND PRODUCT_ID IN
+ <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+        #{item}       
+</foreach>
+</select>
+
+<select id="getAllProductList" resultType="java.util.HashMap">
+SELECT PRODUCT_ID AS productId,PRODUCT_NAME AS productName,SORT_NO AS sortNo,REMARK AS remark FROM CRM_MY_PRODUCT WHERE ORG_ID=#{orgId}
+<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND PRODUCT_NAME LIKE #{search}
+</if>
+</select>
+
+
+
+</mapper>
+

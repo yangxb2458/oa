@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.attend.AttendMapper">
+<resultMap id="Attend" type="com.core136.bean.attend.Attend" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="ATTEND_ID" property="attendId" jdbcType="VARCHAR" />
+    <result column="TIME" property="time" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SOURCE" property="source" jdbcType="VARCHAR" />
+    <result column="YEAR" property="year" jdbcType="VARCHAR" />
+    <result column="MONTH" property="month" jdbcType="VARCHAR" />
+    <result column="DAY" property="day" jdbcType="VARCHAR" />
+    <result column="NOW_TIME" property="nowTime" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="getTotalAttendList" resultType="java.util.HashMap">
+		SELECT TMP.ATTEND_ID AS attendId,TMP.TIME AS time,TMP.TYPE AS type,TMP.STATUS AS stauts,TMP.SOURCE AS source,TMP.YEAR AS year,TMP.MONTH AS month,TMP.DAY AS day,
+		TMP.NOW_TIME AS nowTime,TMP.REMARK AS remark,CREATE_USER AS createUser,(SELECT T.USER_NAME FROM USER_INFO T WHERE T.ORG_ID=#{orgId} AND T.ACCOUNT_ID=TMP.CREATE_USER) AS createUserName
+		FROM ATTEND TMP
+		WHERE TMP.ORG_ID=#{orgId}
+		<if test="type!=''.toString() and type!=null">
+			AND TMP.TYPE = #{type}
+		</if>
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND TMP.CREATE_TIME &gt;= #{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND TMP.CREATE_TIME &lt;=#{endTime}
+		</if>
+		<if test="deptId!=''.toString() and deptId!=null">
+			AND TMP.CREATE_USER IN (SELECT U.ACCOUNT_ID FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.DEPT_ID=#{deptId})
+		</if>
+		<if test="createUser!=''.toString() and createUser!=null">
+			AND TMP.CREATE_USER = #{createUser}
+		</if>
+		
+	</select>
+  
+	
+	<select id="getAttendYearList" resultType="java.util.HashMap">
+	SELECT DISTINCT YEAR AS year FROM ATTEND WHERE ORG_ID=#{orgId} AND CREATE_USER = #{accountId} ORDER BY YEAR DESC
+	</select>
+	
+	<select id="getMonthList" resultType="java.util.HashMap">
+	SELECT DISTINCT MONTH AS month FROM ATTEND WHERE ORG_ID=#{orgId} AND YEAR = #{year} AND CREATE_USER = #{accountId} ORDER BY MONTH DESC
+	</select>
+	
+	<select id="getMyAttendList" resultType="java.util.HashMap">
+	SELECT ATTEND_ID AS attendId,TIME AS time,STATUS AS status,SOURCE AS source,MONTH AS month,YEAR AS year,DAY AS day,CREATE_TIME AS createTime,TYPE AS type,REMARK AS remark
+	FROM 
+	ATTEND 
+	WHERE 
+	ORG_ID=#{orgId} 
+	AND CREATE_USER = #{accountId} 
+	AND YEAR = #{year}
+	AND MONTH = #{month}
+	<if test="type!=''.toString() and type!=null">
+	AND TYPE = #{type}
+	</if>
+	ORDER BY CREATE_TIME DESC
+	</select>
+	
+	<select id="getMyLeaveList" resultType="java.util.HashMap">
+	SELECT B.RUN_ID AS runId,B.DATA_NUM4 AS leaveType,R.CREATE_TIME AS createTime,B.DATA_NUM5 AS beginTime,B.DATA_NUM6 AS endTime,B.DATA_NUM7 AS remark,
+	B.DATA_NUM3 AS applyTime,B.DATA_NUM1 AS applyUser
+	FROM
+	B_LEAVE B LEFT JOIN BPM_LIST R ON B.ORG_ID=R.ORG_ID AND B.RUN_ID=R.RUN_ID
+	WHERE R.CREATE_USER=#{accountId}
+	<if test="type!=''.toString() and type!=null">
+		AND B.DATA_NUM4 = #{type}
+	</if>
+	<if test="beginTime!=''.toString() and beginTime!=null">
+		AND R.CREATE_TIME &gt;= #{beginTime}
+	</if>
+	<if test="endTime!=''.toString() and endTime!=null">
+		AND R.CREATE_TIME &lt;=#{endTime}
+	</if>
+	
+	</select>
+	
+	
+	<select id="getMyTravelList" resultType="java.util.HashMap">
+	SELECT B.RUN_ID AS runId,R.CREATE_TIME AS createTime,B.DATA_NUM6 AS beginTime,B.DATA_NUM7 AS endTime,
+	B.DATA_NUM5 AS addiress,B.DATA_NUM8 AS cost,B.DATA_NUM9 AS remark,B.DATA_NUM3 AS applyTime,B.DATA_NUM1 AS applyUser
+	FROM
+	B_TRAVEL B LEFT JOIN BPM_LIST R ON B.ORG_ID=R.ORG_ID AND B.RUN_ID=R.RUN_ID
+	WHERE R.CREATE_USER=#{accountId}
+	<if test="beginTime!=''.toString() and beginTime!=null">
+		AND R.CREATE_TIME &gt;= #{beginTime}
+	</if>
+	<if test="endTime!=''.toString() and endTime!=null">
+		AND R.CREATE_TIME &lt;=#{endTime}
+	</if>
+	
+	</select>
+	
+	
+	<select id="getMyOverTimeList" resultType="java.util.HashMap">
+	SELECT B.RUN_ID AS runId,R.CREATE_TIME AS createTime,B.DATA_NUM5 AS beginTime,B.DATA_NUM6 AS endTime,
+	B.DATA_NUM7 AS addiress,B.DATA_NUM8 AS remark,B.DATA_NUM3 AS applyTime,B.DATA_NUM1 AS applyUser
+	FROM
+	B_OVERTIME B LEFT JOIN BPM_LIST R ON B.ORG_ID=R.ORG_ID AND B.RUN_ID=R.RUN_ID
+	WHERE R.CREATE_USER=#{accountId}
+	<if test="beginTime!=''.toString() and beginTime!=null">
+		AND R.CREATE_TIME &gt;= #{beginTime}
+	</if>
+	<if test="endTime!=''.toString() and endTime!=null">
+		AND R.CREATE_TIME &lt;=#{endTime}
+	</if>
+	
+	</select>
+	
+	
+	<select id="getMyDutyList" resultType="java.util.HashMap">
+	SELECT B.RUN_ID AS runId,R.CREATE_TIME AS createTime,B.DATA_NUM2 AS dutyTime,B.DATA_NUM3 AS dutyUser,B.DATA_NUM4 AS dutyType,
+	B.DATA_NUM5 AS linkMan,B.DATA_NUM6 AS tel,B.DATA_NUM7 AS orgName,B.DATA_NUM8 AS remark
+	FROM
+	B_DUTY B LEFT JOIN BPM_LIST R ON B.ORG_ID=R.ORG_ID AND B.RUN_ID=R.RUN_ID
+	WHERE R.CREATE_USER=#{accountId}
+	<if test="beginTime!=''.toString() and beginTime!=null">
+		AND R.CREATE_TIME &gt;= #{beginTime}
+	</if>
+	<if test="endTime!=''.toString() and endTime!=null">
+		AND R.CREATE_TIME &lt;=#{endTime}
+	</if>
+	</select>
+	
+	<select id="getMyOutattendList" resultType="java.util.HashMap">
+	SELECT B.RUN_ID AS runId,R.CREATE_TIME AS createTime,B.DATA_NUM6 AS beginTime,B.DATA_NUM7 AS endTime,
+	B.DATA_NUM5 AS addiress,B.DATA_NUM8 AS remark,B.DATA_NUM3 AS applyTime,B.DATA_NUM1 AS applyUser
+	FROM
+	B_OUTATTEND B LEFT JOIN BPM_LIST R ON B.ORG_ID=R.ORG_ID AND B.RUN_ID=R.RUN_ID
+	WHERE R.CREATE_USER=#{accountId}
+	<if test="beginTime!=''.toString() and beginTime!=null">
+		AND R.CREATE_TIME &gt;= #{beginTime}
+	</if>
+	<if test="endTime!=''.toString() and endTime!=null">
+		AND R.CREATE_TIME &lt;=#{endTime}
+	</if>
+	
+	</select>
+</mapper>
+

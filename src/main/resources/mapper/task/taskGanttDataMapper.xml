@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.task.TaskGanttDataMapper">
+<resultMap id="TaskGanttData" type="com.core136.bean.task.TaskGanttData" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="TASK_DATA_ID" property="taskDataId" jdbcType="VARCHAR" />
+    <result column="TASK_ID" property="taskId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="TEXT" property="text" jdbcType="VARCHAR" />
+    <result column="START_DATE" property="startDate" jdbcType="VARCHAR" />
+    <result column="DURATION" property="duration" jdbcType="VARCHAR" />
+    <result column="PROGRESS" property="progress" jdbcType="DOUBLE" />
+    <result column="OPEN" property="open" jdbcType="VARCHAR" />
+    <result column="PARENT" property="parent" jdbcType="VARCHAR" />
+    <result column="USER_PRIV" property="userPriv" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getGanttDataList" resultType="java.util.HashMap">
+   	 SELECT TASK_DATA_ID AS id,TEXT AS text,START_DATE AS start_date,DURATION AS duration,OPEN AS open,TASK_ID AS taskId,PROGRESS AS progress,
+   	 PARENT AS parent,USER_PRIV AS userPriv
+   	 FROM TASK_GANTT_DATA
+   	 WHERE ORG_ID=#{orgId} AND TASK_ID=#{taskId}
+  </select>
+  
+   <select id="getAllUserPrivList" resultType="java.util.HashMap">
+   	   SELECT D.TASK_DATA_ID AS taskDataId,T.TASK_NAME AS taskName,D.TEXT AS text,D.DURATION AS duration,
+		D.START_DATE AS startDate,D.USER_PRIV AS userPriv,T.TASK_TYPE AS taskType,D.PROGRESS AS progress,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=D.ORG_ID AND U.ACCOUNT_ID=D.USER_PRIV) AS userPrivName 
+		FROM
+		TASK_GANTT_DATA D LEFT JOIN TASK T ON D.ORG_ID=T.ORG_ID AND D.TASK_ID=T.TASK_ID
+		WHERE
+		D.ORG_ID=#{orgId}
+		<if test="status!=''.toString() and status!=null">
+			AND T.STATUS=#{status}
+		</if>
+		<if test="userPriv!=''.toString() and userPriv!=null">
+			AND D.USER_PRIV=#{userPriv}
+		</if>
+	   	<if test="opFlag!='1'.toString()">
+			AND T.CREATE_USER = #{accountId}
+		</if>
+		<if test="taskType!=''.toString() and taskType!=null">
+			AND T.TASK_TYPE = #{taskType}
+		</if>
+		<if test = "beginTime!=''.toString() and beginTime!=null">
+			AND D.CREATE_TIME &gt;=#{beginTime}
+		</if>
+		<if test = "endTime!=''.toString() and endTime!=null">
+			AND D.CREATE_TIME &lt;=#{endTime}
+		</if>
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND (T.TASK_NAME LIKE #{search} OR D.TEXT LIKE #{search})
+		</if>
+  </select> 
+
+
+<select id="getMyTaskWorkList" resultType="java.util.HashMap">
+   	   SELECT T.TASK_ID AS taskId,D.TASK_DATA_ID AS taskDataId,T.TASK_NAME AS taskName,D.TEXT AS text,D.DURATION AS duration,
+		D.START_DATE AS startDate,D.USER_PRIV AS userPriv,T.TASK_TYPE AS taskType,D.PROGRESS AS progress,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=D.ORG_ID AND U.ACCOUNT_ID=D.CREATE_USER) AS createUserName 
+		FROM
+		TASK_GANTT_DATA D LEFT JOIN TASK T ON D.ORG_ID=T.ORG_ID AND D.TASK_ID=T.TASK_ID
+		WHERE
+		D.ORG_ID=#{orgId}
+		AND D.USER_PRIV=#{accountId}
+		AND T.STATUS='0'
+		<if test="createUser!=''.toString() and createUser!=null">
+			AND T.CREATE_USER=#{createUser}
+		</if>
+		<if test="taskType!=''.toString() and taskType!=null">
+			AND T.TASK_TYPE = #{taskType}
+		</if>
+		<if test = "beginTime!=''.toString() and beginTime!=null">
+			AND D.CREATE_TIME &gt;=#{beginTime}
+		</if>
+		<if test = "endTime!=''.toString() and endTime!=null">
+			AND D.CREATE_TIME &lt;=#{endTime}
+		</if>
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND (T.TASK_NAME LIKE #{search} OR D.TEXT LIKE #{search})
+		</if>
+  </select> 
+
+<select id="getTaskListForDesk" resultType="java.util.HashMap">
+   	   SELECT D.TASK_DATA_ID AS taskDataId,D.TEXT AS text,D.DURATION AS duration,
+		D.START_DATE AS startDate,D.PROGRESS AS progress
+		FROM
+		TASK_GANTT_DATA D
+		WHERE
+		D.ORG_ID=#{orgId}
+		AND D.USER_PRIV=#{accountId}
+		AND D.TASK_ID IN(SELECT T.TASK_ID FROM TASK T WHERE T.ORG_ID=#{orgId} AND T.STATUS='0')
+  </select> 
+
+
+<select id="getTaskListForDesk2" resultType="java.util.HashMap">
+   	   SELECT D.TASK_DATA_ID AS taskDataId,D.TEXT AS text,T.TASK_NAME AS taskName,D.DURATION AS duration,
+		D.START_DATE AS startDate,D.PROGRESS AS progress
+		FROM
+		TASK_GANTT_DATA D LEFT JOIN TASK T ON D.ORG_ID=#{orgId} AND D.TASK_ID=T.TASK_ID
+		WHERE
+		D.ORG_ID=#{orgId}
+		AND D.USER_PRIV=#{accountId}
+		AND T.STATUS='0'
+		ORDER BY D.START_DATE DESC LIMIT 0,5
+  </select> 
+
+</mapper>
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrWorkSkillsMapper">
+<resultMap id="HrWorkSkills" type="com.core136.bean.hr.HrWorkSkills" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="DOUBLE" />
+    <result column="SKILLS_LEVEL" property="skillsLevel" jdbcType="VARCHAR" />
+    <result column="SKILLS_CERIFICATE" property="skillsCerificate" jdbcType="VARCHAR" />
+    <result column="NOTIFIE_BODY" property="notifieBody" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getHrWorkSkillsList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,USER_ID AS userId,NAME AS name,SKILLS_LEVEL AS skillsLevel, BEGIN_TIME AS beginTime,
+	END_TIME AS endTime,SKILLS_CERIFICATE AS skillsCerificate,NOTIFIE_BODY AS notifieBody
+	FROM HR_WORK_SKILLS
+	WHERE ORG_ID=#{orgId}
+	<if test="userId!=null and userId!=''.toString()">
+		AND USER_ID=#{userId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND (BEGIN_TIME &gt;=#{beginTime} OR END_TIME ='')
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND (BEGIN_TIME &lt;=#{endTime} OR END_TIME ='')
+	</if>
+	<if test="skillsLevel!=null and skillsLevel!=''.toString()">
+		AND SKILLS_LEVEL=#{skillsLevel}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND NAME LIKE #{search}
+	</if>
+</select>
+
+</mapper>
+

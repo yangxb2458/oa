@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>内部邮件</title>
+<%include("../../../resapi/mobilestyle.html"){}%>
+<style type="text/css">
+.list-item
+{
+	height: 100px;
+}
+</style>
+</head>
+<body>
+	<section class="g-flexview">
+		<section class="g-scrollview">
+			<div id="J_ListContent" class="m-list list-theme4"></div>
+		</section>
+
+	</section>
+	<script id="J_ListHtml" type="text/html">
+    {{each list as data}}
+    <a href="/app/core/oa/emaildetails?emailId={{data.emailId}}" class="list-item">
+        <div class="list-mes">
+            	<h3 class="list-title">{{data.subject}}</h3>
+            <div class="list-mes-item" style="padding-right:20px;">
+                    <span class="list-price" style="width:40%">
+					发件人：{{data.fromUserName}}
+					</span>
+					<span class="list-price" style="width:60%">送达时间：{{data.sendTime}}</span>
+            </div>
+		<div class="list-mes-item" style="padding-right:20px;">
+			{{data.subheading}}
+        </div>
+        </div>
+    </a>
+    {{/each}}
+</script>
+<%include("../../../resapi/mobilejs.html"){}%>
+<script src="/module/art-template/template-web.js"></script>
+	<script>
+		var page = 1;
+		$(function() {
+			bindData();
+		});
+		function bindData() {
+			var loadMore = function(callback) {
+				$.ajax({
+					url : '/mobile/mobileget/getMyEmailAllForMobile?&page=' + page,
+					type : "post",
+					dataType : "json",
+					success : function(data) {
+						var ret = data.list;
+						console.log(ret);
+						if (ret) {
+							// 该示例使用了arttemplate模板引擎，当然你也可以用其他方式
+							$('#J_ListContent').prepend(template('J_ListHtml', {
+								list : ret
+							}));
+							var tipStr = ret.length > 0 ? '为您更新了' + ret.length + '条内容' : '已是最新内容';
+							++page;
+							YDUI.dialog.toast(tipStr, 'none', 1500);
+							$(".pullrefresh-dragtip").remove();
+						}
+					},
+					complete : function() {
+						typeof callback == 'function' && callback();
+					}
+				});
+			};
+			$('#J_ListContent').pullRefresh({
+				loadListFn : function() {
+					var def = $.Deferred();
+					loadMore(function() {
+						def.resolve();
+					});
+					return def.promise();
+				}
+			});
+
+		}
+	</script>
+</body>
+</html>

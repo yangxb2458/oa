@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.crm.CrmTagsMapper">
+<resultMap id="CrmTags" type="com.core136.bean.crm.CrmTags" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="TAGS_ID" property="tagsId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="TAGS_NAME" property="tagsName" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getAllTagsList" resultType="java.util.HashMap">
+SELECT B.TAGS_ID AS tagsId,A.INDUSTRY_NAME AS industryName,B.INDUSTRY_ID AS industryId,
+TAGS_NAME AS tagsName,B.SORT_NO AS sortNo,B.REMARK AS remark 
+FROM CRM_TAGS B,CRM_INDUSTRY A 
+WHERE B.ORG_ID=#{orgId} AND A.ORG_ID=B.ORG_ID AND A.INDUSTRY_ID=B.INDUSTRY_ID 
+<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND (B.TAGS_NAME LIKE #{search} OR A.INDUSTRY_NAME LIKE #{search})
+</if>
+</select>
+
+</mapper>
+

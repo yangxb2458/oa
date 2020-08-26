@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="widget-header bordered-bottom bordered-palegreen">
+					<span class="widget-caption">高级查询</span>
+				</div>
+				<div class="widget-body" style="padding-top: 20px;">
+					<div class="row" id="flowList">
+						
+					</div>
+					<div class="row" align="center">
+						<a href="/app/core/bpm/search" class="btn btn-darkorange">返回</a>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script src="/gobal/js/page/bpm/advsearch.js"></script>
+</html>

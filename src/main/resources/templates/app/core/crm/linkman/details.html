@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>${session.SOFT_NAME }_智能办公系统</title>
+	<meta name="description" content="Dashboard" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<%include("../../../resapi/style.html"){}%>
+	<link href='/module/area/chosen.min.css' rel='stylesheet'>
+	<style type="text/css">
+	.bootstrap-tagsinput{
+		background-color: #fbfbfb;
+	}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+		<div class="profile-container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="profile-contacts">
+					<div style="display:inline-block;">
+						<div class="profile-badge orange"><i class="fa fa-phone orange"></i><span>联系方式</span></div>
+						<div class="contact-info">
+							<p>
+								移动电话	: +1 1 2345 6789 <br>
+								业务电话		: +1 9 876 5432
+							</p>
+							<p>
+								电子邮件		: kim@gmail.com
+								<br>
+								Skype		: kim.ryder
+							</p>
+							<p>
+								Facebook	: facebook.com/Kim.Ryder
+								<br>
+								Twitter	: @KimRyder
+							</p>
+						</div>
+						</div>
+						<div style="display:inline-block;">
+						<div class="profile-badge azure">
+							<i class="fa fa-map-marker azure"></i><span>通讯地址</span>
+						</div>
+						<div class="contact-info">
+							<p>
+								地址<br>
+								Department 98<br>
+								44-46 Morningside Road<br>
+								Toronto, Canada
+							</p>
+							<p>
+								Office<br>
+								44-46 Morningside Road<br>
+								Toronto, Canada
+							</p>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<%include("../../../resapi/sysjs.html"){}%>
+	<script src="/gobal/js/page/crm/linkman.js"></script>
+	<!--Bootstrap  wysiwig Scripts-->
+	<script type="text/javascript">
+		var customerId="${customerId}";
+		$(function(){
+			getLinkManDetailsInfo();
+		});	
+	</script>
+</body>
+</html>

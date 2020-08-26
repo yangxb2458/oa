@@ -1,0 +1,430 @@
+.swfupload{
+   vertical-align: top;
+}
+.add_swfupload{
+   padding-left:18px; 
+   overflow:hidden;
+   position: relative;
+   background:url("uploads.png") no-repeat left center;
+   cursor:pointer;
+   width: 70px;
+   height:20px;
+   font-size: 13px;
+}
+a.add_swfupload .swfupload {
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+}
+
+a.addfile, a.selfile, a.addimage {
+    font-size: 13px;
+}
+
+a.addfile_drag, a.addfile, a.selfile, a.addimage, a.add_swfupload {
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+a.addfile {
+    background: rgba(0, 0, 0, 0) url("../img/add.png") no-repeat scroll left center;
+    cursor: pointer;
+    overflow: hidden;
+    padding-left: 18px;
+    position: relative;
+    text-decoration: none;
+    width: 80px;
+}
+
+a.addfile, a.selfile, a.addimage, a.add_image_multi, a.add_swfupload {
+    color: #446eb9;
+    cursor: pointer;
+}
+
+input.addfile[type="file"], input.addfile {
+    cursor: pointer;
+    font-size: 20px;
+    height: 20px;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.attach
+{
+		margin-bottom: 5px;
+}
+.attach a
+{
+	cursor: pointer;
+	width:100%;
+}
+.attachDiv
+{
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom:10px;
+	position:relative;
+	overflow:hidden;
+}
+.attachImg
+{
+	width:100px;
+	heigth:100px;
+}
+.attachDiv:hover .diyControl
+{ 
+	display: block; 
+	}
+	
+.diyControl {
+    position: absolute;
+    margin-bottom: 0px;
+    display: none;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 24px;
+    line-height: 10px;
+    font-size: 14px;
+    background: url('/gobal/img/bgblack.png');
+    z-index: 3;
+    text-align: center;
+}
+.diyControl span {
+    display: inline-block;
+    padding-top: 6.5px;
+    width: 12px;
+    height: 11px;
+    cursor: pointer;
+}
+.diyCancel i {
+    background: url('/gobal/img/upload-icon1.png') no-repeat 0 -11px;
+}
+.diyControl span i {
+    display: block;
+    width: 12px;
+    height: 11px;
+    opacity: .7;
+}
+.menuContent
+{
+	height:300px;
+	position: absolute; 
+	z-index: 1000;
+	overflow:auto;
+	display: none;
+	background-color: #F5F5F5; 
+	border:solid 1px #ccc;
+}
+.dropdown-menu input		
+{
+	position: relative;
+	opacity: initial;
+	width: auto;
+	height: auto;
+	left:auto;
+}
+.bs-checkbox input
+{
+	opacity: initial;
+	position: relative;
+	left:auto;
+}
+.widget-body-1
+{
+	 height:300px;
+     overflow: auto;
+     border-right: 1px solid silver;
+     border-left: 1px solid silver;
+     margin-bottom: 2px;
+     border-bottom: 1px solid silver;
+}
+
+
+.widget-body-1::-webkit-scrollbar {/*婊氬姩鏉℃暣浣撴牱寮�*/
+        width: 5px;     /*楂樺鍒嗗埆瀵瑰簲妯珫婊氬姩鏉＄殑灏哄*/
+        height: 5px;
+    }
+.widget-body-1::-webkit-scrollbar-thumb {/*婊氬姩鏉￠噷闈㈠皬鏂瑰潡*/
+        border-radius: 5px;
+         -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.2);
+        background: #535353;
+    }
+.widget-body-1::-webkit-scrollbar-track {/*婊氬姩鏉￠噷闈㈣建閬�*/
+        -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.2);
+        border-radius: 5px;
+        background: #EDEDED;
+    }
+    
+/* 浜哄憳閫夋嫨 */
+.selectbutton
+{
+	line-height: 34px;
+	cursor: pointer;
+}
+.selectdiv:hover
+{
+background: #ebebeb;
+color: #262626;
+}
+.selectdiv span
+{
+	margin-left: 5px;
+}
+.selectdiv img
+{
+	margin-left:10px;
+	width: 16px;
+	height: 16px;
+}
+
+
+.selecteddiv
+{
+	height: 30px;
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-bottom:1px;
+	line-height:30px;
+	cursor: pointer;
+}
+.selecteddiv:hover
+{
+background: #ebebeb;
+color: #262626;
+}
+.selecteddiv span
+{
+	margin-left: 5px;
+}
+.selecteddiv img
+{
+	margin-left:10px;
+	width: 16px;
+	height: 16px;
+}
+.selectuserall
+{
+	padding-top: 8px;
+	color: white;
+	margin-left: 20px;
+	cursor: pointer;
+	position: absolute;
+}
+
+
+
+
+/* 閮ㄩ棬閫夋嫨 */
+.selectbutton
+{
+	line-height: 34px;
+	cursor: pointer;
+}
+.selectdiv
+{
+	height: 30px;
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-bottom:1px;
+	line-height:30px;
+	cursor: pointer;
+}
+.selectdiv:hover
+{
+background: #ebebeb;
+color: #262626;
+}
+.selectdiv span
+{
+	margin-left: 5px;
+}
+.selectdiv img
+{
+	margin-left:10px;
+	width: 16px;
+	height: 16px;
+}
+
+
+.selecteddiv
+{
+	height: 30px;
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-bottom:1px;
+	line-height:30px;
+	cursor: pointer;
+}
+.selecteddiv:hover
+{
+background: #ebebeb;
+color: #262626;
+}
+.selecteddiv span
+{
+	margin-left: 5px;
+}
+.selecteddiv img
+{
+	margin-left:10px;
+	width: 16px;
+	height: 16px;
+}
+.selectuserall
+{
+	padding-top: 8px;
+	color: white;
+	margin-left: 20px;
+	cursor: pointer;
+	position: absolute;
+}
+.selectpriv
+{
+	text-align: center;
+}
+.selectedpriv
+{
+	text-align: center;
+}
+/* 琛屾斂绾у埆 */
+.selectleaveall
+{
+	padding-top: 8px;
+	color: white;
+	margin-left: 20px;
+	cursor: pointer;
+	position: absolute;
+}
+
+
+/* BPM 閫変汉鏍峰紡 */
+.documentselectdiv
+{
+	height: 30px;
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-bottom:1px;
+	line-height:30px;
+	cursor: pointer;
+}
+.documentselectdiv:hover
+{
+background: #ebebeb;
+color: #262626;
+}
+.documentselectdiv span
+{
+	margin-left: 5px;
+}
+.documentselectdiv img
+{
+	margin-left:10px;
+	width: 16px;
+	height: 16px;
+}
+
+.bpmselectdiv
+{
+	height: 30px;
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-bottom:1px;
+	line-height:30px;
+	cursor: pointer;
+}
+.bpmselectdiv:hover
+{
+background: #ebebeb;
+color: #262626;
+}
+.bpmselectdiv span
+{
+	margin-left: 5px;
+}
+.bpmselectdiv img
+{
+	margin-left:10px;
+	width: 16px;
+	height: 16px;
+}
+
+.bpmselecteddiv
+{
+	height: 30px;
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-bottom:1px;
+	line-height:30px;
+	cursor: pointer;
+}
+
+.bpmselecteddiv:hover
+{
+background: #ebebeb;
+color: #262626;
+}
+.bpmselecteddiv span
+{
+	margin-left: 5px;
+}
+.bpmselecteddiv img
+{
+	margin-left:10px;
+	width: 16px;
+	height: 16px;
+}
+
+.documentselecteddiv
+{
+	height: 30px;
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-bottom:1px;
+	line-height:30px;
+	cursor: pointer;
+}
+
+.documentselecteddiv:hover
+{
+background: #ebebeb;
+color: #262626;
+}
+.documentselecteddiv span
+{
+	margin-left: 5px;
+}
+.documentselecteddiv img
+{
+	margin-left:10px;
+	width: 16px;
+	height: 16px;
+}
+.unopuserspan
+{
+	margin-left:10px;
+	color:blue;
+}
+.opuserspan
+{
+	margin-left:10px;
+	color:red;
+}
+.setype
+{
+	color: white;
+	cursor: pointer;
+	margin-left: 10px;
+	text-decoration: none;
+}

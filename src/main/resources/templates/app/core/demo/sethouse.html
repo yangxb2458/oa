@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet"
+	href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+	<div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px">
+		<div class="page-container">
+             <div class="col-md-2 col-sm-2 col-xs-12" style="padding: 0px;">
+                           <div class="widget flat radius-bordered">
+                                <div class="widget-header bg-lightred">
+                                    <span class="widget-caption">小区列表</span>
+                                </div>
+								<div class="widget-body">
+                                    <ul id="tree" class="ztree"></ul>
+                                </div>
+                                
+                            </div>
+       		 </div>
+       		 <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">房源管理</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title">房源列表</div>
+							<div class="row">
+								<div class="col-md-12">
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
+	</div>
+<%include("../../resapi/sysjs.html"){}%>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript"
+		src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript"
+		src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript"
+		src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript">
+
+$(function(){
+	query();
+	$(".js-btn").unbind("click").click(function(){
+		top.goUrl("/app/core/news");
+	});
+})
+function query()
+	{
+		 $("#myTable").bootstrapTable({
+		      url: '/ret/oaget/getNewsManageList',
+		      method: 'post',
+		      contentType:'application/x-www-form-urlencoded',
+		      toolbar: '#toobar',//工具列
+		      striped: true,//隔行换色
+		      cache: false,//禁用缓存
+		      pagination: true,//启动分页
+		      sidePagination: 'server',//分页方式
+		      pageNumber: 1,//初始化table时显示的页码
+		      pageSize: 10,//每页条目
+		      showFooter: false,//是否显示列脚
+		      showPaginationSwitch: true,//是否显示 数据条数选择框
+		      sortable: true,//排序
+		      search: true,//启用搜索
+		      showColumns: true,//是否显示 内容列下拉框
+		      showRefresh: true,//显示刷新按钮
+		      idField: 'newsId',//key值栏位
+		      clickToSelect: true,//点击选中checkbox
+		      pageList : [10, 20, 30, 50],//可选择单页记录数
+		      queryParams:queryParams,
+		      columns: [ {
+		      checkbox: true
+		      },
+		     {
+		    	field: 'num',
+				title: '序号',//标题  可不加
+				width:'50px',
+				formatter: function (value, row, index) {
+						return index+1;
+					}
+		      },
+		      {
+		       field: 'newsTitle',
+		       title: '住宅名称',
+		       sortable : true,
+		       width:'200px',
+			   formatter:function(value,row,index){
+			    	 return "随心园小区#1号楼302室";
+		            }
+		      },
+		      {
+				field: 'newsType',
+				   width:'50px',
+				   title: '状态',
+				   formatter:function(value,row,index){
+			    	 return "空闲";
+		            }
+				},
+				{
+			       field: 'delflag',
+			       title: '是否预定',
+			       width:'50px',
+			       formatter:function(value,row,index){
+		    				  return "预定";
+	            }
+		      },
+		      {
+			       field: 'createUser',
+			       width:'100px',
+			       title: '预定人',
+				       formatter:function(value,row,index){
+			    				  return "张三";
+		            }
+			   },
+			   {
+			       field: 'createTime',
+			       width:'100px',
+			       title: '预定时间'
+			   },
+		      {
+		       field: 'opt',
+		       title: '操作',
+		       width:'200px',
+	    	   formatter:function(value,row,index){
+	                return createOptBtn(row.newsId);
+	            }
+		      }],
+		      onClickCell: function (field, value, row, $element) {
+		      //alert(row.SystemDesc);
+		    },
+		    responseHandler:function(res){
+		    	if(res.status=="500")
+	    		{
+	    		console.log(res.msg);
+	    		}else if(res.status=="100")
+	    			{
+	    			top.layer.msg(res.msg);
+	    			}else
+	    			{
+	    			return {
+	    				total : res.list.total, //总页数,前面的key必须为"total"
+	    				rows : res.list.list //行数据，前面的key要与之前设置的dataField的值一致.
+	    			};
+	    			}
+		    }
+		   });
+	}
+function queryParams(params) {
+    var temp = {
+        search: params.search,
+        pageSize:this.pageSize,
+        pageNumber:this.pageNumber,
+        sort: params.sort,
+        sortOrder:params.order
+    };
+    return temp;
+};
+function createOptBtn(newsId)
+{
+	var html="<a href=\"javascript:void(0);readNews('"+newsId+"')\" class=\"btn btn-sky btn-xs\" >调拨</a>&nbsp;&nbsp;" +
+			"<a href=\"javascript:void(0);edit('"+newsId+"')\" class=\"btn btn-success btn-xs\" >收回</a>&nbsp;&nbsp;";
+	return html;
+	}
+
+function stopNews(newsId)
+{
+	$.ajax({
+		url : "/set/oaset/stopNews",
+		type : "post",
+		dataType : "json",
+		data:{newsId:newsId},
+		success : function(data) {
+			if(data.status=="500")
+			{
+			console.log(data.msg);
+			}else if(data.status=="100")
+			{
+				top.layer.msg(data.msg);
+			}else
+				{
+				top.layer.msg(data.msg);
+				$('#myTable').bootstrapTable('refresh');
+				}
+		}
+	})	
+}
+
+
+function readNews(newsId)
+{
+	window.open("/app/core/news/readnews?newsId="+newsId);
+	}
+
+function del(newsId)
+{
+	$.ajax({
+		url : "/set/oaset/delNews",
+		type : "post",
+		dataType : "json",
+		data:{newsId:newsId},
+		success : function(data) {
+			if(data.status=="500")
+			{
+			console.log(data.msg);
+			}else if(data.status=="100")
+			{
+				top.layer.msg(data.msg);
+			}else
+				{
+				top.layer.msg(data.msg);
+				$('#myTable').bootstrapTable('refresh');
+				}
+		}
+	})	
+	
+}
+var zNodes = [
+	{id:1, pId:0, name: "沛县"},
+	{id:2, pId:0, name: "新城区"},
+	{id:3, pId:0, name: "铜山区"},
+	{id:4, pId:0, name: "金山桥开发区"},
+	{id:5, pId:1, name: "东城区"},
+	{id:11, pId:1, name: "西城区"},
+	{id:12, pId:1, name: "xx城区"},
+	{id:13, pId:5, name: "完美小区"},
+	{id:14, pId:5, name: "随心园小区"},
+	{id:15, pId:13, name: "#1号楼"},
+	{id:16, pId:13, name: "#2号楼"},
+	{id:17, pId:13, name: "#3号楼"},
+	{id:18, pId:13, name: "#4号楼"}
+];
+var setting = {
+data: {
+    key : {
+        title : "name", //鼠标悬停显示的信息
+        name : "name" //网页上显示出节点的名称
+    },
+    simpleData: {
+        enable: true,
+        idKey: "id", //修改默认的ID为自己的ID
+        pIdKey: "pId",//修改默认父级ID为自己数据的父级ID
+        rootPId: 0     //根节点的ID
+    }
+}
+};
+
+$(document).ready(function(){
+$.fn.zTree.init($("#tree"), setting, zNodes);
+})
+
+</script>
+</body> 
+</html>

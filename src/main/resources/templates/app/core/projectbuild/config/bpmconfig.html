@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){} %>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="row">
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="well with-header  with-footer">
+                                <div class="header bordered-blue"><span style="line-height: 26px;">采购审批设置</span><a data-value="purchase" href="javascript:void(0);" class="btn btn-darkorange btn-sm js-cg" style="float:right">设置</a></div>
+                                <div class="buttons-preview">
+                                <div class="row" style="line-height: 34px" id="purchaselist">
+                                	
+                                </div>
+                                   
+                                </div>
+                                <div class="footer"><code>设置对应的审批流程</code></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="well with-header  with-footer">
+                                <div class="header bordered-blue"><span style="line-height: 26px;">领料审批设置</span><a data-value="materialOut" href="javascript:void(0);" class="btn btn-darkorange btn-sm js-out" style="float:right">设置</a></div>
+                                <div class="buttons-preview">
+                                 <div class="row" style="line-height: 34px" id="materialOutlist">
+                                	
+                                </div>
+                                </div>
+                                <div class="footer"><code>设置对应的审批流程</code></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="well with-header  with-footer">
+                                <div class="header bordered-blue"><span style="line-height: 26px;">领料审批设置</span><a href="javascript:void(0);" class="btn btn-darkorange btn-sm" style="float:right">设置</a></div>
+                                <div class="buttons-preview">
+                                </div>
+                                <div class="footer"><code>设置对应的审批流程</code></div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade bs-example-modal-lg" id="setmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">BPM流程绑定设置</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form" class="form-horizontal" id="form">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">选择流程:</label>
+							<div class="col-sm-8">
+								<select class="form-control" id="flowId" name="flowId" style="border-radius: 0px"></select>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-add">添加</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	
+</body>
+<%include("../../../resapi/sysjs.html"){} %>
+<script src="/gobal/js/page/projectbuild/setbpmconfig.js"></script>
+</html>

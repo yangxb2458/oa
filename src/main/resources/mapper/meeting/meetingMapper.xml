@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.meeting.MeetingMapper">
+	<resultMap id="Meeting" type="com.core136.bean.meeting.Meeting">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="MEETING_ID" property="meetingId" jdbcType="VARCHAR" />
+		<result column="SUBJECT" property="subject" jdbcType="VARCHAR" />
+		<result column="ROOM_ID" property="roomId" jdbcType="VARCHAR" />
+		<result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+		<result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+		<result column="CHAIR" property="chair" jdbcType="VARCHAR" />
+		<result column="USER_JOIN" property="userJoin" jdbcType="VARCHAR" />
+		<result column="DEPT_JOIN" property="deptJoin" jdbcType="VARCHAR" />
+		<result column="LEAVE_JOIN" property="leaveJoin" jdbcType="VARCHAR" />
+		<result column="OTHER_JOIN" property="otherJoin" jdbcType="VARCHAR" />
+		<result column="NOTES_USER" property="notesUser" jdbcType="VARCHAR" />
+		<result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+		<result column="ATTACH_PRIV" property="attachPriv" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+		<result column="MEETING_TYPE" property="meetingType" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="DEVICE_ID" property="deviceId" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+	
+		<select id="getApplyMeetingList" resultType="java.util.HashMap">
+		SELECT M.MEETING_ID AS meetingId,M.SUBJECT AS subject,M.BEGIN_TIME AS beginTime,M.END_TIME AS endTime,M.REMARK AS remark,R.NAME AS name,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=M.CREATE_USER) AS createUserName,
+		(SELECT U1.USER_NAME FROM USER_INFO U1 WHERE U1.ORG_ID=#{orgId} AND U1.ACCOUNT_ID=M.CHAIR) AS chairUserName,M.STATUS AS status
+		 FROM MEETING M LEFT JOIN MEETING_ROOM R ON M.ORG_ID=R.ORG_ID AND M.ROOM_ID=R.ROOM_ID
+		WHERE M.ORG_ID=#{orgId} AND M.STATUS='0'
+		<if test="opFlag!='1'.toString()">
+			AND M.ROOM_ID IN(SELECT TEMP.ROOM_ID FROM MEETING_ROOM TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.MANAGE=#{accountId})
+		</if>
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND M.CREATE_TIME &gt;=#{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND M.CREATE_TIME &lt;=#{endTime}
+		</if>
+		<if test="search !='%%'.toString() and search !=''.toString() and search!=null">
+		AND M.SUBJECT LIKE #{search}
+		</if>
+	</select>
+	
+	
+	<select id="getMyMeetingList" resultType="java.util.HashMap">
+		SELECT M.MEETING_ID AS meetingId,M.SUBJECT AS subject,M.BEGIN_TIME AS beginTime,M.END_TIME AS endTime,M.REMARK AS remark,R.NAME AS name,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=M.CREATE_USER) AS createUserName,
+		(SELECT U1.USER_NAME FROM USER_INFO U1 WHERE U1.ORG_ID=#{orgId} AND U1.ACCOUNT_ID=M.CHAIR) AS chairUserName,M.STATUS AS status
+		 FROM MEETING M LEFT JOIN MEETING_ROOM R ON M.ORG_ID=R.ORG_ID AND M.ROOM_ID=R.ROOM_ID
+		WHERE M.ORG_ID=#{orgId} AND M.STATUS='1'
+		AND(
+		M.USER_JOIN = '@all'
+		OR M.DEPT_JOIN = '@all'
+		OR M.LEAVE_JOIN = '@all'
+		<if test="accountId!=''.toString() and accountId!=null">
+		OR FUN_INTE_ARRAY(#{accountId},M.USER_JOIN) > 0 OR M.CHAIR = #{accountId} OR M.NOTES_USER=#{accountId}
+		</if>
+		<if test="deptId!=''.toString() and deptId!=null">
+			OR FUN_INTE_ARRAY(#{deptId},M.DEPT_JOIN) > 0
+		</if>
+		<if test="leaveId!=''.toString() and leaveId!=null">
+			OR FUN_INTE_ARRAY(#{leaveId},M.LEAVE_JOIN) > 0
+		</if>
+		)
+		 AND M.BEGIN_TIME &gt;=#{nowTime}
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND M.BEGIN_TIME &gt;=#{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND M.BEGIN_TIME &lt;=#{endTime}
+		</if>
+		<if test="search !='%%'.toString() and search !=''.toString() and search!=null">
+		AND M.SUBJECT LIKE #{search}
+		</if>
+	</select>
+	
+	
+	<select id="getMyMeetingOldList" resultType="java.util.HashMap">
+		SELECT M.MEETING_ID AS meetingId,M.SUBJECT AS subject,M.BEGIN_TIME AS beginTime,M.END_TIME AS endTime,M.REMARK AS remark,R.NAME AS name,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=M.CREATE_USER) AS createUserName,
+		(SELECT U1.USER_NAME FROM USER_INFO U1 WHERE U1.ORG_ID=#{orgId} AND U1.ACCOUNT_ID=M.CHAIR) AS chairUserName,M.STATUS AS status
+		 FROM MEETING M LEFT JOIN MEETING_ROOM R ON M.ORG_ID=R.ORG_ID AND M.ROOM_ID=R.ROOM_ID
+		WHERE M.ORG_ID=#{orgId} AND M.STATUS='1'
+		AND(
+		M.USER_JOIN = '@all'
+		OR M.DEPT_JOIN = '@all'
+		OR M.LEAVE_JOIN = '@all'
+		<if test="accountId!=''.toString() and accountId!=null">
+		OR FUN_INTE_ARRAY(#{accountId},M.USER_JOIN) > 0 OR M.CHAIR = #{accountId} OR M.NOTES_USER=#{accountId}
+		</if>
+		<if test="deptId!=''.toString() and deptId!=null">
+			OR FUN_INTE_ARRAY(#{deptId},M.DEPT_JOIN) > 0
+		</if>
+		<if test="leaveId!=''.toString() and leaveId!=null">
+			OR FUN_INTE_ARRAY(#{leaveId},M.LEAVE_JOIN) > 0
+		</if>
+		)
+		 AND M.BEGIN_TIME &lt;=#{nowTime}
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND M.BEGIN_TIME &gt;=#{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND M.BEGIN_TIME &lt;=#{endTime}
+		</if>
+		<if test="search !='%%'.toString() and search !=''.toString() and search!=null">
+		AND M.SUBJECT LIKE #{search}
+		</if>
+	</select>
+	
+		
+	<select id="getOldApplyMeetingList" resultType="java.util.HashMap">
+		SELECT M.MEETING_ID AS meetingId,M.SUBJECT AS subject,M.BEGIN_TIME AS beginTime,M.END_TIME AS endTime,M.REMARK AS remark,R.NAME AS name,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=M.CREATE_USER) AS createUserName,
+		(SELECT U1.USER_NAME FROM USER_INFO U1 WHERE U1.ORG_ID=#{orgId} AND U1.ACCOUNT_ID=M.CHAIR) AS chairUserName,M.STATUS AS status
+		 FROM MEETING M LEFT JOIN MEETING_ROOM R ON M.ORG_ID=R.ORG_ID AND M.ROOM_ID=R.ROOM_ID
+		WHERE M.ORG_ID=#{orgId}
+		<if test="opFlag!='1'.toString()">
+			AND M.ROOM_ID IN(SELECT TEMP.ROOM_ID FROM MEETING_ROOM TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.MANAGE=#{accountId})
+		</if>
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND M.CREATE_TIME &gt;=#{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND M.CREATE_TIME &lt;=#{endTime}
+		</if>
+		<if test="status==''.toString() or status==null">
+			AND M.STATUS!='0'
+		</if>
+		<if test="status!=''.toString() and status!=null">
+			AND M.STATUS=#{status}
+		</if>
+		<if test="search !='%%'.toString() and search !=''.toString() and search!=null">
+		AND M.SUBJECT LIKE #{search}
+		</if>
+	</select>
+	
+	
+	<select id="getMeetingList" resultType="java.util.HashMap">
+		SELECT M.MEETING_ID AS meetingId,M.SUBJECT AS subject,M.BEGIN_TIME AS beginTime,M.END_TIME AS endTime,M.REMARK AS remark,
+		(SELECT R.NAME FROM MEETING_ROOM R WHERE R.ORG_ID=#{orgId} AND R.ROOM_ID=M.ROOM_ID) AS name,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=M.CHAIR) AS chairUserName
+		 FROM MEETING M
+		WHERE M.ORG_ID=#{orgId}
+		<if test="opFlag!='1'.toString()">
+			AND M.CREATE_USER=#{createUser}
+		</if>
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND M.CREATE_TIME &gt;=#{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND M.CREATE_TIME &lt;=#{endTime}
+		</if>
+		<if test="roomId!=''.toString() and roomId!=null">
+			AND M.ROOM_ID &lt;=#{roomId}
+		</if>
+		<if test="search !='%%'.toString() and search !=''.toString() and search!=null">
+		AND M.SUBJECT LIKE #{search}
+		</if>
+	</select>
+	
+	<select id="getMeetingByDay" resultType="java.util.HashMap">
+		SELECT M.ROOM_ID AS roomId,M.BEGIN_TIME AS beginTime,M.END_TIME AS endTime
+		FROM MEETING M
+		WHERE M.ORG_ID=#{orgId}
+		AND M.ROOM_ID IN(SELECT R.ROOM_ID AS roomId
+			FROM MEETING_ROOM R
+				WHERE 
+				R.ORG_ID=#{orgId}
+					AND(R.DEPT_PRIV ='@all' OR FUN_INTE_ARRAY(R.DEPT_PRIV,#{deptId}) > 0)
+		)	
+		AND M.BEGIN_TIME &gt;=#{beginTime} AND M.END_TIME&lt;=#{endTime}
+	</select>
+	
+	
+	<select id="getNotNotesMeetingList" resultType="java.util.HashMap">
+	SELECT M.MEETING_ID AS meetingId,M.SUBJECT AS subject
+	FROM MEETING M
+	WHERE M.ORG_ID=#{orgId}
+	AND NOTES_USER = #{accountId}
+	AND M.MEETING_ID NOT IN(SELECT TEMP.MEETING_ID FROM MEETING_NOTES TEMP WHERE TEMP.ORG_ID=M.ORG_ID)
+	</select>
+	
+	<select id="getMyApplyMeetingList" resultType="java.util.HashMap">
+		SELECT M.MEETING_ID AS meetingId,M.SUBJECT AS subject,MEETING_TYPE AS meetingType,ROOM_ID AS roomId,
+		(SELECT R.NAME FROM MEETING_ROOM R WHERE R.ORG_ID=#{orgId} AND R.ROOM_ID=M.ROOM_ID) AS roomName,
+		M.BEGIN_TIME AS beginTime,M.END_TIME AS endTime,M.CREATE_TIME AS createTime,M.STATUS AS status,
+		M.CHAIR AS chair,(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=M.CHAIR) AS chairName
+		FROM MEETING M
+		WHERE M.ORG_ID=#{orgId}
+		AND M.CREATE_USER=#{accountId}
+		<if test="chair!=''.toString() and chair!=null">
+			AND M.CHAIR &gt;= #{chair}
+		</if>
+		<if test="roomId!=''.toString() and roomId!=null">
+			AND M.ROOM_ID &gt;= #{roomId}
+		</if>
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND M.CREATE_TIME &gt;= #{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND M.CREATE_TIME &lt;=#{endTime}
+		</if>
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+		AND M.SUBJECT LIKE #{search}
+		</if>
+	</select>
+	
+		<select id="getMyMeetingListForDesk" resultType="java.util.HashMap">
+		SELECT M.MEETING_ID AS meetingId,M.SUBJECT AS subject,M.BEGIN_TIME AS beginTime,M.END_TIME AS endTime,M.REMARK AS remark,R.NAME AS name
+		 FROM MEETING M LEFT JOIN MEETING_ROOM R ON M.ORG_ID=R.ORG_ID AND M.ROOM_ID=R.ROOM_ID
+		WHERE M.ORG_ID=#{orgId} AND M.STATUS='1'
+		AND(
+		M.USER_JOIN = '@all'
+		OR M.DEPT_JOIN = '@all'
+		OR M.LEAVE_JOIN = '@all'
+		<if test="accountId!=''.toString() and accountId!=null">
+		OR FUN_INTE_ARRAY(#{accountId},M.USER_JOIN) > 0 OR M.CHAIR = #{accountId} OR M.NOTES_USER=#{accountId}
+		</if>
+		<if test="deptId!=''.toString() and deptId!=null">
+			OR FUN_INTE_ARRAY(#{deptId},M.DEPT_JOIN) > 0
+		</if>
+		<if test="levelId!=''.toString() and levelId!=null">
+			OR FUN_INTE_ARRAY(#{levelId},M.LEAVE_JOIN) > 0
+		</if>
+		)
+		 AND M.BEGIN_TIME &gt;=#{nowTime}
+		 ORDER BY M.BEGIN_TIME DESC LIMIT 0,5
+		</select>
+		
+		
+		<select id="getMobileMyMeetingList" resultType="java.util.HashMap">
+		SELECT M.MEETING_ID AS meetingId,M.SUBJECT AS subject,M.BEGIN_TIME AS beginTime,M.END_TIME AS endTime,M.REMARK AS remark,R.NAME AS name
+		 FROM MEETING M LEFT JOIN MEETING_ROOM R ON M.ORG_ID=R.ORG_ID AND M.ROOM_ID=R.ROOM_ID
+		WHERE M.ORG_ID=#{orgId} AND M.STATUS='1'
+		AND(
+		M.USER_JOIN = '@all'
+		OR M.DEPT_JOIN = '@all'
+		OR M.LEAVE_JOIN = '@all'
+		<if test="accountId!=''.toString() and accountId!=null">
+		OR FUN_INTE_ARRAY(#{accountId},M.USER_JOIN) > 0 OR M.CHAIR = #{accountId} OR M.NOTES_USER=#{accountId}
+		</if>
+		<if test="deptId!=''.toString() and deptId!=null">
+			OR FUN_INTE_ARRAY(#{deptId},M.DEPT_JOIN) > 0
+		</if>
+		<if test="levelId!=''.toString() and levelId!=null">
+			OR FUN_INTE_ARRAY(#{levelId},M.LEAVE_JOIN) > 0
+		</if>
+		)
+		 AND M.BEGIN_TIME &gt;=#{nowTime}
+		 ORDER BY M.BEGIN_TIME DESC LIMIT ${page},10
+		</select>
+</mapper>
+

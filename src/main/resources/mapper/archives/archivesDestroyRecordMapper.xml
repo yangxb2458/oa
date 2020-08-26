@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.archives.ArchivesDestroyRecordMapper">
+<resultMap id="ArchivesDestroyRecord" type="com.core136.bean.archives.ArchivesDestroyRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="ARCHIVES_TYPE" property="archivesType" jdbcType="VARCHAR" />
+    <result column="DESTROY_TYPE" property="destroyType" jdbcType="VARCHAR" />
+    <result column="ARCHIVES_ID" property="archivesId" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+<select id="getArchivesDestoryFileList" resultType="java.util.HashMap">
+	SELECT D.RECORD_ID AS recordId,D.REMARK AS remark,D.CREATE_TIME AS createTime,D.CREATE_USER AS createUser,F.FILE_ID AS fileId,F.FILE_CODE AS fileCode,
+	F.SUBJECT AS subject,F.TITLE AS title,F.SECRET_LEVEL AS secretLevel,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=D.CREATE_USER) AS createUserName
+	FROM
+	ARCHIVES_DESTROY_RECORD D LEFT JOIN ARCHIVES_FILE F ON D.ORG_ID=F.ORG_ID AND D.ARCHIVES_ID=F.FILE_ID
+	WHERE 
+	D.ORG_ID=#{orgId}
+	AND D.ARCHIVES_TYPE='1'
+	<if test = "(accountId!=''.toString() and accountId!=null)">
+		AND D.CREATE_USER = #{accountId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND D.CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND D.CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="search !='%%'.toString() and search !=''.toString() and search!=null">
+		AND (F.TITLE LIKE #{search} OR F.SUBJECT LIKE #{search} OR F.SUBHEADING LIKE #{search} OR F.FILE_CODE LIKE #{search})
+	</if>
+</select>
+
+<select id="getArchivesDestoryVolumeList" resultType="java.util.HashMap">
+	SELECT D.RECORD_ID AS recordId,D.REMARK AS remark,D.CREATE_TIME AS createTime,D.CREATE_USER AS createUser,V.VOLUME_ID AS volumeId,V.VOLUME_CODE AS volumeCode,
+	V.VOLUME_TITLE AS volumeTitle,V.SECRET_LEVEL AS secretLevel,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=D.CREATE_USER) AS createUserName
+	FROM
+	ARCHIVES_DESTROY_RECORD D LEFT JOIN ARCHIVES_VOLUME V ON D.ORG_ID=V.ORG_ID AND D.ARCHIVES_ID=V.VOLUME_ID
+	WHERE 
+	D.ORG_ID=#{orgId}
+	AND D.ARCHIVES_TYPE='2'
+	<if test = "(accountId!=''.toString() and accountId!=null)">
+		AND D.CREATE_USER = #{accountId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND D.CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND D.CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="search !='%%'.toString() and search !=''.toString() and search!=null">
+		AND (V.VOLUME_TITLE LIKE #{search} OR V.VOLUME_CODE LIKE #{search})
+	</if>
+</select>
+
+</mapper>
+

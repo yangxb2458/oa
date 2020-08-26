@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.oa.CalendarMapper">
+<resultMap id="Calendar" type="com.core136.bean.oa.Calendar" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="CALENDAR_ID" property="calendarId" jdbcType="VARCHAR" />
+    <result column="START" property="start" jdbcType="VARCHAR" />
+    <result column="END" property="end" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_ID" property="accountId" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ADVANCE" property="advance" jdbcType="VARCHAR" />
+    <result column="SMS_TIME" property="smsTime" jdbcType="VARCHAR" />
+    <result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+    <result column="SHARE" property="share" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getTimgingCalendarList"  resultMap="Calendar">
+SELECT * FROM
+CALENDAR
+WHERE ORG_ID=#{orgId}
+AND END &lt;=#{nowTime}
+AND STATUS='0'
+</select>
+
+<select id="getMyCalendarList" resultType="java.util.HashMap">
+ SELECT ID AS id, CALENDAR_ID AS calendarId, START AS start, END AS end,SHARE AS share,
+ CONTENT AS title, ACCOUNT_ID AS accountId, TYPE AS type, STATUS AS status, ADVANCE AS advance, MSG_TYPE AS msgType,URL AS url
+ FROM CALENDAR
+ WHERE 
+ ORG_ID=#{orgId}
+ AND ACCOUNT_ID=#{accountId}
+ AND END>=#{nowDate}
+</select>
+ 
+ 
+ <select id="getAllCalendarList" resultType="java.util.HashMap">
+ SELECT ID AS id, CALENDAR_ID AS calendarId, `START` AS calendarStart, `END` AS calendarEnd, CONTENT AS title, SHARE AS share,
+ ACCOUNT_ID AS accountId, TYPE AS type, STATUS AS status, ADVANCE AS advance, MSG_TYPE AS msgType,URL AS url,CREATE_TIME AS createTime
+ FROM CALENDAR
+ WHERE 
+ ORG_ID=#{orgId}
+ AND ACCOUNT_ID=#{accountId}
+ <if test="type!= ''.toString() and type!=null">
+	AND TYPE=#{type}
+</if>
+ <if test="beginTime!=''.toString() and beginTime!=null">
+	AND START &gt;= #{beginTime}
+	</if>
+	<if test="endTime!=''.toString() and endTime!=null">
+	AND START &lt;= #{endTime}
+	</if>
+	<if test="search!= '%%'.toString() and search!=null">
+	AND CONTENT LIKE #{search}
+	</if>
+</select>
+  
+  
+  <select id="getMyCalendarListForDesk" resultType="java.util.HashMap">
+ SELECT ID AS id, CALENDAR_ID AS calendarId, `START` AS calendarStart, `END` AS calendarEnd, CONTENT AS title,
+ TYPE AS type, STATUS AS status,URL AS url, CREATE_USER AS createUser,(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=CREATE_USER) AS createUserName
+ FROM CALENDAR
+ WHERE 
+ ORG_ID=#{orgId}
+ AND ACCOUNT_ID=#{accountId}
+ <if test="beginTime!=''.toString() and beginTime!=null">
+	AND START &gt;= #{beginTime}
+</if>
+<if test="endTime!=''.toString() and endTime!=null">
+	AND START &lt;= #{endTime}
+</if>
+	ORDER BY `START` DESC LIMIT 0,5
+</select>
+  
+</mapper>
+

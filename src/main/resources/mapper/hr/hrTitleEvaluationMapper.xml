@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrTitleEvaluationMapper">
+<resultMap id="HrTitleEvaluation" type="com.core136.bean.hr.HrTitleEvaluation" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="POST_NAME" property="postName" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="GET_TYPE" property="getType" jdbcType="VARCHAR" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="VARCHAR" />
+    <result column="RECEIVE_TIME" property="receiveTime" jdbcType="VARCHAR" />
+    <result column="NEXT_POST_NAME" property="nextPostName" jdbcType="VARCHAR" />
+    <result column="NEXT_APPLY_TIME" property="nextApplyTime" jdbcType="VARCHAR" />
+    <result column="EMPLOY_POST" property="employPost" jdbcType="VARCHAR" />
+    <result column="EMPLOY_COMP" property="employComp" jdbcType="VARCHAR" />
+    <result column="EMPLOY_BEGIN_TIME" property="employBeginTime" jdbcType="VARCHAR" />
+    <result column="EMPLOY_END_TIME" property="employEndTime" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+<select id="getHrTitleEvaluationList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,USER_ID AS userId,POST_NAME AS postName,DEPT_ID AS deptId, RECEIVE_TIME AS receiveTime,
+	NEXT_POST_NAME AS nextPostName,NEXT_APPLY_TIME AS nextApplyTime,EMPLOY_COMP AS employComp,EMPLOY_BEGIN_TIME AS employBeginTime,
+	EMPLOY_END_TIME AS employEndTime
+	FROM HR_TITLE_EVALUATION
+	WHERE ORG_ID=#{orgId}
+	<if test="userId!=null and userId!=''.toString()">
+		AND USER_ID=#{userId}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND (RECEIVE_TIME &gt;=#{beginTime} OR END_TIME ='')
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND (RECEIVE_TIME &lt;=#{endTime} OR END_TIME ='')
+	</if>
+	<if test="getType!=null and getType!=''.toString()">
+		AND GET_TYPE=#{getType}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND POST_NAME LIKE #{search}
+	</if>
+</select>
+
+</mapper>
+

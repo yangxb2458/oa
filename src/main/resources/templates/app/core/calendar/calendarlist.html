@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">个人日程统计</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title">个人日程列表</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="buttons-preview" id="toobar">
+										<span style="margin-left: 10px">日程类型:</span> 
+										<span> 
+										<select id="type" style="width: 150px">
+										<option value="1">部门例会</option>
+										<option value="2">工作汇报</option>
+										<option value="3">公司出差</option>
+										<option value="4">接待客户</option>
+										<option value="5">个人事务</option>
+										<option value="0">其它事务</option>
+										</select>
+										</span> 
+										<span style="margin-left: 10px;">时间跨度:</span>
+										<span> <input type="text" class="form-control" id="beginTime" readonly="readonly" style="width: 100px; display: inline-block;" name="beginTime" placeholder="开始时间">
+											</span>
+										<span> - </span>
+										<span> <input type="text" class="form-control" id="endTime" readonly="readonly" style="width: 100px; display: inline-block;" name="endTime" placeholder="终止时间">
+											</span>
+											<span style="margin-left: 10px">
+												<a href="javascript:void(0);" class="btn btn-success js-query-but">查询</a>
+											</span>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+							<div class="row" style="text-align: center">
+							<a href="javascript:void(0);window.history.go(-1);" class="btn btn-darkorange">返回</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<%include("../../resapi/sysjs.html"){}%>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script src="/gobal/js/page/oa/calendarlist.js"></script>
+</body> 
+</html>

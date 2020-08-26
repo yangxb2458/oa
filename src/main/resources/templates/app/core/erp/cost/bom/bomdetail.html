@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget flat radius-bordered">
+					<div class="widget-header bg-blue">
+						<span class="widget-caption">BOM清单维护</span>
+					</div>
+					<div class="widget-body">
+						<div id="registration-form">
+							<form role="form">
+								<div class="form-title">BOM基本详情</div>
+								<div class="form-group">
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<label class="col-sm-2 control-label no-padding-right">BOM名称:</label>
+										<div class="col-sm-10">${erpBom.bomName}</div>
+									</div>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<label class="col-sm-2 control-label no-padding-right">BOM版本:</label>
+										<div class="col-sm-10">${erpBom.version}</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<label class="col-sm-2 control-label no-padding-right">设计图号:</label>
+										<div class="col-sm-10">${erpBom.mapNumber}</div>
+									</div>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<label class="col-sm-2 control-label no-padding-right">制品号:</label>
+										<div class="col-sm-10">${erpBom.productNumber}</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12 col-sm-12 col-xs-12">
+										<label class="col-sm-1 control-label no-padding-right">备注:</label>
+										<div class="col-sm-11">${erpBom.remark}</div>
+									</div>
+								</div>
+								<div class="form-title">BOM清单</div>
+								<div class="tabbable">
+									<ul class="nav nav-tabs" id="myTab">
+										<li class="tab-red active"><a data-toggle="tab" href="#materielmx" aria-expanded="true"> 物料清单 </a></li>
+
+										<li class=""><a data-toggle="tab" href="#bomchild" aria-expanded="false"> BOM子集 </a></li>
+									</ul>
+
+									<div class="tab-content">
+										<div id="materielmx" class="tab-pane active">
+											<div class="row">
+												<div class="col-md-12">
+													<div class="buttons-preview" id="toobar">
+														<a href="javascript:void(0);" class="btn btn-darkorange">批量删除</a> <a href="javascript:void(0);addRow();" class="btn btn-azure">添加物料</a>
+													</div>
+													<table id="myTable"></table>
+												</div>
+											</div>
+										</div>
+										<div id="bomchild" class="tab-pane">
+											<div class="row">
+												<div class="col-md-12">
+													<div class="buttons-preview" id="toobar1">
+														<a href="javascript:void(0);" class="btn btn-darkorange">批量删除</a> <a href="javascript:void(0);addRow1();" class="btn btn-azure">添加子BOM</a>
+													</div>
+													<table id="myTable1"></table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div style="padding-top: 10px;">
+									<button type="button" class="btn btn-blue" onclick="history.back(-1);">返回</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="modal-warning" class="modal modal-message modal-warning fade" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<i class="fa fa-warning"></i>
+				</div>
+				<div class="modal-title">警告</div>
+
+				<div class="modal-body">请先完成当前添加操作并保存?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+			<!-- / .modal-content -->
+		</div>
+		<!-- / .modal-dialog -->
+	</div>
+
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="editdiv">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="mySmallModalLabel">物料清单变更</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" id="form">
+						<input type="hidden" id="eerpBomDetailId" name="eerpBomDetailId">
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right" style="text-align: left;">物料编码:</label>
+							<div class="col-sm-8 control-label no-padding-left" id="materielCodediv" style="text-align: left;"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right" style="text-align: left;">物料名称:</label>
+							<div class="col-sm-8 control-label no-padding-left" id="materielNamediv" style="text-align: left;"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right" style="text-align: left; line-height: 34px;">所需数量:</label>
+							<div class="col-sm-8 control-label no-padding-left control-label no-padding-left" id="materielCode" style="text-align: left;">
+								<input type="text" class="form-control" id="euseCount" name="euseCount" placeholder="所需数量">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right" style="text-align: left;">计量单位:</label>
+							<div class="col-sm-8 control-label no-padding-left" id="unitdiv" style="text-align: left;"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right" style="text-align: left; line-height: 34px;">规格:</label>
+							<div class="col-sm-8 control-label no-padding-left" style="text-align: left;">
+								<input type="text" class="form-control" placeholder="规格" id="eparam" name="eparam">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right" style="text-align: left; line-height: 34px;">备注:</label>
+							<div class="col-sm-8 control-label no-padding-left" style="text-align: left;">
+								<input type="text" class="form-control" placeholder="备注" id="eremark" name="eremark">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button data-bb-handler="cancel" type="button" class="btn btn-default js-cancel">取消</button>
+					<button type="button" class="btn btn-warning js-save" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+<%include("../../../../resapi/sysjs.html"){}%>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="/gobal/js/page/erp/erp.js"></script>
+<script src="/assets/js/select2/select2.js"></script>
+<script src="/gobal/js/page/erp/bomdetail.js"></script>
+<script>
+var bomId = "${parameter.bomId}";
+</script>
+</html>

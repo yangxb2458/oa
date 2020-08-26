@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<%include("../../resapi/style.html"){} %>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12">
+					<div class="buttons-preview" id="toobar">
+					<a href="javascript:void(0);" class="btn btn-palegreen js-add-but" style="display: inline-block;">添加单位</a>
+					</div>
+					<table id="myTable"></table>
+			</div>
+		</div>
+	</div>
+</div>
+	<div class="modal fade bs-example-modal-lg" id="unitsetmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">计量单位设置</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form" class="form-horizontal" id="form">
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right">排序号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" id="sortNo" name="sortNo" placeholder="排序号" data-bv-notempty="true" data-bv-notempty-message="排序号不能为空">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right">单位名称(中文)：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="cnName" name="cnName" placeholder="单位名称(中文)" data-bv-notempty="true" data-bv-notempty-message="单位名称(中文)不能为空">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label no-padding-right">单位名称(英文)：</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="enName" name="enName" placeholder="单位名称(英文)" data-bv-notempty="true" data-bv-notempty-message="单位名称(英文)不能为空">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-add">保存</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+</body>
+<%include("../../resapi/sysjs.html"){} %>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="/gobal/js/page/officesuplies/officesuppliesunit.js"></script>
+</html>

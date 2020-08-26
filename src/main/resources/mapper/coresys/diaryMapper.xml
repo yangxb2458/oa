@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.oa.DiaryMapper">
+	<resultMap id="Diary" type="com.core136.bean.oa.Diary">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="DIARY_ID" property="diaryId" jdbcType="VARCHAR" />
+		<result column="DIARY_DAY" property="diaryDay" jdbcType="VARCHAR" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+		<result column="ATTACH_PRIV" property="attachPriv" jdbcType="VARCHAR" />
+		<result column="DIARY_TYPE" property="diaryType" jdbcType="VARCHAR" />
+		<result column="USER_PRIV" property="userPriv" jdbcType="VARCHAR" />
+		<result column="DEPT_PRIV" property="deptPriv" jdbcType="VARCHAR" />
+		<result column="LEAVE_PRIV" property="leavePriv" jdbcType="VARCHAR" />
+		<result column="FLLOW_USER" property="fllowUser" jdbcType="VARCHAR" />
+		<result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="getMyDiaryList" resultType="java.util.HashMap">
+		SELECT ID AS id,DIARY_DAY AS diaryDay,DIARY_ID AS diaryId,TITLE AS title,CREATE_TIME AS createTime,CREATE_USER AS createUser,
+		ATTACH AS attach,DIARY_TYPE AS diaryType,CONTENT AS content
+		FROM DIARY
+		WHERE ORG_ID = #{orgId}
+		AND CREATE_USER = #{accountId}
+		<if test="search !='%%'.toString() and search !=''.toString() and search!=null">
+			AND TITLE LIKE #{search}
+		</if>
+		<if test="diaryDay !=''.toString() and diaryDay!=null">
+			AND DIARY_DAY = #{diaryDay}
+		</if>
+	</select>
+
+	<select id="getShowDiaryList" resultType="java.util.HashMap">
+		SELECT ID AS id,DIARY_DAY AS diaryDay,DIARY_ID AS diaryId,TITLE AS title,CREATE_TIME AS createTime,CREATE_USER AS createUser,
+		ATTACH AS attach,DIARY_TYPE AS diaryType,CONTENT AS content
+		FROM DIARY
+		WHERE ORG_ID = #{orgId}
+		AND CREATE_USER != #{accountId}
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND DIARY_DAY &gt;= #{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND DIARY_DAY &lt;=#{endTime}
+		</if>
+		AND(
+		FUN_INTE_ARRAY(USER_PRIV,#{accountId}) > 0
+		<if test="deptId!=null and deptId=!''.toString()">
+			OR FUN_INTE_ARRAY(DEPT_PRIV,#{deptId})> 0
+		</if>
+		<if test="leaveId!=''.toString() and leaveId!=null">
+			OR FUN_INTE_ARRAY(LEAVE_PRIV,#{leaveId}) > 0
+		</if>
+		OR USER_PRIV = '@all'
+		OR DEPT_PRIV = '@all'
+		OR LEAVE_PRIV = '@all'
+		)
+		<if test="search !='%%'.toString() and search !=''.toString() and search!=null">
+			AND TITLE LIKE #{search}
+		</if>
+		
+	</select>
+
+
+	<select id="getMySubordinatesDiaryList" resultType="java.util.HashMap">
+		SELECT D.ID AS id,D.DIARY_ID AS diaryId,D.TITLE AS title,D.CREATE_TIME AS createTime,D.ATTACH AS attach,D.DIARY_TYPE AS diaryType,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID = D.CREATE_USER) AS createUserName,DIARY_DAY AS diaryDay
+		FROM DIARY D
+		WHERE D.ORG_ID = #{orgId}
+		<if test="list.size() >0">
+			AND D.CREATE_USER IN
+			<foreach collection="list" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND D.CREATE_TIME &gt;=#{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND D.CREATE_TIME &lt;=#{endTime}
+		</if>
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND D.TITLE LIKE #{search}
+		</if>
+	</select>
+
+	<select id="getOtherDiaryList" resultType="java.util.HashMap">
+		SELECT ID AS id,DIARY_DAY AS diaryDay,DIARY_ID AS diaryId,TITLE AS title,CREATE_TIME AS createTime,CREATE_USER AS createUser,
+		ATTACH AS attach,DIARY_TYPE AS diaryType,CONTENT AS content,DIARY_TYPE AS diaryType,ATTACH_PRIV AS attachPriv
+		FROM DIARY
+		WHERE ORG_ID = #{orgId}
+		AND CREATE_USER = #{accountId}
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND TITLE LIKE #{search}
+		</if>
+		<if test="(beginTime!='') and (beginTime!=null)">
+			AND CREATE_TIME &gt;=#{beginTime}
+		</if>
+		<if test="(endTime!='') and (endTime!=null)">
+			AND CREATE_TIME &lt;=#{endTime}
+		</if>
+	</select>
+
+ 
+	<select id="getMyDiaryCount" resultType="Integer">
+		SELECT COUNT(1) AS total 
+		FROM 
+		DIARY 
+		WHERE
+		ORG_ID=#{orgId}
+		AND CREATE_USER=#{accountId}
+</select>
+
+
+	<select id="getDiaryCommentCount" resultType="Integer">
+		SELECT COUNT(1) AS total 
+		FROM 
+		DIARY 
+		WHERE
+		ORG_ID=#{orgId}
+		AND CREATE_USER=#{accountId}
+		AND DIARY_ID IN(SELECT DIARY_ID FROM DIARY_COMMENTS C WHERE C.ORG_ID=#{orgId})
+	</select>
+
+</mapper>
+

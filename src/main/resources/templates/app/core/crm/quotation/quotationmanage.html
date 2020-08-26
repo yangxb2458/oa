@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/module/jeDate/jedate.css" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class="active"><a href="/app/core/crm/quotation" aria-expanded="true">报价管理 </a></li>
+							<li class=""><a href="/app/core/crm/quotation?view=input" aria-expanded="false">创建报价</a></li>
+						</ul>
+						<div class="tab-content tabs-flat"style="padding: 0px;">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12" id="learnlistdiv">
+									<div class="btn-group" id="toobar">
+										<span style="margin-left: 10px;">入学日期:</span> <span> <input readonly="readonly" placeholder="入学日期:" style="width: 150px; display: inline-block;" id="beginTimeQuery"
+											class="form-control">
+										</span> <span style="margin-left: 10px;">-</span> <span> <input readonly="readonly" placeholder="入学日期:" style="width: 150px; display: inline-block;" id="endTimeQuery" class="form-control">
+										</span> <span style="margin-left: 10px;">学生姓名:</span> <span> <input readonly="readonly" placeholder="学生姓名" style="width: 150px; display: inline-block;" id="userIdQuery" opt-id="userIdQuery"
+											class="form-control" onclick="selectHrUser(this,'false');">
+										</span> <span style="margin-left: 20px"> <a href="javascript:void(0);" class="btn btn-magenta js-simple-query">查询</a>
+										</span>
+									</div>
+									<table id="myTable"></table>
+								</div>
+								<div class="col-md-12 col-sm-12 col-xs-12" id="learndiv" style="display: none;">
+									<div class="row">
+										<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+											<form class="form-horizontal">
+										<table class="table table-hover table-striped table-bordered">
+											<tr>
+												<td width="20%">排序号：</td>
+												<td width="30%"><input placeholder="排序号" type="number" name="sortNo" id="sortNo" maxlength="50" value="" class="form-control"></td>
+												<td width="20%">关联档案人员：</td>
+												<td width="30%"><input placeholder="关联档案人员" type="text" name="userId" id="userId" readonly="readonly" id="userId" opt-id="userId" class="form-control" onclick="selectHrUser(this,'false');"></td>
+											</tr>
+											<tr>
+												<td width="20%">学校名称：</td>
+												<td width="30%"><input placeholder="学校名称" type="text" name="shoolName" id="shoolName" class="form-control" maxlength="100"></td>
+												<td width="20%">所学专业：</td>
+												<td width="30%"><input placeholder="所学专业" type="text" id="major" name="major" class="form-control" maxlength="100"></td>
+											</tr>
+											<tr>
+												<td width="20%">入学日期：</td>
+												<td width="30%"><input placeholder="入学日期" type="text" name="beginTime" id="beginTime" maxlength="20" value="" class="form-control"></td>
+												<td width="20%">毕业日期：</td>
+												<td width="30%"><input placeholder="毕业日期" type="text" name="endTime" id="endTime" class="form-control"></td>
+											</tr>
+											<tr>
+												<td width="20%">所获学位：</td>
+												<td width="30%"><select  name="highsetDegree" id="highsetDegree" module="highsetDegree" class="form-control js-auto-select"></select></td>
+												<td width="20%">证明人：</td>
+												<td width="30%"><input placeholder="证明人" type="text" name="cerifier" id="cerifier" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">获取证书：</td>
+												<td colspan="3"><textarea rows="5" cols=""  class="form-control" id="cerificate" name="cerificate"></textarea>  </td>
+											</tr>
+											<tr>
+												<td width="20%">获奖情况：</td>
+												<td colspan="3"><textarea rows="5" cols=""  class="form-control" id="honor" name="honor"></textarea>  </td>
+											</tr>
+											<tr>
+												<td width="20%">相关附件：</td>
+												<td width="80%" colspan="3">
+													<div id="show_hrattach"></div> <a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('hr','hrattach');" hidefocus="true"
+														maxlength="1" id="hrattach" name="hrattach" class="addfile" multiple="multiple"></a> <a class="addfile" style="width: 200px;" href="#" op_id="hrattach"
+													onclick="selectattach(this,'true')">选择网络文件</a>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">备注</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<div id="remark" name="remark"></div>
+												</td>
+											</tr>
+													<tr>
+														<td colspan="4" align="center">
+														<a id="createbut" href="javascript:void(0);" class="btn btn-primary js-update-save">更&nbsp;&nbsp;新</a>
+														<a href="javascript:void(0);" class="btn btn-purple js-back-btn" style="margin-left: 20px;">返&nbsp;&nbsp;回</a>
+														</td>
+													</tr>
+												</table>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	<div id="attachselect"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/attachselect.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/crm/quotationmanage.js"></script>
+</body>
+</html>

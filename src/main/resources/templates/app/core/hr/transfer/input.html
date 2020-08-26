@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/module/jeDate/jedate.css" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class=""><a href="/app/core/hr/transfer" aria-expanded="false">调动管理 </a></li>
+							<li class="active"><a href="/app/core/hr/transfer?view=input" aria-expanded="true">人事调动</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding-top: 0px;">
+							<div class="row">
+								<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+									<form class="form-horizontal">
+										<table class="table table-hover table-striped table-bordered">
+											<tr>
+												<td width="20%">排序号：</td>
+												<td width="30%"><input placeholder="排序号" type="number" name="sortNo" id="sortNo" maxlength="50" value="" class="form-control"></td>
+												<td width="20%">调动人员：</td>
+												<td width="30%"><input placeholder="调动人员" type="text" name="userId" id="userId" readonly="readonly" id="userId" opt-id="userId" class="form-control" onclick="selectHrUser(this,'false');"></td>
+											</tr>
+											<tr>
+												<td width="20%">文件标题：</td>
+												<td width="30%"><input placeholder="文件标题" type="text" name="title" id="title" maxlength="100" value="" class="form-control"></td>
+												<td width="20%">调动类型：</td>
+												<td width="30%"><select id="transferType" name="transferType" module="transferType" class="form-control js-auto-select" style="border-radius: 0px;"></select></td>
+											</tr>
+											<tr>
+												<td width="20%">调动日期：</td>
+												<td width="30%"><input placeholder="调动日期" type="text" name="transferTime" id="transferTime" maxlength="20" value="" class="form-control"></td>
+												<td width="20%">生效日期：</td>
+												<td width="30%"><input placeholder="生效日期" type="text" name="startTime" id="startTime" maxlength="20" value="" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">调动前单位名称：</td>
+												<td width="30%"><input placeholder="调动前单位名称" type="text" name="compName" id="compName" class="form-control"></td>
+												<td width="20%">调动后单位名称：</td>
+												<td width="30%"><input placeholder="调动后单位名称" type="text" name="transferComp" id="transferComp" maxlength="50" value="" class="form-control"></td>
+											</tr>
+											<tr>
+												<td width="20%">调动前部门名称：</td>
+												<td width="30%"><input placeholder="调动前部门名称" type="text" name="deptName" id="deptName" class="form-control"></td>
+												<td width="20%">调动后部门名称：</td>
+												<td width="30%"><input placeholder="调动后部门名称" type="text" name="transferDept" id="transferDept" maxlength="50" value="" class="form-control"></td>
+											</tr>
+											<tr>
+												<td width="20%">调动前职务名称：</td>
+												<td width="30%"><input placeholder="调动前职务名称" type="text" name="levelName" id="levelName" class="form-control"></td>
+												<td width="20%">调动后职务名称：</td>
+												<td width="30%"><input placeholder="调动后职务名称" type="text" name="transferLevel" id="transferLevel" maxlength="50" value="" class="form-control"></td>
+											</tr>
+											<tr>
+												<td width="20%">调动手续办理：</td>
+												<td width="80%" colspan="3">
+												<textarea rows="" cols="" placeholder="调动手续办理" id="transferCondition" name="transferCondition" class="form-control"></textarea>
+												</td>
+											</tr>
+												<tr>
+												<td width="20%">相关附件：</td>
+												<td width="80%" colspan="3">
+													<div id="show_hrattach"></div> <a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('hr','hrattach');" hidefocus="true"
+														maxlength="1" id="hrattach" name="hrattach" class="addfile" multiple="multiple"></a> <a class="addfile" style="width: 200px;" href="#" op_id="hrattach"
+													onclick="selectattach(this,'true')">选择网络文件</a>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">备注</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<div id="remark" name="remark"></div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" align="center"><a href="javascript:void(0);" class="btn btn-primary js-add-save">新&nbsp;&nbsp;建</a></td>
+											</tr>
+										</table>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	<div id="attachselect"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/attachselect.js"></script>
+<script type="text/javascript" src="/module/hrorgselect/hrorgselect.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/hrapi.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/transfer/input.js"></script>
+</body>
+</html>

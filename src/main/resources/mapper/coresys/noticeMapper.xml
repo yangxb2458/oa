@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.notice.NoticeMapper">
+	<resultMap id="Notice" type="com.core136.bean.notice.Notice">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="NOTICE_ID" property="noticeId"
+			jdbcType="VARCHAR" />
+		<result column="NOTICE_TITLE" property="noticeTitle" jdbcType="VARCHAR" />
+		<result column="SUBHEADING" property="subheading" jdbcType="VARCHAR" />
+		<result column="NOTICE_TYPE" property="noticeType"
+			jdbcType="VARCHAR" />
+		<result column="USER_PRIV" property="userPriv"
+			jdbcType="VARCHAR" />
+		<result column="DEPT_PRIV" property="deptPriv"
+			jdbcType="VARCHAR" />
+		<result column="LEAVE_PRIV" property="leavePriv"
+			jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+		<result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+		<result column="ATTACH_PRIV" property="attachPriv"
+			jdbcType="VARCHAR" />
+		<result column="ONCLICK_COUNT" property="onclickCount"
+			jdbcType="VARCHAR" />
+		<result column="DEL_FLAG" property="delFlag" jdbcType="VARCHAR" />
+		<result column="IS_TOP" property="ipTop" jdbcType="VARCHAR" />
+		<result column="APPROVAL_STATUS" property="approvalStatus"
+			jdbcType="VARCHAR" />
+		<result column="APPROVAL_STAFF" property="approveStaff"
+			jdbcType="VARCHAR" />
+		<result column="MSG_TYPE" property="msgType" jdbcType="VARCHAR" />
+		<result column="READER" property="reader" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="SEND_TIME" property="sendTime"
+			jdbcType="VARCHAR" />
+		<result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime"
+			jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser"
+			jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getNoticeManageList" resultType="java.util.HashMap">
+		SELECT NOTICE_ID AS noticeId,NOTICE_TITLE AS noticeTitle,NOTICE_TYPE
+		AS noticeType,CREATE_TIME AS createTime,STATUS AS status,
+		(SELECT
+		U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=ORG_ID AND
+		U.ACCOUNT_ID=CREATE_USER) AS createUser,SEND_TIME AS sendTime,END_TIME
+		AS endTime,
+		APPROVAL_STATUS AS approvalStatus
+		FROM NOTICE
+		WHERE
+		ORG_ID=#{orgId}
+		<if test="opFlag!='1'">
+			AND CREATE_USER=#{accountId}
+		</if>
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND NOTICE_TITLE LIKE#{search}
+		</if>
+		<if test="noticeType!= ''.toString() and noticeType!=null ">
+			AND NOTICE_TYPE = #{noticeType}
+		</if>
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND SEND_TIME &gt;= #{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND SEND_TIME &lt;=#{endTime}
+		</if>
+	</select>
+
+
+<select id="getMobileMyNoticeList" resultType="java.util.HashMap">
+SELECT NOTICE_ID AS noticeId,NOTICE_TITLE AS noticeTitle,NOTICE_TYPE
+		AS noticeType,CREATE_TIME AS createTime,STATUS AS status,SUBHEADING AS subheading,
+		(SELECT
+		U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=ORG_ID AND U.ACCOUNT_ID=CREATE_USER) AS createUser,
+		SEND_TIME AS sendTime,END_TIME AS endTime,
+		APPROVAL_STATUS AS approvalStatus
+		FROM NOTICE
+		WHERE
+		ORG_ID=#{orgId}
+		AND STATUS = '1'
+		AND(
+		FUN_INTE_ARRAY(USER_PRIV,#{accountId}) > 0
+		<if test="deptId!=''.toString() and deptId!=null">
+			OR FUN_INTE_ARRAY(DEPT_PRIV,#{deptId}) > 0
+		</if>
+		<if test="leaveId!=''.toString() and leaveId!=null">
+			OR FUN_INTE_ARRAY(LEAVE_PRIV,#{leaveId}) > 0
+		</if>
+		OR USER_PRIV = '@all'
+		OR DEPT_PRIV = '@all'
+		OR LEAVE_PRIV = '@all'
+		)
+		ORDER BY CREATE_TIME ASC LIMIT ${page},10
+</select>
+
+
+	<select id="getMyNoticeList" resultType="java.util.HashMap">
+		SELECT NOTICE_ID AS noticeId,NOTICE_TITLE AS noticeTitle,NOTICE_TYPE AS noticeType,CREATE_TIME AS createTime,STATUS AS status,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=ORG_ID AND U.ACCOUNT_ID=CREATE_USER) AS createUser,
+		SEND_TIME AS sendTime,END_TIME AS endTime, APPROVAL_STATUS AS approvalStatus,CASE WHEN FUN_INTE_ARRAY(READER,#{accountId}) = 0 then 'true' else 'false' END AS  readStatus
+		FROM NOTICE
+		WHERE
+		ORG_ID=#{orgId}
+		AND STATUS = '1'
+		AND(
+		FUN_INTE_ARRAY(USER_PRIV,#{accountId}) > 0
+		<if test="deptId!=''.toString() and deptId!=null">
+			OR FUN_INTE_ARRAY(DEPT_PRIV,#{deptId}) > 0
+		</if>
+		<if test="leaveId!=''.toString() and leaveId!=null">
+			OR FUN_INTE_ARRAY(LEAVE_PRIV,#{leaveId}) > 0
+		</if>
+		OR USER_PRIV = '@all'
+		OR DEPT_PRIV = '@all'
+		OR LEAVE_PRIV = '@all'
+		)
+		<if test="noticeType!=''.toString() and noticeType!=null">
+			AND NOTICE_TYPE = #{noticeType}
+		</if>
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND NEWS_TITLE LIKE#{search}
+		</if>
+		<if test="beginTime!=''.toString() and beginTime!=null">
+			AND SEND_TIME &gt;=#{beginTime}
+		</if>
+		<if test="endTime!=''.toString() and endTime!=null">
+			AND SEND_TIME &lt;=#{endTime}
+		</if>
+		<if test="readStatus=='1'.toString()">
+			AND FUN_INTE_ARRAY(READER,#{accountId}) > 0
+		</if>
+		<if test="readStatus=='2'.toString()">
+			AND FUN_INTE_ARRAY(READER,#{accountId}) &lt;= 0
+		</if>
+	</select>
+
+
+<select id="getMyNoticeListForDesk" resultType="java.util.HashMap">
+		SELECT NOTICE_ID AS noticeId,NOTICE_TITLE AS noticeTitle,NOTICE_TYPE
+		AS noticeType,CREATE_TIME AS createTime,STATUS AS status,
+		CASE WHEN FUN_INTE_ARRAY(READER,#{accountId}) = 0 then 'true' else 'false' END AS  readStatus,
+		(SELECT
+		U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=ORG_ID AND
+		U.ACCOUNT_ID=CREATE_USER) AS createUser,SEND_TIME AS sendTime,END_TIME
+		AS endTime,
+		APPROVAL_STATUS AS approvalStatus
+		FROM NOTICE
+		WHERE
+		ORG_ID=#{orgId}
+		AND STATUS = '1'
+		AND(
+		FUN_INTE_ARRAY(USER_PRIV,#{accountId}) > 0
+		<if test="deptId!=''.toString() and deptId!=null">
+			OR FUN_INTE_ARRAY(DEPT_PRIV,#{deptId}) > 0
+		</if>
+		<if test="leaveId!=''.toString() and leaveId!=null">
+			OR FUN_INTE_ARRAY(LEAVE_PRIV,#{leaveId}) > 0
+		</if>
+		OR USER_PRIV = '@all'
+		OR DEPT_PRIV = '@all'
+		OR LEAVE_PRIV = '@all'
+		)
+		AND	
+		(
+			END_TIME IS NULL OR END_TIME ='' OR END_TIME &gt;=#{endTime}
+		)
+		AND SEND_TIME &lt;= #{endTime}
+		ORDER BY readStatus DESC,CREATE_TIME DESC LIMIT 0,5
+	</select>
+
+	<select id="getNoticeApproverList"
+		resultType="java.util.HashMap">
+		SELECT NOTICE_ID AS noticeId,NOTICE_TITLE AS noticeTitle,NOTICE_TYPE
+		AS noticeType,CREATE_TIME AS createTime,STATUS AS status,
+		(SELECT
+		U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=ORG_ID AND
+		U.ACCOUNT_ID=CREATE_USER) AS createUser,SEND_TIME AS sendTime,END_TIME
+		AS endTime,
+		APPROVAL_STATUS AS approvalStatus
+		FROM NOTICE
+		WHERE
+		ORG_ID=#{orgId}
+		AND STATUS = '0'
+		AND NOTICE_TYPE IN(
+		SELECT C.NOTICE_TYPE
+		FROM
+		NOTICE_CONFIG C
+		WHERE
+		C.ORG_ID=ORG_ID
+		AND APPROVER_TYPE='0'
+		AND
+		FUN_INTE_ARRAY(APPROVER,#{accountId}) > 0
+		)
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND NOTICE_TITLE LIKE#{search}
+		</if>
+	</select>
+
+	<update id="setOnClickCount">
+		UPDATE NOTICE SET ONCLICK_COUNT=(ONCLICK_COUNT+1)
+		WHERE ORG_ID=#{orgId} AND NOTICE_ID=#{noticeId}
+	</update>
+
+	<select id="isNoSendStatus" resultType="java.util.HashMap">
+		SELECT COUNT(1) AS ZS
+		FROM NOTICE
+		WHERE ORG_ID=#{orgId}
+		AND NOTICE_ID=#{noticeId}
+		AND
+		STATUS=='0'
+		AND END_TIME &lt;=#{endTime}
+
+	</select>
+
+</mapper>
+

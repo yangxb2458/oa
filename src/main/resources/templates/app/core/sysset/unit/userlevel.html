@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/orgchart/css/font-awesome.min.css">
+<link rel="stylesheet" href="/module/orgchart/css/jquery.orgchart.css">
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="well with-header" style="padding: 40px 0px 0px 0px;">
+						<div class="header bordered-sky">行政级别</div>
+						<div class="labels-container" >
+							<div class="row" style="padding-left:40px;padding-right:40px;">
+								<form>
+									<div class="form-group">
+										<div class="col-md-3">
+											<input type="text" id="levelNoId" name="levelNoId" placeholder="级别号" class="form-control"> <input type="hidden" id="levelId" name="levelId" class="form-control">
+										</div>
+										<div class="col-md-3">
+											<select name="superior" id="superior" class="form-control" style="border-radius: 0px;">
+											</select>
+										</div>
+										<div class="col-md-3">
+											<input type="text" name="levelName" id="levelName" placeholder="行政级别名称" class="form-control">
+										</div>
+										<div class="col-md-3" align="right" style="right: 20px">
+											<a href="javascript:void(0);" class="btn btn-magenta js-add">创建</a> <a href="javascript:void(0);" class="btn btn-sky js-update">修改</a> <a href="javascript:void(0);"
+												class="btn btn-darkorange js-del">删除</a>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div id="chart-container" style="width: 100%; margin-top: 15px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%include("../../../resapi/sysjs.html"){}%>
+	<script type="text/javascript" src="/module/orgchart/html2canvas.min.js"></script>
+	<script type="text/javascript" src="/module/orgchart/jquery.orgchart.js"></script>
+	<script type="text/javascript" src="/module/orgchart/jquery.mockjax.min.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/sys/userlevel.js"></script>
+</body>
+</html>

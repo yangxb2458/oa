@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+
+					<div class="col-md-2 col-sm-2 col-xs-12" style="padding: 0px;">
+						<div class="widget flat radius-bordered">
+							<div class="widget-header bg-lightred">
+								<span class="widget-caption">部门列表</span>
+							</div>
+							<div class="widget-body">
+								<ul id="tree" class="ztree"></ul>
+								<a id="cbut" href="javascript:void(0);" class="btn btn-purple" style="width: 100%;">创建部门</a> <a id="cimport" href="javascript:void(0);" class="btn btn-sky"
+									style="width: 100%; margin-top: 5px;">部门导入</a>
+
+							</div>
+
+						</div>
+					</div>
+					<div class="col-md-10 col-sm-10 col-xs-12" style="padding: 0px">
+
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="widget">
+								<div class="widget-header bordered-bottom bordered-palegreen">
+									<span class="widget-caption">部门基本信息</span>
+								</div>
+								<div class="widget-body">
+									<form class="form-horizontal form-bordered" id="form" data-bv-message="This value is not valid" data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+										data-bv-feedbackicons-invalid="glyphicon glyphicon-remove" data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">排序号 ：</label>
+											<div class="col-sm-2">
+												<input type="number" class="form-control" id="sortNo" name="sortNo" placeholder="排序号" data-bv-digits="true" data-bv-digits-message="排序号必须是正整数" data-bv-notempty="true"
+													data-bv-notempty-message="排序号不能为空"> <input type="hidden" id="deptId" name="deptId">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">部门名称 ：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="deptName" name="deptName" placeholder="部门名称" size="50" data-bv-notempty="true" data-bv-notempty-message="部门名称不能为空">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">上级部门：</label>
+											<div class="col-sm-5" style="position: relative;">
+												<input type="hidden" id="orgLeaveId" name="orgLeaveId"> <input type="text" class="form-control" id="parentDeptName" name="parentDeptName" placeholder="请选择上级分类 " readonly="readonly"
+													data-bv-notempty="true" data-bv-notempty-message="上级部门不能为空">
+												<div id="menuContent" class="menuContent">
+													<ul id="menuTree" class="ztree"></ul>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">部门领导 ：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="deptLead" name="deptLead" placeholder="部门领导">
+											</div>
+											<a class="selectbutton" opt-id="deptLead" onclick="selectUser(this,'false');">选择</a>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">部门电话 ：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="deptTel" name="deptTel" placeholder="部门电话" size="20">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">部门传真 ：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="deptFax" name="deptFax" placeholder="部门传真" size="20">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">部门邮件 ：</label>
+											<div class="col-sm-5">
+												<input type="text" class="form-control" id="deptEmail" name="deptEmail" placeholder="部门邮件" size="50">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">备注 ：</label>
+											<div class="col-sm-5">
+												<textarea rows="5" cols="" class="form-control" id="deptFunction" name="deptFunction"></textarea>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-1 col-sm-5">
+												<a id="createbut" href="javascript:void(0);" class="btn btn-primary">新&nbsp;&nbsp;建</a> <a style="display: none;" id="updatabut" href="javascript:void(0);" class="btn btn-maroon">更&nbsp;&nbsp;改</a>
+												<a style="display: none;" id="delbut" href="javascript:void(0);" class="btn btn-danger shiny">删&nbsp;&nbsp;除</a>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	<div class="modal fade bs-example-modal-sm in" id="exdiv" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content modal-sm">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">部门模版</h4>
+				</div>
+				<div class="modal-body">
+					<div id="horizontal-form">
+						<form class="form-horizontal" role="form" id="form1">
+							<div class="form-group" align="center">
+								<a href="/datatemple/部门模版.xlsx" class="btn btn-darkorange">下载模版</a> <a href="javascript:void(0);" class="btn btn-palegreen" style="margin-left: 20px">导入模版 <input id="file" name="file"
+									type="file" onchange="importDeptForExcel();" hidefocus="true" size="1" class="addfile" accept=".xls,.xlsx">
+								</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/sys/dept.js"></script>
+</body>
+</html>

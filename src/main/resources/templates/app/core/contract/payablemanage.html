@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){} %>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li><a href="/app/core/contract/payable" aria-expanded="false">创建应付款</a></li>
+							<li class="active"><a href="/app/core/contract/payable?view=manage" aria-expanded="true">应付款管理 </a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding-top: 0px">
+							<div class="row">
+								<div class="col-md-12" style="padding-top: 0px" id="recordlistdiv">
+									<div class="buttons-preview" id="toobar">
+									<span style="margin-left: 10px">收款状态:</span> 
+										<span> 
+										<select id="status" name="status" style="width: 150px">
+											<option value="">全部</option>
+											<option value="1">未付</option>
+											<option value="2">未付清</option>
+											<option value="3">已付清</option>
+										</select>
+										</span> 
+										<span style="margin-left: 10px;">应付款时间:</span>
+										<span> <input type="text" class="form-control" id="beginTime" readonly="readonly" style="width: 150px; display: inline-block;" name="beginTime" placeholder="开始时间">
+											</span>
+										<span> - </span>
+										<span> <input type="text" class="form-control" id="endTime" readonly="readonly" style="width: 150px; display: inline-block;" name="endTime" placeholder="终止时间">
+											</span>
+										<span style="margin-left: 10px;">责任人:</span> 
+										<span> <input type="text" class="form-control" id="userPriv" name="userPriv" style="width: 150px; display: inline-block;"
+												opt-id="userPriv" onclick="selectUser(this,'false');" readonly="readonly">
+										</span>
+											<span style="margin-left: 10px">
+												<a href="javascript:void(0);" class="btn btn-success js-query-but">查询</a>
+											</span>
+									</div>
+									<table id="myTable"></table>
+								</div>
+								
+								<div class="col-md-12" style="padding-top: 0px;display: none;" id="recorddiv">
+									<form class="form-horizontal form-bordered" id="form">
+									<div class="form-group" style="padding-top: 15px;">
+										<label class="col-sm-1 control-label no-padding-right">相关合同：</label>
+										<div class="col-sm-5" style="line-height: 34px" id="contractTitle">
+											<input type="hidden" style="width:100%" id="contractId" name="contractId">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">应付日期：</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" id="payabledTime" name="payabledTime" placeholder="应付日期">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">应付金额：</label>
+										<div class="col-sm-3" style="display: inline-block;">
+											<input type="number" class="form-control" id="unPayabled" name="unPayabled" placeholder="应付金额">
+										</div><span style="display: inline-block;line-height: 34px">元</span>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">应付备注：</label>
+										<div class="col-sm-10">
+											<div id="remark" style="height: 300px"></div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">责任人：</label>
+										<div class="col-sm-5">
+											<input type="text" class="form-control" id="userPriv" name="userPriv" placeholder="责任人" readonly="readonly" opt-id="userPriv" onclick="selectUser(this,'false');">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-1 control-label no-padding-right">相关附件 ：</label>
+										<div class="col-sm-5">
+											<div style="padding-top: 4px;">
+												<div id="show_contractattach"></div>
+												<a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('news','contractattach');" hidefocus="true" size="1" id="contractattach"
+													name="contractattach" class="addfile" multiple="multiple"></a>
+													<a class="addfile" style="width: 200px;" href="#" op_id="contractattach" onclick="selectattach(this,'true')">选择网络文件</a>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-1 col-sm-5">
+											<a id="createbut" href="javascript:void(0);" class="btn btn-primary js-update-save">更&nbsp;&nbsp;新</a>
+											<a href="javascript:void(0);" class="btn btn-purple js-back-btn" style="margin-left: 20px;">返&nbsp;&nbsp;回</a>
+										</div>
+									</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+		<div class="modal fade bs-example-modal-lg" id="payablesmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+<div class="modal-dialog">
+	<div class="modal-content">
+
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h4 class="modal-title" id="myLargeModalLabel">付款</h4>
+		</div>
+		<div class="modal-body">
+			<form class="form-horizontal form-bordered" role="form" id="form1">
+				<div class="form-group">
+					<label class="col-sm-3 control-label no-padding-right">付款金额：</label>
+					<div class="col-sm-9">
+						<input type="number" class="form-control" name="amount" id="amount" placeholder="付款金额">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label no-padding-right">付款日期：</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="payableTime" name="payableTime" placeholder="付款日期" readonly="readonly">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label no-padding-right">付款人：</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="payableee" name="payableee" placeholder="付款人" readonly="readonly"
+						opt-id="payableee" onclick="selectUser(this,'false');"
+						>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label no-padding-right">备注：</label>
+					<div class="col-sm-9">
+						<textarea class="form-control" id="otherremark" name="otherremark" placeholder="备注" rows="3"></textarea>
+					</div>
+				</div>
+			</form>
+
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+			<button type="button" class="btn btn-primary js-save">保存</button>
+		</div>
+	</div>
+	<!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+		<div id="orgselectdiv"></div>
+	<div id="attachselect"></div>
+	<%include("../../resapi/sysjs.html"){} %>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/attachselect.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/gobal/js/page/contract/payablemanage.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<div class="widget-header bg-themeprimary">
+	<span class="widget-caption">我的操作日志</span>
+</div>
+<div class="widget-body">
+	<div id="registration-form">
+		<form role="form">
+			<div class="form-title">操作日志列表</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="buttons-preview" id="toobar">
+						<span style="margin-left: 10px">日志类型:</span> <span> <select id="eventType" name="eventType" style="width: 150px">
+						<option value="">全部</option>
+						<option value="1">用户登陆</option>
+						<option value="2">用户注销登陆</option>
+						</select>
+						</span> <span style="margin-left: 10px;">时间:</span> <span> <input type="text" class="form-control" id="beginTime" readonly="readonly" style="width: 100px; display: inline-block;" name="beginTime" placeholder="开始时间">
+						</span> <span> - </span> <span> <input type="text" class="form-control" id="endTime" readonly="readonly" style="width: 100px; display: inline-block;" name="endTime" placeholder="终止时间">
+						</span> <span style="margin-left: 10px"> <a href="javascript:void(0);" class="btn btn-success js-query-but">查询</a>
+						</span>
+					</div>
+					<table id="myTable"></table>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

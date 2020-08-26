@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrEvaluateMapper">
+<resultMap id="HrEvaluate" type="com.core136.bean.hr.HrEvaluate" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="ATTITUDE_LEVEL" property="attitudeLevel" jdbcType="DOUBLE" />
+    <result column="LEARN_LEVEL" property="learnLevel" jdbcType="DOUBLE" />
+    <result column="SKILL_LEVEL" property="skillLevel" jdbcType="DOUBLE" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getHrEvaluateByUserIdList" resultType="java.util.HashMap">
+	SELECT E.RECORD_ID AS recordId,E.USER_ID AS userId,E.ATTITUDE_LEVEL AS attitudeLevel,E.LEARN_LEVEL AS learnLevel,
+	E.SKILL_LEVEL AS skillLevel,U.USER_NAME AS userName
+	FROM HR_EVALUATE E LEFT JOIN HR_USER_INFO U ON E.ORG_ID=U.ORG_ID AND E.USER_ID=U.USER_ID
+	WHERE E.ORG_ID=#{orgId}
+	<if test="userId!=null and userId!=''.toString()">
+		AND E.USER_ID=#{userId}
+	</if>
+</select>
+
+
+<select id="getHrEvaluateQueryList" resultType="java.util.HashMap">
+	SELECT E.RECORD_ID AS recordId,E.USER_ID AS userId,E.ATTITUDE_LEVEL AS attitudeLevel,E.LEARN_LEVEL AS learnLevel,
+	E.SKILL_LEVEL AS skillLevel,U.USER_NAME AS userName
+	FROM HR_EVALUATE E LEFT JOIN HR_USER_INFO U ON E.ORG_ID=U.ORG_ID AND E.USER_ID=U.USER_ID
+	WHERE E.ORG_ID=#{orgId}
+	<if test="userId!=null and userId!=''.toString()">
+		AND E.USER_ID=#{userId}
+	</if>
+	<if test="status!=null and status!=''.toString()">
+		AND E.STATUS=#{status}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND E.CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND E.CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="search!='%%'.toString() and search!=null and search!=''.toString()">
+		AND E.USER_ID IN (SELECT U.USER_ID FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.USER_NAME LIKE #{search})
+	</if>
+</select>
+
+</mapper>
+

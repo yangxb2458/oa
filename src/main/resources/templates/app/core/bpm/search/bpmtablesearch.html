@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/module/selectlist/list-style.css" type="text/css">
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="page-container">
+			<div class="widget-header bordered-bottom bordered-palegreen">
+				<span class="widget-caption">BPM高级查询</span>
+			</div>
+			<div class="widget-body no-padding" style="padding-top: 0px">
+				<div class="widget-main ">
+					<div class="panel-group accordion">
+						<div class="panel panel-default">
+							<div class="panel-heading ">
+								<h4 class="panel-title">
+									<a class="accordion-toggle">工作流程基本属性</a>
+								</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+				<form class="form-horizontal form-bordered" id="from">
+					<div class="form-group">
+						<label class="col-sm-1 control-label no-padding-right">BPM流程名称：</label>
+						<div class="col-sm-11" id="flowName" style="line-height: 34px"></div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 col-md-1 col-xs-12 control-label no-padding-right">BPM名称/文号：</label>
+						<div class="col-sm-9 col-md-2 col-xs-12">
+							<input type="text" class="form-control" id="flowTitle" name="flowTitle" placeholder="BPM流程标题">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 col-md-1 col-xs-12 control-label no-padding-right">时间范围：</label>
+						<div class="col-sm-9 col-md-2 col-xs-12">
+							<input type="text" class="form-control" id="createTime" readonly="readonly" style="display: inline-block;" name="createTime" placeholder="开始时间" />
+						</div>
+						<div class="col-sm-9 col-md-2 col-xs-12">
+							<input type="text" class="form-control" id="endTime" readonly="readonly" style="display: inline-block;" name="endTime" placeholder="终止时间">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 col-md-1 col-xs-12 control-label no-padding-right">流程发起人：</label>
+						<div class="col-sm-9 col-md-2 col-xs-12">
+							<input type="text" class="form-control" id="createUser" name="createUser" placeholder="流程发起人" opt-id="createUser" onclick="selectUser(this,'false');">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 col-md-1 col-xs-12 control-label no-padding-right">查询范围：</label>
+						<div class="col-sm-9 col-md-2 col-xs-12">
+							<select class="form-control" id="queryRange" name="queryRange" style="border-radius: 0px;">
+								<option value="">全部</option>
+								<option value="0">我发起的</option>
+								<option value="1">我经办的</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 col-md-1 col-xs-12 control-label no-padding-right">工作流状态：</label>
+						<div class="col-sm-9 col-md-2 col-xs-12">
+							<select class="form-control" id="status" name="status" style="border-radius: 0px;">
+								<option value="">全部</option>
+								<option value="0">进行中</option>
+								<option value="1">已办结</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group" style="padding-bottom: 20px;">
+						<label class="col-sm-3 col-md-1 col-xs-12 control-label no-padding-right">公共附件名称：</label>
+						<div class="col-sm-9 col-md-2 col-xs-12">
+							<input type="text" class="form-control" id="publicAttach" name="publicAttach" placeholder="公共附件名称">
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="widget-body no-padding">
+				<div class="widget-main ">
+					<div class="panel-group accordion" style="margin-bottom: 0px;">
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> 表单数据条件 <span style="color: blue;">显示/隐藏条件</span>
+									</a>
+								</h4>
+							</div>
+							<div id="collapseTwo" class="panel-collapse collapse">
+								<div class="panel-body border-palegreen" id="whereDiv"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="widget-body no-padding">
+				<div class="widget-main ">
+					<div class="panel-group accordion" style="margin-bottom: 0px;">
+						<div class="panel panel-default">
+							<div class="panel-heading ">
+								<h4 class="panel-title">
+									<a class="accordion-toggle">统计报表选项 </a>
+								</h4>
+							</div>
+							<div class="panel-collapse collapse in">
+								<div class="panel-body border-red" style="padding: 0px;">
+									<div id="selectTitle" class="list-select">
+										<div class="list-body">
+											<ul class="item-box left-box">
+												<!-- 左边框初始化待选项 -->
+											</ul>
+											<div class="center-box">
+												<button class="add-one" title="添加选中项">></button>
+												<button class="add-all" title="添加全部">>></button>
+												<button class="remove-one" title="移除选中项"><</button>
+												<button class="remove-all" title="移除全部"><<</button>
+											</div>
+											<ul class="item-box right-box">
+												<!-- 右边框存放已选项 -->
+											</ul>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="widget-body" id="tablelist" style="display: none">
+				<div id="registration-form">
+					<form role="form">
+						<div class="form-title">BPM流程列表</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="buttons-preview" id="toobar"></div>
+								<table id="myTable"></table>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<form id="form2" method="post">
+			<input type="hidden" name="queryType" class="js-queryType" /> <input type="hidden" name="flowId" class="js-flowId" value="${parameter.flowId}" /> <input type="hidden" name="flowTitle" class="js-flowTitle" /> <input type="hidden" name="createUser" class="js-createTime" /> <input type="hidden" name="endTime" class="js-endTime" /> <input type="hidden" name="queryRange" class="js-queryRange" /> <input type="hidden" name="status" class="js-status" /> <input type="hidden" name="publicAttach"
+				class="js-publicAttach" /> <input type="hidden" name="whereListMapJson" class="js-whereListMapJson" /> <input type="hidden" name="resFieldsJson" class="js-resFieldsJson" />
+			<div align="center" style="padding-top: 20px; padding-bottom: 20px" class="widget-body">
+				<a href="javascript:void(0);" class="btn btn-palegreen js-query">查询列表</a> <a href="javascript:void(0);" class="btn btn-magenta js-html-bi">HTML报表</a> <a href="javascript:void(0);" class="btn btn-purple js-excel-bi">导出EXCEL</a> <a href="/app/core/bpm/search?view=advsearch" class="btn btn-sky">返回</a>
+			</div>
+		</form>
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript">
+	var flowId = "${parameter.flowId}";
+</script>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script src="/gobal/js/jquery/jquery-ui-1.9.2-min.js"></script>
+<script src="/gobal/js/jquery/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/module/selectlist/list-script.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/bpm/bpmtablesearch.js"></script>
+</html>

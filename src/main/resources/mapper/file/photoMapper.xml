@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.file.PhotoMapper">
+<resultMap id="Photo" type="com.core136.bean.file.Photo" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="PHOTO_ID" property="photoId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="PHOTO_TITLE" property="photoTitle" jdbcType="VARCHAR" />
+    <result column="ROOT_PATH" property="rootPath" jdbcType="VARCHAR" />
+    <result column="ACCESS_USER" property="accessUser" jdbcType="VARCHAR" />
+    <result column="ACCESS_DEPT" property="accessDept" jdbcType="VARCHAR" />
+    <result column="ACCESS_LEAVE" property="accessLeave" jdbcType="VARCHAR" />
+    <result column="MANAGE_USER" property="manageUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+  
+<select id="getPhotoList" resultType="java.util.HashMap">
+	SELECT P.PHOTO_ID AS photoId,P.PHOTO_TITLE AS photoTitle,P.ROOT_PATH AS rootPath,P.CREATE_TIME AS createTime,P.CREATE_USER AS createUser,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=P.ORG_ID AND U.ACCOUNT_ID=P.CREATE_USER) AS createUserName
+	FROM PHOTO P
+	WHERE P.ORG_ID=#{orgId} 
+	<if test="createUser!='' and createUser!=null">
+		AND (P.CREATE_USER = #{createUser} OR (MANAGE_USER = '@all' OR FUN_INTE_ARRAY(MANAGE_USER,#{createUser}) > 0)
+	</if>
+</select>
+
+
+<select id="getMyPhotoList" resultType="java.util.HashMap">
+	SELECT P.PHOTO_ID AS photoId,P.PHOTO_TITLE AS photoTitle,P.ROOT_PATH AS rootPath,P.CREATE_TIME AS createTime
+	FROM PHOTO P
+	WHERE P.ORG_ID=#{orgId} 
+	AND(
+		ACCESS_USER = '@all'
+		OR ACCESS_DEPT = '@all'
+		OR ACCESS_LEAVE = '@all'
+		<if test="accountId!=''.toString() and accountId!=null">
+		OR FUN_INTE_ARRAY(ACCESS_USER,#{accountId}) > 0
+		</if>
+		<if test="deptId!=''.toString() and deptId!=null">
+			OR FUN_INTE_ARRAY(ACCESS_DEPT,#{deptId}) > 0
+		</if>
+		<if test="leaveId!=''.toString() and leaveId!=null">
+			OR FUN_INTE_ARRAY(ACCESS_LEAVE,#{leaveId}) > 0
+		</if>
+		)
+</select>
+
+</mapper>
+

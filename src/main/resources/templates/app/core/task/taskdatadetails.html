@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="page-container">
+			<div class="col-md-offset-3 col-md-6 col-sm-6 col-xs-12" style="padding: 0px">
+							<div class="widget">
+							<div class="widget-header bordered-bottom bordered-blue">
+                                            <span class="widget-caption">子任务详情</span>
+                                        </div>
+			<div class="widget-body" style="padding-top: 0px">
+				<form class="form-horizontal form-bordered" id="from">
+					<input type="hidden" id="noticeId" name="noticeId">
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right">任务标题：</label>
+						<div class="col-sm-5" id="text" name="text" style="line-height: 34px">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right">开始时间：</label>
+						<div class="col-sm-5" id="startDate" name="startDate" style="line-height: 34px">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right"> 预计工期：</label>
+						<div class="col-sm-5">
+							<div class="control-group" id="duration" name="duration" style="line-height: 34px;display: inline-block;">
+							</div>
+							<div style="display: inline-block;">天</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right">当前进度：</label>
+						<div class="col-sm-5" style="line-height: 34px" id="progress" name="progress">
+					</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label no-padding-right">相关责任人：</label>
+						<div class="col-sm-5" style="line-height: 34px" id="userPriv" name="userPriv">
+					</div>
+					</div>
+					<div class="form-group" style="text-align: center">
+							<a id="createbut" href="javascript:void(0);window.close();" class="btn btn-primary">返回</a>
+					</div>
+				</form>
+			</div>
+		</div>
+		</div>
+		</div>
+	</div>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript">
+	var taskDataId = "${parameter.taskDataId}";
+</script>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/gobal/js/page/task/taskdatadetails.js"></script>
+</html>

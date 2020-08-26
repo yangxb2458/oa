@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.superversion.SuperversionConfigMapper">
+	<resultMap id="SuperversionConfig" type="com.core136.bean.superversion.SuperversionConfig">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+		<result column="CONFIG_ID" property="configId" jdbcType="VARCHAR" />
+		<result column="LEAD_ID" property="leadId" jdbcType="VARCHAR" />
+		<result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+<select id="getAllSuperversionConfigList" resultType="java.util.HashMap">
+SELECT CONFIG_ID AS configId,TYPE_NAME AS typeName,LEAD_ID AS leadId
+FROM SUPERVERSION_CONFIG 
+WHERE ORG_ID=#{orgId}
+</select>
+<select id="getMySuperversionConfigList" resultType="java.util.HashMap">
+SELECT CONFIG_ID AS configId,TYPE_NAME AS typeName,LEAD_ID AS leadId
+FROM SUPERVERSION_CONFIG 
+WHERE ORG_ID=#{orgId}
+AND FUN_INTE_ARRAY(LEAD_ID,#{accountId}) > 0
+</select>
+
+<select id="getQuerySuperversionForType" resultType="java.util.HashMap">	
+SELECT C.CONFIG_ID AS confingId,C.TYPE_NAME AS typeName,
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=C.LEAD_ID) AS leadUserName,
+(SELECT COUNT(1) FROM SUPERVERSION S1 WHERE S1.ORG_ID=#{orgId} AND S1.TYPE=C.CONFIG_ID) AS zsCount,
+(SELECT COUNT(1) FROM SUPERVERSION S2 WHERE S2.ORG_ID=#{orgId} AND S2.TYPE=C.CONFIG_ID AND S2.STATUS='0') AS doinCount,
+(SELECT COUNT(1) FROM SUPERVERSION S3 WHERE S3.ORG_ID=#{orgId} AND S3.TYPE=C.CONFIG_ID AND S3.STATUS='1') AS delayCount,
+(SELECT COUNT(1) FROM SUPERVERSION S4 WHERE S4.ORG_ID=#{orgId} AND S4.TYPE=C.CONFIG_ID AND S4.STATUS='1') AS endCount
+FROM 
+SUPERVERSION_CONFIG C
+WHERE C.ORG_ID=#{orgId}
+</select>
+
+</mapper>
+

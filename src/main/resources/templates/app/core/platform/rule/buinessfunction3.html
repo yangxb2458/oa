@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<% include("../../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<style>
+.fa{
+margin-right: 20px;
+cursor: pointer;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">菜单页面功能设置</span>
+				</div>
+				<div class="widget-body">
+					<form class="form-horizontal form-bordered" id="form">
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">查询字段：</label>
+							<div class="col-sm-11" id="queryfields"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">列表显示字段：</label>
+							<div class="col-sm-11">
+								<div align="right">
+									<a href="javascript:void(0);" class="btn btn-purple js-add-showfield">添加</a>
+								</div>
+								<div align="center">
+									<table class="table table-hover table-striped table-bordered">
+										<thead>
+											<tr>
+												<th width="10%">表单字段</th>
+												<th width="10%">显示字段</th>
+												<th width="10%">宽度</th>
+												<th width="5%">对齐方式</th>
+												<th width="55%">返回格式</th>
+												<th width="10%">操作</th>
+											</tr>
+										</thead>
+										<tbody id="tableFields"></tbody>
+									</table>
+									<table class="table table-hover table-striped table-bordered" style="margin-top: 10px;">
+										<tr>
+											<td width="25%">是否允许导出：</td>
+											<td width="75%">
+												<div class="radio">
+													<label> <input name="exportFlag" type="radio" checked="checked" value="1"> <span class="text">允许</span>
+													</label> <label> <input name="exportFlag" type="radio" value="2"> <span class="text">不允许</span>
+													</label>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td width="25%">统计方式：</td>
+											<td width="75%">
+												<div class="radio">
+													<label> <input name="totalFlag" type="radio" checked="checked" value="1"> <span class="text">按分组统计计算</span>
+													</label> <label> <input name="totalFlag" type="radio" value="2"> <span class="text">按分组列出详情</span>
+													</label>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td width="25%">是否允许批量操作：</td>
+											<td width="75%">
+												<div class="radio">
+													<label> <input name="selectall" type="radio" checked="checked" value="1"> <span class="text">允许</span>
+													</label> <label> <input name="selectall" type="radio" value="2"> <span class="text">不允许</span>
+													</label>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td width="25%">是否可以导出：</td>
+											<td width="75%">
+												<div class="col-sm-11" class="checkbox">
+														<label><input class="colored-danger" name="option" type="checkbox" value="1"><span class="text">编辑</span></label>
+														<label><input class="colored-danger" name="option" type="checkbox" value="2"><span class="text">删除</span></label>
+														<label><input class="colored-danger" name="option" type="checkbox" value="3"><span class="text">详情</span></label>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							</div>
+							<div class="form-group">
+								<div align="center">
+									<a id="createbut" href="javascript:void(0);" class="btn btn-primary">设&nbsp;&nbsp;置</a> <a href="javascript:void(0);history.back(-1);" class="btn btn-darkorange ">返&nbsp;&nbsp;回</a>
+								</div>
+							</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade bs-example-modal-lg" id="showFieldsModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">列表显示字段设置</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" role="form" id="form1">
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">显示名称：</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="title" name="title" placeholder="显示名称" maxlength="50px">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right"> 字段名称：</label>
+							<div class="col-sm-9">
+								<select class="form-control" id="fieldsSelect" name="fieldsSelect" style="border-radius: 0px;">
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">宽度：</label>
+							<div class="col-sm-9">
+								<input type="number" class="form-control" id="width" name="width" placeholder="宽度">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">对齐方式：</label>
+							<div class="col-sm-9">
+								<select id="align" name="align" class="form-control">
+									<option value="center">居中</option>
+									<option value="left">左对齐</option>
+									<option value="right">右对齐</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">返回格式：</label>
+							<div class="col-sm-9">
+								<textarea rows="5" class="form-control" id="formatter" name="formatter" placeholder="返回格式"></textarea>
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-addtablefield">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+<% include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript">
+	var menuId = "${parameter.menuId}";
+	var pageId = "${parameter.pageId}";
+</script>
+<script type="text/javascript" src="/gobal/js/page/platform/units/platformunits.js"></script>
+<script type="text/javascript" src="/gobal/js/page/platform/rule/buinessfunction.js"></script>
+</html>

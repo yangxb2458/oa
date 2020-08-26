@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.projectbuild.ProjectBuildMaterialMapper">
+<resultMap id="ProjectBuildMaterial" type="com.core136.bean.projectbuild.ProjectBuildMaterial" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="MATERIAL_ID" property="materialId" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="MATERIAL_CODE" property="materialCode" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="SORT_ID" property="sortId" jdbcType="VARCHAR" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+    <result column="MODEL" property="model" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="PRICE" property="price" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+	<select id="getmateriallist" resultType="java.util.HashMap">
+		SELECT P.MATERIAL_ID AS materialId,P.NAME AS name,P.SORT_ID AS sortId,P.MATERIAL_CODE AS materialCode,
+		(SELECT S.SORT_NAME FROM PROJECT_BUILD_MATERIAL_SORT S WHERE S.ORG_ID=P.ORG_ID AND S.SORT_ID=P.SORT_ID) AS sortName,
+		P.BRAND AS brand,P.MODEL AS model,P.UNIT AS unit,PRICE AS price
+		FROM PROJECT_BUILD_MATERIAL P
+		WHERE P.ORG_ID = #{orgId}
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND (P.NAME LIKE #{search} OR P.MATERIAL_CODE LIKE #{search})
+		</if>
+		<if test="sortId !=''.toString() and sortId!= null ">
+			AND P.SORT_ID = #{sortId}
+		</if>
+	</select>
+	
+	
+	<select id="getMaterialListForSelet2" resultType="java.util.HashMap">
+		SELECT MATERIAL_ID AS materialId,NAME as name,MATERIAL_CODE AS materialCode,BRAND AS brand,UNIT AS unit,MODEL AS model
+		FROM PROJECT_BUILD_MATERIAL
+		WHERE ORG_ID=#{orgId}
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND (NAME LIKE #{search} OR MATERIAL_CODE LIKE #{search})
+		</if>
+	</select>
+	
+	
+</mapper>

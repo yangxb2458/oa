@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.contract.ContractMapper">
+<resultMap id="Contract" type="com.core136.bean.contract.Contract" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="CONTRACT_ID" property="contractId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="CONTRACT_CODE" property="contractCode" jdbcType="VARCHAR" />
+    <result column="SIGN_TIME" property="signTime" jdbcType="VARCHAR" />
+    <result column="SIGN_ADDRESS" property="signAddress" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="CONTRACT_TYPE" property="contractType" jdbcType="VARCHAR" />
+    <result column="PAY_TYPE" property="payType" jdbcType="VARCHAR" />
+    <result column="CASH_TYPE" property="cashType" jdbcType="VARCHAR" />
+    <result column="SORT_ID" property="sortId" jdbcType="VARCHAR" />
+    <result column="START_TIME" property="startTime" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+    <result column="CUSTOMER_NAME" property="customerName" jdbcType="VARCHAR" />
+    <result column="REGIST_ADDR" property="registAddr" jdbcType="VARCHAR" />
+    <result column="LEGAL_PERSON" property="legalPerson" jdbcType="VARCHAR" />
+    <result column="CUSTOMER_SIGN_USER" property="customerSignUser" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="BANK" property="bank" jdbcType="VARCHAR" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="TAX_NO" property="taxNo" jdbcType="VARCHAR" />
+    <result column="MY_ORG_NAME" property="myOrgName" jdbcType="VARCHAR" />
+    <result column="MY_ORG_ADD" property="myOrgAdd" jdbcType="VARCHAR" />
+    <result column="MY_LEGAL_PERSON" property="myLegalPerson" jdbcType="VARCHAR" />
+    <result column="MY_SIGN_USER" property="mySignUser" jdbcType="VARCHAR" />
+    <result column="MY_SIGN_MOBILE" property="mySignMobile" jdbcType="VARCHAR" />
+    <result column="MY_BANK" property="myBank" jdbcType="VARCHAR" />
+    <result column="MY_BANK_ACCOUNT" property="myBankAccount" jdbcType="VARCHAR" />
+    <result column="MY_TAX_NO" property="myTaxNo" jdbcType="VARCHAR" />
+    <result column="TOTAL" property="total" jdbcType="DECIMAL" />
+    <result column="REAL_TOTAL" property="realTotal" jdbcType="DECIMAL" />
+    <result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="LONGVARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="LONGVARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getContractTop" resultType="java.util.HashMap">
+SELECT TITLE AS title,CONTRACT_CODE AS contractCode,CONTRACT_TYPE AS contractType,SIGN_TIME AS signTime,
+TOTAL AS total,CUSTOMER_NAME AS customerName
+FROM CONTRACT
+ORDER BY SIGN_TIME DESC LIMIT 0,10
+</select>
+
+
+	<select id="getContractManageList" resultType="java.util.HashMap">
+		SELECT C.CONTRACT_ID AS contractId,C.TITLE AS title,C.START_TIME AS startTime,C.CONTRACT_TYPE AS contractType,C.CONTRACT_CODE AS contractCode,C.CUSTOMER_NAME AS customerName,
+		CREATE_USER AS createUser,CREATE_TIME AS createTime,C.TOTAL AS total,C.REAL_TOTAL AS realTotal,C.END_TIME AS endTime,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=C.MY_SIGN_USER) AS mySignUserName
+		FROM CONTRACT C
+		WHERE C.ORG_ID=#{orgId}
+		<if test = "opFlag!='1'.toString()">
+			AND C.CREATE_USER=#{accountId}
+		</if>
+		<if test = "beginTime!=''.toString() and beginTime!=null">
+			AND C.START_TIME &gt;=#{beginTime}
+		</if>
+		<if test = "endTime!=''.toString() and endTime!=null">
+			AND C.START_TIME &lt;=#{endTime}
+		</if>
+		<if test="search!='%%'.toString()">
+		AND (
+				C.CONTRACT_CODE LIKE #{search} OR C.TITLE LIKE #{search} OR C.CUSTOMER_NAME LIKE #{search}
+			)
+		</if>
+		<if test="contractType!=''.toString() and contractType!=null">
+		AND C.CONTRACT_TYPE = #{contractType}
+		</if>
+		
+	</select>
+	
+<select id="queryContract" resultType="java.util.HashMap">
+		SELECT C.CONTRACT_ID AS contractId,C.TITLE AS title,C.START_TIME AS startTime,C.CONTRACT_TYPE AS contractType,C.CONTRACT_CODE AS contractCode,C.CUSTOMER_NAME AS customerName,
+		CREATE_USER AS createUser,CREATE_TIME AS createTime,C.TOTAL AS total,C.REAL_TOTAL AS realTotal,C.END_TIME AS endTime,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=C.MY_SIGN_USER) AS mySingUserName
+		FROM CONTRACT C
+		WHERE C.ORG_ID=#{orgId}
+		<if test = "beginTime!=''.toString() and beginTime!=null">
+			AND C.START_TIME &gt;=#{beginTime}
+		</if>
+		<if test = "endTime!=''.toString() and endTime!=null">
+			AND C.START_TIME &lt;=#{endTime}
+		</if>
+		<if test="search!='%%'.toString()">
+		AND (
+				C.CONTRACT_CODE LIKE #{search} OR C.TITLE LIKE #{search} OR C.CUSTOMER_NAME LIKE #{search}
+			)
+		</if>
+		<if test="contractType!=''.toString() and contractType!=null">
+		AND C.CONTRACT_TYPE = #{contractType}
+		</if>
+		<if test="mySignUser!=''.toString() and mySignUser!=null">
+		AND MY_SIGN_USER = #{mySignUser}
+		</if>
+		
+	</select>
+
+
+<select id="getContractCount" resultType="Integer">
+SELECT COUNT(1) AS ZS 
+FROM CONTRACT 
+WHERE 
+CONTRACT_CODE IS NOT NULL 
+AND CONTRACT_CODE !=''
+AND ORG_ID=#{orgId} 
+AND SIGN_TIME>(SELECT CONCAT((SELECT DATE_FORMAT(NOW(), '%Y')),'-01-01 00:00:00'))
+</select>
+
+	
+	<select id="getSelect2ContractList" resultType="java.util.HashMap">
+		SELECT C.CONTRACT_ID AS contractId,C.TITLE AS title
+		FROM 
+		CONTRACT C
+		WHERE C.ORG_ID=#{orgId}
+		AND C.REAL_TOTAL-C.TOTAL &lt; 0
+		<if test="search!='%%'.toString">
+		AND C.TITLE LIKE #{search}
+		</if>
+	</select>
+	
+	
+</mapper>
+

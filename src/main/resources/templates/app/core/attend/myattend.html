@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/clock/style.css">
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class="active"><a href="/app/core/attend/myattend" aria-expanded="true">上下班登记 </a></li>
+<!-- 							<li class=""><a href="/app/core/attend/myattend?view=mattend" aria-expanded="false">手机考勤 </a></li> -->
+							<li class=""><a href="/app/core/attend/myattend?view=outattend" aria-expanded="false">外出登记</a></li>
+							<li class=""><a href="/app/core/attend/myattend?view=leaveattend" aria-expanded="false">请假登记</a></li>
+							<li class=""><a href="/app/core/attend/myattend?view=travelattend" aria-expanded="false">出差登记</a></li>
+							<li class=""><a href="/app/core/attend/myattend?view=overtimeattend" aria-expanded="false">加班登记</a></li>
+							<li class=""><a href="/app/core/attend/myattend?view=dutyattend" aria-expanded="false">值班登记</a></li>
+							<li class=""><a href="/app/core/attend/myattend?view=queryattend" aria-expanded="false">考勤记录</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" align="center">
+							<div class="clock">
+								<div class="flip">
+									<div class="digital front" data-number="0"></div>
+									<div class="digital back" data-number="1"></div>
+								</div>
+								<div class="flip">
+									<div class="digital front" data-number="0"></div>
+									<div class="digital back" data-number="1"></div>
+								</div>
+								<em class="divider">:</em>
+								<div class="flip">
+									<div class="digital front" data-number="0"></div>
+									<div class="digital back" data-number="1"></div>
+								</div>
+								<div class="flip">
+									<div class="digital front" data-number="0"></div>
+									<div class="digital back" data-number="1"></div>
+								</div>
+								<em class="divider">:</em>
+								<div class="flip">
+									<div class="digital front" data-number="0"></div>
+									<div class="digital back" data-number="1"></div>
+								</div>
+								<div class="flip">
+									<div class="digital front" data-number="0"></div>
+									<div class="digital back" data-number="1"></div>
+								</div>
+							</div>
+						</div>
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th style="width: 100px;text-align: center">序号</th>
+									<th style="text-align: center">考勤规则</th>
+									<th style="width: 300px;text-align: center">考勤时间段</th>
+									<th style="text-align: center">考勤说明</th>
+									<th style="width: 200px; text-align: center">操作</th>
+								</tr>
+							</thead>
+							<tbody id="attendtbody">
+							
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script src="/module/clock/script.js"></script>
+<script src="/gobal/js/page/attend/addattend.js"></script>
+</html>

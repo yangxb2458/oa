@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle-bpm.css" type="text/css">
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;height: 100%;">
+		<div class="main-container container-fluid" style="overflow-y: auto;height: 100%;">
+			<div class="page-container" style="height: 100%;">
+				<div class="col-md-2 col-sm-4 col-xs-12" style="padding-left: 0px; padding-right: 0px;height: 100%;">
+					<div class="well with-header" style="margin-bottom: 0px;padding-left: 5px;padding-right: 5px;padding-top:45px;padding-bottom: 20px;">
+						<div class="header bordered-blue">BPM分类</div>
+						<div class="buttons-preview">
+							<a href="javascript:void(0);" class="btn btn-success js-frequently" style="width: 100%;margin-bottom:5px;margin-top: 5px;">常用流程</a>
+							<ul id="tree" class="ztree"></ul>
+							<a href="javascript:void(0);" class="btn btn-primary js-allflow" style="width: 100%;margin-bottom:5px;margin-top: 5px;">全部BPM</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-10 col-sm-8 col-xs-12" style="padding-left:2px;padding-right:2px;height: 100%;" id="mybpmflowlist">
+					<div class="widget flat radius-bordered" style="height: 100%;">
+                                <div class="widget-header bg-blue">
+                                    <span class="widget-caption">我的流程列表</span>
+                                </div>
+                                <div class="widget-body" style="padding:0px;height:100%">
+                               		<table id="myTable"  style="padding:0px;height:100%"></table>     
+                                </div>
+                            </div>
+					<input type="hidden" id="flowSort" name="flowSort">
+				</div>
+				
+				<div class="col-md-10 col-sm-8 col-xs-12" style="padding-left:2px;padding-right:2px;height: 100%;display: none" id="mycommonbpmflowlist">
+					<div class="widget flat radius-bordered" style="height: 100%;">
+                                <div class="widget-header bg-blue">
+                                    <span class="widget-caption">常用流程列表(前10条)</span>
+                                </div>
+                                <div class="widget-body" style="padding:0px;height:100%">
+                               		  <table style="padding:0px;" class="table table-hover table-striped">
+                               		    <tbody class="js-commonbpmflow">
+                               		    
+                               		    </tbody>
+                               		  </table>
+                                </div>
+                            </div>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+	<div class="modal fade bs-example-modal-lg" id="sendbpm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">创建BPM</h4>
+				</div>
+				<div class="modal-body">
+					<div>
+						<form role="form">
+							<div class="form-group">
+								<label for="exampleInputEmail1">BPM标题</label> <input type="text" class="form-control" id="flowTitle" placeholder="BPM标题" maxlength="200">
+							</div>
+							<div class="form-group" style="text-align: right; margin-bottom: 0px;">
+								<div class="checkbox">
+									<label style="padding-left: 0px;"> <input type="checkbox" checked="checked" name="follow" value="${accountId}"> <span class="text">是否关注</span>
+									</label> <label style="padding-left: 20px;"> 紧急程度： <select id="urgency" style="border-radius: 0px; margin-right: 10px;">
+											<option value="0">一般</option>
+											<option value="1">紧急</option>
+											<option value="2">加急</option>
+									</select>
+									</label>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" id="sendBpmBtn">创建</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	
+	
+	<div class="modal fade bs-example-modal-lg" id="bpmfunction" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">BPM说明</h4>
+				</div>
+				<div class="modal-body" id="flowFunction">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/gobal/js/page/bpm/createbpm.js"></script>
+</html>

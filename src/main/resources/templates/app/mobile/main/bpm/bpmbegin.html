@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>发起BPM流程</title> 
+<%include("../../../resapi/mobilestyle.html"){}%>
+</head>
+<body>
+	<section class="g-flexview">
+		<section class="g-scrollview">
+			<div class="m-cell demo-small-pitch" style="margin-top:0px;padding-top:20px;">
+			<div class="m-celltitle">${parameter.flowName}</div>
+				<div class="cell-item">
+					<div class="cell-left">BPM标题：</div>
+					<div class="cell-right">
+						<input type="text" class="cell-input" placeholder="BPM标题" autocomplete="off"  id="flowTitle" name="flowTitle"/>
+					</div>
+				</div>
+				<div class="cell-item">
+					<div class="checkbox">
+						<label style="padding-left: 0px;"> <input type="checkbox" checked="checked" name="follow" value="admin"> <span class="text">是否关注</span>
+						</label> <label style="padding-left: 20px;"> 紧急程度： <select id="urgency" style="border-radius: 0px; margin-right: 10px;">
+								<option value="0">一般</option>
+								<option value="1">紧急</option>
+								<option value="2">加急</option>
+						</select>
+						</label>
+					</div>
+				</div>
+				<a id="sendBpmBtn" href="javascript:;" class="btn btn-primary" style="width: 100%; margin-top: 20px;">发起流程</a>
+			</div>
+		</section>
+	</section>
+	<%include("../../../resapi/mobilejs.html"){}%>
+	<script type="text/javascript">
+	var flowId = "${parameter.flowId}"
+	$(function(){
+		getDocNumByBpmFlow(flowId);
+		$("#sendBpmBtn").unbind("click").click(function() {
+			if($("#flowTitle").val()=="")
+			{
+				top.layer.msg("BPM标题不能为空！");
+				return;
+			}
+			$.ajax({
+				url : "/set/bpmset/startBpm",
+				type : "post",
+				dataType : "json",
+				data : {
+					flowId : flowId,
+					flowTitle : $("#flowTitle").val(),
+					follow : getCheckBoxValue("follow"),
+					urgency : $("#urgency").val()
+				},
+				success : function(data) {
+					if (data.status == 500) {
+						console.log(data.msg);
+					} else if (data.status == 500) {
+						top.layer.msg(data.msg);
+					} else {
+						window.location.href = data.redirect;
+					}
+				}
+			});
+		});
+		
+	})
+	function getCheckBoxValue(eId) {
+		var returnStr = [];
+		$('input[name="' + eId + '"]:checked').each(function() {
+			returnStr.push($(this).val());
+		});
+		return returnStr.join(",");
+	}
+	
+
+	function getDocNumByBpmFlow(flowId)
+	{
+		$.ajax({
+			url : "/ret/bpmget/getDocNumByBpmFlow",
+			type : "post",
+			dataType : "json",
+			data : {
+				flowId : flowId
+			},
+			success : function(data) {
+				console.log(data);
+				if (data.status == 500) {
+					console.log(data.msg);
+				} else if (data.status == 500) {
+					top.layer.msg(data.msg);
+				} else {
+					$("#flowTitle").val(data.redirect)
+				}
+			}
+		});
+	}
+	</script>
+</body>
+</html>

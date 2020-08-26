@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">询价单查询</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title">历史列表</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="buttons-preview" id="toobar">
+										<span>报价截止时间:</span>
+										<span style="width:100px;display:inline-block;"><input id="beginTime" name="beginTime" class="form-control" style="border-radius: 0px" readonly="readonly"></span>
+										<span style="display:inline-block;">-</span>
+										<span style="width:100px;display:inline-block;"><input id="endTime" name="endTime" class="form-control" style="border-radius: 0px" readonly="readonly"></span>
+										<span style="display:inline-block;margin-left: 20px;">客户类型:</span>
+										<span style="width:100px;display:inline-block;">
+										<select id="customerType" name="customerType" style="border-radius: 0px">
+											<option value=''>全部</option>
+											<option value="1">终端用户</option>
+											<option value="2">合作伙伴</option>
+										</select>
+										</span>
+										<span style="display:inline-block;margin-left: 20px;">价单状态:</span>
+										<span style="width:100px;display:inline-block;">
+										<select id="status" name="status" style="border-radius: 0px">
+											<option value=''>全部</option>
+											<option value="0">进行中</option>
+											<option value="1">终止</option>
+											<option value="2">完成</option>
+										</select>
+										</span>
+										<span style="margin-left: 20px"> <a href="javascript:void(0);" class="btn btn-magenta js-simple-query">查询</a></span>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/gobal/js/page/crm/inquirymanage.js"></script>
+</body> 
+</html>

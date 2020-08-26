@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+	<span class="widget-caption">用户操作日志</span>
+</div>
+<div class="widget-body">
+	<div id="registration-form">
+		<form role="form">
+			<div class="form-title">操作日志列表</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="buttons-preview" id="toobar">
+						<span style="margin-left: 10px">日志类型:</span> <span> <select id="eventType" name="eventType" style="width: 150px">
+						<option value="">全部</option>
+						<option value="1">用户登陆</option>
+						<option value="2">用户注销登陆</option>
+						</select>
+						</span> <span style="margin-left: 10px;">时间:</span> <span> <input type="text" class="form-control" id="beginTime" readonly="readonly" style="width: 100px; display: inline-block;" name="beginTime" placeholder="开始时间">
+						</span> <span> - </span> <span> <input type="text" class="form-control" id="endTime" readonly="readonly" style="width: 100px; display: inline-block;" name="endTime" placeholder="终止时间">
+						</span> <span style="margin-left: 10px"> <a href="javascript:void(0);" class="btn btn-success js-query-but">查询</a>
+						</span>
+					</div>
+					<table id="myTable"></table>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+			</div>
+		</div>
+	</div>
+<%include("../../resapi/sysjs.html"){}%>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script src="/gobal/js/page/sys/syslog.js"></script>
+</body> 
+</html>

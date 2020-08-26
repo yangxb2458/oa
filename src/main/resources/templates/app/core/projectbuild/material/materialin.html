@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){} %>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="widget">
+					<div class="widget-header bordered-bottom bordered-palegreen">
+						<span class="widget-caption">材料入库</span>
+					</div>
+					<div class="widget-body">
+						<div class="form-title">材料列表</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="buttons-preview" id="toobar">
+									采购申请单：<input id="purchaseId" style="width: 300px;" />
+								</div>
+								<table id="myTable"></table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade bs-example-modal-lg" tabindex="1" id="materialInmodal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">材料入库</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" id="form">
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">入库数量：</label>
+							<div class="col-sm-8">
+								<input type="number" class="form-control" id="quantiry" name="quantiry" placeholder="入库数量">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">入库人：</label>
+							<div class="col-sm-8" style="line-height: 34px">
+								<input id="inUser" name="inUser" class="form-control" placeholder="入库人" opt-id="inUser" onclick="selectUser(this,'true');">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label no-padding-right">备注：</label>
+							<div class="col-sm-8">
+								<textarea rows="5" cols="" class="form-control" id="remark" name="remark"></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-save">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){} %>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script src="/assets/js/select2/select2.js"></script>
+<script src="/gobal/js/page/projectbuild/materialin.js"></script>
+</html>

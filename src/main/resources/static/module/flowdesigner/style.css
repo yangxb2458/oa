@@ -1,0 +1,80 @@
+.node { 
+    box-shadow: 2px 2px 19px #aaa;
+    -o-box-shadow: 2px 2px 19px #aaa;
+    -webkit-box-shadow: 2px 2px 19px #aaa;
+    -moz-box-shadow: 2px 2px 19px #aaa;
+    -moz-border-radius:0.5em;
+    border-radius:0.5em;
+    opacity:0.8;
+    filter:alpha(opacity=80);
+    text-align:center;
+    position:absolute;
+    background:white;
+    color:black;
+    font-family:helvetica;
+    cursor:pointer;
+    font-size:14px;
+    width:150px;
+    z-index:0;
+    border:1px solid #5c96bc;
+    text-align: center;
+    line-height: 80px;
+}
+.node:hover {
+    background:#7cabc9;
+    color:white;
+    font-weight:bold;
+}
+.aLabel {
+	background-color:white; 
+	padding:2; 
+	font:12px sans-serif; 
+	color:#444;
+	border:1px dotted gray;
+	opacity:0.8;
+	filter:alpha(opacity=80);
+	cursor: pointer;
+	font-size:11px;
+}
+
+.aLabel._jsPlumb_hover, ._jsPlumb_source_hover, ._jsPlumb_target_hover {
+	background-color:#5C96BC;
+	color:white;	
+	opacity:0.8;
+	border:1px solid white;
+}
+
+.start_node{
+height: 80px;
+width: 150px;
+border: 1px solid #5C96BC;
+text-align: center;
+border-radius: 50%;
+background-color: green;
+}
+.end_node{
+height: 80px;
+width: 150px;
+border: 1px solid #5C96BC;
+text-align: center;
+border-radius: 50%;
+background-color:orange;	
+}
+.simple_node{
+height: 80px;
+width: 150px;	
+}
+.aggregation_node{
+height: 80px;
+width: 150px;		
+}
+.parallel_node{
+height: 80px;
+width: 150px;	
+}
+.active {
+	border:1px dotted green;
+}
+.hover {
+	border:1px dotted red;
+}

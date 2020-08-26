@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link href='/module/area/chosen.min.css' rel='stylesheet'>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<style type="text/css">
+.bootstrap-tagsinput{
+    background-color: #fbfbfb;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">联系人管理</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title">联系人列表</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="buttons-preview" id="toobar">
+										<a href="javascript:void(0);" class="btn btn-darkorange">批量删除</a>
+										<a  class="btn btn-azure js-btn" >新建联系人</a>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+		<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;" id="linkmandetail">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myLargeModalLabel">联系人详情</h4>
+                </div>
+                <div class="modal-body">
+               <form class="form-horizontal" id="form1">
+	                   	<div class="form-group">
+	                         <label class="col-sm-2 control-label no-padding-right">联系人：</label>
+	                        <div class="col-sm-10 js-linkName" style="line-height: 34px;"></div>
+	                     </div>
+	                     <div class="form-group">
+	                         <label class="col-sm-2 control-label no-padding-right">性别：</label>
+	                        <div class="col-sm-10 js-sex" style="line-height: 34px;"></div>
+	                     </div>
+	                     <div class="form-group">
+	                         <label class="col-sm-2 control-label no-padding-right">所在部门：</label>
+	                        <div class="col-sm-10 js-deptName" style="line-height: 34px;"></div>
+	                     </div>
+	                     <div class="form-group">
+	                         <label class="col-sm-2 control-label no-padding-right">职务：</label>
+	                        <div class="col-sm-10 js-postion" style="line-height: 34px;"></div>
+	                     </div>
+	                     <div class="form-group">
+	                         <label class="col-sm-2 control-label no-padding-right">决策人：</label>
+	                        <div class="col-sm-10 js-decisionMaker" style="line-height: 34px;"></div>
+	                     </div>
+	                     <div class="form-group">
+	                         <label class="col-sm-2 control-label no-padding-right">手机号码：</label>
+	                        <div class="col-sm-10 js-mobile" style="line-height: 34px;"></div>
+	                     </div>
+	                     <div class="form-group">
+	                         <label class="col-sm-2 control-label no-padding-right">电子邮件：</label>
+	                        <div class="col-sm-10 js-email" style="line-height: 34px;"></div>
+	                     </div>
+	                     <div class="form-group">
+	                         <label class="col-sm-2 control-label no-padding-right">公司电话：</label>
+	                        <div class="col-sm-10 js-tel" style="line-height: 34px;"></div>
+	                     </div>
+	                     <div class="form-group">
+	                         <label class="col-sm-2 control-label no-padding-right">电子传真：</label>
+	                        <div class="col-sm-10 js-fax" style="line-height: 34px;"></div>
+	                     </div>
+	                     <div class="form-group">
+	                         <label class="col-sm-2 control-label no-padding-right">通讯地址：</label>
+	                        <div class="col-sm-10 js-address" style="line-height: 34px;"></div>
+	                     </div>
+	                     <div class="form-group">
+	                         <label class="col-sm-2 control-label no-padding-right">生日：</label>
+	                        <div class="col-sm-10 js-birthday" style="line-height: 34px;"></div>
+	                     </div>
+	                     <div class="form-group">
+	                         <label class="col-sm-2 control-label no-padding-right">爱好：</label>
+	                        <div class="col-sm-10 js-hobby" style="line-height: 34px;"></div>
+	                     </div>
+                   </form>
+                </div>
+                <div class="modal-footer">
+               <button type="button" class="btn btn-warning" data-dismiss="modal">关闭</button>
+               </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    
+    <div class="modal fade bs-example-modal-lg" id="webMailModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myLargeModalLabel">发送电子邮件</h4>
+                </div>
+                <div class="modal-body">
+                        <form role="form" class="form-horizontal" id="form2">
+                        <div class="form-group">
+	                          <label class="col-sm-2 control-label no-padding-right">邮件标题:</label>
+	                          	<div class="col-sm-10">
+	                           	 <input type="text" class="form-control" id="subject" name="subject" placeholder="邮件标题">
+	                            </div>
+	                    </div>
+	                    <div class="form-group">
+	                          <label class="col-sm-2 control-label no-padding-right">收件人:</label>
+	                          	<div class="col-sm-10">
+	                           	 <input type="text" class="form-control" id="webMail" name="webMail" placeholder="邮件地址">
+	                            </div>
+	                    </div>
+	                    <div class="form-group">
+	                    	<div id="content"></div>
+	                    </div>
+	                    <div class="form-group">
+	                    	<label class="col-sm-2 control-label no-padding-right">相关附件 :</label>
+                                                        <div class="col-sm-10">
+															<div style="padding-top:4px;">
+															<div id="show_crmattach">
+															</div>
+																<a class="addfile" href="javascript:void(0)">附件上传
+																<input data_value="" type="file" onchange="fileUpLoad('crm','crmattach');" hidefocus="true" size="1" id="crmattach" name="crmattach" class="addfile" multiple="multiple"></a>
+															</div>
+                                                        </div>
+	                    </div>
+	                    <div class="form-group">
+	                     <label class="col-sm-2 control-label no-padding-right">邮件服务器:</label>
+	                          	<div class="col-sm-10">
+	                          	<div class="radio">
+                                     <label style="padding-left:0px;">
+                                         <input name="sendServiceType" type="radio" checked="checked" value="0">
+                                         <span class="text">平台邮件服务器</span>
+                                      </label>
+                                      <label>
+                                         <input name="sendServiceType" type="radio" value="1">
+                                         <span class="text">单位邮件服务器 </span>
+                                      </label>
+                                      <label>
+                                         <input name="sendServiceType" type="radio" value="2">
+                                         <span class="text">个人邮件服务器 </span>
+                                      </label>
+                                 </div>
+                                                
+	                            </div>
+	                    </div>
+                      </form>
+                </div>
+               <div class="modal-footer">
+               <button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+               <button type="button" class="btn btn-primary js-sendwebmail">发送</button>
+               </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+	<%include("../../../resapi/sysjs.html"){}%>
+	<!--Bootstrap  wysiwig Scripts-->
+	<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+	<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+	<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+	<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+	 <script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+	<script src="/gobal/js/page/crm/linkman.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		 $('#content').summernote({ height:300 });
+		query();
+		$(".js-btn").unbind("click").click(function(){
+			window.location.href="/app/core/crm/createLinkman";
+		});
+	});	
+	</script>
+</body>
+</html>

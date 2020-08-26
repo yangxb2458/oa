@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<%include("../../resapi/mobilestyle.html"){}%>
+<style type="text/css">
+.grids-icon
+{
+	height: 1.2rem;
+}
+</style>
+</head>
+<body>
+<section class="g-flexview">
+
+    <div class="g-scrollview" style="background-color: #eee;">
+
+         <div class="m-slider" data-ydui-slider>
+            <div class="slider-wrapper">
+                <div class="slider-item">
+                    <a href="#">
+                        <img src="/mobile/img/banner1.png">
+                    </a>
+                </div>
+                <div class="slider-item">
+                    <a href="#">
+                        <img src="/mobile/img/banner2.png">
+                    </a>
+                </div>
+                <div class="slider-item">
+                    <a href="#">
+                        <img src="/mobile/img/banner3.png">
+                    </a>
+                </div>
+            </div>
+            <div class="slider-pagination"></div>
+        </div>
+        <%  
+        var memuList = appMenuList.PERSONDESK;
+        if(memuList!=null)
+       	{
+       	%>
+       	 <div class="m-grids-4">
+       	 <div class="m-gridstitle">个人办公</div>
+       	<%
+       	for(item in memuList)
+        {
+        %>
+        <a class="grids-item" href="${item.appUrl}" target="_self">
+	                <div class="grids-icon"><img alt="" src="${item.img}"/></div>
+	                <div class="grids-txt">${item.title}</div>
+	         </a>
+        <%}%>
+       	 </div>
+       	<%
+       	}%>
+        
+        <%  
+        memuList = appMenuList.BPM;
+        if(memuList!=null)
+       	{
+       	%>
+       	 <div class="m-grids-4">
+       	 <div class="m-gridstitle">BPM流程</div>
+       	<%
+       	for(item in memuList)
+        {
+        %>
+        <a class="grids-item" href="${item.appUrl}" target="_self">
+	                <div class="grids-icon"><img alt="" src="${item.img}"/></div>
+	                <div class="grids-txt">${item.title}</div>
+	         </a>
+        <%}%>
+       	 </div>
+       	<%
+       	}%>
+        
+		<%  
+        memuList = appMenuList.DOCUMENT;
+        if(memuList!=null)
+       	{
+       	%>
+       	 <div class="m-grids-4">
+       	 <div class="m-gridstitle">公文流程</div>
+       	<%
+       	for(item in memuList)
+        {
+        %>
+        <a class="grids-item" href="${item.appUrl}" target="_self">
+	                <div class="grids-icon"><img alt="" src="${item.img}"/></div>
+	                <div class="grids-txt">${item.title}</div>
+	         </a>
+        <%}%>
+       	 </div>
+       	<%
+       	}%>
+
+    </div>
+
+</section>
+</body>
+	<%include("../../resapi/mobilejs.html"){}%>
+</html>

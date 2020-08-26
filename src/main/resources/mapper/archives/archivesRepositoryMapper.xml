@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.archives.ArchivesRepositoryMapper">
+<resultMap id="ArchivesRepository" type="com.core136.bean.archives.ArchivesRepository" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="REPOSITORY_ID" property="repositoryId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="USER_PRIV" property="userPriv" jdbcType="VARCHAR" />
+    <result column="DEPT_PRIV" property="deptPriv" jdbcType="VARCHAR" />
+    <result column="LEAVE_PRIV" property="leavePriv" jdbcType="VARCHAR" />
+    <result column="MANAGE_USER" property="manageUser" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+<select id="getArchivesRepositoryList" resultType="java.util.HashMap">
+	SELECT REPOSITORY_ID AS repositoryId,TITLE AS title,MANAGE_USER AS manageUser,CREATE_USER AS createUser,CREATE_TIME AS createTime,
+	(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=CREATE_USER) AS createUserName	
+	FROM ARCHIVES_REPOSITORY
+	WHERE ORG_ID=#{orgId}
+	<if test="opFlag!='1'.toString()">
+		AND MANAGE_USER = #{accountId}
+	</if>
+</select>
+
+
+
+</mapper>
+

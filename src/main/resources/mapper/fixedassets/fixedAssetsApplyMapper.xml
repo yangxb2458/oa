@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.fixedassets.FixedAssetsApplyMapper">
+<resultMap id="FixedAssetsApply" type="com.core136.bean.fixedassets.FixedAssetsApply" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="APPLY_ID" property="applyId" jdbcType="VARCHAR" />
+    <result column="ASSETS_ID" property="assetsId" jdbcType="VARCHAR" />
+    <result column="USED_USER" property="usedUser" jdbcType="VARCHAR" />
+    <result column="USED_DEPT" property="usedDept" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STATUS" property="STATUS" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getFixedAssetsApplyList" resultType="java.util.HashMap">
+SELECT A.ASSETS_ID AS assetsId,F.ASSETS_NAME AS assetsName,F.ASSETS_CODE AS assetsCode,A.APPLY_ID AS applyId,A.CREATE_TIME AS createTime,
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=A.CREATE_USER) AS createUserName,
+A.USED_USER AS usedUser,A.USED_DEPT AS usedDept,A.STATUS AS status
+FROM FIXED_ASSETS_APPLY A LEFT JOIN FIXED_ASSETS F ON A.ORG_ID=F.ORG_ID AND A.ASSETS_ID=F.ASSETS_ID
+WHERE 
+A.ORG_ID=#{orgId}
+<if test="opFlag!='1'">
+	AND A.CREATE_USER=#{accountId}
+</if>
+<if test="status!=''.toString() and status!=null">
+	AND A.STATUS=#{status}
+</if>
+<if test="assetsSortId!=''.toString() and assetsSortId!=null">
+	AND A.ASSETS_ID IN (SELECT ASSETS_ID FROM FIXED_ASSETS WHERE ORG_ID=#{orgId} AND SORT_ID=#{assetsSortId})
+</if>
+<if test="beginTime!=null and beginTime!=''.toString()">
+	AND A.CREATE_TIME &gt;=#{beginTime}
+</if>
+<if test = "endTime!=''.toString() and endTime!=null">
+	AND A.CREATE_TIME &lt;=#{endTime}
+</if>
+<if test="search!='%%'.toString()">
+	AND A.ASSETS_ID IN (SELECT ASSETS_ID FROM FIXED_ASSETS WHERE ORG_ID=#{orgId} AND (ASSETS_NAME LIKE #{search} OR ASSETS_CODE LIKE #{search}))
+</if>
+</select>
+
+<select id="getApplyAndApproveInfo" resultType="java.util.HashMap">
+SELECT A.USED_USER AS usedUser,A.USED_DEPT AS usedDept,A.REMARK AS applyRemark,A.CREATE_USER AS applyCreateUser,A.CREATE_TIME AS applyCreateTime,
+F.CREATE_USER AS approveCreateUser,F.CREATE_TIME AS approveCreateTime,F.STATUS AS status,F.REMARK AS approveRemark
+FROM FIXED_ASSETS_APPLY A LEFT JOIN FIXED_ASSETS_APPROVAL F ON A.ORG_ID=F.ORG_ID AND A.ORG_ID=#{orgId} AND A.APPLY_ID=F.APPLY_ID
+</select>
+
+
+</mapper>
+

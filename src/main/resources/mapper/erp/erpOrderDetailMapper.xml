@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.erp.ErpOrderDetailMapper">
+<resultMap id="ErpOrderDetail" type="com.core136.bean.erp.ErpOrderDetail" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="DETAIL_ID" property="detailId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
+    <result column="COUNT" property="count" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getErpOrderDetail" resultType="java.util.HashMap">
+SELECT O.DETAIL_ID AS detailId,P.PRODUCT_NAME AS productName,P.MODEL AS model,(SELECT TMP.BOM_NAME FROM ERP_BOM TMP WHERE TMP.BOM_ID=P.BOM_ID AND TMP.ORG_ID=P.ORG_ID) AS bomId,O.COUNT AS count,P.UNIT AS unit,O.REMARK as remark 
+FROM ERP_PRODUCT P LEFT JOIN ERP_ORDER_DETAIL O ON  O.PRODUCT_ID=P.PRODUCT_ID
+WHERE O.ORDER_ID=#{orderId} 
+<if test="search !='%%' and search !=''.toString() and search!=null">
+     AND (P.PRODUCT_NAME LIKE #{search} OR P.MODEL LIKE #{search})
+</if>
+AND O.ORG_ID=#{orgId}
+</select>
+
+</mapper>
+

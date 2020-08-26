@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrWelfareRecordMapper">
+<resultMap id="HrWelfareRecord" type="com.core136.bean.hr.HrWelfareRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="YEAR" property="year" jdbcType="VARCHAR" />
+    <result column="MONTH" property="mont" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DOUBLE" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+ <select id="getHrWelfareRecordList" resultType="java.util.HashMap">
+	SELECT H.ID AS id, H.RECORD_ID AS recordId,H.TITLE AS title,H.YEAR AS year,H.MONTH AS month,H.AMOUNT AS amount,
+	H.REMARK AS remark,H.CREATE_TIME AS createTime,H.TYPE AS type,
+	(SELECT U.USER_NAME FROM HR_USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.USER_ID=H.USER_ID) AS userName
+	FROM HR_WELFARE_RECORD H
+	WHERE H.ORG_ID=#{orgId}
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND H.CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND H.CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="type!=null and type!=''.toString()">
+		AND H.TYPE=#{type}
+	</if>
+	<if test="userId!=null and userId!=''.toString()">
+		AND H.USER_ID=#{userId}
+	</if>
+	<if test="search!='%%'.toString() and search!=null and search!=''.toString()">
+	AND H.TITLE LIKE #{search}
+	</if>
+</select>
+
+
+</mapper>
+

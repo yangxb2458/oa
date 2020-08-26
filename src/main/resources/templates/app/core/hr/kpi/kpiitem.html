@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/module/jeDate/jedate.css" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class=""><a href="/app/core/hr/kpi/kpiitem" aria-expanded="false">考核指标管理 </a></li>
+							<li class="active"><a href="/app/core/hr/kpi/kpiitem?view=input" aria-expanded="true">考核指标录入</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding-top: 0px;">
+							<div class="row">
+								<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+									<form class="form-horizontal">
+										<table class="table table-hover table-striped table-bordered">
+											<tr>
+												<td width="20%">排序号：</td>
+												<td width="80%"><input style="width:150px" placeholder="排序号" type="number" name="sortNo" id="sortNo" maxlength="50" value="" class="form-control"></td>
+												</tr>
+											<tr>
+												<td width="20%">考核指标标题：</td>
+												<td width="80%"><input placeholder="考核指标标题" type="text" name="title" id="title" class="form-control"></td>
+											</tr>
+											<tr>
+												<td width="20%">指标类型：</td>
+												<td width="80%">
+													<select style="width:150px;border-radius: 0px;" id="kpiType" name="kpiType" class="form-control">
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">考核方式：</td>
+												<td width="80%">
+													<select style="width:150px;border-radius: 0px;" id="optType" name="optType" class="form-control">
+														<option value="1">单选</option>
+														<option value="2">多选</option>
+														<option value="3">简述</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">考核指标子项<div style="float: right;"><a href="javascript:void(0);" class="btn btn-sky btn-xs js-child-item">添加子项</a></div></td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<table class="table table-hover table-striped table-bordered" id="child-item-table">
+													<tr>
+													<td width="100px">排序号</td>
+													<td>子项</td>
+													<td width="150px">分值</td>
+													<td width="100px">操作</td>
+													</tr>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">备注说明</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<textarea rows="5" cols="" class="form-control" id="remark" name="remark"></textarea>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" align="center"><a href="javascript:void(0);" class="btn btn-primary js-add-save">新&nbsp;&nbsp;建</a></td>
+											</tr>
+										</table>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/attachselect.js"></script>
+<script type="text/javascript" src="/module/hrorgselect/hrorgselect.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/hrapi.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/kpi/kpiitem.js"></script>
+</body>
+</html>

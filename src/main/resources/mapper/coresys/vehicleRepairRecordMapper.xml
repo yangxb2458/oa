@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.vehicle.VehicleRepairRecordMapper">
+<resultMap id="VehicleRepairRecord" type="com.core136.bean.vehicle.VehicleRepairRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="VEHICLE_ID" property="vehicleId" jdbcType="VARCHAR" />
+    <result column="REPAIR_TIME" property="repairTime" jdbcType="VARCHAR" />
+    <result column="REPAIR_TYPE" property="repairType" jdbcType="VARCHAR" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="REPAIR_USER" property="repairUser" jdbcType="VARCHAR" />
+    <result column="REPAIR_PAY" property="repairPay" jdbcType="DOUBLE" />
+    <result column="REPAIR_SUPPLIER" property="repairSupplier" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+<select id="getVehicleRepairRecordList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,VEHICLE_ID AS vehicleId,REPAIR_TIME AS repairTime,REPAIR_TYPE AS repairType, REPAIR_USER AS repairUser,REPAIR_PAY AS repairPay,
+	REPAIR_SUPPLIER AS repairSupplier,CREATE_USER AS createUser,CREATE_TIME AS createTime,
+	(SELECT V.VEHICLE_NUMBER FROM VEHICLE_INFO V WHERE V.ORG_ID=#{orgId} AND V.VEHICLE_ID=VEHICLE_ID) AS vehicleNumber
+	FROM VEHICLE_REPAIR_RECORD
+	WHERE ORG_ID=#{orgId}
+	<if test = "repairType!=''.toString() and repairType!=null">
+		AND REPAIR_TYPE=#{repairType} 
+	</if>
+	<if test = "repairUser!=''.toString() and repairUser!=null">
+		AND REPAIR_USER=#{repairUser} 
+	</if>
+	<if test = "beginTime!=''.toString() and beginTime!=null">
+		AND REPAIR_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "endTime!=''.toString() and endTime!=null">
+		AND REPAIR_TIME &lt;=#{endTime} 
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND REPAIR_SUPPLIER LIKE #{search}
+	</if>
+</select>
+
+</mapper>
+

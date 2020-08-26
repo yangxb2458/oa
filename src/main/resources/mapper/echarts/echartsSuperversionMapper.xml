@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.echarts.EchartsSuperversionMapper">
+
+<select id="getBiSuperversionTypePie" resultType="java.util.HashMap">
+SELECT C.TYPE_NAME AS name,count(I.TYPE) AS value
+FROM SUPERVERSION_CONFIG C LEFT JOIN SUPERVERSION I ON C.ORG_ID=I.ORG_ID AND C.CONFIG_ID=I.TYPE
+WHERE 
+C.ORG_ID=#{orgId} GROUP BY I.TYPE ORDER BY value DESC LIMIT 0,10
+</select>
+
+
+<select id="getBiSuperversionStatusTypePie" resultType="java.util.HashMap">
+SELECT CASE C.STATUS WHEN '0' THEN '进行中' WHEN '1' THEN '延期' WHEN '2' THEN '结束' else '其它' END AS name,
+count(C.STATUS) AS value
+FROM SUPERVERSION C
+WHERE 
+C.ORG_ID=#{orgId} GROUP BY C.STATUS
+</select>
+
+<select id="getBiSuperversionByLeadPie" resultType="java.util.HashMap">
+SELECT U.USER_NAME AS name,COUNT(C.LEAD_ID) AS value
+FROM SUPERVERSION C LEFT JOIN USER_INFO U ON C.ORG_ID=U.ORG_ID AND C.LEAD_ID=U.ACCOUNT_ID
+WHERE 
+C.ORG_ID=#{orgId} GROUP BY C.LEAD_ID ORDER BY value DESC LIMIT 0,10
+</select>
+
+<select id="getBiSuperversionByMonthLine" resultType="java.util.HashMap">
+SELECT COUNT(1) AS total,createTime
+FROM
+(SELECT LEFT(CREATE_TIME, 7) AS createTime
+FROM SUPERVERSION WHERE ORG_ID=#{orgId}) TEMP
+WHERE TEMP.createTime&gt;#{beginTime} AND TEMP.createTime&lt;=#{endTime} GROUP BY TEMP.createTime
+</select>
+
+</mapper>
+

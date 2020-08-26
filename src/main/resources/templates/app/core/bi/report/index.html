@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<% include("../../../resapi/style.html"){}%>
+<link href="/module/handsontable/handsontable.full.min.css" rel="stylesheet" />
+</head>
+<body style="overflow-y:auto;">
+<div class="page-body">
+<div id="exmple"></div>
+
+<a href="javascript:void(0);" class="btn btn-palegreen" onclick="showmodal();">Pale Green</a>
+
+
+
+
+</div>
+<% include("../../../resapi/sysjs.html"){}%>
+<script src="/module/handsontable/handsontable.full.min.js"></script>
+<script type="text/javascript" src="/module/handsontable/languages/all.min.js"></script>
+<script type="text/javascript">
+function showmodal()
+{
+	$("#xlistmodal").modal("show");
+	}
+
+
+$(document).ready(function () {
+	 var data = [
+		    ["",  "Kia", "Nissan", "Toyota", "Honda"],
+		    ["2008",  10, 11, 12, 13],
+		    ["2009",  20, 11, 14, 13],
+		    ["2010",  30, 15, 12, 13]
+		  ];
+		  $("#exmple").handsontable({
+		    data:  data,
+		    startRows:  6,
+		    startCols:  8,
+		    width: 400,
+		    height: 300,
+		    contextMenu: true,
+		    language: 'zh-CN'
+		  });
+})
+
+
+
+</script>
+</body> 
+</html>

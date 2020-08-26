@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.contract.ContractPayableRecordMapper">
+<resultMap id="ContractPayableRecord" type="com.core136.bean.contract.ContractPayableRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECROD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="PAYABLE_ID" property="payableId" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DOUBLE" />
+    <result column="PAYABLEEE" property="payableee" jdbcType="VARCHAR" />
+    <result column="PAYABLE_TIME" property="payableTime" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+<select id="getContractPayableRecordList" resultType="java.util.HashMap">
+SELECT RECORD_ID AS recordId, PAYABLE_ID AS payableId,AMOUNT AS amount,PAYABLEEE AS payableee,PAYABLE_TIME AS payableTime,REMARK AS remark
+FROM CONTRACT_PAYABLE_RECORD
+WHERE ORG_ID=#{orgId}
+AND PAYABLE_ID = #{payableId}
+</select>
+
+<select id="getPayableRecordTop" resultType="java.util.HashMap">
+SELECT R.RECORD_ID AS recordId, R.AMOUNT AS amount,R.PAYABLEEE AS payableee,R.PAYABLE_TIME AS payableTime,
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=R.PAYABLEEE) AS payableeeUserName,
+(SELECT TEMP.TITLE FROM CONTRACT TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.CONTRACT_ID=C.CONTRACT_ID) AS title
+FROM CONTRACT_PAYABLE_RECORD R LEFT JOIN CONTRACT_PAYABLE C ON R.ORG_ID=C.ORG_ID AND R.PAYABLE_ID=C.PAYABLE_ID
+WHERE R.ORG_ID=#{orgId}
+ORDER BY R.PAYABLE_TIME DESC LIMIT 0,10
+</select>
+
+</mapper>
+

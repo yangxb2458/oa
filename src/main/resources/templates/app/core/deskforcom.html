@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../resapi/style.html"){}%>
+</head>
+<body style="overflow-y: auto; height: 100%;">
+	<div class="page-body" style="padding: 4px 0px 0px;">
+		<div class="page-container">
+			<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+				<div class="tabbable">
+					<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+						<% if(view==''||view==null) { view='desk'; } for(item in profilelist) { if(item.url==view) { %>
+						<li class="active"><a href="/app/core/desk?view=${item.url}" aria-expanded="true">${item.title}</a></li> <% }else { %>
+						<li class=""><a href="/app/core/desk?view=${item.url}" aria-expanded="false">${item.title}</a></li> <% } } %>
+					</ul>
+					<div class="tab-content tabs-flat">
+						<div class="row">
+						Hr
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<%include("../resapi/sysjs.html"){}%>
+<script src="/gobal/js/jquery/jquery-ui-1.9.2-min.js"></script>
+<script type="text/javascript" src="/gobal/js/page/sys/deskforcom.js"></script>
+</html>

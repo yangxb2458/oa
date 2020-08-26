@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<style type="text/css">
+div::-webkit-scrollbar {/*滚动条整体样式*/
+        width: 4px;     /*高宽分别对应横竖滚动条的尺寸*/
+        height: 10px;
+    }
+div::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 4px;
+         -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
+        background: #ccc;
+    }
+div::-webkit-scrollbar-track {/*滚动条里面轨道*/
+        -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
+        border-radius: 4px;
+        background: #EDEDED;
+
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+			<div class="widget-body" style="overflow-x: auto;">
+				<div class="alert alert-info fade in">
+					<button class="close" data-dismiss="alert">×</button>
+					<i class="fa-fw fa fa-info"></i> <strong>提示!</strong> 权限设置需要有系统管理员权限才可以操作。
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<h5 class="row-title before-orange">
+							<i class="typcn typcn-th-menu orange"></i>${userPriv.userPrivName}
+						</h5>
+					</div>
+				</div>
+					<div id="ztrees" class="row"></div>
+				</div>
+				<div class="row" style="margin-top: 20px;">
+					<div class="col-md-12" align="center">
+						<a href="javascript:void(0);doSave();" class="btn btn-azure">设置权限</a> <a href="javascript:void(0);history.go(-1);" class="btn btn-magenta">返回</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	var userPrivId = "${userPriv.userPrivId}";
+</script>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/gobal/js/page/sys/setuserpriv.js"></script>
+</html>

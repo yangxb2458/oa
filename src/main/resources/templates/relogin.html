@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+    <head>
+    <meta charset="utf-8">
+    <title>登陆超时</title>
+    <meta name="description" content="lock screen" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="/assets/img/favicon.png" type="image/x-icon">
+    <!--Basic Styles-->
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="/bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="/assets/css/font-awesome.min.css" rel="stylesheet" />
+    <!--Beyond styles-->
+    <link id="beyond-link" href="/assets/css/beyond.min.css" rel="stylesheet" />
+    <link href="/assets/css/demo.min.css" rel="stylesheet" />
+    <link href="/assets/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="/assets/js/skins.min.js"></script>
+</head>
+<!--Head Ends-->
+<!--Body-->
+<body>
+    <div class="lock-container animated fadeInDown">
+        <div class="lock-box text-align-center">
+            <div class="lock-username">登陆超时</div>
+             <img src="/assets/img/avatars/divyia.jpg" alt="divyia avatar" />
+            <div class="lock-password" align="center" style="width: 80%;left: auto;padding-left:20%">
+            <a href="javascript:relogin();" class="btn btn-success" style="width:100%;">重新登陆</a>
+            </div>
+        </div>
+        <div class="signinbox">
+            <span>由于长时候没有操作,系统自动退出!</span>
+        </div>
+    </div>
+
+    <!--Basic Scripts-->
+    <script src="/gobal/js/jquery/jquery-2.0.3.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/slimscroll/jquery.slimscroll.min.js"></script>
+    <!--Beyond Scripts-->
+    <script src="/assets/js/beyond.min.js"></script>
+	<script type="text/javascript">
+	function relogin()
+	{
+		window.top.location.href = '/';
+	}
+	</script>
+</body>
+<!--Body Ends-->
+</html>

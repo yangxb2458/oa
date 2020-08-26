@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/module/jeDate/jedate.css" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class=""><a href="/app/core/hr/train" aria-expanded="false">培训管理 </a></li>
+							<li class="active"><a href="/app/core/hr/train?view=input" aria-expanded="true">培训申请</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding-top: 0px;">
+							<div class="row">
+								<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+									<form class="form-horizontal">
+										<table class="table table-hover table-striped table-bordered">
+											<tr>
+												<td width="20%">排序号：</td>
+												<td width="30%"><input placeholder="排序号" type="number" name="sortNo" id="sortNo" maxlength="50" value="" class="form-control"></td>
+												<td width="20%">计划编号：</td>
+												<td width="30%"><input placeholder="计划编号" type="text" name="trainCode" id="trainCode"  class="form-control" maxlength="50"></td>
+											</tr>
+											<tr>
+												<td width="20%">培训标题：</td>
+												<td width="30%"><input placeholder="培训标题" type="text" name="title" id="title" class="form-control" maxlength="100"></td>
+												<td width="20%">培训总人数：</td>
+												<td width="30%"><input placeholder="培训总人数" type="number" name="userCount" id="userCount" class="form-control" maxlength="8"></td>
+											</tr>
+											<tr>
+												<td width="20%">培训渠道：</td>
+												<td width="30%"><select id="channel" name="channel" module="channel" class="form-control js-auto-select" style="border-radius: 0px;"></select></td>
+												<td width="20%">培训类型：</td>
+												<td width="30%"><select id="courseType" name="courseType" module="courseType" class="form-control js-auto-select" style="border-radius: 0px;"></select></td>
+											</tr>
+											
+											<tr>
+												<td width="20%">主办部门：</td>
+												<td width="30%"><input placeholder="主办部门" opt-id="holdDept" type="text" name="holdDpet" id="holdDept" class="form-control" onclick="selectDept(this,'true');"></td>
+												<td width="20%">培训负者人：</td>
+												<td width="30%"><input placeholder="培训负者人" opt-id="chargePerson" type="text" name="chargePerson" id="chargePerson" class="form-control" onclick="selectUser(this,'false');"></td>
+											</tr>
+											<tr>
+												<td width="20%">培训机构：</td>
+												<td width="30%"><input placeholder="培训机构" type="text" name="institutionName" id="institutionName" maxlength="100" class="form-control"></td>
+												<td width="20%">受训地址：</td>
+												<td width="30%"><input placeholder="受训地址" type="text" name="address" id="address" maxlength="200" value="" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">对方联系人：</td>
+												<td width="30%"><input placeholder="对方联系人" type="text" name="institutionUser" id="institutionUser" maxlength="50"class="form-control"></td>
+												<td width="20%">对方联系方式：</td>
+												<td width="30%"><input placeholder="对方联系方式" type="text" name="institutionContact" id="institutionContact" maxlength="100" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">课程名称：</td>
+												<td width="30%"><input placeholder="课程名称" type="text" name="courseName" id="courseName" maxlength="100"class="form-control"></td>
+												<td width="20%">总课时：</td>
+												<td width="30%"><input placeholder="总课时" type="number" name="courseTime" id="courseTime" maxlength="5" class="form-control">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">开课时间：</td>
+												<td width="30%"><input placeholder="开课时间" type="text" name="beginTime" id="beginTime" class="form-control" readonly="readonly"></td>
+												<td width="20%">结束时间：</td>
+												<td width="30%"><input placeholder="结束时间" type="text" name="endTime" id="endTime" class="form-control" readonly="readonly"></td>
+											</tr>
+											<tr>
+												<td width="20%">培训经费：</td>
+												<td width="30%"><input placeholder="培训经费" type="number" name="founds" id="founds" maxlength="10" class="form-control"></td>
+												<td width="20%">审批人：</td>
+												<td width="30%"><input placeholder="审批人" type="text" name="approvedUser" id="approvedUser" maxlength="50" class="form-control" opt-id="approvedUser" onclick="selectUser(this,'false');">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">参与人员：</td>
+												<td colspan="3">
+												<textarea rows="5" cols="" placeholder="参与人员" id="joinUser" name="joinUser" class="form-control" readonly="readonly" opt-id="joinUser" onclick="selectUser(this,'true');"></textarea>
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">参与部门：</td>
+												<td colspan="3">
+												<textarea rows="5" cols="" placeholder="参与部门" id="joinDept" name="joinDept" class="form-control" opt-id="joinDept" onclick="selectDept(this,'true');" readonly="readonly"></textarea>
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">参与职务：</td>
+												<td colspan="3">
+												<textarea rows="5" cols="" placeholder="参与职务" id="joinUserLevel" name="joinUserLevel" class="form-control" readonly="readonly" opt-id="joinUserLevel" onclick="selectUserLevel(this,'true');"></textarea>
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">培训摘要：</td>
+												<td colspan="3">
+												<textarea rows="5" cols="" placeholder="培训摘要" id="description" name="description" class="form-control"></textarea>
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">培训要求：</td>
+												<td colspan="3">
+												<textarea rows="5" cols="" placeholder="培训要求" id="trainRequires" name="trainRequires" class="form-control"></textarea>
+												</td>
+											</tr>
+												<tr>
+												<td width="20%">相关附件：</td>
+												<td width="80%" colspan="3">
+													<div id="show_hrattach"></div> <a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('hr','hrattach');" hidefocus="true"
+														maxlength="1" id="hrattach" name="hrattach" class="addfile" multiple="multiple"></a> <a class="addfile" style="width: 200px;" href="#" op_id="hrattach"
+													onclick="selectattach(this,'true')">选择网络文件</a>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">备注</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<div id="remark" name="remark"></div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" align="center">
+												<a href="javascript:void(0);" class="btn btn-primary js-add-save">保&nbsp;&nbsp;存</a>
+												<a href="javascript:void(0);" class="btn btn-primary js-applay-save">申&nbsp;&nbsp;请</a></td>
+											</tr>
+										</table>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	<div id="attachselect"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/assets/js/editors/summernote/summernote.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/attachselect.js"></script>
+<script type="text/javascript" src="/module/hrorgselect/hrorgselect.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/hrapi.js"></script>
+<script type="text/javascript" src="/gobal/js/page/hr/train/input.js"></script>
+</body>
+</html>

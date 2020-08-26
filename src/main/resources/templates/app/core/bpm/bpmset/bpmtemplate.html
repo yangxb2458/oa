@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="well with-header">
+					<div class="header bordered-darkorange">红头模版设置</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="buttons-preview" id="toobar3">
+								<a class="btn btn-azure js-templatebtn">添加模版</a>
+							</div>
+							<table id="myTable3"></table>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+	<!--LArge Modal Templates-->
+	<div class="modal fade bs-example-modal-lg" id="templatemodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">设置红头模版</h4>
+				</div>
+				<div class="modal-body">
+					<div id="horizontal-form">
+						<form class="form-horizontal" role="form" id="form3">
+						<div class="form-group">
+								<label class="col-sm-2 control-label no-padding-right">排序号</label>
+								<div class="col-sm-10">
+									<input type="number" class="form-control" id="sortNo" name="sortNo" placeholder="排序号">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label no-padding-right">BPM流程分类</label>
+								<div class="col-sm-10">
+									<select class="form-control" id="flowId" name="flowId" style="border-radius:0px;">
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label no-padding-right">模版名称</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="templateName" name="templateName" placeholder="模版名称">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label no-padding-right">上传模版</label>
+								<div class="col-sm-10">
+									<div style="padding-top: 4px;">
+										<div id="show_templateattach"></div>
+										<a class="addfile" href="javascript:void(0)">附件上传 <input data_value="" type="file" onchange="fileUpLoad('template','templateattach');" hidefocus="true" size="1"
+											id="templateattach" name="templateattach" class="addfile" accept="application/msword" ></a>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary js-savetemplate">确定</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	
+	
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/fileupload/pageoffice.js" id="po_js_main"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/fileupload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="/module/fileupload/fileupload.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/bpm/bpmtemplate.js"></script>
+</html>

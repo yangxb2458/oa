@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.bi.BiTemplateMapper">
+	<resultMap id="BiTemplate" type="com.core136.bean.bi.BiTemplate">
+		<id column="ID" property="id" jdbcType="BIGINT" />
+		<result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+		<result column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
+		<result column="TEMPLATE_NAME" property="templateName" jdbcType="VARCHAR" />
+		<result column="VERSION" property="version" jdbcType="VARCHAR" />
+		<result column="BI_TYPE" property="biType" jdbcType="VARCHAR" />
+		<result column="LEVEL_ID" property="levelId" jdbcType="VARCHAR" />
+		<result column="SQL_CONFIG" property="sqlConfig" jdbcType="VARCHAR" />
+		<result column="USER_PRIV" property="userPriv" jdbcType="VARCHAR" />
+		<result column="DB_SOURCE" property="dbSource" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+		<result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+
+<select id="getBiTemplateList" resultType="java.util.HashMap">
+SELECT TEMPLATE_ID AS templateId,TEMPLATE_NAME AS templateName, VERSION AS version,
+(SELECT B.BI_TYPE_CN_NAME FROM BI_TYPE B WHERE B.ORG_ID=ORG_ID AND B.BI_TYPE_ID=BI_TYPE) AS biTypeCnName,
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=ORG_ID AND CREATE_USER=U.ACCOUNT_ID) AS userName,CREATE_TIME AS createTime
+FROM BI_TEMPLATE
+WHERE ORG_ID=#{orgId} AND LEVEL_ID=#{levelId}
+<if test="search !='%%' and search !=''.toString() and search!=null">
+AND TEMPLATE_NAME LIKE #{search}
+</if>
+</select>
+
+</mapper>
+

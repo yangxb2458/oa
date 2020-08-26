@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<%include("../../../resapi/style.html"){}%>
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href='/module/area/chosen.min.css' rel='stylesheet'>
+<style type="text/css">
+#myTable tr td {
+	vertical-align: middle;
+}
+.bootstrap-tagsinput{
+    background-color: #fbfbfb;
+}
+ .select2-container--open{
+      z-index: 9999;!important;
+  }
+  .chosen-container 
+{
+margin-top: -10px;
+}
+.bootstrap-tagsinput{
+    background-color: #fbfbfb;
+    }
+        .choose-c .item{
+            min-width: 100px;
+            text-align: left;
+            line-height: 30px;
+            cursor: pointer;
+            padding-left: 10px;
+        }
+        .choose-c .item1{
+        	min-width: 50px;
+        	padding-left: 20px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .btn-sty{
+            width: 72px;
+            display: inline-block;
+            background-color: #53a93f;
+            color: #fff;
+            line-height: 32px;
+            text-align: center;
+            cursor: pointer;
+        }
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">客户信息池管理</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title" align="right">
+							<span style="float: left;">客户列表 </span>
+								<a href="javascript:void(0);" class="btn btn-darkorange" style="margin-right: 20px;">数据导入</a>
+								<a  class="btn btn-azure js-btn" style="">客户分配</a>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="buttons-preview" id="toobar">
+									<div class="row">
+										<span style="margin-left: 10px">所属行业:</span>
+										<span style="margin-left: 10px">
+											<div style="width:150px;display: inline-block;"><select name="industry" id="industry" class="form-control" style="border-radius: 0px;"></select></div>
+										</span>
+										
+										<span style="margin-left: 10px">企业类型:</span>
+										<span style="margin-left: 10px">
+										<select id="model" style="border-radius: 0px;width:150px;" name="model"  >
+											<option value="">全部</option>	
+											<option value="1">制造</option>
+											<option value="2">贸易</option>
+											<option value="0">其它</option>	
+										</select>
+										</span>
+										
+										<span style="margin-left: 10px">所在地区:</span>
+										<span style="margin-left: 10px;">
+											<select id="country" class="dept_select" style="width:100px;"></select>
+											<select id="province" class="dept_select" style="width:100px;"></select>
+											<select id="city" class="dept_select" style="width:100px;"></select>
+										</span>
+										
+										<span style="margin-left: 10px">客户等级:</span>
+										<span style="margin-left: 10px">
+										<select id="level" style="border-radius: 0px;" name="level" >
+												<option value="">全部</option>	
+												<option value="1">公司重点客户</option>
+												<option value="2">公司主要客户</option>
+												<option value="3">公司一般客户</option>
+												<option value="4">潜在重点客户</option>
+												<option value="5">潜在主要客户</option>
+												<option value="6">潜在一般客户</option>
+												<option value="7">黑名单客户</option>
+												<option value="0">信息池客户</option>							
+										</select>
+										</span>
+										<span style="margin-left: 10px">业务员:</span>
+										<span style="margin-left: 10px">
+										<input  id="keepUser" name = "keepUser" style="line-height: 24px;" opt-id="keepUser" onclick="selectUser(this,'false');"/>
+										</span>
+									</div>
+									<div class="row">
+									<span style="margin-left: 10px">合作意向:</span>
+										<span style="margin-left: 10px">
+										<select id="intention" style="border-radius: 0px;width:150px;" name="intention" >
+												<option value="">全部</option>	
+												<option value="1">强烈</option>
+												<option value="2">一般</option>
+												<option value="0">暂无可能</option>							
+										</select>
+										</span>
+										<span style="margin-left: 10px">客户来源:</span>
+										<span style="margin-left: 10px;">
+										<select  id="source" style="border-radius: 0px;width:150px;" name="source" >
+										<option value="">全部</option>	
+										<option value="1">主动联系</option>
+										<option value="2">网络推广</option>
+										<option value="3">陌生开拓</option>
+										<option value="4">朋友介绍</option>
+										<option value="0">其它</option>
+										</select>
+										</span>
+										<span style="margin-left: 10px">客户角色:</span>
+										<span style="margin-left: 10px">
+										<select id="roles" style="border-radius: 0px;" name="roles" >
+											<option value="">全部</option>	
+											<option value="1">供应商</option>
+											<option value="2">采购商</option>
+										</select>
+										</span>
+										<span style="margin-left: 10px">竞争对手:</span>
+										<span style="margin-left: 10px">
+											<input  id="opponent" name = "opponent" style="line-height: 24px;""/>
+										</span>
+										<span style="margin-left: 10px">企业标签:</span>
+										<span style="margin-left: 10px">
+										<input  id="tags" name = "tags" style="line-height: 24px;" readonly="readonly"/>
+										</span>
+										<a href="javascript:void(0);" class="btn btn-purple js-querybtn" style="margin-left: 20px;">查询</a>
+									</div>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<div class="modal fade bs-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;" id="setKeepUserModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myLargeModalLabel">客户分配</h4>
+                </div>
+                <div class="modal-body">
+                	<form class="form-horizontal" id="form1">
+                	<div class="form-group" id="customerList">
+                	
+                	</div>
+		                <div class="form-group">
+		                <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">业务员：</label>
+		                <div class="col-sm-10">
+	                    	<input  id="toKeepUser" name = "toKeepUser"  style="width: 100%"/>
+	                    </div>
+		                </div>
+		             </form>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+                   <button type="button" class="btn btn-primary js-tokeepuser">确定</button>
+              </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>	
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;" id="tagsModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myLargeModalLabel">企业标签选择</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="choose-c">
+                    </div>
+                </div>
+                <div class="modal-footer">
+					<a href="javascript:void(0);" class="btn btn-palegreen js-clear" data-dismiss="modal">全部</a>
+					<a href="javascript:void(0);" class="btn btn-maroon js-ok" data-dismiss="modal">确定</a>
+				</div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+	<div id="orgselectdiv"></div>
+</body>
+	<%include("../../../resapi/sysjs.html"){}%>
+<script src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script src="/assets/js/select2/select2.js"></script>
+<script type="text/javascript" src="/module/area/chosen.jquery.min.js"></script>
+<script type="text/javascript" src="/module/area/area_chs.js"></script>
+<script type="text/javascript">
+		var areaObj = [];
+		function initLocation(e){
+			var a = 0;
+			for (var m in e) {
+				areaObj[a] = e[m];
+				var b = 0;
+				for (var n in e[m]) {
+					areaObj[a][b++] = e[m][n];
+				}
+				a++;
+			}
+		}
+	</script>
+<script type="text/javascript" src="/module/area/location_chs.js"></script>
+<script src="/gobal/js/page/crm/customermanage.js"></script>
+<script>
+$(document).on('click','.js-first',function(){
+	 $(this).find('span').toggleClass('badge badge-purple badge-square');
+})
+    </script>
+</html>

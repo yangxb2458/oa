@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class=""><a href="/app/core/hr/baseinfo" aria-expanded="false">档案管理 </a></li>
+							<li class=""><a href="/app/core/hr/baseinfo?view=input" aria-expanded="false">档案录入</a></li>
+							<li class="active"><a href="/app/core/hr/baseinfo?view=import" aria-expanded="true">档案导入</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding-top: 0px;">
+							<div class="row">
+								<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+									<div class="widget">
+										<div class="widget-header bordered-bottom bordered-blue">
+											<span class="widget-caption">人事档案导入</span>
+										</div>
+										<div class="widget-body">
+											<form role="form" action="/set/hrset/importHrUserInfo" method="post" class="form-horizontal form-bordered" id="authorization-upload" enctype="multipart/form-data">
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right">下载导入模板</label>
+													<div class="col-sm-10" style="padding-top: 7px;">
+														<a href="/datatemple/人事档案模版.xlsx">人事档案模版</a>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label no-padding-right">上传模板文件</label>
+													<div class="col-sm-10">
+														<input class="form-control" style="width: 200px;" type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+													</div>
+												</div>
+												<div class="form-group" style="padding: 10px;">
+													<div>1、“OA用户名”是指OA系统中的登陆用户名</div>
+													<div>2、“部门”是指Hr系统中的部门，有别与OA系统中的部门，需要事先设置。</div>
+													<div>3、“职务”是指Hr系统中的职务，有别与OA系统中的职务，需要事先设置。</div>
+													<div>4、“性别” 0表示男，1表示女，2：其他</div>
+													<div>5、所有日期 的格式为：“1980-05-01”</div>
+													<div>6、“年休假” 格式为整数。</div>
+													<div>7、对于某些下拉框的项。可先查看对应的值填写。</div>
+												</div>
+												<div class="form-group" align="center">
+													<button type="submit" class="btn btn-blue">导入</button>
+												</div>
+											</form>
+											<div>
+											<%
+												if(retDataBean!=null)
+												{
+												%>
+											${retDataBean.msg}
+											<%
+												}
+											%>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<%include("../../../resapi/sysjs.html"){}%>
+</html>

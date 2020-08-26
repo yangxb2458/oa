@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="widget-header bg-themeprimary">
+					<span class="widget-caption">公文运行日志</span>
+				</div>
+				<div class="widget-body">
+					<div id="registration-form">
+						<form role="form">
+							<div class="form-title">运行日志表</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="buttons-preview" id="toobar">
+									<div>
+										<span style="margin-left: 10px">公文流水号:</span> 
+										<span> 
+										<input type="text" class="form-control" id="runId" style="width: 100px; display: inline-block;" name="runId" placeholder="公文流水号">
+										</span> 
+										<span style="margin-left: 10px">日志类型:</span> 
+										<span> 
+										<select id="logType" style="width: 150px">
+										<option value="">全部</option>
+										<option value="0">创建公文工作流</option>
+										<option value="1">删除公文工作流</option>
+										<option value="2">查询公文工作流</option>
+										<option value="3">公文表单修改</option>
+										<option value="4">公文设置修改</option>
+										<option value="5">公文收回</option>
+										<option value="6">公文流程修改</option>
+										</select>
+										</span>
+										
+										<span style="margin-left: 10px">相关流程:</span> 
+										<span> 
+										<select id="flowId" name="flowId" style="width: 250px">
+										</select>
+										</span>
+										</div>
+										<div style="margin-top: 10px;">
+										<span style="margin-left: 10px;">时间段:</span>
+										<span> <input type="text" class="form-control" id="beginTime" readonly="readonly" style="width: 100px; display: inline-block;" name="beginTime" placeholder="开始时间">
+											</span>
+										<span> - </span>
+										<span> <input type="text" class="form-control" id="endTime" readonly="readonly" style="width: 100px; display: inline-block;" name="endTime" placeholder="终止时间">
+											</span>
+										<span style="margin-left: 10px">操作人:</span> 
+										<span> 
+										<input type="text" class="form-control" id="createUser" style="width: 100px; display: inline-block;" name="createUser" placeholder="操作人"  opt-id="createUser" onclick="selectUser(this,'false');">
+										</span>	
+										<span style="margin-left: 10px">相关表单:</span> 
+										<span> 
+										<select id="formId" style="width: 250px"></select>
+										</span>
+											<span style="margin-left: 10px">
+												<a href="javascript:void(0);" class="btn btn-success js-query-but">查询</a>
+											</span>
+										</div>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="orgselectdiv"></div>
+	</body>
+<%include("../../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/document/documentrunlog.js"></script>
+
+</html>

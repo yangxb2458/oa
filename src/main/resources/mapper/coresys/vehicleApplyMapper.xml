@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.vehicle.VehicleApplyMapper">
+<resultMap id="VehicleApply" type="com.core136.bean.vehicle.VehicleApply" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="APPLY_ID" property="applyId" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="USED_USER" property="usedUser" jdbcType="VARCHAR" />
+    <result column="CAUSE" property="cause" jdbcType="VARCHAR" />
+    <result column="SOURCE_ADDRESS" property="sourceAddress" jdbcType="VARCHAR" />
+    <result column="DESTINATION" property="destination" jdbcType="VARCHAR" />
+    <result column="MILEAGE" property="mileage" jdbcType="DOUBLE" />
+    <result column="CARD" property="card" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+    <result column="PASSENGER" property="passenger" jdbcType="VARCHAR" />
+    <result column="DRIVER" property="driver" jdbcType="VARCHAR" />
+    <result column="OPT_USER" property="optUser" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="OIL_CARD" property="oilCard" jdbcType="VARCHAR" />
+    <result column="TAGER_DRIVER" property="tagerDriver" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+<select id="getVehicleApplyList" resultType="java.util.HashMap">
+	SELECT APPLY_ID AS applyId,TYPE AS type,USED_USER AS usedUser,BEGIN_TIME AS beginTime, END_TIME AS endTime,STATUS AS status,
+	CREATE_TIME AS createTime,CREATE_USER AS createUser,MILEAGE AS mileage,SOURCE_ADDRESS AS sourceAddress,DESTINATION AS destination
+	FROM VEHICLE_APPLY
+	WHERE ORG_ID=#{orgId}
+	<if test = "status!=''.toString() and status!=null">
+		AND STATUS=#{status} 
+	</if>
+	<if test = "opFlag!='1'.toString()">
+		AND OPT_USER=#{accountId} 
+	</if>
+	<if test = "beginTime!=''.toString() and beginTime!=null">
+		AND BEGIN_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "endTime!=''.toString() and endTime!=null">
+		AND BEGIN_TIME &lt;=#{endTime} 
+	</if>
+	<if test = "(createUser!=''.toString() and createUser!=null)">
+		AND CREATE_USER =#{createUser} 
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND (SOURCE_ADDRESS LIKE #{search} OR DESTINATION LIKE  #{search})
+	</if>
+</select>
+
+
+<select id="getVehicleApprovedList" resultType="java.util.HashMap">
+	SELECT APPLY_ID AS applyId,TYPE AS type,USED_USER AS usedUser,BEGIN_TIME AS beginTime, END_TIME AS endTime,STATUS AS status,
+	CREATE_TIME AS createTime,CREATE_USER AS createUser,MILEAGE AS mileage,SOURCE_ADDRESS AS sourceAddress,DESTINATION AS destination
+	FROM VEHICLE_APPLY
+	WHERE ORG_ID=#{orgId}
+	AND STATUS='0'
+	<if test = "opFlag!='1'.toString()">
+		AND OPT_USER=#{accountId} 
+	</if>
+	<if test = "beginTime!=''.toString() and beginTime!=null">
+		AND BEGIN_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "endTime!=''.toString() and endTime!=null">
+		AND BEGIN_TIME &lt;=#{endTime} 
+	</if>
+	<if test = "(createUser!=''.toString() and createUser!=null)">
+		AND CREATE_USER =#{createUser} 
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND (SOURCE_ADDRESS LIKE #{search} OR DESTINATION LIKE  #{search})
+	</if>
+</select>
+
+</mapper>
+

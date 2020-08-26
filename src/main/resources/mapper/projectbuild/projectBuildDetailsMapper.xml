@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.projectbuild.ProjectBuildDetailsMapper">
+<resultMap id="ProjectBuildDetails" type="com.core136.bean.projectbuild.ProjectBuildDetails" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="SORT_ID" property="sortId" jdbcType="VARCHAR" />
+    <result column="PROJECT_NO" property="projectNo" jdbcType="VARCHAR" />
+    <result column="PROJECT_TITLE" property="projectTitle" jdbcType="VARCHAR" />
+    <result column="PROJECT_TYPE" property="projectType" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CONTRACT" property="contract" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="FIRST_PART" property="firstPart" jdbcType="VARCHAR" />
+    <result column="SECOND_PART" property="secondPart" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DOUBLE" />
+    <result column="END_TIME" property="entTime" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+    <result column="MANAGER" property="manager" jdbcType="VARCHAR" />
+    <result column="PART_A_LINK_USER_NAME" property="partALinkUserName" jdbcType="VARCHAR" />
+    <result column="PART_A_LINK_TEL" property="partALinkTel" jdbcType="VARCHAR" />
+    <result column="PART_A_LINK_FAX" property="partALinkFax" jdbcType="VARCHAR" />
+    <result column="PART_A_LINK_EMAIL" property="partALinkEmail" jdbcType="VARCHAR" />
+    <result column="PART_A_LINK_MOBILE" property="partALinkMobile" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+	<select id="getprojectbuilddetailslist" resultType="java.util.HashMap">
+		SELECT P.PROJECT_ID AS projectId,P.PROJECT_TITLE AS projectTitle,P.SORT_ID AS sortId,P.PROJECT_NO AS projectNo,
+		(SELECT S.SORT_NAME FROM PROJECT_BUILD_SORT S WHERE S.ORG_ID=P.ORG_ID AND S.SORT_ID=P.SORT_ID) AS sortName,STATUS AS status,
+		P.AMOUNT AS amount,P.END_TIME AS endTime,P.MANAGER AS manager,P.PROJECT_TYPE AS projectType,P.SECOND_PARTY AS secondParty,P.FIRST_PARTY AS firstParty
+		FROM PROJECT_BUILD_DETAILS P
+		WHERE P.ORG_ID = #{orgId}
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND (P.PROJECT_TITLE LIKE #{search} OR P.PROJECT_NO LIKE #{search})
+		</if>
+		<if test="sortId !=''.toString() and sortId!= null ">
+			AND P.SORT_ID = #{sortId}
+		</if>
+	</select>
+
+<select id="getProjectBuildListForTree" resultType="java.util.HashMap">
+		SELECT PROJECT_ID AS sortId,PROJECT_TITLE AS sortName,SORT_ID AS sortLeave,'false' AS isParent
+		FROM PROJECT_BUILD_DETAILS
+		WHERE ORG_ID = #{orgId} AND SORT_ID = #{sortId}
+</select>
+<select id="selectProjectBuild2ByTitle" resultType="java.util.HashMap">
+		SELECT PROJECT_ID AS projectId,PROJECT_TITLE AS projectTitle
+		FROM PROJECT_BUILD_DETAILS
+		WHERE ORG_ID = #{orgId} 
+		AND STATUS='0'
+		<if test="projectTitle !='%%'.toString()">
+			AND PROJECT_TITLE LIKE #{projectTitle}
+		</if>
+</select>
+
+
+
+</mapper>
+

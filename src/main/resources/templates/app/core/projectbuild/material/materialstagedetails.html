@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){} %>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px;">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="widget">
+								<div class="widget-header bordered-bottom bordered-palegreen">
+									<span class="widget-caption">材料基本信息</span>
+								</div>
+								<div class="widget-body">
+									<form class="form-horizontal form-bordered" id="from">
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">排序号：</label>
+											<div class="col-sm-2" style="line-height:34px;" id="sortNo">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">节点名称：</label>
+											<div class="col-sm-5" style="line-height:34px;" id="stageName">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">物料编号：</label>
+											<div class="col-sm-5" style="line-height:34px;" id="materialCode">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">材料名称：</label>
+											<div class="col-sm-5" style="line-height:34px;" id="name">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">产品品牌：</label>
+											<div class="col-sm-5" style="line-height:34px;" id="brand">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">规格型号：</label>
+											<div class="col-sm-5" style="line-height:34px;" id="model">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">计量单位：</label>
+											<div class="col-sm-3" style="line-height:34px;" id="unit">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">市场价格：</label>
+											<div class="col-sm-3" style="line-height:34px;" id="price">
+											</div>
+											<div class="col-sm-2" style="line-height:34px;">
+											/元（RMB）
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">预警值：</label>
+											<div class="col-sm-3" style="line-height:34px;" id="useQuantity">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-1 control-label no-padding-right">备注：</label>
+											<div class="col-sm-5" style="line-height:34px;" id="remark">
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-1 col-sm-5">
+												<a href="javascript:void(0);window.close();"
+													class="btn btn-primary">关&nbsp;&nbsp;闭</a> 
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+<%include("../../../resapi/sysjs.html"){} %>
+<script type="text/javascript">
+var materialStageId = "${parameter.materialStageId}";
+</script>
+<script src="/gobal/js/page/projectbuild/materialstagedetails.js"></script>
+</body>
+</html>

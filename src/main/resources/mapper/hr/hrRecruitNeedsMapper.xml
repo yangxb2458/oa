@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.hr.HrRecruitNeedsMapper">
+<resultMap id="HrRecruitNeeds" type="com.core136.bean.hr.HrRecruitNeeds" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="RECORD_ID" property="recordId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="USER_COUNT" property="userCount" jdbcType="INTEGER" />
+    <result column="SKILLS" property="skills" jdbcType="VARCHAR" />
+    <result column="MAJOR" property="major" jdbcType="VARCHAR" />
+    <result column="WORK_JOB" property="workJob" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="LAST_TIME" property="lastTime" jdbcType="VARCHAR" />
+    <result column="BIRTH_DAY" property="birthDay" jdbcType="VARCHAR" />
+    <result column="HIGHSET_SHOOL" property="highsetShool" jdbcType="DOUBLE" />
+    <result column="PLAN_ID" property="planId" jdbcType="DOUBLE" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="OCCUPATION" property="occupation" jdbcType="VARCHAR" />
+    <result column="APPROVED_TIME" property="approvedTime" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getHrRecruitNeedsList" resultType="java.util.HashMap">
+	SELECT RECORD_ID AS recordId,TITLE AS title,DEPT_ID AS deptId,USER_COUNT AS userCount, LAST_TIME AS lastTime,STATUS AS status,
+	WORK_JOB AS workJob,OCCUPATION AS occupation,CREATE_TIME AS createTime,PLAN_ID AS planId,
+	(SELECT P.TITLE FROM HR_RECRUIT_PLAN P WHERE P.ORG_ID=#{orgId} AND P.PLAN_ID=PLAN_ID) AS planTitle
+	FROM HR_RECRUIT_NEEDS
+	WHERE ORG_ID=#{orgId}
+	AND CREATE_USER=#{accountId}
+	<if test="occupation!=null and occupation!=''.toString()">
+		AND OCCUPATION=#{occupation}
+	</if>
+	<if test="highsetShool!=null and highsetShool!=''.toString()">
+		AND HIGHSET_SHOOL=#{highsetShool}
+	</if>
+	<if test="status!=null and status!=''.toString()">
+		AND STATUS=#{status}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND TITLE LIKE #{search}
+	</if>
+</select>
+
+
+<select id="getApprovedHrRecruitNeedsList" resultType="java.util.HashMap">
+	SELECT N.RECORD_ID AS recordId,N.TITLE AS title,N.DEPT_ID AS deptId,N.USER_COUNT AS userCount, N.LAST_TIME AS lastTime,
+	N.STATUS AS status,N.WORK_JOB AS workJob,N.OCCUPATION AS occupation,N.CREATE_TIME AS createTime,N.PLAN_ID AS planId,
+	P.TITLE AS planTitle
+	FROM HR_RECRUIT_NEEDS N LEFT JOIN HR_RECRUIT_PLAN P ON N.PLAN_ID = P.PLAN_ID AND N.ORG_ID=P.ORG_ID
+	WHERE N.ORG_ID=#{orgId}
+	AND N.STATUS='0'
+	AND P.APPROVED_USER=#{accountId}
+	<if test="occupation!=null and occupation!=''.toString()">
+		AND N.OCCUPATION=#{occupation}
+	</if>
+	<if test="highsetShool!=null and highsetShool!=''.toString()">
+		AND N.HIGHSET_SHOOL=#{highsetShool}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND N.CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND N.CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND (N.TITLE LIKE #{search} OR N.PLAN_ID IN(SELECT TEMP.PLAN_ID FROM HR_RECRUIT_PLAN TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.TITLE LIKE #{search}))
+	</if>
+</select>
+
+
+<select id="getOldApprovedHrRecruitNeedsList" resultType="java.util.HashMap">
+	SELECT N.RECORD_ID AS recordId,N.TITLE AS title,N.DEPT_ID AS deptId,N.USER_COUNT AS userCount, N.LAST_TIME AS lastTime,
+	N.STATUS AS status,N.WORK_JOB AS workJob,N.OCCUPATION AS occupation,N.CREATE_TIME AS createTime,N.PLAN_ID AS planId,N.APPROVED_TIME AS approvedTime,
+	P.TITLE AS planTitle
+	FROM HR_RECRUIT_NEEDS N LEFT JOIN HR_RECRUIT_PLAN P ON N.PLAN_ID = P.PLAN_ID AND N.ORG_ID=P.ORG_ID
+	WHERE N.ORG_ID=#{orgId}
+	<if test="status!=null and status!=''.toString()">
+		AND N.STATUS=#{status}
+	</if>
+	AND N.STATUS!='0'
+	AND P.APPROVED_USER=#{accountId}
+	<if test="occupation!=null and occupation!=''.toString()">
+		AND N.OCCUPATION=#{occupation}
+	</if>
+	<if test="highsetShool!=null and highsetShool!=''.toString()">
+		AND N.HIGHSET_SHOOL=#{highsetShool}
+	</if>
+	<if test = "(beginTime!=''.toString() and beginTime!=null)">
+		AND N.CREATE_TIME &gt;=#{beginTime}
+	</if>
+	<if test = "(endTime!=''.toString() and endTime!=null)">
+		AND N.CREATE_TIME &lt;=#{endTime}
+	</if>
+	<if test="search!=null and search!=''.toString() and search!='%%'.toString()">
+		AND (N.TITLE LIKE #{search} OR N.PLAN_ID IN(SELECT TEMP.PLAN_ID FROM HR_RECRUIT_PLAN TEMP WHERE TEMP.ORG_ID=#{orgId} AND TEMP.TITLE LIKE #{search}))
+	</if>
+</select>
+
+</mapper>
+

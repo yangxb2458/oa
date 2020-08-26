@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.projectbuild.ProjectBuildContractMapper">
+<resultMap id="ProjectBuildContract" type="com.core136.bean.projectbuild.ProjectBuildContract" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="CONTRACT_ID" property="contractId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="SORT_ID" property="sortId" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="CONTRACT_CODE" property="contractCode" jdbcType="VARCHAR" />
+    <result column="SIGN_TIME" property="signTime" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="INTEGER" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="SIGN_PART" property="signPart" jdbcType="VARCHAR" />
+    <result column="SIGN_USER" property="signUser" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+	<select id="getcontractlist" resultType="java.util.HashMap">
+		SELECT CONTRACT_ID AS contractId,TITLE AS title,CONTRACT_CODE AS contractCode,SIGN_TIME AS signTime,TYPE AS type,SIGN_PART AS signPart,SIGN_USER AS signUser,SORT_ID AS sortId,
+		(SELECT P.SORT_NAME FROM PROJECT_BUILD_CONTRACT_SORT P WHERE P.ORG_ID=ORG_ID AND P.SORT_ID=sortId) AS sortName,AMOUNT AS amount,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=ORG_ID AND U.ACCOUNT_ID=CREATE_USER) AS createUserName
+		FROM PROJECT_BUILD_CONTRACT 
+		WHERE ORG_ID = #{orgId}
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND (TITLE LIKE #{search} OR CONTRACT_CODE LIKE #{search} OR SIGN_PART LIKE #{search})
+		</if>
+		<if test="sortId !=''.toString() and sortId!= null ">
+			AND SORT_ID = #{sortId}
+		</if>
+	</select>
+	
+	
+		<select id="querycontractlist" resultType="java.util.HashMap">
+		SELECT CONTRACT_ID AS contractId,TITLE AS title,CONTRACT_CODE AS contractCode,SIGN_TIME AS signTime,TYPE AS type,SIGN_PART AS signPart,SIGN_USER AS signUser,SORT_ID AS sortId,
+		(SELECT P.SORT_NAME FROM PROJECT_BUILD_CONTRACT_SORT P WHERE P.ORG_ID=ORG_ID AND P.SORT_ID=sortId) AS sortName,AMOUNT AS amount,
+		(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=ORG_ID AND U.ACCOUNT_ID=CREATE_USER) AS createUserName
+		FROM PROJECT_BUILD_CONTRACT 
+		WHERE ORG_ID = #{orgId}
+		<if test="search !='%%' and search !=''.toString() and search!=null">
+			AND (TITLE LIKE #{search} OR CONTRACT_CODE LIKE #{search} OR SIGN_PART LIKE #{search})
+		</if>
+		<if test="beginTime!=null and beginTime!=''.toString()">
+		AND CREATE_TIME &gt;=#{beginTime}
+		</if>
+		<if test = "endTime!=''.toString() and endTime!=null">
+		AND CREATE_TIME &lt;=#{endTime}
+		</if>
+		<if test="signUser!=null and signUser!=''.toString()">
+		AND SIGN_USER = #{signUser}
+		</if>
+		<if test="type!=null and type !=''.toString()">
+		AND TYPE = #{type}
+		</if>
+	</select>
+	
+</mapper>

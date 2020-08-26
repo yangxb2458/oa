@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.file.KnowledgeSortMapper">
+<resultMap id="KnowledgeSort" type="com.core136.bean.file.KnowledgeSort" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="SORT_ID" property="sortId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="SORT_NAME" property="sortName" jdbcType="VARCHAR" />
+    <result column="SORT_REMARK" property="sortRemark" jdbcType="VARCHAR" />
+    <result column="SORT_LEAVE" property="sortLeave" jdbcType="VARCHAR" />
+    <result column="USER_PRIV" property="userPriv" jdbcType="VARCHAR" />
+    <result column="DEPT_PRIV" property="deptPriv" jdbcType="VARCHAR" />
+    <result column="LEAVE_PRIV" property="leavePriv" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getKnowledgeSortTree" resultType="java.util.HashMap">
+SELECT SORT_ID AS sortId, SORT_NAME AS sortName,
+CASE WHEN (SELECT COUNT(1) FROM KNOWLEDGE_SORT TMP WHERE TMP.SORT_LEAVE=sortId)=0 then 'false' else 'true' END
+AS  isParent
+FROM KNOWLEDGE_SORT WHERE SORT_LEAVE=#{sortLeave} AND ORG_ID=#{orgId}
+</select>
+
+<select id="isExistChild" resultType="Integer">
+SELECT COUNT(1) AS ZS FROM KNOWLEDGE_SORT WHERE SORT_LEAVE=#{sortId} AND ORG_ID=#{orgId}
+</select>
+
+
+
+
+</mapper>
+

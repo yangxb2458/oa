@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.crm.CrmInquiryMapper">
+<resultMap id="CrmInquiry" type="com.core136.bean.crm.CrmInquiry" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="INQUIRY_ID" property="inquiryId" jdbcType="VARCHAR" />
+    <result column="INQUIRY_CODE" property="inquiryCode" jdbcType="VARCHAR" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="INTEGER" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="CUSTOMER_INQUIRY_CODE" property="customerInquiryCode" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+    <result column="PAY_TYPE" property="payType" jdbcType="VARCHAR" />
+    <result column="CASH_TYPE" property="cashType" jdbcType="VARCHAR" />
+    <result column="TEL" property="tel" jdbcType="VARCHAR" />
+    <result column="LINK_MAN" property="linkMan" jdbcType="VARCHAR" />
+    <result column="SEND_ADD" property="sendAdd" jdbcType="VARCHAR" />
+    <result column="INVOICE_FLAG" property="invoiceFlag" jdbcType="VARCHAR" />
+    <result column="TAX_FLAG" property="taxFlag" jdbcType="VARCHAR" />
+    <result column="CUSTOMER_TYPE" property="customerType" jdbcType="VARCHAR" />
+    <result column="PACK_CHARGES" property="packCharges" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+
+<select id="getCrmInquiryList" resultType="java.util.HashMap">
+SELECT I.INQUIRY_ID AS inquiryId,I.TITLE AS title,(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=I.ORG_ID AND U.ACCOUNT_ID=I.CREATE_USER) AS createUserName,
+I.CREATE_TIME AS createTime,I.CUSTOMER_TYPE AS customerType,I.END_TIME AS endTime,
+I.CUSTOMER_ID AS customerId,I.ATTACH AS attach,I.INQUIRY_CODE AS inquiryCode,I.STATUS AS status
+FROM CRM_INQUIRY I
+WHERE 
+I.ORG_ID=#{orgId}
+<if test = "opFlag!=1">
+	AND I.CREATE_USER=#{accountId}
+</if>
+<if test="search !='%%' and search !=''.toString() and search!=null">
+	AND (I.CUSTOMER_ID LIKE #{search} OR  I.TITLE LIKE #{search} OR I.INQUIRY_CODE=#{search})
+</if>
+<if test = "beginTime!=''.toString()">
+	AND I.END_TIME &gt;=#{beginTime}
+</if>
+<if test = "endTime!=''.toString()">
+	AND I.END_TIME &lt;=#{endTime}
+</if>
+<if test = "status!=''.toString()">
+	AND I.STATUS=#{status}
+</if>
+<if test="customerType!=''.toString()">
+	AND I.CUSTOMER_TYPE = #{customerType}
+</if>
+</select>
+
+
+</mapper>
+

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.file.KnowledgeLearnMapper">
+<resultMap id="KnowledgeLearn" type="com.core136.bean.file.KnowledgeLearn" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="LEARN_ID" property="learnId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="KNOWLEDGE_ID" property="knowledgeId" jdbcType="VARCHAR" />
+    <result column="COMMENT" property="comment" jdbcType="VARCHAR" />
+    <result column="COMMENT_ID" property="commentId" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getKnowledgeLearnList" resultType="java.util.HashMap">
+SELECT L.LEARN_ID AS learnId,L.KNOWLEDGE_ID AS knowledgeId,K.TITLE AS title,
+L.CREATE_USER AS createUser,L.CREATE_TIME AS createTime,
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=#{orgId} AND U.ACCOUNT_ID=L.CREATE_USER) AS createUserName
+FROM KNOWLEDGE_LEARN L,KNOWLEDGE K
+WHERE 
+L.ORG_ID=#{orgId}
+<if test="opFlag!='1'.toString()">
+AND L.CREATE_USER=#{accountId}
+</if>
+<if test="search !='%%' and search !=''.toString() and search!=null">
+AND L.KNOWLEDGE_ID IN (SELECT KNOWLEDGE_ID FROM KNOWLEDGE WHERE TITLE LIKE#{search})
+</if>
+<if test="beginTime!=''.toString() and beginTime!=null">
+AND L.CREATE_TIME &gt;=#{beginTime}
+</if>
+<if test="endTime!=''.toString() and endTime!=null">
+AND L.CREATE_TIME &lt;=#{endTime}
+</if>
+
+
+</select>
+
+
+
+
+</mapper>
+

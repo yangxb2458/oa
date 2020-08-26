@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 0px">
+		<div class="page-container">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="col-md-offset-2 col-md-8 col-sm-12 col-xs-12" style="padding: 0px">
+				<div class="widget-header bordered-bottom bordered-blue">
+                                            <span class="widget-caption">人员薪资详情</span>
+                                        </div>
+										<form class="form-horizontal">
+										<table class="table table-hover table-striped table-bordered">
+											<tr>
+												<td width="20%">排序号：</td>
+												<td width="30%" id="sortNo"></td>
+												<td width="20%">人员姓名：</td>
+												<td width="30%" id="userId"></td>
+											</tr>
+											<tr>
+												<td width="20%">薪资年度：</td>
+												<td width="30%" id="year"></td>
+												<td width="20%">薪资月份：</td>
+												<td width="30%" id="month">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">岗位工资：</td>
+												<td width="30%" id="postSalary">
+												</td>
+												<td width="20%">薪级工资：</td>
+												<td width="30%" id="levelSalary">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">粮油补贴：</td>
+												<td width="30%" id="foodSalary">
+												</td>
+												<td width="20%">特殊岗位津贴：</td>
+												<td width="30%" id="otherPassSalary">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">交通补贴：</td>
+												<td width="30%" id="transportSalary">
+												</td>
+												<td width="20%">岗位津贴：</td>
+												<td width="30%" id="postAllowance">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">应发合计：</td>
+												<td width="30%" id="sumAmount">
+												</td>
+												<td width="20%">退休金：</td>
+												<td width="30%" id="pensoin">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">失业保险：</td>
+												<td width="30%" id="unemployment">
+												</td>
+												<td width="20%">医保：</td>
+												<td width="30%" id="medical">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">公积金：</td>
+												<td width="30%" id="accumulationFund">
+												</td>
+												<td width="20%">个人所得税：</td>
+												<td width="30%" id="tax">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">其它费用：</td>
+												<td width="30%" id="costOther">
+												</td>
+												<td width="20%"></td>
+												<td width="30%">
+												</td>
+											</tr>
+											<tr>
+												<td width="20%">实扣费用：</td>
+												<td width="30%" id="realCost">
+												</td>
+												<td width="20%">实发工资：</td>
+												<td width="30%" id="realSalary">
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" align="center"><a href="javascript:void(0);window.close();" class="btn btn-primary">关&nbsp;&nbsp;闭</a></td>
+											</tr>
+										</table>
+									</form>
+								</div>
+		</div>
+	</div>
+	</div>
+</body>
+	<%include("../../../resapi/sysjs.html"){}%>
+	<script type="text/javascript">
+		var recordId = "${parameter.recordId}";
+	</script>
+	<script type="text/javascript" src="/gobal/js/page/hr/hrapi.js"></script>
+	<script type="text/javascript" src="/gobal/js/page/hr/salary/salarydetails.js"></script>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<%include("../../../resapi/style.html"){}%>
+<link href="/module/jeDate/jedate.css" rel="stylesheet" />
+<style type="text/css">
+.bootstrap-tagsinput{
+    background-color: #fbfbfb;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding:0px">
+		<div class="page-container">
+			<div class="widget">
+				<div class="widget-header bordered-bottom bordered-palegreen">
+					<span class="widget-caption">新建联系人</span>
+				</div>
+				<div class="widget-body">
+					<form class="form-horizontal form-bordered" id="from">
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">联系人姓名：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="linkName" name="linkName" placeholder="联系人姓名">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">关联客户：</label>
+							<div class="col-sm-5">
+								<input type="text" id="customerId" name="customerId" placeholder="客户名称" style="width:100%">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">性别：</label>
+							<div class="col-sm-5">
+	                            <div class="radio">
+                                      <label style="padding-left:0px" ;="">
+                                         <input name="sex" type="radio" value="1" checked="checked">
+                                         <span class="text">先生 </span>
+                                        </label>
+                                      <label>
+                                         <input name="sex" type="radio" value="2">
+                                         <span class="text">女士 </span>
+                                        </label>
+                                        <label>
+                                         <input name="sex" type="radio" value="0">
+                                         <span class="text">其他 </span>
+                                        </label>
+                                  </div>
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">生日：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="birthday" name="birthday" placeholder="生日">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">手机号：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="mobile" name="mobile" placeholder="手机号">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">电子邮件：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="email" name="email" placeholder="电子邮件">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">部门：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="deptName" name="deptName" placeholder="部门">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">职务：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="postion" name="postion" placeholder="职务">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">决策人：</label>
+							<div class="col-sm-5">
+								<div class="radio">
+                                      <label style="padding-left:0px";>
+                                         <input name="decisionMaker" type="radio" value="1" checked="checked">
+                                         <span class="text">否 </span>
+                                        </label>
+                                      <label>
+                                         <input name="decisionMaker" type="radio" value="2">
+                                         <span class="text">是 </span>
+                                        </label>
+                                  </div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">电话：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="tel" name="tel" placeholder="电话">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">传真：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="fax" name="fax" placeholder="传真">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right">爱好：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" data-role="tagsinput" id="hobby" name="hobby" placeholder="爱好">
+							</div>
+							<label class="col-sm-1 control-label no-padding-right">通讯地址：</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" id="address" name="address" placeholder="通讯地址">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-5">
+								<a id="createbut" style="display: none;" href="javascript:void(0);" class="btn btn-primary">新&nbsp;&nbsp;建</a>
+								<a id="updatabut" style="display: none;" href="javascript:void(0);" class="btn btn-maroon">更&nbsp;&nbsp;改</a>
+								<a style="display: none;" href="javascript:void(0);history.go(-1);" class="btn btn-palegreen js-boback">返回</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+		<%include("../../../resapi/sysjs.html"){}%>
+	<script src="/module/jeDate/jeDate.js"></script>
+	<!--Bootstrap  wysiwig Scripts-->
+	<script src="/assets/js/tagsinput/bootstrap-tagsinput.js"></script>
+	<script src="/gobal/js/page/crm/linkman.js"></script>
+	 <script src="/assets/js/select2/select2.js"></script>
+	<script type="text/javascript">
+	var linkManId = "${linkManId}";
+	$(function(){
+		if(linkManId)
+		{
+			$("#customerId").parent().html("<div id='customerId' style='line-height:34px'></div>");
+			$("#createbut").remove();
+			$("#updatabut").show();
+			$(".js-boback").show();
+			$.ajax({
+				url : "/ret/crmget/getCrmLinkManInfo",
+				type : "post",
+				dataType : "json",
+				data:{
+					linkManId:linkManId
+				},
+				success : function(data) {
+					if(data.status==200){
+						for(var name in data.list)
+							{
+							if(name=="sex")
+								{
+								$("input:radio[name='sex'][value='"+data.list[name]+"']").attr("checked",true);
+								}else if(name=="decisionMaker")
+								{
+									console.log(data.list[name]);
+									$("input:radio[name='decisionMaker'][value='"+data.list[name]+"']").attr("checked",true);	
+								}else if(name=="customerId")
+								{
+									$("#"+name).attr("data-value",data.list[name]);
+									$("#"+name).html(data.list["cnName"]!=""?data.list["cnName"]:data.list["enName"])
+								}else{
+									$("#"+name).val(data.list[name]);
+									}
+							}
+					}else
+						{
+						console.log(data.msg);
+						}
+				}
+			});
+			$("#updatabut").unbind("click").click(function(){
+				update()
+			});
+		}else
+		{
+			$("#updatabut").remove();
+			$("#createbut").show();
+			$(".js-boback").show();
+			$("#createbut").unbind("click").click(function(){
+				createLinkMan();
+			});
+			$("#customerId").select2({
+		   	 	theme: "bootstrap",
+			    allowClear: true,
+			    placeholder:"客户名称",
+			    query: function (query){
+			      	var url = "/ret/crmget/getSelect2CustomerList";
+			       	var param = {search:query.term}; // 查询参数，query.term为用户在select2中的输入内容.
+			       	var type="json";
+			       	var data = { results: [] };
+			       	$.post(url, param, function(datas){
+				       	var datalist = datas.list;
+				       	   for(var i= 0, len=datalist.length;i<len;i++){
+				               	var land = datalist[i];
+				                var option = {"id":land.customerId, "text": land.cnName!=''?land.cnName:land.enName};
+				                 data.results.push(option);
+				            }
+				   	   query.callback(data);
+			       	}, type);
+			     },
+				    escapeMarkup: function (markup) {return markup; },
+				    minimumInputLength: 2,
+				    formatResult:function(data){return '<div class="select2-user-result">' + data.text + '</div>'},
+				    formatSelection: function(data){
+				    return data.text;
+			     },
+			     initSelection:function(data, cb){console.log(data); cb(data);}
+			  });
+		}
+		jeDate("#birthday", {
+			format: "YYYY-MM-DD"
+		});
+	})
+	</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.contract.ContractDetailsMapper">
+<resultMap id="ContractDetails" type="com.core136.bean.contract.ContractDetails" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="DETAILS_ID" property="sortId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="CONTRACT_ID" property="sortName" jdbcType="VARCHAR" />
+    <result column="PRODUCT_ID" property="sortRemark" jdbcType="VARCHAR" />
+    <result column="QUANTITY" property="sortLeave" jdbcType="VARCHAR" />
+    <result column="DELIVERY" property="createUser" jdbcType="VARCHAR" />
+    <result column="REMARK" property="createTime" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+<select id="getContractDetailsList" resultType="java.util.HashMap">
+SELECT C.DETAILS_ID AS detailsId,C.SORT_NO AS sortNo,C.CONTRACT_ID AS contractId,C.PRODUCT_ID AS productId,
+P.PRODUCT_NAME AS productName,P.MODEL AS model,
+C.QUANTITY AS quantity, C.DELIVERY AS delivery,C.REMARK AS remark
+FROM CONTRACT_DETAILS C, ERP_PRODUCT P
+ WHERE 
+ P.ORG_ID=C.ORG_ID AND C.PRODUCT_ID=P.PRODUCT_ID AND 
+ C.CONTRACT_ID=#{contractId} AND C.ORG_ID=#{orgId}
+<if test="search !='%%' and search !=''.toString() and search!=null">
+ 	AND (P.PRODUCT_NAME LIKE #{search} OR P.MODEL LIKE #{search})
+ </if>
+</select>
+</mapper>
+

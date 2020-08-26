@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core136.mapper.crm.CrmContractInfoMapper">
+<resultMap id="CrmContractInfo" type="com.core136.bean.crm.CrmContractInfo" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="CONTRACT_INFO_ID" property="contractInfoId" jdbcType="VARCHAR" />
+    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="VARCHAR" />
+    <result column="BANK" property="bank" jdbcType="VARCHAR" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="TAX_NO" property="taxNo" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+</resultMap>
+<select id="getCrmContractInfoList" resultType="java.util.HashMap">
+SELECT C.CONTRACT_INFO_ID AS contractInfoId,C.BANK AS bank,C.BANK_ACCOUNT AS bankAccount,C.TAX_NO AS taxNo,C.CREATE_TIME AS createTime,D.CN_NAME AS cnName,D.EN_NAME AS enName,
+(SELECT U.USER_NAME FROM USER_INFO U WHERE U.ORG_ID=C.ORG_ID AND U.ACCOUNT_ID=C.CREATE_USER) AS createUserName,C.CUSTOMER_ID AS customerId 
+FROM CRM_CONTRACT_INFO C,CRM_CUSTOMER D 
+WHERE C.ORG_ID=#{orgId} AND C.ORG_ID=D.ORG_ID AND C.CUSTOMER_ID=D.CUSTOMER_ID
+<if test="search !='%%' and search !=''.toString() and search!=null">
+AND (D.CN_NAME LIKE #{search} OR D.EN_NAME LIKE #{search})
+</if>
+</select>
+
+<select id="getContractInfoById" resultType="java.util.HashMap">
+SELECT C.CONTRACT_INFO_ID AS contractInfoId,C.BANK AS bank,C.BANK_ACCOUNT AS bankAccount,C.TAX_NO AS taxNo,C.CREATE_TIME AS createTime,D.CN_NAME AS cnName,D.EN_NAME AS enName
+FROM CRM_CONTRACT_INFO C,CRM_CUSTOMER D 
+WHERE C.ORG_ID=#{orgId} AND C.ORG_ID=D.ORG_ID AND C.CUSTOMER_ID=D.CUSTOMER_ID
+AND C.CONTRACT_INFO_ID=#{contractInfoId}
+</select>
+
+<select id="isExistChild" resultType="Integer">
+SELECT COUNT(1) AS ZS FROM CRM_CONTRACT_INFO WHERE ORG_ID=#{orgId} AND CUSTOMER_ID=#{customerId} 
+</select>
+
+
+
+</mapper>
+

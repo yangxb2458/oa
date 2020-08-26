@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+<meta charset="utf-8" />
+<title>${session.SOFT_NAME }_智能办公系统</title>
+<meta name="description" content="Dashboard" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%include("../../resapi/style.html"){}%>
+<link rel="stylesheet" href="/module/zTree_v3/css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+<link href="/module/bootstrap-table/bootstrap-table.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/module/jeDate/jedate.css" />
+<style type="text/css">
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+</style>
+</head>
+<body style="overflow-y: auto;">
+	<div class="page-body" style="padding: 4px 0px 0px 0px">
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px">
+					<div class="tabbable">
+						<ul class="nav nav-tabs tabs-flat" id="myTab11" style="background-image: url('/gobal/img/tb_header.png'); background-size: 34px 60px;">
+							<li class="active"><a href="/app/core/vehicle/approved" aria-expanded="true">用车审批 </a></li>
+							<li class=""><a href="/app/core/vehicle/approved?view=manage" aria-expanded="false">审批记录查询</a></li>
+						</ul>
+						<div class="tab-content tabs-flat" style="padding: 0px;">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<div class="btn-group" id="toobar">
+										<span style="margin-left: 10px;">申请日期:</span> <span> <input readonly="readonly" placeholder="申请日期" style="width: 150px; display: inline-block;" id="beginTime"
+											class="form-control">
+										</span> <span style="margin-left: 10px;">-</span> <span> <input readonly="readonly" placeholder="申请日期" style="width: 150px; display: inline-block;" id="endTime" class="form-control">
+										</span> <span style="margin-left: 10px;">申请人:</span> <span> <input readonly="readonly" placeholder="申请人" style="width: 150px; display: inline-block;" id="createUser" opt-id="createUser"
+											class="form-control" onclick="selectUser(this,'false');">
+										</span> <span style="margin-left: 20px"> <a href="javascript:void(0);" class="btn btn-magenta js-simple-query">查询</a>
+										</span>
+									</div>
+									<table id="myTable"></table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade bs-example-modal-lg" id="approvedmodal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myLargeModalLabel">用车审批</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-bordered" role="form" id="form1">
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">指定司机：</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" name="tagerDirver" id="tagerDirver" placeholder="指定司机" readonly="readonly" opt-id="tagerDirver" onclick="selectUser(this,'true');">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right">发放油卡：</label>
+							<div class="col-sm-9">
+								<select id="oilCard" name="oilCard" class="form-control">
+								
+								</select>
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="modal-footer" style="text-align: center">
+					<button type="button" class="btn btn-warning js-no-pass">不通过</button>
+					<button type="button" class="btn btn-primary js-pass">通过</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<div id="orgselectdiv"></div>
+</body>
+<%include("../../resapi/sysjs.html"){}%>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/module/zTree_v3/js/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table.js"></script>
+<script type="text/javascript" src="/module/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+<script type="text/javascript" src="/module/jeDate/jeDate.js"></script>
+<script type="text/javascript" src="/module/orgselect/orgselect.js"></script>
+<script type="text/javascript" src="/gobal/js/page/vechicle/approved.js"></script>
+</body>
+</html>
