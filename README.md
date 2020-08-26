@@ -2,10 +2,10 @@
 一、介绍
 本项目为90%开源项目，用户可以用户开发学习，用户可自主开发除工作流以外的业务系统。
 
-二、软件架构：
+二、软件架构
 本项目JDK8x64+SpringBoot+MyBatis+Redis+Durid+Beetl的框架组合，自研工作流引擎，支持可视化表单设计与流程设计。支持分布式部署。功能完善能够满足中大型企业办公需要。本项目自2020-08-17日起，为全面支持mysql8以上版本，启用SpringBoot 2.3x的版本。同时由于多数兄弟反应，代码编译时间太长，故重新设计了新的代码结构，望大家理解，若有需要的源代码被打到了jar中，可与我们联系，我们可以视情况提供。
 
-三、安装教程：
+三、安装教程
 1、mvn install lib/目录中的jar 文件
 
   mvn  install:install-file  -DgroupId=cyunsoft.bean  -DartifactId=cyunsoft-bean  -Dversion=0.0.1-SNAPSHOT  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/cyunsoft-bean-0.0.1-SNAPSHOT.jar
@@ -27,7 +27,7 @@
 2、安装MYSQL8.0.21版本 后导入lib/mysql.sql
 3、运行cyunsoft-appservice中的AppGo.java 即可启动项目。
 
-四、使用说明：
+四、使用说明
 演示地址：http://oa.cyunsoft.com 账户：admin 密码：123456
 若有问题请联系：
 QQ：1946098085
