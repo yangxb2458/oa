@@ -29,6 +29,7 @@
   mvn  install:install-file  -DgroupId=com.zhuozhengsoft  -DartifactId=pageoffice  -Dversion=4.6.0.4  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/pageoffice4.6.0.4.jar
 
 2、安装MYSQL8.0.21版本 后导入lib/mysql.sql
+
 3、运行cyunsoft-appservice中的AppGo.java 即可启动项目。
 
 四、使用说明
@@ -36,12 +37,17 @@
 演示地址：http://oa.cyunsoft.com 账户：admin 密码：123456
 
 若有问题请联系：
+
 QQ：1946098085
+
 WX：y1946098085 
+
 邮件：xiaobo2458@163.com
 
 五、开源宗旨
 
 1、本项目主要用于开发者了解企业办系统的基本功能，共同开发适合本国国情的工作流引擎。
+
 2、技术交流群QQ:733902044 群内不定时的发放技术文档。
+
 3、开源项目不容易，大家感觉可以加个星。
