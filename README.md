@@ -58,5 +58,6 @@ WX：y1946098085
 
 ### **扫描二维码关注【全栈开发私房菜】**
 
+项目都是晚上牺牲休息时间整理上传的，如果感觉我的付出对您有价值，就打赏点饮料和烟钱
 ![支付宝](https://mmbiz.qlogo.cn/mmbiz_jpg/6Nme2xEYxU5vpdLchtBYM2UjPdzvjySQZq0sJoVvmbTsjeP6LXLIvEqJz4sOvgPSQszjjJCuMNbg0ZrcSMCyCQ/0?wx_fmt=jpeg)
 ![微信](https://mmbiz.qlogo.cn/mmbiz_jpg/6Nme2xEYxU5vpdLchtBYM2UjPdzvjySQrzEeGUx4naoTpBHaOW6EicC1NUTIIv1ovJWPgziaXoFiawM4XCRia1CDPA/0?wx_fmt=jpeg)
