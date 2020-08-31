@@ -7,6 +7,7 @@
 
 ## 三、安装教程<br/> 
 1、mvn install lib/目录中的jar 文件<br/>
+```text
   mvn  install:install-file  -DgroupId=cyunsoft.bean  -DartifactId=cyunsoft-bean  -Dversion=0.0.1-SNAPSHOT  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/cyunsoft-bean-0.0.1-SNAPSHOT.jar
 
   mvn  install:install-file  -DgroupId=cyunsoft.bi  -DartifactId=cyunsoft-bi  -Dversion=0.0.1-SNAPSHOT  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/cyunsoft-bi-0.0.1-SNAPSHOT.jar
@@ -24,6 +25,7 @@
   mvn  install:install-file  -DgroupId=com.zhuozhengsoft  -DartifactId=pageoffice  -Dversion=4.6.0.4  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/pageoffice4.6.0.4.jar<br/>
 2、安装MYSQL8.0.21版本 后导入lib/mysql.sql<br/>
 3、运行cyunsoft-appservice中的AppGo.java 即可启动项目。
+```
 
 ## 四、使用说明<br/>
 演示地址：http://oa.cyunsoft.com 账户：admin 密码：123456<br/>
