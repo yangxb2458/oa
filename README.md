@@ -47,7 +47,7 @@ WX：y1946098085<br/>
 ### 扫描二维码关注【全栈开发私房菜】
 
 ## 捐献<br/>
-项目都是晚上牺牲休息时间整理上传的，如果感觉我的付出对您有价值，喜欢这个项目，请随意打赏！
+项目都是晚上牺牲休息时间整理上传的，如果感觉我的付出对您有价值，喜欢这个项目，请随意打赏！<br/>
 支付宝<br/>
 ![](https://mmbiz.qlogo.cn/mmbiz_jpg/6Nme2xEYxU5vpdLchtBYM2UjPdzvjySQZq0sJoVvmbTsjeP6LXLIvEqJz4sOvgPSQszjjJCuMNbg0ZrcSMCyCQ/0?wx_fmt=jpeg)<br/>
 微信<br/>
