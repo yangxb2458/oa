@@ -22,7 +22,7 @@
 
   mvn  install:install-file  -DgroupId=com.dingtalk.open  -DartifactId=taobao-sdk-java-auto  -Dversion=1479188381469-20200218  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/taobao-sdk-java-auto_1479188381469-20200218.jar
 
-  mvn  install:install-file  -DgroupId=com.zhuozhengsoft  -DartifactId=pageoffice  -Dversion=4.6.0.4  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/pageoffice4.6.0.4.jar<br/>
+  mvn  install:install-file  -DgroupId=com.zhuozhengsoft  -DartifactId=pageoffice  -Dversion=4.6.0.4  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/pageoffice4.6.0.4.jar
 2、安装MYSQL8.0.21版本 后导入lib/mysql.sql<br/>
 3、运行cyunsoft-appservice中的AppGo.java 即可启动项目。
 ```
