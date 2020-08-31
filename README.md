@@ -42,9 +42,7 @@ WX：y1946098085<br/>
 3、开源项目不容易，大家感觉可以加个星。<br/>
  
 ## 欢迎关注全栈开发私房菜，每天进步一点点
-
 ![二维码](https://mmbiz.qpic.cn/mmbiz_jpg/6Nme2xEYxU6TP2Dicn0XEibZgq4jBLYqm3Sb5qP9l4SicWry0LCibch9gkwZ8BMwzwEsgDE4HUicHve6QHAEKQNc5bg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
-
 ### 扫描二维码关注【全栈开发私房菜】
 
 ## 捐献<br/>
