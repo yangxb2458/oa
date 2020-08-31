@@ -25,7 +25,8 @@
   mvn  install:install-file  -DgroupId=com.zhuozhengsoft  -DartifactId=pageoffice  -Dversion=4.6.0.4  -Dpackaging=jar  -Dfile=E:/ideaWorkSpace/oa/lib/pageoffice4.6.0.4.jar
   ```
 2、安装MYSQL8.0.21版本 后导入lib/mysql.sql<br/>
-3、运行cyunsoft-appservice中的AppGo.java 即可启动项目。
+3、解压cyunsoft.zip包并放在D:\cyunsoft目录,打开redis并运行redis-server.exe<br/>
+4、运行cyunsoft-appservice中的AppGo.java 即可启动项目。
 
 
 ## 四、使用说明<br/>
